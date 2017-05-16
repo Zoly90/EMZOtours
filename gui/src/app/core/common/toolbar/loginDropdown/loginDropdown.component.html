@@ -1,0 +1,57 @@
+<div class="btn-group" dropdown>
+    <button type="button" class="btn btn-primary dropdown-toggle" id="loginDropdown" dropdownToggle>
+        <span class="glyphicon" [ngClass]="{'glyphicon-log-in': !loginSuccessfull, 'glyphicon-log-out': loginSuccessfull}"></span>
+        <span *ngIf="!loginSuccessfull"> Login</span>
+        <span *ngIf="loginSuccessfull"> Logout</span>
+    </button>
+    <div *dropdownMenu class="dropdown-menu" role="menu" (click)="$event.stopPropagation()">
+        <form (ngSubmit)="login()" #loginForm="ngForm" id="formLogin" class="form container-fluid">
+            <div class="form-group">
+                <label class="username" for="user">E-mail / username:</label>
+                <input type="text" class="form-control" id="user" name="user" placeholder="Ex. john.doe" [(ngModel)]="username" />
+            </div>
+            <div class="form-group">
+                <label class="password" for="pwd">Password:</label>
+                <input type="password" class="form-control" id="pwd" name="pwd" placeholder="Ex. PasSworD123$" [(ngModel)]="password" />
+            </div>
+            <p class="login-error-message" *ngIf="!loginSuccessfull && !usernameExists">Username and/or password are incorect, please try again!</p>
+            <p class="login-error-message" *ngIf="!loginSuccessfull && userLogedIn">Password is incorect, please try again!</p>
+            <div class="form-group">
+                <md-checkbox class="" [(ngModel)]="remember" [ngModelOptions]="{standalone: true}">
+                    <h6>Remember me</h6>
+                </md-checkbox>
+            </div>
+            <button type="submit" id="btnLogin" class="btn btn-success">Login</button>
+        </form>
+        <div class="container-fluid">
+            <a class="forgot-password" id="forgotPassword" (click)="staticModal.show()">Forgot password?</a>
+        </div>
+    </div>
+</div>
+<div class="modal fade" bsModal #staticModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="forgotPassword" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title pull-left">Password recovery</h4>
+                <button type="button" class="close pull-right" (click)="staticModal.hide()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form (ngSubmit)="onSubmit()" #forgotPasswordForm="ngForm" id="formLogin" class="form container-fluid">
+                    <div class="form-group" *ngIf="!usernameExists">
+                        <label class="username" for="user">Please enter your e-mail or username:</label>
+                        <input type="text" class="form-control" id="user" name="user" />
+                    </div>
+                    <div *ngIf="usernameExists">
+                        An e-mail was sent to your mailbox. Please check your inbox and your spam folder too.
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button *ngIf="!usernameExists" type="submit" id="btnResetPassword" (click)="resetPassword()" class="btn btn-success">Reset password</button>
+                <button *ngIf="usernameExists" type="" id="btnClose" (click)="staticModal.hide()" class="btn btn-danger">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

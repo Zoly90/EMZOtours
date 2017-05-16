@@ -1,0 +1,14 @@
+<div class="imageBackground" [ngStyle]="{'background-image':'url(' + backgroundImagePath + ')'}">
+    <md-card class="contactContainer">
+        <md-card-content fxLayout="column" fxFlex>
+            <div fxLayout fxFlex>
+            <div fxLayout="column" fxFlex="50%">
+            <div>Contact info</div>
+            <sebm-google-map [latitude]="lat" [longitude]="lng">
+                <sebm-google-map-marker [latitude]="lat" [longitude]="lng"></sebm-google-map-marker>
+            </sebm-google-map>
+            </div>
+            </div>
+        </md-card-content>
+    </md-card>
+</div>

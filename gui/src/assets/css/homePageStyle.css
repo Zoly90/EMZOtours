@@ -1,0 +1,216 @@
+@CHARSET "ISO-8859-1";
+
+html {
+	width: 100%;
+	background-image: url("background image/background.jpg");
+	background-size: cover;
+}
+
+body {
+	background-color: transparent;
+}
+
+.container {
+	width: 80%;
+	padding: 0;
+    margin-left: auto;
+	margin-right: auto;
+	padding-bottom: 54px;
+	padding-left: 25px;
+	border-bottom-color: white;
+	background-color: white;
+}
+
+.footer {
+	width: 100%;
+	text-align: center;
+	background-color: #ffb366;
+}
+
+table {
+	width: 100%;
+}
+
+td {
+	padding: 30px 0;
+}
+
+li {
+	list-style-type: none;
+}
+
+li a {
+    color: red;
+    padding: 14px 16px;
+    text-decoration: none;
+	font-size: 24px;
+}
+
+.image-title-pos-left {
+	margin-left: 30px;
+}
+
+.image-title-pos-right {
+	margin-right: 60px;
+	float: right;
+}
+
+.winter {
+	top: 2px;
+}
+
+.dropdown-submenu {
+	position:relative;
+}
+
+.dropdown-submenu>.dropdown-menu {
+	top: 0;
+	left: 100%;
+	margin-top: -6px;
+	margin-left: -1px;
+	-webkit-border-radius: 0 6px 6px 6px;
+	-moz-border-radius: 0 6px 6px 6px;
+	border-radius: 0 6px 6px 6px;
+}
+
+.dropdown-submenu>a:after {
+	display: block;
+	content: " ";
+	float: right;
+	width: 0;
+	height: 0;
+	border-color: transparent;
+	border-style: solid;
+	border-width: 5px 0 5px 5px;
+	border-left-color: #cccccc;
+	margin-top: 5px;
+	margin-right: -10px;
+}
+
+.dropdown-submenu:hover>a:after {
+	border-left-color: #555;
+}
+
+.dropdown-submenu.pull-left {
+	float: none;
+}
+
+.dropdown-submenu.pull-left>.dropdown-menu {
+	left: -100%;
+	margin-left: 10px;
+	-webkit-border-radius: 6px 0 6px 6px;
+	-moz-border-radius: 6px 0 6px 6px;
+	border-radius: 6px 0 6px 6px;
+}
+
+.navbar {
+	min-height: 110px !important;
+}
+
+.navbar-left {
+	margin-top: 55px;
+}
+
+.fade {
+   opacity: 1;
+   transition: opacity .25s ease-in-out;
+   -moz-transition: opacity .25s ease-in-out;
+   -webkit-transition: opacity .25s ease-in-out;
+}
+
+	.fade:hover {
+	  opacity: 0.75;
+	}
+	
+.fade-in {
+	/*opacity:0.25;  // make things invisible upon start
+	-webkit-animation:fadeIn ease-in 1;  // call our keyframe named fadeIn, use animattion ease-in and repeat it only 1 time
+	-moz-animation:fadeIn ease-in 1;
+	animation:fadeIn ease-in 1;
+ 
+	-webkit-animation-fill-mode:forwards;  // this makes sure that after animation is done we remain at the last keyframe value (opacity: 1)
+	-moz-animation-fill-mode:forwards;
+	animation-fill-mode:forwards;
+ 
+	-webkit-animation-duration:1s;
+	-moz-animation-duration:1s;
+	animation-duration:1s;*/
+	
+  	width: 90%;
+  	height: 100%;
+}
+
+.row {
+	margin: 0;
+}
+
+.col-md-6 {
+	padding: 0;
+}
+
+.firstColumnUlEurope {
+	position: absolute;
+  	top: 56px;
+  	left: 668px;
+  	background: rgba(255, 255, 255, 0.75);
+  	padding: 4px 8px;
+  	margin: 0;
+}
+
+.secondColumnUlRomania {
+	position: absolute;
+  	top: 56px;
+  	left: 0;
+  	background: rgba(255, 255, 255, 0.75);
+  	padding: 4px 8px;
+  	margin: 0;
+}
+
+.firstColumnUlAsiaAndAustralia {
+	position: absolute;
+  	top: 56px;
+  	left: 533px;
+  	background: rgba(255, 255, 255, 0.75);
+  	padding: 4px 8px;
+  	margin: 0;
+}
+
+.secondColumnUlNortAmerica {
+	position: absolute;
+  	top: 56px;
+  	left: 0;
+  	background: rgba(255, 255, 255, 0.75);
+  	padding: 4px 8px;
+  	margin: 0;
+}
+
+.firstColumnUlCentralAndSouthAmerica {
+	position: absolute;
+  	top: 56px;
+  	left: 705px;
+  	background: rgba(255, 255, 255, 0.75);
+  	padding: 4px 8px;
+  	margin: 0;
+}
+
+.secondColumnUlAfrica {
+	position: absolute;
+  	top: 56px;
+  	left: 0;
+  	background: rgba(255, 255, 255, 0.75);
+  	padding: 4px 8px;
+  	margin: 0;
+}
+
+.menuElementFirstColumn {
+	text-align: right;
+}
+
+.menuElementSecondColumn {
+	text-align: left;
+}
+
+.navbar-static-bottom {
+	border: 0;
+	margin-top: 20px;
+}

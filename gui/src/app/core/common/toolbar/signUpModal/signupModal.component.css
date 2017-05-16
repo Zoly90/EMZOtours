@@ -1,0 +1,27 @@
+:host {
+    float: right;
+}
+
+div, label, h4, p {
+    color: black;
+}
+
+#signUpModal {
+    border: none;
+    background: transparent;
+}
+
+#signUpModal:hover {
+    background-color: lightskyblue;
+}
+
+.form-control { 
+    margin-bottom: 30px; 
+}
+
+.set-number-of-days {
+    background-color: Transparent;
+    border: none;
+    cursor: pointer;
+    outline: none;
+}

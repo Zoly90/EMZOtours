@@ -1,0 +1,234 @@
+<div class="imageBackground" [ngStyle]="{'background-image':'url(' + backgroundImagePath + ')'}">
+    <md-card class="holidayDetailViewContainer">
+        <md-card-content fxLayout="column" fxFlex>
+            <div fxLayout fxFlex="20%">
+                <div fxLayout="column" fxFlex="50%">
+                    <h2>{{holiday.hotelInformation.accommodationName}}
+                        <!--<img class="stars" *ngFor="let number of holiday.hotelInformation.nrStars" src="../../../assets/images/icons/star-size_s.png">-->
+                    </h2>
+                </div>
+                <div fxLayout="column" fxFlex="50%">
+                    <a id="myLargeModalLabel" (click)="lgModal.show()">{{holiday.accommodationAddress.country}}, {{holiday.accommodationAddress.city}}, {{holiday.accommodationAddress.street}}, nr. {{holiday.accommodationAddress.streetNr}}, {{holiday.accommodationAddress.zip}} <span class="glyphicon glyphicon-map-marker"></span></a>
+                    <div bsModal #lgModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true"
+                        (onShow)="changeMapVisility()" (onHide)="changeMapVisility()">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close pull-right" (click)="lgModal.hide()" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <!--<div [hidden]="mapInModal.triggerResize()">-->
+                                    <span *ngIf="showMap" [hidden]="mapInModal.triggerResize()"></span>
+                                    <sebm-google-map #mapInModal [hidden]="changeCoordinates()" [latitude]="holiday.localization.map.lattitude" [longitude]="holiday.localization.map.longitude">
+                                        <sebm-google-map-marker [latitude]="holiday.localization.map.lattitude" [longitude]="holiday.localization.map.longitude"></sebm-google-map-marker>
+                                    </sebm-google-map>
+                                    <!--</div>-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div fxLayout fxFlex="20%" class="mainImagesContainer" fxLayoutWrap>
+                <div class="singleImageContainer" fxLayout="column" fxFlex="75%">
+                    <div class="crop">
+                        <img [@visibilityChanged]="imageFading" [src]="currentImage.image">
+                    </div>
+                </div>
+                <div class="multipleImagesContainer" fxLayout="column" fxFlex="25%">
+                    <div fxLayout fxFlex fxLayoutWrap>
+                        <div *ngFor="let image of holiday.imageSet, let i = index">
+                            <img (click)="setSelectedImageAsCurrent(image)" *ngIf="i <= 8" class="smallImages" [ngClass]="{'firstRowOfImages': i==0 || i==1 || i==2, 'firstColumnOfImages': i==0 || i==3 || i==6, 'middleColumnOfImages': i==1 || i==4 || i==7, 'thirdColumnOfImages': i==2 || i==5 || i==8}"
+                                [src]="image.image">
+                        </div>
+                    </div>
+                    <md-divider class="multipleImagesContainerDivider"></md-divider>
+                </div>
+                <div class="footerMainImagesContainer" fxLayout fxFlex>
+                    <div fxLayout="column" fxFlex="85%">
+                        <span class="glyphicon glyphicon-fullscreen" (click)="openImageModal()"></span>
+                        <div *ngIf="photoModalWindowOpened">
+                            <ImageModal [modalImages]="holiday.imageSet" [imagePointer]="imagePointer" (cancelEvent)="cancelImageModal()"></ImageModal>
+                        </div>
+                    </div>
+                    <div fxLayout="column" fxFlex="15%">
+                        <div fxLayout fxFlex>
+                            <span class="glyphicon glyphicon-circle-arrow-left" (click)="navigate(false)"></span>
+                            <span class="glyphicon glyphicon-circle-arrow-right" (click)="navigate(true)"></span>
+                            <i *ngIf="playIcon" class="fa fa-play-circle" (click)="clickedPlayIcon()" aria-hidden="true"></i>
+                            <i *ngIf="pauseIcon" class="fa fa-pause-circle" (click)="clickedPauseIcon()" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div fxLayout fxFlex="60%">
+                <div fxLayout="column" fxFlex="75%">
+                    <tabset type="pills">
+                        <tab heading="Hotel & region description">
+                            <h4>Hotel description</h4>
+                            <div>{{holiday.descriptions.hotel}}</div>
+                            <h4>Region description</h4>
+                            <div>{{holiday.descriptions.region}}</div>
+                        </tab>
+                        <tab heading="Hotel facilities & rooms">
+                            <h3>Hotel facilities</h3>
+                            <div fxLayout fxFlex>
+                                <div fxLayout fxFlex fxLayoutWrap fxLayoutGap="10px">
+                                    <div class="facilityAndRoomTypeContainer" fxFlex="32%" *ngFor="let facility of holiday.facilities">
+                                        <div class="facilityAndRoomTypeHeader">
+                                            <h4>{{facility.facilityCategory}}</h4>
+                                        </div>
+                                        <img class="facilityAndRoomTypeImage" [src]="facility.image" fxFlex>
+                                        <ul>
+                                            <li class="facilityAndRoomTypeListItem" *ngFor="let facilityItem of facility.facilitiesList">
+                                                <span class="glyphicon glyphicon-menu-right"></span> {{facilityItem}}</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <h3>Room types</h3>
+                            <div fxLayout fxFlex>
+                                <div fxLayout fxFlex fxLayoutWrap fxLayoutGap="10px">
+                                    <div class="facilityAndRoomTypeContainer" fxFlex="32%" *ngFor="let room of holiday.rooms">
+                                        <div class="facilityAndRoomTypeHeader">
+                                            <h4>{{room.roomType}}</h4>
+                                        </div>
+                                        <img class="facilityAndRoomTypeImage" [src]="room.image" fxFlex>
+                                        <h5><i>Maximal person capacity: {{room.personCapacity}}</i></h5>
+                                        <md-divider class="roomTypeDivider"></md-divider>
+                                        <h5><b>Room facilities:</b></h5>
+                                        <ul>
+                                            <li class="facilityAndRoomTypeListItems" *ngFor="let roomFacility of room.roomFacilities ">
+                                                <span class="glyphicon glyphicon-menu-right"></span> {{roomFacility}}</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </tab>
+                        <tab heading="Offer information">
+                            <md-list fxLayout="column" fxFlex>
+                                <h3 md-subheader><span class="glyphicon glyphicon-menu-right"></span> Departure from {{holiday.offerInformation.departureFrom}}
+                                    airport / {{holiday.offerInformation.nrNights}} nights trip available for the following
+                                    periods... </h3>
+                                <md-list-item class="tableHeader">
+                                    <div fxLayout fxFlex>
+                                        <div fxLayout="column" fxFlex="13%">
+                                            <h4 md-line>From</h4>
+                                        </div>
+                                        <div fxLayout="column" fxFlex="13%">
+                                            <h4 md-line>Until</h4>
+                                        </div>
+                                        <div fxLayout="column" fxFlex="18%">
+                                            <h4 md-line>Price</h4>
+                                        </div>
+                                        <div fxLayout="column" fxFlex="17%">
+                                            <h4 md-line>Room type</h4>
+                                        </div>
+                                        <div fxLayout="column" fxFlex="17%">
+                                            <h4 md-line>View from room</h4>
+                                        </div>
+                                    </div>
+                                </md-list-item>
+                                <md-list-item class="tableItems" *ngFor="let offer of holiday.offerInformation.periods">
+                                    <div fxLayout fxFlex>
+                                        <div fxLayout="column" fxFlex="13%">
+                                            <h5 md-line class="tableItem">{{offer.from}}</h5>
+                                        </div>
+                                        <div fxLayout="column" fxFlex="13%">
+                                            <h5 md-line class="tableItem">{{offer.until}}</h5>
+                                        </div>
+                                        <div fxLayout="column" fxFlex="18%">
+                                            <h5 md-line class="tableItem">{{offer.price}}<span class="glyphicon glyphicon-euro"></span>/trip/adult</h5>
+                                        </div>
+                                        <div fxLayout="column" fxFlex="17%">
+                                            <h5 md-line class="tableItem">{{offer.roomType}}</h5>
+                                        </div>
+                                        <div fxLayout="column" fxFlex="17%">
+                                            <h5 md-line class="tableItem">{{offer.viewType}}</h5>
+                                        </div>
+                                        <div fxLayout="column" fxFlex>
+                                            <button (click)="applyForOffer(offer)" class="btn btn-primary applyBtn" type="submit">Apply for offer</button>
+                                        </div>
+                                    </div>
+                                </md-list-item>
+                            </md-list>
+                            <md-divider></md-divider>
+                            <div class="includedAndNot" fxLayout fxFlex>
+                                <div fxLayout="column" fxFlex="50%">
+                                    <h4>Included in price</h4>
+                                    <ul>
+                                        <li *ngFor="let info of holiday.offerInformation.included">
+                                            <span class="glyphicon glyphicon-ok"></span> {{info}}</li>
+                                    </ul>
+                                </div>
+                                <div fxLayout="column" fxFlex="50%">
+                                    <h4>Not included in price</h4>
+                                    <ul>
+                                        <li *ngFor="let info of holiday.offerInformation.notIncluded">
+                                            <span class="glyphicon glyphicon-remove"></span> {{info}}</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </tab>
+                        <tab (select)="mapInTab.triggerResize()" heading="Location & points of interest">
+                            <sebm-google-map #mapInTab [hidden]="changeCoordinates()" [latitude]="holiday.localization.map.lattitude" [longitude]="holiday.localization.map.longitude">
+                                <sebm-google-map-marker [latitude]="holiday.localization.map.lattitude" [longitude]="holiday.localization.map.longitude"></sebm-google-map-marker>
+                            </sebm-google-map>
+                        </tab>
+                        <tab heading="Reviews">
+                            <accordion>
+                                <accordion-group class="accordion" #group *ngFor="let review of holiday.reviews">
+                                    <div class="reviewTitle" accordion-heading>
+                                        {{review.title}}
+                                        <div class="rating mdeium star-icon direction-ltr color-ok" [ngClass]="{'value-1': review.rating[0], 'value-2': review.rating[1], 'value-3': review.rating[2], 'value-4': review.rating[3], 'value-5': review.rating[4]}">
+                                            <div class="star-container">
+                                                <div class="star">
+                                                    <i class="star-empty"></i>
+                                                    <i class="star-half"></i>
+                                                    <i class="star-filled"></i>
+                                                </div>
+                                                <div class="star">
+                                                    <i class="star-empty"></i>
+                                                    <i class="star-half"></i>
+                                                    <i class="star-filled"></i>
+                                                </div>
+                                                <div class="star">
+                                                    <i class="star-empty"></i>
+                                                    <i class="star-half"></i>
+                                                    <i class="star-filled"></i>
+                                                </div>
+                                                <div class="star">
+                                                    <i class="star-empty"></i>
+                                                    <i class="star-half"></i>
+                                                    <i class="star-filled"></i>
+                                                </div>
+                                                <div class="star">
+                                                    <i class="star-empty"></i>
+                                                    <i class="star-half"></i>
+                                                    <i class="star-filled"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <i class="pull-right float-xs-right glyphicon" [ngClass]="{'glyphicon-chevron-down': group?.isOpen, 'glyphicon-chevron-right': !group?.isOpen}"></i>
+                                    </div>
+                                    <div class="reviewText">
+                                        {{review.text}}
+                                    </div>
+                                    <div class="reviewDetails">
+                                        <b>...review by: </b><i>{{review.nameOfReviewer}}</i>
+                                        <div class="reviewDates">
+                                            <i><b>Date of review: </b>{{review.dateOfReview | date}}</i>
+                                            <i><b>Date of travel: </b>{{review.dateOfTravel | date}}</i>
+                                        </div>
+                                    </div>
+                                </accordion-group>
+                            </accordion>
+                        </tab>
+                    </tabset>
+                </div>
+            </div>
+        </md-card-content>
+    </md-card>
+</div>

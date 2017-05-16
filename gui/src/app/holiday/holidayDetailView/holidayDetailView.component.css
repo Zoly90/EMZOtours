@@ -1,0 +1,253 @@
+:host {
+    display: block;
+}
+
+a {
+    align-self: flex-end;
+    margin-top: 30px;
+    cursor: pointer;
+}
+
+ul {
+    padding: 10px;
+}
+
+li {
+    list-style-type: none;
+}
+
+h5 {
+    padding-left: 10px;
+}
+
+.imageBackground {
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+.holidayDetailViewContainer {
+    margin: 0 auto;
+    width: 70%;
+}
+
+.stars {
+  vertical-align: top;
+}
+
+.singleImageContainer, .multipleImagesContainer {
+    margin-top: 10px;
+}
+
+.crop {
+    width: 1000px;
+    height: 250px;
+    overflow: hidden;
+}
+
+.crop>img {
+    /*width: 400px;
+    height: 300px;*/
+    margin: -200px 0 -100px -50px;
+}
+
+.multipleImagesContainer {
+    background-color: black;
+}
+
+.multipleImagesContainerDivider {
+    border-bottom: 1px orange;
+    border-bottom-style: ridge;
+    width: 75%;
+    margin-left: 12.5%;
+}
+
+.smallImages {
+    width: 92px;
+    height: 60px;
+    filter: brightness(75%);
+}
+
+.smallImages:hover {
+    cursor: pointer;
+    filter: brightness(100%);
+}
+
+.firstRowOfImages {
+    margin-top: 14px;
+}
+
+.firstColumnOfImages {
+    margin-left: 14px;
+    margin-right: 4px;
+}
+
+.middleColumnOfImages {
+    margin-left: 4px;
+    margin-right: 4px;
+}
+
+.thirdColumnOfImages {
+    margin-left: 4px;
+}
+
+.footerMainImagesContainer {
+    height: 30px;
+    background-color: black;
+    margin-bottom: 25px;
+}
+
+.glyphicon-fullscreen, .glyphicon-circle-arrow-left, .glyphicon-circle-arrow-right, .fa-play-circle, .fa-pause-circle {
+    color: lightgray;
+    cursor: pointer;
+}
+
+.glyphicon-fullscreen {
+    font-size: 20px;
+    margin: 4px 0 5px 10px;
+    width: 25px;
+}
+
+.glyphicon-circle-arrow-left, .glyphicon-circle-arrow-right {
+    font-size: 16px;
+    margin: 5px 5px 5px 0;
+    padding: 2px 0 0 0;
+}
+
+.fa-play-circle, .fa-pause-circle {
+    font-size: 23px;
+    margin: 1px 6px;
+    padding: 2px 0 0 0;
+}
+
+.facilityAndRoomTypeContainer {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    background-color: #EBEBEB;
+    border: 1px solid lightgray;
+    position: relative;
+}
+
+.facilityAndRoomTypeHeader {
+    padding: 8px 6px;
+    position: absolute;
+    top: 10px;
+    background-color: rgba(235, 183, 87, 0.8);
+}
+
+.facilityAndRoomTypeHeader>h4 {
+    margin: 0;
+}
+
+.facilityAndRoomTypeImage {
+    width: 307px;
+    height: 200px;
+}
+
+.facilityAndRoomTypeListItem {
+    padding-top: 4px;
+}
+
+.roomTypeDivider {
+    width: 90%; 
+    margin-top: 10px;
+    margin-left: 5%;
+}
+
+.mat-list {
+    padding-bottom: 20px;
+}
+
+.mat-subheader {
+    color: black;
+}
+
+.glyphicon-menu-right {
+    opacity: 0.6;
+}
+
+.tableHeader {
+    text-align: center;
+    background-color: #EBB757;
+    font-size: 18px;
+}
+
+.tableItems {
+    cursor: pointer;
+    background-color: #EDDDC0;
+    border-top: 1px solid lightblue;
+}
+
+.tableItems:hover {
+    background-color: #F2D7A5;
+}
+
+.tableItem {
+    text-align: center;
+    font-size: 14px;
+}
+
+.applyBtn {
+    width: 125px;
+    align-self: center;
+    font-size: 16px;
+}
+
+.includedAndNot {
+    padding-top: 10px;
+}
+
+.glyphicon-ok {
+    color: #5FCC37;
+}
+
+.glyphicon-remove {
+    color: #E35946;
+}
+
+.sebm-google-map-container {
+  height: 300px;
+}
+
+.accordion {
+    padding: 100px;
+}
+
+.reviewTitle {
+    font-size: 20px;
+}
+
+.rating {
+    display: inline;
+}
+
+.star-container {
+    display: inline-flex;
+}
+
+.reviewText {
+    padding-bottom: 20px;
+}
+
+.reviewDetails {
+    display: inline;
+    font-size: 20px;
+}
+
+.reviewDetails>b {
+    font-size: 16px;
+    color: gray;
+}
+
+.reviewDates {
+    display: inline;
+    font-size: 16px;
+}
+
+.reviewDates>i {
+    float: right;
+    padding: 4px 20px 0 0;
+}
+
+.reviewDates>i>b {
+    color: gray;
+}

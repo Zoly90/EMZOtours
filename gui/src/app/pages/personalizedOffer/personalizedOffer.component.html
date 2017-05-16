@@ -1,0 +1,242 @@
+<div class="imageBackground" [ngStyle]="{'background-image':'url(' + backgroundImagePath + ')'}">
+  <div class="container">
+    <div [hidden]="submitted">
+      <h1>Personalized Offer Form</h1>
+      <form (ngSubmit)="onSubmit()" #offerForm="ngForm">
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input type="text" class="form-control" id="name" required placeholder="Name" [(ngModel)]="model.name" name="name" #name="ngModel">
+          <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
+            Name is required
+          </div>
+        </div>
+
+        <div class="form-group">
+          <md-card>
+            <label for="contact">Contact information</label>
+            <md-radio-group [(ngModel)]="selectedOption" [ngModelOptions]="{standalone: true}">
+              <div *ngFor="let option of contactInfoOptions">
+                <md-radio-button [value]="option" (change)="setRequiredFields(option)">{{option}}</md-radio-button>
+              </div>
+            </md-radio-group>
+
+            <div class="form-group">
+              <input type="text" class="form-control" id="contactInfoTelephone" required placeholder="Telephone number" [(ngModel)]="contactInfoTelephone"
+                name="contactInfoTelephone" #contactTelephone>
+              <template [ngIf]="selectedOption === 'telephone'">
+                <div [hidden]="contactTelephone.valid || contactTelephone.pristine" class="alert alert-danger">
+                  Your telephone number is required for contact information
+                </div>
+              </template>
+            </div>
+
+            <div class="form-group">
+              <input type="text" class="form-control" id="contactInfoEmail" required placeholder="E-mail address" [(ngModel)]="contactInfoEmail"
+                name="contactInfoEmail" #contactEmail>
+              <template [ngIf]="selectedOption === 'e-mail'">
+                <div [hidden]="contactEmail.valid || contactEmail.pristine" class="alert alert-danger">
+                  Your e-mail adress is required for contact information
+                </div>
+              </template>
+            </div>
+          </md-card>
+        </div>
+
+        <div class="form-group">
+          <label for="countryAddress">Address country</label>
+          <select class="form-control" id="selectedCountryAdress" required [(ngModel)]="selectedCountryAdress" name="selectedCountryAdress" #countryAddress="ngModel">
+            <option *ngFor="let countryAddress of adressCountries" [value]="selectedCountryAdress" >{{countryAddress}}</option>
+          </select>
+          <div [hidden]="countryAddress.valid || countryAddress.pristine" class="alert alert-danger">
+            Country is required
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="cityAddress">Address city</label>
+          <input type="text" class="form-control" id="cityAddress" required placeholder="Your city address" [(ngModel)]="model.cityAddress"
+            name="cityAddress" #cityAddress="ngModel">
+          <div [hidden]="cityAddress.valid || cityAddress.pristine" class="alert alert-danger">
+            City is required
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="destination">Our possible destinations</label>
+          <select class="form-control" id="destination" required [(ngModel)]="selectedDestinationCountry" name="destinationAdress" #destinationAdress="ngModel">
+            <option *ngFor="let destinationAdress of destinationCountries" [value]="destinationAdress" >{{destinationAdress}}</option>
+          </select>
+          <div [hidden]="destinationAdress.valid || destinationAdress.pristine" class="alert alert-danger">
+            A destination is required
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="travelBy">How do you whish to travel?</label>
+          <md-card>
+            <div *ngFor="let option of travelByOptions" required>
+              <md-checkbox name="travelBy" (change)="buildOptionsSet(option.name)" [(ngModel)]="option.checked" #model.travelBy="ngModel" align="end"
+                color="primary">{{option.name}}
+              </md-checkbox>
+              <div>{{[option.name, option.checked]}}</div>
+            </div>
+            <div>{{checkedTravelOptions}}</div>
+            <div class="alert alert-warning">
+              Specify a transportation mode
+            </div>
+          </md-card>
+        </div>
+
+        <div class="form-group">
+          <md-card>
+            <label for="maxPrice">How much would you like to spend for transportation and accomodation? (EUR)</label>
+            <md-card-content>
+              <section class="example-section">
+                <md-input-container class="example-margin">
+                  <input mdInput type="number" placeholder="Value" [(ngModel)]="valueSlider" [ngModelOptions]="{standalone: true}">
+                </md-input-container>
+                <md-input-container class="example-margin">
+                  <input mdInput type="number" placeholder="Min value" disabled [(ngModel)]="min" [ngModelOptions]="{standalone: true}">
+                </md-input-container>
+                <md-input-container class="example-margin">
+                  <input mdInput type="number" placeholder="Max value" disabled [(ngModel)]="max" [ngModelOptions]="{standalone: true}">
+                </md-input-container>
+                <md-input-container class="example-margin">
+                  <input mdInput type="number" placeholder="Step size" [(ngModel)]="step" [ngModelOptions]="{standalone: true}">
+                </md-input-container>
+              </section>
+
+              <md-slider class="example-margin" id="maxPriceSlider" [thumb-label]="thumbLabel" [value]="valueSlider" [max]="max" [min]="min"
+                [step]="step" [(ngModel)]="valueSlider" [ngModelOptions]="{standalone: true}"></md-slider>
+
+            </md-card-content>
+          </md-card>
+          <template [ngIf]="valueSlider < min">
+            <div class="alert alert-danger">
+              A budget limit is required and it must be above minimum value
+            </div>
+          </template>
+        </div>
+
+        <div class="form-group">
+          <label for="numberOfNights">Number of nights you wish to stay</label>
+          <input type="text" class="form-control" id="numberOfNights" required placeholder="Ex.: 7" [(ngModel)]="model.numberOfNights"
+            name="numberOfNights" #numberOfNights="ngModel">
+          <div [hidden]="numberOfNights.valid || numberOfNights.pristine" class="alert alert-danger">
+            Number of nights is required
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="input-group" daterangepicker [options]="options" (selected)="selectedDate($event)">
+            <span class="form-control uneditable-input" name="daterange" >{{daterange.start}} - {{daterange.end}}</span>
+            <span class="input-group-btn">
+              <a type="button" class="btn btn-default"><i class="glyphicon glyphicon-calendar"></i></a>
+            </span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="numberOfGuests">Number of guests</label>
+          <input type="text" class="form-control" id="numberOfGuests" required placeholder="Ex.: 4" [(ngModel)]="model.numberOfGuests"
+            name="numberOfGuests" #numberOfGuests="ngModel">
+          <div [hidden]="numberOfGuests.valid || numberOfGuests.pristine" class="alert alert-danger">
+            Number of guests is required
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="typeOfAccomodation">Type of accomodation</label>
+          <input type="text" class="form-control" id="typeOfAccomodation" placeholder="Ex.: appartment, hotel..." [(ngModel)]="model.typeOfAccomodation"
+            name="typeOfAccomodation">
+        </div>
+
+        <div class="form-group">
+          <label for="food">Do you want to have food included in the offer?</label>
+          <input type="text" class="form-control" id="food" placeholder="Ex.: breakfast, all inclusive..." [(ngModel)]="model.food"
+            name="food">
+        </div>
+
+        <div class="form-group">
+          <label for="comments">Additional comments / preferences</label>
+          <textarea type="text" class="form-control" id="comments" placeholder="Other preferences..." [(ngModel)]="model.comments"
+            name="comments"></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-success" [disabled]="!offerForm.form.valid">Submit</button>
+        <button type="button" class="btn btn-default" (click)="newOffer(); offerForm.reset()">New Hero</button>
+      </form>
+    </div>
+
+    <div [hidden]="!submitted">
+      <h2>You want to submit the following:</h2>
+      <div class="row">
+        <div class="col-xs-3">Name</div>
+        <div class="col-xs-9  pull-left">{{ model.name }}</div>
+      </div>
+      <div class="row">
+        <div class="col-xs-3">Contact information</div>
+        <div class="col-xs-9 pull-left">{{ selectedOption }}</div>
+      </div>
+      <div class="row">
+        <div class="col-xs-3">Telephone number</div>
+        <div class="col-xs-9 pull-left">{{ contactInfoTelephone }}</div>
+      </div>
+      <div class="row">
+        <div class="col-xs-3">Email adress</div>
+        <div class="col-xs-9 pull-left">{{ contactInfoEmail }}</div>
+      </div>
+      <div class="row">
+        <div class="col-xs-3">Address country</div>
+        <div class="col-xs-9 pull-left">{{ model.countryAddress }}</div>
+      </div>
+      <div class="row">
+        <div class="col-xs-3">Address city</div>
+        <div class="col-xs-9 pull-left">{{ model.cityAddress }}</div>
+      </div>
+      <div class="row">
+        <div class="col-xs-3">Your destination</div>
+        <div class="col-xs-9 pull-left">{{ model.destination }}</div>
+      </div>
+      <div class="row">
+        <div class="col-xs-3">Travel by</div>
+        <div class="col-xs-9 pull-left">{{ checkedTravelOptions }}</div>
+      </div>
+      <div class="row">
+        <div class="col-xs-3">Your budget limit (for transportation and accomodation)</div>
+        <div class="col-xs-9 pull-left">{{ valueSlider }}</div>
+      </div>
+      <div class="row">
+        <div class="col-xs-3">Number of nights you wish to stay</div>
+        <div class="col-xs-9 pull-left">{{ model.numberOfNights }}</div>
+      </div>
+      <div class="row">
+        <div class="col-xs-3">Your arrival date</div>
+        <div class="col-xs-9 pull-left">{{ daterange.start }}</div>
+      </div>
+      <div class="row">
+        <div class="col-xs-3">Your departure date</div>
+        <div class="col-xs-9 pull-left">{{ daterange.end }}</div>
+      </div>
+      <div class="row">
+        <div class="col-xs-3">Number of guests</div>
+        <div class="col-xs-9 pull-left">{{ model.numberOfGuests }}</div>
+      </div>
+      <div class="row">
+        <div class="col-xs-3">Type of accomodation</div>
+        <div class="col-xs-9 pull-left">{{ model.typeOfAccomodation }}</div>
+      </div>
+      <div class="row">
+        <div class="col-xs-3">Food</div>
+        <div class="col-xs-9 pull-left">{{ model.food }}</div>
+      </div>
+      <div class="row">
+        <div class="col-xs-3">Additional preferences</div>
+        <div class="col-xs-9 pull-left">{{ model.comments }}</div>
+      </div>
+      <br>
+      <button class="btn btn-primary" (click)="submitted=false">Edit</button>
+      <button type="submit" class="btn btn-success" (click)="saveToDatabase()">Continue</button>
+    </div>
+  </div>
+</div>

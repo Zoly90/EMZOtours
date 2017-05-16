@@ -1,0 +1,63 @@
+:host {
+    float: right;
+}
+
+label {
+    color: black;
+}
+
+h6 {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    color: black;
+}
+
+#loginDropdown {
+    border: none;
+    background: transparent;
+}
+
+#loginDropdown:hover {
+    background-color: lightskyblue;
+}
+
+#btnLogin {
+    margin: 0 33% 10px 33%;
+}
+
+.username {
+    padding: 0 7px 0 7px;
+}
+
+.password {
+    padding: 0 34px 0 34px;
+}
+
+.forgot-password {
+    position: relative;
+    margin: 0 7% 0 9%;
+}
+
+.forgot-password:hover {
+    cursor: pointer;
+}
+
+.modal-header, .modal-body, .modal-footer {
+    color: black;
+}
+
+.mat-checkbox-layout {
+    margin-bottom: 0;
+    align-items: center;
+}
+
+.mat-checkbox-inner-container {
+    height: 15px !important;
+    width: 15px !important;
+    margin: 0 8px 2.5px 0 !important;
+}
+
+.login-error-message {
+    color: red;
+    text-align: center;
+}

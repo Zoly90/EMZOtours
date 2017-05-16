@@ -1,0 +1,123 @@
+<nav>
+    <ul class="nav navbar-nav navbar-left">
+        <li>
+            <a [routerLink]="['/']" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}">
+                <span class="glyphicon glyphicon-home"></span> Home</a>
+        </li>
+        <li dropdown >
+            <a href id="ideasDropdown" dropdownToggle (click)="false">
+                <span class="glyphicon glyphicon-globe"></span> Holiday ideas <span class="caret"></span></a>
+            <ul *dropdownMenu class="dropdown-menu" >
+                <li>
+                    <a class="dropdown-item" (click)="goToListPage('dream honeymoons')" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}">
+                        <img class="icon" id="icon" src="../../../assets/images/icons/honeymoon-icon.png" alt="view1" /> Dream Honeymoons</a>
+                </li>
+                <li>
+                    <a class="dropdown-item" (click)="goToListPage('cruises')" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}">
+                        <img class="icon" id="icon" src="../../../assets/images/icons/cruise-ship-icon.png" alt="view1" /> Cruises</a>
+                </li>
+                <li>
+                    <a class="dropdown-item" (click)="goToListPage('luxury trips')" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}">
+                        <img class="icon" id="icon" src="../../../assets/images/icons/luxury-trip-icon.png" alt="view1" /> Luxury trips</a>
+                </li>
+                <li>
+                    <div class="accordion">
+                        <section class="accordion-item" (mouseover)="onMouseOverCityBreaks()" (mouseout)="onMouseOutCityBreaks()">
+                            <img class="icon" id="icon" src="../../../assets/images/icons/city-break-icon.png" alt="view1" /> City breaks
+                                <i class="pull-right float-xs-right glyphicon" 
+                                    [ngClass]="{'glyphicon-chevron-right': glyphiconClassRightCitybreaks, 'glyphicon-chevron-down': glyphiconClassDownCitybreaks}" ></i>
+                            <div class="accordion-item-content">
+                                <ul>
+                                    <li>
+                                        <a class="accordion-item dropdown-item" (click)="goToListPage('city breaks by bus')" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}">
+                                            <i class="fa fa-bus" aria-hidden="true"></i> By bus</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" (click)="goToListPage('city breaks by plane')" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}">
+                                            <i class="fa fa-plane" aria-hidden="true"></i> By plane</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </section>
+                    </div>
+                </li>
+                <li class="divider"></li>
+                <li>
+                    <div class="accordion">
+                        <section class="accordion-item" (mouseover)="onMouseOverSpecialOffers()" (mouseout)="onMouseOutSpecialOffers()">
+                            <i class="fa fa-briefcase" aria-hidden="true"></i> Special offers
+                                <i class="pull-right float-xs-right glyphicon" 
+                                    [ngClass]="{'glyphicon-chevron-right': glyphiconClassRightSpecialOffers, 'glyphicon-chevron-down': glyphiconClassDownSpecialOffers}" ></i>
+                            <div class="accordion-item-content">
+                                <ul>
+                                    <li>
+                                        <a class="accordion-item dropdown-item" (click)="goToListPage('special offers early booking')" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}">
+                                            <span class="fa fa-book" aria-hidden="true"></span> Last minute</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" (click)="goToListPage('special offers last minute')" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}">
+                                            <img class="icon" id="icon" src="../../../assets/images/icons/early-booking-icon.png" alt="view1" style=""/> Early booking</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </section>
+                    </div>
+                </li>
+                <li class="divider"></li>
+                <li>
+                    <a class="dropdown-item" (click)="goToListPage('aqua & amusement parks')" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}">
+                        <img class="icon" id="icon" src="../../../assets/images/icons/park-icon.png" alt="view1" style="" /> Aqua and Amusement parks</a>
+                </li>
+                <li>
+                    <a class="dropdown-item" (click)="goToListPage('zoos & amusement parks')" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}">
+                        <img class="icon" id="icon" src="../../../assets/images/icons/zoo-icon.png" alt="view1" style="" /> Zoos and Nature reserves</a>
+                </li>
+            </ul>
+        </li>
+
+        <li dropdown >
+            <a href id="winterDropdown" dropdownToggle (click)="false">
+                <span class="fa fa-snowflake-o" aria-hidden="true"></span> Winter season <span class="caret"></span></a>
+            <ul class="dropdown-menu" *dropdownMenu >
+                <li>
+                    <a class="dropdown-item" (click)="goToListPage('christmas')" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}">
+                        <img class="icon" id="icon" src="../../../assets/images/icons/christmas-icon.png" alt="view1" style="" />                        Christmas</a>
+                </li>
+                <li>
+                    <a class="dropdown-item" (click)="goToListPage('new year')" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}">
+                        <img class="icon" id="icon" src="../../../assets/images/icons/new-year-icon.png" alt="view1" style="" />                        New Year</a>
+                </li>
+                <li>
+                    <a class="dropdown-item" (click)="goToListPage('skiing')" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}">
+                        <img class="icon" id="icon" src="../../../assets/images/icons/skiing-icon.png" alt="view1" style="" />                        Skiing</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a [routerLink]="['/offer']" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}">
+                <span class="glyphicon glyphicon-pencil"></span> Personalized offer</a>
+        </li>
+        <li>
+            <a [routerLink]="['/about']" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}">
+                <span class="glyphicon glyphicon-info-sign"></span> About us</a>
+        </li>
+        <li>
+            <a [routerLink]="['/contact']" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}">
+                <span class="glyphicon glyphicon-earphone"></span> Contact</a>
+        </li>
+    </ul>
+
+    <!--<div>
+    <div class="menu">-->
+    <ul class="dropdown-menu" role="menu">
+        <li *ngFor="let item of items" [ngClass]="{'dropdown-submenu': item.submenu && item.submenu.length}">
+            <a href="#">{{item.name}}</a>
+            <ul *ngIf="item.submenu && item.submenu.length" class="dropdown-menu">
+                <li *ngFor="let subitem of item.submenu">
+                    <a href="#">{{subitem.name}}</a></li>
+            </ul>
+        </li>
+    </ul>
+    <!--</div>
+</div>-->
+</nav>

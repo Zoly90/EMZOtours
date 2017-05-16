@@ -1,0 +1,14 @@
+.imageBackground {
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+.contactContainer {
+    margin: 0 auto;
+    width: 70%;
+}
+
+.sebm-google-map-container {
+  height: 300px;
+  /*width: 400px;*/
+}
