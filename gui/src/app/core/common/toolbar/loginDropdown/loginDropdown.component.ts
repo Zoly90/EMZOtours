@@ -9,9 +9,11 @@ import { User } from "../../../models/user.model";
 })
 export class LoginDropdownComponent {
 
-  private loginSuccessfull: boolean;
-  private userLogedIn: User = null;
-  private usernameExists: boolean = true;
+  private loginSuccessfull: boolean = false;
+  private userLogedIn: User = new User();
+  private usernameExists: boolean = false;
+
+  private usernameFetched: boolean = false;
 
   private username: string;
   private password: string;
@@ -22,29 +24,42 @@ export class LoginDropdownComponent {
 
   public login() {
     this.loginService.getUserLogingIn(this.username).subscribe(data => {
-      console.log(data);
-      this.userLogedIn = data;
-
-      if (this.userLogedIn == null || this.userLogedIn.userLogin.password == this.password) {
-        console.log('ceva');
-        this.loginSuccessfull = true;
-      } else if (this.userLogedIn == null || this.userLogedIn.userLogin.username != this.username) {
-        this.usernameExists = false;
+      if (data != null) {
+        this.userLogedIn = data;
+        if (this.userLogedIn.userLogin.password == this.password) {
+          this.loginSuccessfull = true;
+          this.usernameExists = true;
+        } else {
+          this.usernameExists = true;
+        }
+      } else {
+        this.userLogedIn = null;
       }
-      console.log(this.loginSuccessfull);
     });
   }
 
-  public resetPassword(username) {
-    // this.usernameExists = this.loginService.getCredentials(username);
-    this.usernameExists = true;
+  public resetPassword() {
+    if (this.userLogedIn != null && this.userLogedIn.userLogin.username == this.username) {
+      this.usernameFetched = true;
+    } else {
+      this.loginService.getUserLogingIn(this.username).subscribe(data => {
+        if (data != null) {
+          this.userLogedIn = data;
+          this.usernameFetched = true;
+        } else {
+          this.userLogedIn = null;
+        }
+      });
+    }
   }
 
-  public toggleForgotPasswordModal() {
+  public closeForgotPasswordModal() {
+    this.loginSuccessfull = false;
+    this.usernameExists = false;
+    this.usernameFetched = false;
+    this.userLogedIn = new User();
     console.log('modal opened');
   }
-
-
 
   public toggled(open: boolean): void {
     console.log('Dropdown is now: ', open);

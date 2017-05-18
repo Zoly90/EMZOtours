@@ -14,8 +14,8 @@
                 <label class="password" for="pwd">Password:</label>
                 <input type="password" class="form-control" id="pwd" name="pwd" placeholder="Ex. PasSworD123$" [(ngModel)]="password" />
             </div>
-            <p class="login-error-message" *ngIf="!loginSuccessfull && !usernameExists">Username and/or password are incorect, please try again!</p>
-            <p class="login-error-message" *ngIf="!loginSuccessfull && userLogedIn">Password is incorect, please try again!</p>
+            <p class="login-error-message" *ngIf="!loginSuccessfull && !userLogedIn">Username and/or password are incorect, please try again!</p>
+            <p class="login-error-message" *ngIf="!loginSuccessfull && usernameExists">Password is incorect, please try again!</p>
             <div class="form-group">
                 <md-checkbox class="" [(ngModel)]="remember" [ngModelOptions]="{standalone: true}">
                     <h6>Remember me</h6>
@@ -33,24 +33,27 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title pull-left">Password recovery</h4>
-                <button type="button" class="close pull-right" (click)="staticModal.hide()" aria-label="Close">
+                <button type="button" class="close pull-right" (click)="staticModal.hide(); closeForgotPasswordModal()" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
                 <form (ngSubmit)="onSubmit()" #forgotPasswordForm="ngForm" id="formLogin" class="form container-fluid">
-                    <div class="form-group" *ngIf="!usernameExists">
+                    <div class="form-group" *ngIf="!usernameFetched">
                         <label class="username" for="user">Please enter your e-mail or username:</label>
-                        <input type="text" class="form-control" id="user" name="user" />
+                        <input type="text" class="form-control" id="user" name="user" [(ngModel)]="username" />
                     </div>
-                    <div *ngIf="usernameExists">
+                    <div *ngIf="usernameFetched">
                         An e-mail was sent to your mailbox. Please check your inbox and your spam folder too.
+                    </div>
+                    <div *ngIf="!userLogedIn && !usernameFetched">
+                        The username you entered is not in our database. Please try another user or create a new account.
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button *ngIf="!usernameExists" type="submit" id="btnResetPassword" (click)="resetPassword()" class="btn btn-success">Reset password</button>
-                <button *ngIf="usernameExists" type="" id="btnClose" (click)="staticModal.hide()" class="btn btn-danger">Close</button>
+                <button *ngIf="!usernameFetched" type="submit" id="btnResetPassword" (click)="resetPassword()" class="btn btn-success">Reset password</button>
+                <button *ngIf="usernameFetched" type="" id="btnClose" (click)="staticModal.hide(); closeForgotPasswordModal()" class="btn btn-danger">Close</button>
             </div>
         </div>
     </div>
