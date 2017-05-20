@@ -18,6 +18,6 @@ export class LoginService {
     }
 
     _parseJSON(response) {
-        return response.text() ? JSON.parse(response) : null
+        return response.text() ? response.json() : null;
     }
 }

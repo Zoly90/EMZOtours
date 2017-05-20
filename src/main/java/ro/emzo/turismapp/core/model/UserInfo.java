@@ -1,5 +1,7 @@
 package ro.emzo.turismapp.core.model;
 
+import java.sql.Date;
+
 import javax.persistence.*;
 
 @Entity
@@ -16,13 +18,13 @@ public class UserInfo extends BaseModel {
 	private String lastName;
 	
 	@Column(name = "newsletter")
-	private String newsletter;
+	private Boolean newsletter;
 	
 	@Column(name = "telephone_nr")
 	private String telephoneNr;
 	
 	@Column(name = "birthday")
-	private String birthday;
+	private Date birthday;
 
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn
@@ -56,11 +58,11 @@ public class UserInfo extends BaseModel {
 		this.lastName = lastName;
 	}
 
-	public String getNewsletter() {
+	public Boolean getNewsletter() {
 		return newsletter;
 	}
 
-	public void setNewsletter(String newsletter) {
+	public void setNewsletter(Boolean newsletter) {
 		this.newsletter = newsletter;
 	}
 
@@ -71,12 +73,12 @@ public class UserInfo extends BaseModel {
 	public void setTelephoneNr(String telephoneNr) {
 		this.telephoneNr = telephoneNr;
 	}
-	
-	public String getBirthday() {
+
+	public Date getBirthday() {
 		return birthday;
 	}
-	
-	public void setBirthday(String birthday) {
+
+	public void setBirthday(Date birthday) {
 		this.birthday = birthday;
 	}
 

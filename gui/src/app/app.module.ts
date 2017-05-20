@@ -38,6 +38,8 @@ import { PersonalizedOfferModule } from "./pages/personalizedOffer/personalizedO
 import { CategoriesAndTypesService } from "./core/services/categories-types.service";
 import { RoutingByIDService } from "./core/services/routing-by-id.service";
 import { LoginService } from "./core/services/login.service";
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { UserService } from "./core/services/user.service";
 
 const routes = [
   { path: '', component: HomeComponent },
@@ -73,10 +75,11 @@ const routes = [
     ModalModule.forRoot(),
     AccordionModule.forRoot(),
     MaterialModule,
-    SelectModule
+    SelectModule,
+    FlexLayoutModule
     // SharedModule.forRoot()
   ],
-  providers: [CategoriesAndTypesService, HolidayService, RoutingByIDService, LoginService],
+  providers: [CategoriesAndTypesService, HolidayService, RoutingByIDService, LoginService, UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -24,6 +24,10 @@ public class UserService {
 		return userDataService.getLoginCredentials(username);
 	}
 	
+	public UserInfo createUser(UserInfo userInfo) {
+		return userDataService.save(userInfo);
+	}
+	
 	public UserInfo getUserInfo(Long userInfoId) {
 		return userDataService.getUserInfo(userInfoId);
 	}
