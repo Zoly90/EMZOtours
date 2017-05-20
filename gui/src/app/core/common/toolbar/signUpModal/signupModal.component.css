@@ -19,9 +19,61 @@ div, label, h4, p {
     margin-bottom: 30px; 
 }
 
-.set-number-of-days {
+.sign-up-info {
+    align-items: center;
+    margin: 15px 0 -15px 0;
+}
+
+.title {
+    max-width: 30%;
+    align-self: flex-start;
+    margin-left: 7.5%;
+    margin-bottom: 30px; 
+}
+
+.birthdate {
+    align-self: flex-start;
+    margin-left: 7.5%;
+}
+
+.input-element {
+    margin-bottom: 30px; 
+    max-width: 85%;
+}
+
+.input-year {
+    min-width: 105px;
+    margin-right: 5px;
+}
+
+.input-month {
+    min-width: 155px;
+    margin: 0 4px;
+}
+
+.number-of-days {
     background-color: Transparent;
     border: none;
     cursor: pointer;
     outline: none;
+    padding: 0;
+    min-width: 90px;
+    margin-left: 5px;
+}
+
+.input-day {
+    min-width: inherit;
+}
+
+.btn {
+    margin: 0 5px;
+}
+
+.password-check, .age-check {
+    color: red;
+    margin-top: -10px;
+}
+
+.form-submitted {
+    text-align: center;
 }

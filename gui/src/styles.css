@@ -24,6 +24,6 @@ ng-select:focus {
     transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s !important;
 }*/
 
-.toggle {
+.toggle, .clear {
     height: 32px !important;
 }

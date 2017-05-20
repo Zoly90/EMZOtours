@@ -25,6 +25,10 @@ public class UserDataService {
 		return userRepository.findByUserLogin(userLogin);
 	}
 	
+	public UserInfo save(UserInfo userInfo) {
+		return userRepository.save(userInfo);
+	}
+	
 	public UserInfo getUserInfo(Long userInfoId) {
 		return userRepository.findOne(userInfoId);
 	}
@@ -32,5 +36,4 @@ public class UserDataService {
 	public List<UserInfo> getAllUsers() {
 		return userRepository.findAll();
 	}
-	
 }
