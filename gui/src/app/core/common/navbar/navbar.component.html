@@ -4,32 +4,32 @@
             <a [routerLink]="['/']" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}">
                 <span class="glyphicon glyphicon-home"></span> Home</a>
         </li>
-        <li dropdown >
-            <a href id="ideasDropdown" dropdownToggle (click)="false">
+        <li dropdown>
+            <a id="ideasDropdown" dropdownToggle >
                 <span class="glyphicon glyphicon-globe"></span> Holiday ideas <span class="caret"></span></a>
-            <ul *dropdownMenu class="dropdown-menu" >
+            <ul *dropdownMenu class="dropdown-menu">
                 <li>
                     <a class="dropdown-item" (click)="goToListPage('dream honeymoons')" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}">
-                        <img class="icon" id="icon" src="../../../assets/images/icons/honeymoon-icon.png" alt="view1" /> Dream Honeymoons</a>
+                        <img class="icon" id="icon" src="../../../assets/images/icons/honeymoon-icon.png" alt="view1" />                        Dream Honeymoons</a>
                 </li>
                 <li>
                     <a class="dropdown-item" (click)="goToListPage('cruises')" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}">
-                        <img class="icon" id="icon" src="../../../assets/images/icons/cruise-ship-icon.png" alt="view1" /> Cruises</a>
+                        <img class="icon" id="icon" src="../../../assets/images/icons/cruise-ship-icon.png" alt="view1" />                        Cruises</a>
                 </li>
                 <li>
                     <a class="dropdown-item" (click)="goToListPage('luxury trips')" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}">
-                        <img class="icon" id="icon" src="../../../assets/images/icons/luxury-trip-icon.png" alt="view1" /> Luxury trips</a>
+                        <img class="icon" id="icon" src="../../../assets/images/icons/luxury-trip-icon.png" alt="view1" />                        Luxury trips</a>
                 </li>
                 <li>
                     <div class="accordion">
-                        <section class="accordion-item" (mouseover)="onMouseOverCityBreaks()" (mouseout)="onMouseOutCityBreaks()">
-                            <img class="icon" id="icon" src="../../../assets/images/icons/city-break-icon.png" alt="view1" /> City breaks
-                                <i class="pull-right float-xs-right glyphicon" 
-                                    [ngClass]="{'glyphicon-chevron-right': glyphiconClassRightCitybreaks, 'glyphicon-chevron-down': glyphiconClassDownCitybreaks}" ></i>
+                        <section class="accordion-item city-breaks" (mouseover)="onMouseOverCityBreaks()" (mouseout)="onMouseOutCityBreaks()">
+                            <img class="icon" id="icon" src="../../../assets/images/icons/city-break-icon.png" alt="view1" />                            City breaks
+                            <i class="pull-right float-xs-right glyphicon" [ngClass]="{'glyphicon-chevron-right': glyphiconClassRightCitybreaks, 'glyphicon-chevron-down': glyphiconClassDownCitybreaks}"></i>
                             <div class="accordion-item-content">
                                 <ul>
                                     <li>
-                                        <a class="accordion-item dropdown-item" (click)="goToListPage('city breaks by bus')" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}">
+                                        <a class="dropdown-item" (click)="goToListPage('city breaks by bus')" [routerLinkActive]="['router-link-active']"
+                                            [routerLinkActiveOptions]="{exact:true}">
                                             <i class="fa fa-bus" aria-hidden="true"></i> By bus</a>
                                     </li>
                                     <li>
@@ -44,19 +44,20 @@
                 <li class="divider"></li>
                 <li>
                     <div class="accordion">
-                        <section class="accordion-item" (mouseover)="onMouseOverSpecialOffers()" (mouseout)="onMouseOutSpecialOffers()">
+                        <section class="accordion-item special-offers" (mouseover)="onMouseOverSpecialOffers()" (mouseout)="onMouseOutSpecialOffers()">
                             <i class="fa fa-briefcase" aria-hidden="true"></i> Special offers
-                                <i class="pull-right float-xs-right glyphicon" 
-                                    [ngClass]="{'glyphicon-chevron-right': glyphiconClassRightSpecialOffers, 'glyphicon-chevron-down': glyphiconClassDownSpecialOffers}" ></i>
+                            <i class="pull-right float-xs-right glyphicon" [ngClass]="{'glyphicon-chevron-right': glyphiconClassRightSpecialOffers, 'glyphicon-chevron-down': glyphiconClassDownSpecialOffers}"></i>
                             <div class="accordion-item-content">
                                 <ul>
                                     <li>
-                                        <a class="accordion-item dropdown-item" (click)="goToListPage('special offers early booking')" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}">
+                                        <a class="dropdown-item" (click)="goToListPage('special offers early booking')" [routerLinkActive]="['router-link-active']"
+                                            [routerLinkActiveOptions]="{exact:true}">
                                             <span class="fa fa-book" aria-hidden="true"></span> Last minute</a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item" (click)="goToListPage('special offers last minute')" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}">
-                                            <img class="icon" id="icon" src="../../../assets/images/icons/early-booking-icon.png" alt="view1" style=""/> Early booking</a>
+                                        <a class="dropdown-item" (click)="goToListPage('special offers last minute')" [routerLinkActive]="['router-link-active']"
+                                            [routerLinkActiveOptions]="{exact:true}">
+                                            <img class="icon" id="icon" src="../../../assets/images/icons/early-booking-icon.png" alt="view1" style="" />                                            Early booking</a>
                                     </li>
                                 </ul>
                             </div>
@@ -66,19 +67,19 @@
                 <li class="divider"></li>
                 <li>
                     <a class="dropdown-item" (click)="goToListPage('aqua & amusement parks')" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}">
-                        <img class="icon" id="icon" src="../../../assets/images/icons/park-icon.png" alt="view1" style="" /> Aqua and Amusement parks</a>
+                        <img class="icon" id="icon" src="../../../assets/images/icons/park-icon.png" alt="view1" style="" />                        Aqua and Amusement parks</a>
                 </li>
                 <li>
                     <a class="dropdown-item" (click)="goToListPage('zoos & amusement parks')" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}">
-                        <img class="icon" id="icon" src="../../../assets/images/icons/zoo-icon.png" alt="view1" style="" /> Zoos and Nature reserves</a>
+                        <img class="icon" id="icon" src="../../../assets/images/icons/zoo-icon.png" alt="view1" style="" />                        Zoos and Nature reserves</a>
                 </li>
             </ul>
         </li>
 
-        <li dropdown >
+        <li dropdown>
             <a href id="winterDropdown" dropdownToggle (click)="false">
                 <span class="fa fa-snowflake-o" aria-hidden="true"></span> Winter season <span class="caret"></span></a>
-            <ul class="dropdown-menu" *dropdownMenu >
+            <ul class="dropdown-menu" *dropdownMenu>
                 <li>
                     <a class="dropdown-item" (click)="goToListPage('christmas')" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}">
                         <img class="icon" id="icon" src="../../../assets/images/icons/christmas-icon.png" alt="view1" style="" />                        Christmas</a>
@@ -107,8 +108,6 @@
         </li>
     </ul>
 
-    <!--<div>
-    <div class="menu">-->
     <ul class="dropdown-menu" role="menu">
         <li *ngFor="let item of items" [ngClass]="{'dropdown-submenu': item.submenu && item.submenu.length}">
             <a href="#">{{item.name}}</a>
@@ -118,6 +117,4 @@
             </ul>
         </li>
     </ul>
-    <!--</div>
-</div>-->
 </nav>

@@ -11,7 +11,7 @@ import { RoutingByIDService } from "../../services/routing-by-id.service";
   moduleId: module.id,
   selector: 'sd-navbar',
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css'],
+  styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent {
 
@@ -32,7 +32,6 @@ export class NavbarComponent {
   ngOnInit() {
     this.categoriesAndTypesService.$types.subscribe(data => {
       this.types = data;
-      console.log('types', data);
     })
   }
 
@@ -66,11 +65,6 @@ export class NavbarComponent {
     }
 
     this.routingByIDService.set(typeId, 'type');
-    console.log('ceva id: ', typeId, 'currentType: ', currentType);
     this.router.navigate(['/holidays/' + currentType]);
-  }
-
-  public toggled(open: boolean): void {
-    console.log('Dropdown is now: ', open);
   }
 }
