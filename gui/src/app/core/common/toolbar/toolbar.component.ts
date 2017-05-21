@@ -14,6 +14,14 @@ import { LoginDropdownComponent } from './loginDropdown/loginDropdown.component'
   entryComponents: [SignUpModalComponent, LoginDropdownComponent]
 })
 export class ToolbarComponent {
-  title = 'app works!';
- }
+
+    private userLogedIn: boolean = false;
+
+    private check(logedIn: boolean) {
+        if (logedIn) {
+            this.userLogedIn = !this.userLogedIn;
+            console.log(this.userLogedIn);
+        }
+    }
+}
 

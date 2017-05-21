@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 import { LoginService } from "../../../services/login.service";
 import { User } from "../../../models/user.model";
 
@@ -8,6 +8,8 @@ import { User } from "../../../models/user.model";
   styleUrls: ['./loginDropdown.component.scss']
 })
 export class LoginDropdownComponent {
+
+  @Output() onLoginSuccessful = new EventEmitter();
 
   private loginSuccessfull: boolean = false;
   private userLogedIn: User = new User();
@@ -28,6 +30,7 @@ export class LoginDropdownComponent {
         this.userLogedIn = data;
         if (this.userLogedIn.userLogin.password == this.password) {
           this.loginSuccessfull = true;
+          this.onLoginSuccessful.emit(this.loginSuccessfull);
           this.usernameExists = true;
         } else {
           this.usernameExists = true;
@@ -58,10 +61,5 @@ export class LoginDropdownComponent {
     this.usernameExists = false;
     this.usernameFetched = false;
     this.userLogedIn = new User();
-    console.log('modal opened');
-  }
-
-  public toggled(open: boolean): void {
-    console.log('Dropdown is now: ', open);
   }
 }

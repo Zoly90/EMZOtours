@@ -40,6 +40,8 @@ import { RoutingByIDService } from "./core/services/routing-by-id.service";
 import { LoginService } from "./core/services/login.service";
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { UserService } from "./core/services/user.service";
+import { LogoutButtonComponent } from "./core/common/toolbar/logout-button/logout-button.component";
+import { MyProfileDropdownComponent } from "./core/common/toolbar/my-profile-dropdown/my-profile-dropdown.component";
 
 const routes = [
   { path: '', component: HomeComponent },
@@ -57,7 +59,9 @@ const routes = [
     SignUpModalComponent,
     LoginDropdownComponent,
     NavbarComponent,
-    BackgroundImageComponent
+    BackgroundImageComponent,
+    LogoutButtonComponent,
+    MyProfileDropdownComponent
   ],
   imports: [
     BrowserModule,

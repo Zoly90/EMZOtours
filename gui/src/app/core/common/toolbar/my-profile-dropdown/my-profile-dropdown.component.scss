@@ -1,0 +1,30 @@
+:host {
+    float: right;
+}
+
+a {
+    text-decoration: none;
+}
+
+ul {
+    min-width: 190px;
+    padding-left: 15px;
+}
+
+li {
+    margin: 5px 0;
+}
+
+li:hover {
+    transform: scaleX(1.1);
+    text-decoration: blink;
+}
+
+#my-profile-dropdown {
+    border: none;
+    background: transparent;
+}
+
+#my-profile-dropdown:hover {
+    background-color: lightskyblue;
+}
