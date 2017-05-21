@@ -6,6 +6,24 @@ label {
     color: black;
 }
 
+a {
+    text-decoration: none;
+}
+
+ul {
+    min-width: 190px;
+    padding-left: 15px;
+}
+
+li {
+    margin: 5px 0;
+}
+
+li:hover {
+    transform: scaleX(1.1);
+    text-decoration: blink;
+}
+
 h6 {
     margin-top: 10px;
     margin-bottom: 10px;
@@ -46,18 +64,11 @@ h6 {
     color: black;
 }
 
-.mat-checkbox-layout {
-    margin-bottom: 0;
-    align-items: center;
-}
-
-.mat-checkbox-inner-container {
-    height: 15px !important;
-    width: 15px !important;
-    margin: 0 8px 2.5px 0 !important;
-}
-
 .login-error-message {
     color: red;
+    text-align: center;
+}
+
+.form-group {
     text-align: center;
 }

@@ -5,7 +5,7 @@ import { User } from "../../../models/user.model";
 @Component({
   selector: 'sd-login',
   templateUrl: './loginDropdown.component.html',
-  styleUrls: ['./loginDropdown.component.css']
+  styleUrls: ['./loginDropdown.component.scss']
 })
 export class LoginDropdownComponent {
 

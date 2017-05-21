@@ -2,7 +2,7 @@
 @import '../node_modules/bootstrap/dist/css/bootstrap.css';
 
 ng-select:focus {
-    border-color: #66afe9;
+    border-color: #66afe9 !important;
 }
 
 .below {
@@ -26,4 +26,16 @@ ng-select:focus {
 
 .toggle, .clear {
     height: 32px !important;
+}
+
+.form-group {
+    
+    .mat-checkbox-layout {
+       margin-bottom: 0;
+    }
+
+    .mat-checkbox-inner-container {
+        height: 15px !important;
+        width: 15px !important;
+    }
 }

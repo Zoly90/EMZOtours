@@ -19,7 +19,7 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
-        "styles.css",
+        "styles.scss",
         "../node_modules/@angular/material/core/theming/prebuilt/indigo-pink.css",
         "../node_modules/css-star-rating/dist/css/star-rating.css"
       ],

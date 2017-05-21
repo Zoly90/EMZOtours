@@ -5,7 +5,7 @@
         <span *ngIf="loginSuccessfull"> Logout</span>
     </button>
     <div *dropdownMenu class="dropdown-menu" role="menu" (click)="$event.stopPropagation()">
-        <form (ngSubmit)="login()" #loginForm="ngForm" id="formLogin" class="form container-fluid">
+        <form (ngSubmit)="login()" #loginForm="ngForm" id="formLogin" class="form container-fluid" *ngIf="!loginSuccessfull">
             <div class="form-group">
                 <label class="username" for="user">E-mail / username:</label>
                 <input type="text" class="form-control" id="user" name="user" placeholder="Ex. john.doe" [(ngModel)]="username" />
@@ -22,10 +22,23 @@
                 </md-checkbox>
             </div>
             <button type="submit" id="btnLogin" class="btn btn-success">Login</button>
-        </form>
-        <div class="container-fluid">
             <a class="forgot-password" id="forgotPassword" (click)="staticModal.show()">Forgot password?</a>
-        </div>
+        </form>
+        
+        <ul *ngIf="loginSuccessfull">
+            <li>
+                <a [routerLink]="['/about']" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}">My holidays</a>
+            </li>
+            <li>
+                <a [routerLink]="['/about']" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}">My holidays wishlist</a>
+            </li>
+            <li>
+                <a [routerLink]="['/about']" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}">My personal information</a>
+            </li>
+            <li>
+                <a>Logout</a>
+            </li>
+        </ul>
     </div>
 </div>
 <div class="modal fade" bsModal #staticModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="forgotPassword" aria-hidden="true">
