@@ -10,12 +10,15 @@ import { SelectModule } from 'angular2-select';
 import { BackgroundImageComponent } from './backgroundImage/backgroundImage.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
-// import { ToolbarComponent } from './toolbar/toolbar.component';
-// import { NavbarComponent } from './navbar/navbar.component';
-// import { SignUpModalComponent } from './toolbar/signUpModal/signupModal.component';
-// import { LoginDropdownComponent } from './toolbar/loginDropdown/loginDropdown.component';
 
-// import { NameListService } from './name-list/name-list.service';
+import { ToolbarComponent } from './toolbar/toolbar.component';
+import { NavbarComponent } from './navbar/navbar.component';
+import { SignUpModalComponent } from './toolbar/signUpModal/signupModal.component';
+import { LoginDropdownComponent } from './toolbar/loginDropdown/loginDropdown.component';
+import { LogoutButtonComponent } from "./toolbar/logout-button/logout-button.component";
+import { MyProfileDropdownComponent } from "./toolbar/my-profile-dropdown/my-profile-dropdown.component";
+import { LoginService } from "../services/login.service";
+import { UserService } from "../services/user.service";
 
 /**
  * Do not specify providers for modules that might be imported by a lazy loaded module.
@@ -34,29 +37,31 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     FlexLayoutModule
   ],
   declarations: [
-    SelectModule,
-    BackgroundImageComponent
-    // ToolbarComponent,
-    // SignUpModalComponent,
-    // LoginDropdownComponent,
-    // NavbarComponent
+    // SelectModule,
+    BackgroundImageComponent,
+    ToolbarComponent,
+    SignUpModalComponent,
+    LoginDropdownComponent,
+    LogoutButtonComponent,
+    MyProfileDropdownComponent,
+    NavbarComponent
   ],
   exports: [
-    // ToolbarComponent, 
-    // NavbarComponent,
+    ToolbarComponent, 
+    NavbarComponent,
     // SignUpModalComponent,
     // LoginDropdownComponent,
     CommonModule, 
     FormsModule, 
     RouterModule, 
     SelectModule
-  ]
+  ],
+  providers: [LoginService, UserService]
 })
 export class SharedModule {
   static forRoot(): ModuleWithProviders {
     return {
-      ngModule: SharedModule,
-      
+      ngModule: SharedModule,    
     };
   }
 }
