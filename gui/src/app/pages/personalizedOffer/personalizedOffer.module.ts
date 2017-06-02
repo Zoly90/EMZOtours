@@ -8,11 +8,22 @@ import { Daterangepicker } from 'ng2-daterangepicker';
 
 import { PersonalizedOfferComponent } from './personalizedOffer.component';
 import { PersonalizedOfferRoutingModule } from './personalizedOffer-routing.module';
+import { FlexLayoutModule } from "@angular/flex-layout";
+import { PersonalizedOfferService } from "../pages-services/personalized-offer.service";
 
 
 @NgModule({
-  imports: [CommonModule, FormsModule, PersonalizedOfferRoutingModule, MaterialModule, DatepickerModule.forRoot(), Daterangepicker],
+  imports: [
+    CommonModule,
+    FormsModule,
+    PersonalizedOfferRoutingModule,
+    MaterialModule,
+    DatepickerModule.forRoot(),
+    Daterangepicker,
+    FlexLayoutModule
+  ],
   declarations: [PersonalizedOfferComponent],
+  providers: [PersonalizedOfferService],
   exports: [PersonalizedOfferComponent]
 })
 export class PersonalizedOfferModule { }

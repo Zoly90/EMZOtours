@@ -12,9 +12,7 @@ export class UserService {
     ) { }
 
     public addUser(newUser: User): Observable<User> {
-        console.log('ceva');
         return this._http.post(`${this.baseUrl}`, newUser)
             .map(res => res.json());
-            // .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
     }
 }

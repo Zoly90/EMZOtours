@@ -11,7 +11,7 @@ import { RoutingByIDService } from "../../core/services/routing-by-id.service";
     moduleId: module.id,
     selector: 'sd-list',
     templateUrl: './holidaysList.component.html',
-    styleUrls: ['./holidaysList.component.css'],
+    styleUrls: ['./holidaysList.component.scss'],
     providers: [HolidaysListService, HolidayDetailViewService]
 })
 

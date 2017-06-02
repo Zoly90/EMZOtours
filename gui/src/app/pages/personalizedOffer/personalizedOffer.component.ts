@@ -1,56 +1,38 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import * as moment from 'moment';
 
-import { Offer } from './offer';
+
 import * as Collections from 'typescript-collections';
+import { PersonalizedOffer, DepartureCountries, DestinationCountries, TravelByOptions, ContactInformationOptions } from "../pages-models/personalized-offer-model";
+import { PersonalizedOfferService } from "../pages-services/personalized-offer.service";
 
 /**
  * This class represents the lazy loaded AboutComponent.
  */
 @Component({
   moduleId: module.id,
-  selector: 'sd-offer',
+  selector: 'personalized-offer',
   templateUrl: './personalizedOffer.component.html',
-  styleUrls: ['./personalizedOffer.component.css']
+  styleUrls: ['./personalizedOffer.component.scss']
 })
 export class PersonalizedOfferComponent implements OnInit {
   // List of countries for client adresses and destinations
   backgroundImagePath = "../../assets/images/background/rsz_background.jpg";
 
-  adressCountries = ['Country', 'Norvegia', 'Japan', 'Hungary', 'Brazil', 'Spain', 'Germany'];
-  selectedCountryAdress = this.adressCountries[0];
-  destinationCountries = ['Country', 'Norvegia', 'Japan', 'Hungary', 'Brazil', 'Spain', 'Germany'];
-  selectedDestinationCountry = this.destinationCountries[0];
+  private adressCountries;
+  private destinationCountries;
+  private travelByOptions;
+  private contactInfoOptions;
+  private personalizedOffer: PersonalizedOffer;
 
-  // Logic of travel by checkboxes
-  travelByOptions = [
-    { name: 'personal car', checked: false },
-    { name: 'airplane', checked: false },
-    { name: 'bus', checked: false }
-  ];
-  get selectedOptions() {
-    return this.travelByOptions
-      .filter(opt => opt.checked)
-  }
-  checkedTravelOptions = new Collections.Set<string>();
-  changed = false;
-  public toggled(open:boolean, opt:string):void {
-    console.log('Checked? ', open, opt);
-  }
-  buildOptionsSet(optionName:string) {
-    for (let opt of this.travelByOptions) {
-      if (opt.name === optionName && opt.checked === true) {
-        console.log(this.travelByOptions);
-        console.log(opt.name, optionName, opt.checked);
-        console.log('add ', optionName);
-        this.checkedTravelOptions.add(optionName);
-      }
-      if (opt.name === optionName && opt.checked === false) {
-        console.log('altceva', optionName);
-        this.checkedTravelOptions.remove(optionName);
-      }
-    }
-  }
+  private submitted: boolean = false;
+  private emailNotValid: boolean;
+  private telephoneNrNotValid: boolean;
+  private children: boolean = false;
+  private pets: boolean = false;
+
+  private emailRegexPattern = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  private checkedTravelOptions = new Collections.Set<string>();
 
   // Logic of contact information input fields
   @ViewChild('contactTelephone')
@@ -58,67 +40,130 @@ export class PersonalizedOfferComponent implements OnInit {
   @ViewChild('contactEmail')
   _contactEmail: ElementRef;
 
-  input1: HTMLInputElement;
-  input2: HTMLInputElement;
-  selectedOption: string;
-  contactInfoOptions = ['telephone', 'e-mail', 'either'];
+  private input1: HTMLInputElement;
+  private input2: HTMLInputElement;
+  private selectedOption: string;
 
-  contactInfoTelephone: string;
-  contactInfoEmail: string;
+  constructor(
+    private personalizedOfferService: PersonalizedOfferService
+  ) {}
 
   ngOnInit() {
     this.input1 = <HTMLInputElement>this._contactTelephone.nativeElement;
     this.input2 = <HTMLInputElement>this._contactEmail.nativeElement;
     this.input1.disabled = true;
     this.input2.disabled = true;
+
+    this.personalizedOffer = new PersonalizedOffer();
+    this.adressCountries = new DepartureCountries().departureCountries;
+    this.contactInfoOptions = new ContactInformationOptions().contactInfoOptions;
+    this.destinationCountries = new DestinationCountries().destinationCountries;
+    this.travelByOptions = new TravelByOptions().travelByOptions;
+
+    this.personalizedOffer.travelDestination = null;
+    this.personalizedOffer.departureCountry = null;
   }
 
-  setRequiredFields(option: string) {
+  // Logic of travel by checkboxes
+  get selectedOptions() {
+    return this.travelByOptions
+      .filter(opt => opt.checked)
+  }
+
+  buildOptionsSet(optionName: string) {
+    for (let opt of this.travelByOptions) {
+      if (opt.name === optionName && opt.checked === true) {
+        this.checkedTravelOptions.add(optionName);
+      }
+      if (opt.name === optionName && opt.checked === false) {
+        this.checkedTravelOptions.remove(optionName);
+      }
+    }
+  }
+
+  setRequiredFieldsContactInfo(option: string) {
     if (option == "telephone") {
-      // console.log(option + " tel");
       this.input1.disabled = false;
       this.input2.disabled = true;
     } else if (option == "e-mail") {
       this.input1.disabled = true;
       this.input2.disabled = false;
-      // console.log(option + " email");
     } else {
-      // console.log(option + " either");
       this.input1.disabled = false;
       this.input2.disabled = false;
     }
   }
 
   // Slider for max price
-  thumbLabel = true;
-  max = 10000;
-  min = 100;
-  step = 10;
-  valueSlider = this.min;
+  private thumbLabel = true;
+  // private max = 10000;
+  // private min = 100;
+  private step = 10;
+  private valueSlider = 100;
 
   // Date range picker
-  public daterange: any = {};
+  private daterange: any = {};
 
   // see original project for full list of options
   // can also be setup using the config service to apply to multiple pickers
-  public options: any = {
+  private options: any = {
     locale: { format: 'YYYY-MM-DD' },
     alwaysShowCalendars: false,
   };
 
-  public selectedDate(value: any) {
-    this.daterange.start = value.start;
-    this.daterange.end = value.end;
+  private selectedDate(value: any) {
+    this.personalizedOffer.firstDayOfHoliday = value.start.toDate();
+    this.personalizedOffer.lastDayOfHoliday = value.end.toDate();
   }
 
+  private checkTelephoneNr(value) {
+    if (value.length == 0) {
+      return
+    } else if (!Number(value) || value.length < 10) {
+      this.telephoneNrNotValid = true;
+    } else {
+      this.telephoneNrNotValid = false;
+    }
+  }
 
-  model = new Offer(42, '', '', '', '', '', '', '', '', '', '', '', '');
-  submitted = false;
-  onSubmit() { this.submitted = true; }
-  newOffer() {
-    this.model = new Offer(42, '', '', '', '', '', '', '', '', '', '', '', '');
+  private checkEmailWithRegex(value) {
+    if (value.length == 0) {
+      return
+    } else {
+      this.emailNotValid = !this.emailRegexPattern.test(value);
+    }
   }
-  saveToDatabase() {
-    console.log("saved");
+
+  private onSubmit() {
+    this.submitted = true;
   }
+
+  private newOffer() {
+    this.valueSlider = 100;
+    this.personalizedOffer = new PersonalizedOffer();
+  }
+
+  private beforeSubmit() {
+    this.personalizedOffer.travelBy = '';
+    this.checkedTravelOptions.toArray().forEach((option: string, index: number) => {
+      if (index + 1 < this.checkedTravelOptions.toArray().length) {
+        this.personalizedOffer.travelBy += option + ', ';
+      } else {
+        this.personalizedOffer.travelBy += option;
+      }
+    });
+    this.onSubmit();
+  }
+
+  private saveToDatabase() {    
+    this.personalizedOfferService.savePersonalizedOffer(this.personalizedOffer).subscribe();
+    console.log(this.personalizedOffer);
+    this.submitted = false;
+    this.newOffer();
+  }
+
+  // changed = false;
+  // public toggled(open: boolean, opt: string): void {
+  //   console.log('Checked? ', open, opt);
+  // }
 }

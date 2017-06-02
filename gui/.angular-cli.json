@@ -20,6 +20,7 @@
       "prefix": "app",
       "styles": [
         "styles.scss",
+        "../src/app/styles/variables.scss",
         "../node_modules/@angular/material/core/theming/prebuilt/indigo-pink.css",
         "../node_modules/css-star-rating/dist/css/star-rating.css"
       ],

@@ -1,0 +1,143 @@
+@import '../../styles/variables.scss';
+
+.imageBackground {
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+.personalized-offer-container {
+  margin: 0 auto;
+  width: 70%;
+}
+
+.personal-information-container, .main-holiday-information-container, .additional-holiday-information-container {
+  border: 1px solid $container-border-color;
+  box-shadow: $container-border-shadow;
+  padding: 20px;
+  margin: 15px 0;
+}
+
+.container-element {
+  margin-left: 20px;
+  font-size: 16px;
+  color: $label-color;
+}
+
+.with-subelements {
+  margin-bottom: 0;
+}
+
+.last-subelement {
+  margin-bottom: 5px;
+}
+
+.checkbox {
+  min-width: 100px;
+  text-align: start;
+}
+
+.travel-by-option {
+    margin: 0;
+    font-size: 14px;
+    min-width: 120px;
+    text-align: left;
+}
+
+.price-slider {
+  max-width: 95%;
+  margin: 0 auto;
+}
+
+.explanation {
+  font-size: 14px;
+  color: darkgray;
+}
+
+.normal-color {
+    color: #000;
+}
+
+.above-slider {
+  margin-bottom: 20px;
+}
+
+.container-title {
+  font-size: 20px;
+  margin-bottom: 25px;
+}
+
+.first-container-column {
+  padding-right: 20px;
+}
+
+.second-container-column {
+  margin-left: 20px;
+}
+
+.first-row {
+  margin-bottom: 5px;
+}
+
+.form-group-no-margin, .alert {
+  margin-bottom: 0;
+}
+
+.form-control-with-margin {
+  margin-bottom: 15px;
+}
+
+.contact-info-radio-group{
+  margin-bottom: 13px;
+}
+
+.preferences-textarea {
+    height: 100px;
+}
+
+.ng-valid[required], .ng-valid.required  {
+  border-left: 5px solid #42A948; /* green */
+}
+
+.ng-invalid:not(form)  {
+  border-left: 5px solid #a94442; /* red */
+}
+
+.mat-slider-horizontal {
+  width: 500px;
+}
+
+.new-form-button {
+  margin-right: 5px;
+}
+
+.not-label {
+  margin: 0 0 0 40px;
+}
+
+// .mat-slider-thumb:after, .mat-slider-track-fill{
+//     background-color: orange !important;
+//     border-color: orange !important;
+// }
+// .mat-slider-thumb{
+//     background-color: orange;
+// }
+
+.custom-day {      
+      text-align: center;
+      padding: 0.185rem 0.25rem;
+      border-radius: 0.25rem;
+      display: inline-block;
+      width: 2rem;
+    }
+    .custom-day:hover {
+      background-color: #e6e6e6;
+    }
+    .weekend {
+      background-color: #f0ad4e;
+      border-radius: 1rem;
+      color: white;
+    }
+    .hidden {
+      display: none;
+    }
+  
