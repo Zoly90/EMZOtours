@@ -43,7 +43,7 @@ public class UserController {
 	
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<UserInfo> createTicket(@RequestBody UserInfo userInfo) {
+    public ResponseEntity<UserInfo> createUser(@RequestBody UserInfo userInfo) {
         return new ResponseEntity<>(userService.createUser(userInfo), HttpStatus.OK);
     }
 

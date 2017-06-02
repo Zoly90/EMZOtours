@@ -1,242 +1,316 @@
 <div class="imageBackground" [ngStyle]="{'background-image':'url(' + backgroundImagePath + ')'}">
-  <div class="container">
-    <div [hidden]="submitted">
-      <h1>Personalized Offer Form</h1>
-      <form (ngSubmit)="onSubmit()" #offerForm="ngForm">
-        <div class="form-group">
-          <label for="name">Name</label>
-          <input type="text" class="form-control" id="name" required placeholder="Name" [(ngModel)]="model.name" name="name" #name="ngModel">
-          <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
-            Name is required
-          </div>
-        </div>
+  <md-card class="personalized-offer-container">
+    <md-card-title>
+      <h1>Personalized offer form</h1>
+    </md-card-title>
 
-        <div class="form-group">
-          <md-card>
-            <label for="contact">Contact information</label>
-            <md-radio-group [(ngModel)]="selectedOption" [ngModelOptions]="{standalone: true}">
-              <div *ngFor="let option of contactInfoOptions">
-                <md-radio-button [value]="option" (change)="setRequiredFields(option)">{{option}}</md-radio-button>
+    <md-card-content fxLayout="column" fxFlex="75%">
+      <div [hidden]="submitted">
+        <md-card-subtitle>
+          <h3><i>Please fill in all the required fields</i></h3>
+        </md-card-subtitle>
+
+        <form (ngSubmit)="onSubmit()" #offerForm="ngForm">
+
+          <div class="personal-information-container">
+            <label class="container-title">Personal information</label>
+            <div fxLayout fxFlex>
+              <div class="first-container-column" fxLayout="column" fxFlex="50%">
+                <div class="form-group">
+                  <label class="container-element" for="name"><i>Name</i></label>
+                  <input type="text" class="form-control" id="name" required placeholder="Ex.: Zoli Marton" [(ngModel)]="personalizedOffer.name" name="name"
+                    #name="ngModel">
+                  <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
+                    Name is required.
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="container-element" for="countryAddress"><i>Departure country</i></label>
+                  <select class="form-control" id="selectedCountryAdress" required [(ngModel)]="personalizedOffer.departureCountry" name="selectedCountryAdress"
+                    #countryAddress="ngModel">
+                    <option *ngIf="countryAddress.untouched || countryAddress.invalid" disabled selected [value]="null">Choose a country...</option>
+                  <option *ngFor="let countryAddress of adressCountries" [value]="countryAddress" >{{countryAddress}}</option>
+              </select>
+                  <div [hidden]="countryAddress.valid || countryAddress.pristine" class="alert alert-danger">
+                    Country is required.
+                  </div>
+                </div>
+
+                <div class="form-group form-group-no-margin">
+                  <label class="container-element" for="cityAddress"><i>Departure city</i></label>
+                  <input type="text" class="form-control" id="cityAddress" required placeholder="Ex.: Oslo" [(ngModel)]="personalizedOffer.departureCity"
+                    name="cityAddress" #cityAddress="ngModel">
+                  <div [hidden]="cityAddress.valid || cityAddress.pristine" class="alert alert-danger">
+                    City is required.
+                  </div>
+                </div>
               </div>
-            </md-radio-group>
 
-            <div class="form-group">
-              <input type="text" class="form-control" id="contactInfoTelephone" required placeholder="Telephone number" [(ngModel)]="contactInfoTelephone"
-                name="contactInfoTelephone" #contactTelephone>
-              <template [ngIf]="selectedOption === 'telephone'">
-                <div [hidden]="contactTelephone.valid || contactTelephone.pristine" class="alert alert-danger">
-                  Your telephone number is required for contact information
-                </div>
-              </template>
+              <div class="form-group second-container-column form-group-no-margin" fxLayout="column" fxFlex="50%">
+                <label class="container-element" for="contact"><i>Contact information</i></label>
+                <md-radio-group class="contact-info-radio-group" [(ngModel)]="selectedOption" [ngModelOptions]="{standalone: true}">
+                  <div *ngFor="let option of contactInfoOptions">
+                    <md-radio-button [value]="option" (change)="setRequiredFieldsContactInfo(option)">{{option}}</md-radio-button>
+                  </div>
+                </md-radio-group>
+
+                <!--<div class="form-group">-->
+                <input type="text" class="form-control form-control-with-margin" id="contactInfoTelephone" required placeholder="Ex.: 0745697811"
+                  [(ngModel)]="personalizedOffer.telephone" name="contactInfoTelephone" #contactTelephone (focusout)="checkTelephoneNr(contactTelephone.value)">
+                <template [ngIf]="selectedOption === 'telephone' || selectedOption === 'either'">
+                  <div [hidden]="!telephoneNrNotValid" class="alert alert-danger">
+                    Please make sure that the telephone number you entered has no alphabetical characters and it has a minimum of 10 numbers.
+                  </div>
+                  <div [hidden]="contactEmail.untouched" class="alert alert-danger">
+                    Your telephone number is required for contact information.
+                  </div>
+                </template>
+                <!--</div>-->
+
+                <!--<div class="form-group form-group-no-margin">-->
+                <input type="text" class="form-control" id="contactInfoEmail" required placeholder="Ex.: iza.mirela@yahoo.com" [(ngModel)]="personalizedOffer.email"
+                  name="contactInfoEmail" #contactEmail (focusout)="checkEmailWithRegex(contactEmail.value)">
+                <template [ngIf]="selectedOption === 'e-mail' || selectedOption === 'either'">
+                  <div [hidden]="!emailNotValid" class="alert alert-danger">
+                    Please enter a correct e-mail address.
+                  </div>
+                  <div [hidden]="!contactEmail.touched" class="alert alert-danger">
+                    Your e-mail adress is required for contact information.
+                  </div>
+                </template>
+                <!--</div>-->
+              </div>
             </div>
-
-            <div class="form-group">
-              <input type="text" class="form-control" id="contactInfoEmail" required placeholder="E-mail address" [(ngModel)]="contactInfoEmail"
-                name="contactInfoEmail" #contactEmail>
-              <template [ngIf]="selectedOption === 'e-mail'">
-                <div [hidden]="contactEmail.valid || contactEmail.pristine" class="alert alert-danger">
-                  Your e-mail adress is required for contact information
-                </div>
-              </template>
-            </div>
-          </md-card>
-        </div>
-
-        <div class="form-group">
-          <label for="countryAddress">Address country</label>
-          <select class="form-control" id="selectedCountryAdress" required [(ngModel)]="selectedCountryAdress" name="selectedCountryAdress" #countryAddress="ngModel">
-            <option *ngFor="let countryAddress of adressCountries" [value]="selectedCountryAdress" >{{countryAddress}}</option>
-          </select>
-          <div [hidden]="countryAddress.valid || countryAddress.pristine" class="alert alert-danger">
-            Country is required
           </div>
-        </div>
 
-        <div class="form-group">
-          <label for="cityAddress">Address city</label>
-          <input type="text" class="form-control" id="cityAddress" required placeholder="Your city address" [(ngModel)]="model.cityAddress"
-            name="cityAddress" #cityAddress="ngModel">
-          <div [hidden]="cityAddress.valid || cityAddress.pristine" class="alert alert-danger">
-            City is required
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label for="destination">Our possible destinations</label>
-          <select class="form-control" id="destination" required [(ngModel)]="selectedDestinationCountry" name="destinationAdress" #destinationAdress="ngModel">
+          <div class="main-holiday-information-container">
+            <label class="container-title">Main holiday information</label>
+            <div fxLayout fxFlex>
+              <div class="first-container-column" fxLayout="column" fxFlex="50%">
+                <div class="form-group">
+                  <label class="container-element" for="destination"><i>Our possible destinations</i></label>
+                  <select class="form-control" id="destination" required [(ngModel)]="personalizedOffer.travelDestination" name="destinationAdress"
+                    #destinationAdress="ngModel">
+                    <option *ngIf="destinationAdress.untouched || destinationAdress.invalid" disabled selected [value]="null">Choose a country...</option>
             <option *ngFor="let destinationAdress of destinationCountries" [value]="destinationAdress" >{{destinationAdress}}</option>
           </select>
-          <div [hidden]="destinationAdress.valid || destinationAdress.pristine" class="alert alert-danger">
-            A destination is required
-          </div>
-        </div>
+                  <div [hidden]="destinationAdress.valid || destinationAdress.pristine" class="alert alert-danger">
+                    A destination is required
+                  </div>
+                </div>
 
-        <div class="form-group">
-          <label for="travelBy">How do you whish to travel?</label>
-          <md-card>
-            <div *ngFor="let option of travelByOptions" required>
-              <md-checkbox name="travelBy" (change)="buildOptionsSet(option.name)" [(ngModel)]="option.checked" #model.travelBy="ngModel" align="end"
-                color="primary">{{option.name}}
-              </md-checkbox>
-              <div>{{[option.name, option.checked]}}</div>
+                <div fxLayout>
+                  <div class="form-group first-container-column" fxLayout="column" fxFlex="50%">
+                    <label class="container-element" for="numberOfNights"><i>Number of nights</i></label>
+                    <input type="number" class="form-control" id="numberOfNights" required placeholder="Ex.: 7" [(ngModel)]="personalizedOffer.nrNights"
+                      name="numberOfNights" #numberOfNights="ngModel">
+                    <div [hidden]="numberOfNights.valid || numberOfNights.pristine" class="alert alert-danger">
+                      Number of nights is required
+                    </div>
+                  </div>
+
+                  <div class="form-group second-container-column" fxLayout="column" fxFlex="50%">
+                    <label class="container-element" for="numberOfGuests"><i>Total number of guests:</i></label>
+                    <input type="number" class="form-control" id="numberOfGuests" required placeholder="Ex.: 4" [(ngModel)]="personalizedOffer.nrGuests"
+                      name="numberOfGuests" #numberOfGuests="ngModel">
+                    <div [hidden]="numberOfGuests.valid || numberOfGuests.pristine" class="alert alert-danger">
+                      Number of guests is required.
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group" fxLayout>
+                  <div class="first-container-column" fxLayout="column" fxFlex="50%" fxLayoutAlign="center start">
+                    <md-checkbox class="" align="end" #children>
+                      <label class="container-element checkbox" for="children"><i>Children</i></label>
+                    </md-checkbox>
+                  </div>
+
+                  <div class="second-container-column" fxLayout="column" fxFlex="50%">
+                    <label class="container-element" for="numberOfChildren"><i>Number of children</i></label>
+                    <input type="number" class="form-control" id="numberOfChildren" [disabled]="!children.checked" required placeholder="Ex.: 2"
+                      [(ngModel)]="personalizedOffer.nrChildren" name="numberOfChildren" #numberOfChildren="ngModel">
+                    <div [hidden]="numberOfChildren.valid || numberOfChildren.pristine" class="alert alert-danger">
+                      Number of children is required.
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group" fxLayout>
+                  <div class="first-container-column" fxLayout="column" fxFlex="50%" fxLayoutAlign="center start">
+                    <md-checkbox class="" align="end" #petsExist>
+                      <label class="container-element checkbox" for="children"><i>Pets</i></label>
+                    </md-checkbox>
+                  </div>
+
+                  <div class="second-container-column" fxLayout="column" fxFlex="50%">
+                    <label class="container-element" for="pets"><i>What kind of pets?</i></label>
+                    <input type="text" class="form-control" id="numberOfChildren" [disabled]="!petsExist.checked" required placeholder="Ex.: dog, cat..."
+                      [(ngModel)]="personalizedOffer.pets" name="pets" #pets="ngModel">
+                    <div [hidden]="pets.valid || pets.pristine" class="alert alert-danger">
+                      Please list the pets you wish to bring along.
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group form-group-no-margin">
+                  <label class="container-element" for="daterange"><i>Specify the daterange you prefer for your holiday</i></label>
+                  <div class="input-group" daterangepicker [options]="options" (selected)="selectedDate($event)" #daterange>
+                    <span class="form-control uneditable-input" name="daterange" required>{{personalizedOffer.firstDayOfHoliday | date}} - {{personalizedOffer.lastDayOfHoliday | date}}</span>
+                    <span class="input-group-btn">
+                      <a type="button" class="btn btn-default"><i class="glyphicon glyphicon-calendar"></i></a>
+                    </span>
+                  </div>
+                  <!--<div [hidden]="daterange.valid || daterange.pristine" class="alert alert-danger">
+                    Number of guests is required
+                  </div>-->
+                </div>
+              </div>
+
+              <div class="second-container-column" fxLayout="column" fxFlex="50%">
+                <div class="form-group">
+                  <label class="container-element" for="travelBy"><i>How do you whish to travel?</i></label>
+                  <div *ngFor="let option of travelByOptions">
+                    <md-checkbox name="travelBy" (change)="buildOptionsSet(option.name)" [(ngModel)]="option.checked" #model.travelBy="ngModel"
+                      align="end">
+                      <label class="travel-by-option" for="children">{{option.name}}</label>
+                    </md-checkbox>
+                  </div>
+                  <!--<div class="alert alert-warning">
+                    Specify a transportation mode
+                  </div>-->
+                </div>
+
+                <div class="form-group form-group-no-margin">
+                  <label class="container-element" for="maxPrice"><i>How much would you like to spend on transportation and accomodation? (EUR)</i></label>
+                  <div fxLayout class="above-slider">
+                    <div class="first-container-column" fxLayout="column" fxFlex="50%">
+                      <label class="explanation" for="travelBy">Min value</label>
+                      <input type="number" class="form-control first-row" placeholder="100" disabled>
+                      <label class="explanation normal-color" for="travelBy">Curent value</label>
+                      <input type="number" class="form-control" placeholder="Ex.: 1400" [(ngModel)]="personalizedOffer.maxPrice" [ngModelOptions]="{standalone: true}"
+                        required>
+                    </div>
+                    <div class="second-container-column" fxLayout="column" fxFlex="50%">
+                      <label class="explanation" for="travelBy">Max value</label>
+                      <input type="number" class="form-control first-row" placeholder="10000" disabled>
+                      <label class="explanation" for="travelBy">Step size</label>
+                      <input type="number" class="form-control" placeholder="Step size" [(ngModel)]="step" [ngModelOptions]="{standalone: true}">
+                    </div>
+                  </div>
+                  <md-slider class="price-slider" id="maxPriceSlider" [thumb-label]="thumbLabel" [value]="valueSlider" [max]="10000" [min]="100"
+                    [step]="step" [(ngModel)]="personalizedOffer.maxPrice" [ngModelOptions]="{standalone: true}" fxLayout></md-slider>
+                  <template [ngIf]="personalizedOffer.maxPrice < 100">
+                    <div class="alert alert-danger">
+                      A budget limit is required.
+                    </div>
+                  </template>
+                </div>
+              </div>
             </div>
-            <div>{{checkedTravelOptions}}</div>
-            <div class="alert alert-warning">
-              Specify a transportation mode
+          </div>
+
+          <div class="additional-holiday-information-container">
+            <label class="container-title">Additional holiday information</label>
+            <div fxLayout fxFlex>
+              <div class="first-container-column" fxLayout="column" fxFlex="50%">
+                <div class="form-group">
+                  <label class="container-element" for="typeOfAccomodation"><i>What type of accomodation do you wish to have?</i></label>
+                  <input type="text" class="form-control" id="typeOfAccomodation" placeholder="Ex.: appartment, hotel..." [(ngModel)]="personalizedOffer.accommodationType"
+                    name="typeOfAccomodation">
+                </div>
+              </div>
+
+              <div class="second-container-column" fxLayout="column" fxFlex="50%">
+                <div class="form-group">
+                  <label class="container-element" for="food"><i>Do you want to have food included in the offer?</i></label>
+                  <input type="text" class="form-control" id="food" placeholder="Ex.: breakfast, all inclusive..." [(ngModel)]="personalizedOffer.food"
+                    name="food">
+                </div>
+              </div>
             </div>
-          </md-card>
-        </div>
 
-        <div class="form-group">
-          <md-card>
-            <label for="maxPrice">How much would you like to spend for transportation and accomodation? (EUR)</label>
-            <md-card-content>
-              <section class="example-section">
-                <md-input-container class="example-margin">
-                  <input mdInput type="number" placeholder="Value" [(ngModel)]="valueSlider" [ngModelOptions]="{standalone: true}">
-                </md-input-container>
-                <md-input-container class="example-margin">
-                  <input mdInput type="number" placeholder="Min value" disabled [(ngModel)]="min" [ngModelOptions]="{standalone: true}">
-                </md-input-container>
-                <md-input-container class="example-margin">
-                  <input mdInput type="number" placeholder="Max value" disabled [(ngModel)]="max" [ngModelOptions]="{standalone: true}">
-                </md-input-container>
-                <md-input-container class="example-margin">
-                  <input mdInput type="number" placeholder="Step size" [(ngModel)]="step" [ngModelOptions]="{standalone: true}">
-                </md-input-container>
-              </section>
-
-              <md-slider class="example-margin" id="maxPriceSlider" [thumb-label]="thumbLabel" [value]="valueSlider" [max]="max" [min]="min"
-                [step]="step" [(ngModel)]="valueSlider" [ngModelOptions]="{standalone: true}"></md-slider>
-
-            </md-card-content>
-          </md-card>
-          <template [ngIf]="valueSlider < min">
-            <div class="alert alert-danger">
-              A budget limit is required and it must be above minimum value
+            <div class="form-group form-group-no-margin">
+              <label class="container-element" for="comments"><i>Additional comments / preferences</i></label>
+              <textarea type="text" class="form-control preferences-textarea" id="comments" placeholder="Other preferences..." [(ngModel)]="personalizedOffer.comments"
+                name="comments"></textarea>
             </div>
-          </template>
-        </div>
+          </div>
 
-        <div class="form-group">
-          <label for="numberOfNights">Number of nights you wish to stay</label>
-          <input type="text" class="form-control" id="numberOfNights" required placeholder="Ex.: 7" [(ngModel)]="model.numberOfNights"
-            name="numberOfNights" #numberOfNights="ngModel">
-          <div [hidden]="numberOfNights.valid || numberOfNights.pristine" class="alert alert-danger">
-            Number of nights is required
+          <md-card-actions>
+            <button type="submit" class="btn btn-success pull-right" [disabled]="!offerForm.form.valid" (click)="beforeSubmit()">Submit</button>
+            <button type="button" class="btn btn-default pull-right new-form-button" (click)="newOffer(); offerForm.reset()">New form</button>
+          </md-card-actions>
+        </form>
+      </div>
+
+      <!--TO DO-->
+      <div [hidden]="!submitted">
+        <md-card-subtitle>
+          <h3><i>You want to submit the following:</i></h3>
+        </md-card-subtitle>
+
+        <div class="personal-information-container">
+          <label class="container-title">Personal information</label>
+          <div fxLayout fxFlex>
+            <div class="first-container-column" fxLayout="column" fxFlex="50%">
+              <label for="name"><i class="container-element">Name: </i>{{ personalizedOffer.name }}</label>
+
+              <label for="countryAddress"><i class="container-element">Departure country: </i>{{ personalizedOffer.departureCountry }}</label>
+
+              <label for="cityAddress"><i class="container-element">Departure city: </i>{{ personalizedOffer.departureCity }}</label>
+            </div>
+
+            <div class="second-container-column" fxLayout="column" fxFlex="50%">
+              <label for="contact"><i class="container-element">Contact information</i></label>
+              <label class="normal-color not-label">Telephone number: {{ personalizedOffer.telephone }}</label>
+              <label class="normal-color not-label">E-mail address: {{ personalizedOffer.email }}</label>
+            </div>
           </div>
         </div>
 
-        <div class="form-group">
-          <div class="input-group" daterangepicker [options]="options" (selected)="selectedDate($event)">
-            <span class="form-control uneditable-input" name="daterange" >{{daterange.start}} - {{daterange.end}}</span>
-            <span class="input-group-btn">
-              <a type="button" class="btn btn-default"><i class="glyphicon glyphicon-calendar"></i></a>
-            </span>
+        <div class="main-holiday-information-container">
+          <label class="container-title">Main holiday information</label>
+          <div fxLayout fxFlex>
+            <div class="first-container-column" fxLayout="column" fxFlex="50%">
+              <label for="destination"><i class="container-element">Destination of your choosing: </i>{{ personalizedOffer.travelDestination }}</label>
+                <label for="numberOfNights"><i class="container-element">Number of nights: </i>{{ personalizedOffer.nrNights }}</label>
+                <label for="numberOfGuests"><i class="container-element">Total number of guests: </i>{{ personalizedOffer.nrGuests }}</label>
+                <label for="numberOfChildren"><i class="container-element">Number of children: </i>{{ personalizedOffer.nrChildren }}</label>
+                <label for="pets"><i class="container-element">Pets you wish to bring along: </i>{{ personalizedOffer.pets }}</label>
+            </div>
+
+            <div class="second-container-column" fxLayout="column" fxFlex="50%">
+              <label for="daterange"><i class="container-element with-subelements">The daterange you prefer for your holiday </i></label>
+              <label class="normal-color not-label">From: {{ personalizedOffer.firstDayOfHoliday | date }}</label>
+              <label class="normal-color not-label last-subelement">Until: {{ personalizedOffer.lastDayOfHoliday | date }}</label>
+              <label for="travelBy"><i class="container-element">Means of transport chosen: </i>{{ personalizedOffer.travelBy }}</label>
+              <label for="maxPrice"><i class="container-element">This is how much you want to spend (EUR): </i>{{ personalizedOffer.maxPrice }}</label>
+            </div>
           </div>
         </div>
 
-        <div class="form-group">
-          <label for="numberOfGuests">Number of guests</label>
-          <input type="text" class="form-control" id="numberOfGuests" required placeholder="Ex.: 4" [(ngModel)]="model.numberOfGuests"
-            name="numberOfGuests" #numberOfGuests="ngModel">
-          <div [hidden]="numberOfGuests.valid || numberOfGuests.pristine" class="alert alert-danger">
-            Number of guests is required
+        <div class="additional-holiday-information-container">
+          <label class="container-title">Additional holiday information</label>
+          <div fxLayout fxFlex>
+            <div class="first-container-column" fxLayout="column" fxFlex="50%">
+              <label for="typeOfAccomodation"><i class="container-element">The type of accomodation you'd prefer: </i>{{ personalizedOffer.accommodationType }}</label>
+            </div>
+
+            <div class="second-container-column" fxLayout="column" fxFlex="50%">
+              <label for="food"><i class="container-element">Food to be included in the offer: </i>{{ personalizedOffer.food }}</label>
+            </div>
+
           </div>
+            <label for="comments"><i class="container-element">Additional comments / preferences: </i>{{ personalizedOffer.comments }}</label>
         </div>
 
-        <div class="form-group">
-          <label for="typeOfAccomodation">Type of accomodation</label>
-          <input type="text" class="form-control" id="typeOfAccomodation" placeholder="Ex.: appartment, hotel..." [(ngModel)]="model.typeOfAccomodation"
-            name="typeOfAccomodation">
-        </div>
-
-        <div class="form-group">
-          <label for="food">Do you want to have food included in the offer?</label>
-          <input type="text" class="form-control" id="food" placeholder="Ex.: breakfast, all inclusive..." [(ngModel)]="model.food"
-            name="food">
-        </div>
-
-        <div class="form-group">
-          <label for="comments">Additional comments / preferences</label>
-          <textarea type="text" class="form-control" id="comments" placeholder="Other preferences..." [(ngModel)]="model.comments"
-            name="comments"></textarea>
-        </div>
-
-        <button type="submit" class="btn btn-success" [disabled]="!offerForm.form.valid">Submit</button>
-        <button type="button" class="btn btn-default" (click)="newOffer(); offerForm.reset()">New Hero</button>
-      </form>
-    </div>
-
-    <div [hidden]="!submitted">
-      <h2>You want to submit the following:</h2>
-      <div class="row">
-        <div class="col-xs-3">Name</div>
-        <div class="col-xs-9  pull-left">{{ model.name }}</div>
+        <md-card-actions>
+          <button class="btn btn-primary" (click)="submitted=false">Edit</button>
+          <button type="submit" class="btn btn-success" (click)="saveToDatabase(); offerForm.reset()">Continue</button>
+        </md-card-actions>
       </div>
-      <div class="row">
-        <div class="col-xs-3">Contact information</div>
-        <div class="col-xs-9 pull-left">{{ selectedOption }}</div>
-      </div>
-      <div class="row">
-        <div class="col-xs-3">Telephone number</div>
-        <div class="col-xs-9 pull-left">{{ contactInfoTelephone }}</div>
-      </div>
-      <div class="row">
-        <div class="col-xs-3">Email adress</div>
-        <div class="col-xs-9 pull-left">{{ contactInfoEmail }}</div>
-      </div>
-      <div class="row">
-        <div class="col-xs-3">Address country</div>
-        <div class="col-xs-9 pull-left">{{ model.countryAddress }}</div>
-      </div>
-      <div class="row">
-        <div class="col-xs-3">Address city</div>
-        <div class="col-xs-9 pull-left">{{ model.cityAddress }}</div>
-      </div>
-      <div class="row">
-        <div class="col-xs-3">Your destination</div>
-        <div class="col-xs-9 pull-left">{{ model.destination }}</div>
-      </div>
-      <div class="row">
-        <div class="col-xs-3">Travel by</div>
-        <div class="col-xs-9 pull-left">{{ checkedTravelOptions }}</div>
-      </div>
-      <div class="row">
-        <div class="col-xs-3">Your budget limit (for transportation and accomodation)</div>
-        <div class="col-xs-9 pull-left">{{ valueSlider }}</div>
-      </div>
-      <div class="row">
-        <div class="col-xs-3">Number of nights you wish to stay</div>
-        <div class="col-xs-9 pull-left">{{ model.numberOfNights }}</div>
-      </div>
-      <div class="row">
-        <div class="col-xs-3">Your arrival date</div>
-        <div class="col-xs-9 pull-left">{{ daterange.start }}</div>
-      </div>
-      <div class="row">
-        <div class="col-xs-3">Your departure date</div>
-        <div class="col-xs-9 pull-left">{{ daterange.end }}</div>
-      </div>
-      <div class="row">
-        <div class="col-xs-3">Number of guests</div>
-        <div class="col-xs-9 pull-left">{{ model.numberOfGuests }}</div>
-      </div>
-      <div class="row">
-        <div class="col-xs-3">Type of accomodation</div>
-        <div class="col-xs-9 pull-left">{{ model.typeOfAccomodation }}</div>
-      </div>
-      <div class="row">
-        <div class="col-xs-3">Food</div>
-        <div class="col-xs-9 pull-left">{{ model.food }}</div>
-      </div>
-      <div class="row">
-        <div class="col-xs-3">Additional preferences</div>
-        <div class="col-xs-9 pull-left">{{ model.comments }}</div>
-      </div>
-      <br>
-      <button class="btn btn-primary" (click)="submitted=false">Edit</button>
-      <button type="submit" class="btn btn-success" (click)="saveToDatabase()">Continue</button>
-    </div>
-  </div>
+    </md-card-content>
+  </md-card>
 </div>

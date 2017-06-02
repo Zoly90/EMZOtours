@@ -1,5 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 @import '../node_modules/bootstrap/dist/css/bootstrap.css';
+@import './app/styles/variables.scss';
 
 ng-select:focus {
     border-color: #66afe9 !important;
@@ -18,24 +19,66 @@ ng-select:focus {
     transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s !important;
 }
 
-/*.open, .focus {
-    border-color: #66afe9;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(102, 175, 233, .6) !important;
-    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s !important;
-}*/
-
 .toggle, .clear {
     height: 32px !important;
 }
 
-.form-group {
+personalized-offer {
     
     .mat-checkbox-layout {
        margin-bottom: 0;
     }
 
     .mat-checkbox-inner-container {
-        height: 15px !important;
-        width: 15px !important;
+        height: 18px !important;
+        width: 18px !important;
+    }
+
+    .mat-checkbox-checked.mat-accent .mat-checkbox-background {
+        background-color: $check-box-radio-btn-slider-color;
+    }
+
+    .mat-checkbox-ripple {
+        .mat-ripple-element {
+            background-color: rgba($check-box-radio-btn-slider-color, 0.26) !important;
+        }
+    }
+
+    .mat-slider-thumb, .mat-slider-thumb-label, .mat-slider-track-fill {
+        background-color: $check-box-radio-btn-slider-color
+    }
+
+    .mat-slider-thumb, .mat-slider-thumb-label {
+        cursor: pointer;
+    }
+
+    .mat-slider-thumb-label {
+        width: 31px;
+        height: 31px;
+    }
+
+    .mat-slider-thumb-label-text {
+        font-size: 11px;
+    }
+
+    .mat-radio-inner-circle {
+        background-color: $check-box-radio-btn-slider-color;
+    }
+
+    .mat-radio-checked .mat-radio-outer-circle {
+        border-color: $check-box-radio-btn-slider-color;
+    }
+
+    .mat-radio-ripple .mat-ripple-element {
+        background-color: rgba($check-box-radio-btn-slider-color, 0.26);
+    }
+
+    label {
+        font-weight: normal;
+    }
+
+    .mat-card-actions {
+        margin: 8px 0 0 0;
+        padding: 0;
     }
 }

@@ -12,6 +12,7 @@ import { HolidayService } from "./core/services/holiday.service";
 import { PersonalizedOfferModule } from "./pages/personalizedOffer/personalizedOffer.module";
 import { RoutingByIDService } from "./core/services/routing-by-id.service";
 import { SharedModule } from "./core/common/common.module";
+import { PagesModule } from "./pages/pages.module";
 
 @NgModule({
   declarations: [
@@ -20,10 +21,11 @@ import { SharedModule } from "./core/common/common.module";
   imports: [
     BrowserModule,
     AppRoutingModule,
-    AboutModule,
-    HomeModule,
-    ContactModule,
-    PersonalizedOfferModule,
+    // AboutModule,
+    // HomeModule,
+    // ContactModule,
+    // PersonalizedOfferModule,
+    PagesModule,
     HolidaysListModule,
     HolidayDetailViewModule, 
     SharedModule.forRoot()
