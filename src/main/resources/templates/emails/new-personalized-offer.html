@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<title th:remove="all">New ticket</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+
+<body>
+
+	<table width="100%" border="0" cellspacing="0" cellpadding="0"
+		style="max-width: 500px; margin: 0 auto">
+		<tbody>
+			<!-- <tr>
+				<td align="left" valign="top">
+					<table width="100%" border="0" cellspacing="0" cellpadding="0"
+						style="margin-top: 15px">
+						<tbody>
+							<tr>
+								<td><img style="max-width: 200px"
+									src="https://www.solarlux.de/img/logo.png" alt="Solarlux" /></td>
+							</tr>
+						</tbody>
+					</table>
+				</td>
+			</tr> -->
+			<tr>
+				<td>
+					<table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top: 5px">
+						<tbody>
+							<tr>
+								<td style="text-align: center; font-size: 18px">
+									<p th:utext="${emailTitle}" style="margin-bottom: 40px"></p>
+								</td>
+							</tr>
+							<!-- <tr>
+								<td>
+									<div th:utext="${issuerLabel}" style="font-size: 14px"></div>
+									<p th:text="${issuer}"></p>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div th:utext="${ticketIdLabel}" style="font-size: 14px"></div>
+									<p th:text="${id}"></p>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div th:if="${isDescription}" style="margin-bottom: 20px">
+										<div th:utext="${descriptionLabel}" style="font-size: 14px"></div>
+										<p th:text="${description}"></p>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td style="text-align: center"><a
+									href="http://www.solarlux.com" th:text="${link}"></a></td>
+							</tr> -->
+						</tbody>
+					</table>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+</body>
+
+</html>

@@ -23,3 +23,15 @@ spring:
   jackson:
     serialization:
       fail-on-empty-beans: false
+  mail:
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true
+    host: smtp.gmail.com
+    username: emzo.donotreply@gmail.com
+    password: emzoturismapp
+    port: 587
+    smtp:
+      auth: true

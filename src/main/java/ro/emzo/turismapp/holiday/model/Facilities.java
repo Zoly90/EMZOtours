@@ -1,0 +1,43 @@
+package ro.emzo.turismapp.holiday.model;
+
+import javax.persistence.*;
+
+import ro.emzo.turismapp.core.model.BaseModel;
+
+@Entity
+@Table(name = "facilities")
+public class Facilities extends BaseModel{
+	
+	@Column(name = "facility_category")
+	private String facilityCategory;
+	
+	@Column(name = "image")
+	private String image;
+	
+	@Column(name = "facilities_list")
+	private String facilitiesList;
+
+	public String getFacilityCategory() {
+		return facilityCategory;
+	}
+
+	public void setFacilityCategory(String facilityCategory) {
+		this.facilityCategory = facilityCategory;
+	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
+	}
+
+	public String getFacilitiesList() {
+		return facilitiesList;
+	}
+
+	public void setFacilitiesList(String facilitiesList) {
+		this.facilitiesList = facilitiesList;
+	}
+}
