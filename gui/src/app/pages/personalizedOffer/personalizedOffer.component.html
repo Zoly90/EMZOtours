@@ -55,7 +55,6 @@
                   </div>
                 </md-radio-group>
 
-                <!--<div class="form-group">-->
                 <input type="text" class="form-control form-control-with-margin" id="contactInfoTelephone" required placeholder="Ex.: 0745697811"
                   [(ngModel)]="personalizedOffer.telephone" name="contactInfoTelephone" #contactTelephone (focusout)="checkTelephoneNr(contactTelephone.value)">
                 <template [ngIf]="selectedOption === 'telephone' || selectedOption === 'either'">
@@ -66,9 +65,7 @@
                     Your telephone number is required for contact information.
                   </div>
                 </template>
-                <!--</div>-->
 
-                <!--<div class="form-group form-group-no-margin">-->
                 <input type="text" class="form-control" id="contactInfoEmail" required placeholder="Ex.: iza.mirela@yahoo.com" [(ngModel)]="personalizedOffer.email"
                   name="contactInfoEmail" #contactEmail (focusout)="checkEmailWithRegex(contactEmail.value)">
                 <template [ngIf]="selectedOption === 'e-mail' || selectedOption === 'either'">
@@ -79,7 +76,6 @@
                     Your e-mail adress is required for contact information.
                   </div>
                 </template>
-                <!--</div>-->
               </div>
             </div>
           </div>
@@ -245,7 +241,6 @@
         </form>
       </div>
 
-      <!--TO DO-->
       <div [hidden]="!submitted">
         <md-card-subtitle>
           <h3><i>You want to submit the following:</i></h3>
@@ -307,8 +302,8 @@
         </div>
 
         <md-card-actions>
-          <button class="btn btn-primary" (click)="submitted=false">Edit</button>
-          <button type="submit" class="btn btn-success" (click)="saveToDatabase(); offerForm.reset()">Continue</button>
+          <button type="submit" class="btn btn-success pull-right" (click)="saveToDatabase(); offerForm.reset()">Continue</button>
+          <button class="btn btn-primary pull-right new-form-button" (click)="submitted=false">Edit</button>
         </md-card-actions>
       </div>
     </md-card-content>

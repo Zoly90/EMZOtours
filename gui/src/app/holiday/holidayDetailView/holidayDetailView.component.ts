@@ -2,8 +2,8 @@ import { Component, Input, OnInit, OnChanges, trigger, state, animate, transitio
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 
-import { HolidayDetailViewService } from './holidayDetailView.service';
-import { Holiday } from "../../core/models/holiday.model";
+import { HolidayDetailViewService } from "../services/holidayDetailView.service";
+import { Holiday } from "../models/holiday.model";
 
 @Component({
     moduleId: module.id,

@@ -6,9 +6,6 @@ import { HomeComponent } from "./pages/home/home.component";
 import { AboutComponent } from "./pages/about/about.component";
 import { ContactComponent } from "./pages/contact/contact.component";
 import { PersonalizedOfferComponent } from "./pages/personalizedOffer/personalizedOffer.component";
-import { AboutModule } from "./pages/about/about.module";
-import { HomeModule } from "./pages/home/home.module";
-import { ContactModule } from "./pages/contact/contact.module";
 import { HolidaysListComponent } from "./holiday/holidaysList/holidaysList.component";
 import { HolidayDetailViewComponent } from "./holiday/holidayDetailView/holidayDetailView.component";
 

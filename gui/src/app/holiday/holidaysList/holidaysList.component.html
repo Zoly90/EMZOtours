@@ -54,6 +54,8 @@
                     </div>
                 </li>
             </ul>
+            <pagination [totalItems]="bigTotalItems" [maxSize]="maxSize" class="pagination-sm" (numPages)="numPages = $event" [itemsPerPage]="itemsPerPage"
+              [boundaryLinks]="false" [rotate]="true" (pageChanged)="pageChanged($event)"></pagination>
         </md-card-content>
     </md-card>
 </div>

@@ -1,11 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { HolidaysListService } from './holidaysList.service';
-import { HolidayDetailViewService } from '../holidayDetailView/holidayDetailView.service';
-import { Holiday } from "../../core/models/holiday.model";
-import { HolidayService } from "../../core/services/holiday.service";
+import { HolidaysListService } from "../services/holidaysList.service";
+import { HolidayDetailViewService } from "../services/holidayDetailView.service";
 import { RoutingByIDService } from "../../core/services/routing-by-id.service";
+import { HolidayService } from "../services/holiday.service";
+
+import { Holiday } from "../models/holiday.model";
 
 @Component({
     moduleId: module.id,
@@ -69,5 +70,17 @@ export class HolidaysListComponent {
     goToDetailPage(holiday, first, last) {
         this.holidayDetailViewService.setHoliday(holiday);
         this.router.navigate(['holiday/nissi-beach-resort']);
+    }
+
+    // PAGINATION
+    public maxSize: number = 5;
+    public bigTotalItems: number = 175;
+    public bigCurrentPage: number = 1;
+    public itemsPerPage: number = 5;
+    public numPages: number = 10;
+
+    public pageChanged(event: any): void {
+        console.log('Page changed to: ' + event.page);
+        console.log('Number items per page: ' + event.itemsPerPage);
     }
 }
