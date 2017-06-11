@@ -5,7 +5,7 @@
                 <span class="glyphicon glyphicon-home"></span> Home</a>
         </li>
         <li dropdown>
-            <a id="ideasDropdown" dropdownToggle >
+            <a id="ideasDropdown" dropdownToggle>
                 <span class="glyphicon glyphicon-globe"></span> Holiday ideas <span class="caret"></span></a>
             <ul *dropdownMenu class="dropdown-menu">
                 <li>
@@ -23,13 +23,14 @@
                 <li>
                     <div class="accordion">
                         <section class="accordion-item city-breaks" (mouseover)="onMouseOverCityBreaks()" (mouseout)="onMouseOutCityBreaks()">
-                            <img class="icon" id="icon" src="../../../assets/images/icons/city-break-icon.png" alt="view1" />                            City breaks
-                            <i class="pull-right float-xs-right glyphicon" [ngClass]="{'glyphicon-chevron-right': glyphiconClassRightCitybreaks, 'glyphicon-chevron-down': glyphiconClassDownCitybreaks}"></i>
+                            <div class="dropdown-item customized-dropdown-item">
+                                <img class="icon" id="icon" src="../../../assets/images/icons/city-break-icon.png" alt="view1" />                                City breaks
+                                <i class="pull-right float-xs-right glyphicon" [ngClass]="{'glyphicon-chevron-right': glyphiconClassRightCitybreaks, 'glyphicon-chevron-down': glyphiconClassDownCitybreaks}"></i>
+                            </div>
                             <div class="accordion-item-content">
                                 <ul>
                                     <li>
-                                        <a class="dropdown-item" (click)="goToListPage('city breaks by bus')" [routerLinkActive]="['router-link-active']"
-                                            [routerLinkActiveOptions]="{exact:true}">
+                                        <a class="dropdown-item" (click)="goToListPage('city breaks by bus')" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}">
                                             <i class="fa fa-bus" aria-hidden="true"></i> By bus</a>
                                     </li>
                                     <li>
@@ -41,12 +42,14 @@
                         </section>
                     </div>
                 </li>
-                <li class="divider"></li>
+                <li class="divider first"></li>
                 <li>
                     <div class="accordion">
                         <section class="accordion-item special-offers" (mouseover)="onMouseOverSpecialOffers()" (mouseout)="onMouseOutSpecialOffers()">
-                            <i class="fa fa-briefcase" aria-hidden="true"></i> Special offers
-                            <i class="pull-right float-xs-right glyphicon" [ngClass]="{'glyphicon-chevron-right': glyphiconClassRightSpecialOffers, 'glyphicon-chevron-down': glyphiconClassDownSpecialOffers}"></i>
+                            <div class="dropdown-item customized-dropdown-item">
+                                <i class="fa fa-briefcase" aria-hidden="true"></i> Special offers
+                                <i class="pull-right float-xs-right glyphicon" [ngClass]="{'glyphicon-chevron-right': glyphiconClassRightSpecialOffers, 'glyphicon-chevron-down': glyphiconClassDownSpecialOffers}"></i>
+                            </div>
                             <div class="accordion-item-content">
                                 <ul>
                                     <li>
@@ -64,7 +67,7 @@
                         </section>
                     </div>
                 </li>
-                <li class="divider"></li>
+                <li class="divider second"></li>
                 <li>
                     <a class="dropdown-item" (click)="goToListPage('aqua & amusement parks')" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}">
                         <img class="icon" id="icon" src="../../../assets/images/icons/park-icon.png" alt="view1" style="" />                        Aqua and Amusement parks</a>

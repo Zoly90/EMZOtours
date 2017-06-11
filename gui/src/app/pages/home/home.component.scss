@@ -1,3 +1,5 @@
+@import '../../styles/variables.scss';
+
 :host {
   display: block;
 }
@@ -13,7 +15,7 @@ li {
   cursor: pointer;
 
   a {
-    color: darkorange;
+    color: $link-color;
     text-decoration: none;
   }
 }
@@ -23,7 +25,7 @@ li:hover {
   text-decoration: blink;
   
   a {
-    color: orangered;
+    color: $link-color-on-hover;
   }
 }
 
@@ -56,7 +58,7 @@ img {
 
 .odd-column {
   text-align: right;
-  padding-right: 30px;
+  padding-right: 40px;
 }
 
 .even-column {
@@ -72,18 +74,22 @@ img {
 .subcategories {
   background: rgba(255, 255, 255, 0.75);
   position: absolute;
-  top: 56px;
+  top: 36px;
 }
 
 .odd-column-subcategories {
-  right: 8px;
+  right: 20px;
   text-align: right;
 }
 
 .even-column-subcategories {
-  left: 35px;
+  left: 20px;
 }
 
 .toggleFade {
   display: none;
+}
+
+.image-and-text {
+  position: relative;
 }

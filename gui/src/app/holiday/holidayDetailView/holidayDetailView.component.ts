@@ -9,7 +9,7 @@ import { Holiday } from "../models/holiday.model";
     moduleId: module.id,
     selector: 'sd-detail',
     templateUrl: './holidayDetailView.component.html',
-    styleUrls: ['./holidayDetailView.component.css'],
+    styleUrls: ['./holidayDetailView.component.scss'],
     providers: [HolidayDetailViewService],
     animations: [
         trigger('visibilityChanged', [

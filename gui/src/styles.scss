@@ -82,3 +82,9 @@ personalized-offer {
         padding: 0;
     }
 }
+
+sd-detail {
+    .nav-link {
+        border: 1px solid $container-border-color;
+    }
+}

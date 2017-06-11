@@ -1,3 +1,5 @@
+@import '../../styles/variables.scss';
+
 :host {
     display: block;
 }
@@ -8,16 +10,12 @@ a {
     cursor: pointer;
 }
 
-ul {
-    padding: 10px;
-}
-
 li {
     list-style-type: none;
 }
 
-h5 {
-    padding-left: 10px;
+.nav-link {
+    border: 1px solid orange;
 }
 
 .imageBackground {
@@ -42,13 +40,14 @@ h5 {
     width: 1000px;
     height: 250px;
     overflow: hidden;
+
+    img {
+        /*width: 400px;
+        height: 300px;*/
+        margin: -200px 0 -100px -50px;
+    }
 }
 
-.crop>img {
-    /*width: 400px;
-    height: 300px;*/
-    margin: -200px 0 -100px -50px;
-}
 
 .multipleImagesContainer {
     background-color: black;
@@ -120,11 +119,23 @@ h5 {
 }
 
 .facilityAndRoomTypeContainer {
-    margin-top: 10px;
     margin-bottom: 10px;
     background-color: #EBEBEB;
     border: 1px solid lightgray;
     position: relative;
+
+    ul {
+        margin: 10px 0;
+        padding-left: 30px;
+    }
+
+    h5 {
+        padding-left: 10px;
+    }
+
+    .glyphicon-menu-right {
+        vertical-align: middle;
+    }
 }
 
 .facilityAndRoomTypeHeader {
@@ -132,14 +143,14 @@ h5 {
     position: absolute;
     top: 10px;
     background-color: rgba(235, 183, 87, 0.8);
-}
 
-.facilityAndRoomTypeHeader>h4 {
-    margin: 0;
+    h4 {
+        margin: 0;
+    }
 }
 
 .facilityAndRoomTypeImage {
-    width: 307px;
+    max-width: 100%;
     height: 200px;
 }
 
@@ -172,7 +183,7 @@ h5 {
 }
 
 .tableItems {
-    cursor: pointer;
+    cursor: default;
     background-color: #EDDDC0;
     border-top: 1px solid lightblue;
 }
@@ -190,10 +201,6 @@ h5 {
     width: 125px;
     align-self: center;
     font-size: 16px;
-}
-
-.includedAndNot {
-    padding-top: 10px;
 }
 
 .glyphicon-ok {
@@ -231,23 +238,103 @@ h5 {
 .reviewDetails {
     display: inline;
     font-size: 20px;
-}
 
-.reviewDetails>b {
-    font-size: 16px;
-    color: gray;
+    b {
+        font-size: 16px;
+        color: gray;
+    }
 }
 
 .reviewDates {
     display: inline;
     font-size: 16px;
+
+    i {
+        float: right;
+        padding: 4px 20px 0 0;
+
+        b {
+            color: gray;
+        }
+    }
 }
 
-.reviewDates>i {
-    float: right;
-    padding: 4px 20px 0 0;
+.apply-btn-container {
+    align-self: center;
 }
 
-.reviewDates>i>b {
-    color: gray;
+tab {
+    h3 {
+        margin-top: 0;
+        font-size: 22px;
+    }
+
+    h4 {
+        margin-top: 0;
+    }
+}
+
+.hotel-description-container, .region-description-container, .facilities-container, .rooms-container, .offer-list-container, .accordion-container, .location-container {
+    border: 1px solid $container-border-color;
+    box-shadow: $container-border-shadow;
+    margin: 30px 0 15px 0;
+
+    h3 {
+        margin-top: 0;
+        font-size: 22px;
+        padding-left: 15px;
+    }
+
+    h4 {
+        margin-top: 0;
+        padding-left: 15px;
+    }
+}
+
+.hotel-description-container, .region-description-container, .offer-list-container, .location-container {
+    padding: 20px;
+}
+
+.facilities-container, .rooms-container {
+    padding: 20px 10px 10px 20px;
+
+}
+
+.accordion-container {
+    padding: 0 20px;
+}
+
+.hotel-description-container, .region-description-container {
+    text-align: justify;
+}
+
+.offer-list-container, .included-and-not-container {
+    h4 {
+        font-size: 16px;
+        margin: 0;
+        line-height: normal;
+    }
+
+    h5 {
+        line-height: normal;
+    }
+
+    ul {
+        margin: 0;
+        padding: 10px 0 0 0;
+        align-self: center;
+    }
+}
+
+.included-and-not-container {
+    h4 {
+        margin-top: 20px;
+        text-align: center;
+    }
+}
+
+.location-container {
+    ul {
+        margin: 0;
+    }
 }
