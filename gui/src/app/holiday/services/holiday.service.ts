@@ -11,14 +11,20 @@ export class HolidayService {
         private _http: Http
     ) { }
 
-    public getHolidaysByType(id): Observable<Holiday> {
+    public getHolidaysByType(id): Observable<any> {
         return this._http.get(`${this.baseUrl}/holidaysByType/${id}`)
-            .map(res => res.json())
+            .map(res => {
+                return res.json();
+            })
     }
 
-    public getHolidaysByCategory(id): Observable<Holiday> {
+
+
+    public getHolidaysByCategory(id): Observable<any> {
         return this._http.get(`${this.baseUrl}/holidaysBySubcategory/${id}`)
-            .map(res => res.json())
+            .map(res => {
+                return res.json();
+            })
     }
 
 }

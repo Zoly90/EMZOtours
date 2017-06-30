@@ -8,6 +8,7 @@ import { PagesModule } from "./pages/pages.module";
 import { HolidayService } from "./holiday/services/holiday.service";
 import { RoutingByIDService } from "./core/services/routing-by-id.service";
 import { HolidayModule } from "./holiday/holiday.module";
+import {NgxPaginationModule} from 'ngx-pagination'; 
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { HolidayModule } from "./holiday/holiday.module";
     AppRoutingModule,
     PagesModule,
     HolidayModule,
-    SharedModule.forRoot()
+    SharedModule.forRoot(),
+    NgxPaginationModule
   ],
   providers: [HolidayService, RoutingByIDService],
   bootstrap: [AppComponent]

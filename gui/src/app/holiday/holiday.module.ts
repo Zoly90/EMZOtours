@@ -7,7 +7,7 @@ import { AccordionModule } from 'ng2-bootstrap/accordion';
 import { ImageModal } from 'angular2-image-popup/directives/angular2-image-popup/image-modal-popup';
 import { ModalModule } from 'ng2-bootstrap/modal';
 import { AgmCoreModule } from 'angular2-google-maps/core';
-import { PaginationModule } from 'ng2-bootstrap/pagination';
+
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 
@@ -15,6 +15,7 @@ import { HolidayDetailViewRoutingModule } from "./holidayDetailView/holidayDetai
 import { HolidayDetailViewComponent } from "./holidayDetailView/holidayDetailView.component";
 import { HolidaysListRoutingModule } from "./holidaysList/holidaysList-routing.module";
 import { HolidaysListComponent } from "./holidaysList/holidaysList.component";
+import { NgxPaginationModule } from "ngx-pagination/dist/ngx-pagination";
 
 @NgModule({
     imports: [
@@ -31,7 +32,7 @@ import { HolidaysListComponent } from "./holidaysList/holidaysList.component";
         AgmCoreModule.forRoot({
             apiKey: 'AIzaSyBjisHSBvdTWkynJPKVAAcpTgB6PQrkXbY'
         }),
-        PaginationModule.forRoot()
+        NgxPaginationModule
     ],
     declarations: [
         ImageModal,

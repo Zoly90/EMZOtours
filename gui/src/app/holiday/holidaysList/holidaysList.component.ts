@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { HolidaysListService } from "../services/holidaysList.service";
 import { HolidayDetailViewService } from "../services/holidayDetailView.service";
@@ -18,9 +18,15 @@ import { Holiday } from "../models/holiday.model";
 
 export class HolidaysListComponent {
 
-    backgroundImagePath = "../../../assets/images/background/rsz_background.jpg";
-
     holidayList: Holiday;
+
+    currentPage: number;
+    paginationConfig = {
+        itemsPerPage: 3,
+        currentPage: this.currentPage
+    }
+
+    backgroundImagePath = "../../../assets/images/background/rsz_background.jpg";
 
     numberOfStars: any[];
 
@@ -29,19 +35,14 @@ export class HolidaysListComponent {
         private holidaysListService: HolidaysListService,
         private holidayDetailViewService: HolidayDetailViewService,
         private holidayService: HolidayService,
-        private routingByIDService: RoutingByIDService
+        private routingByIDService: RoutingByIDService,
+        private route: ActivatedRoute
     ) { }
 
     ngOnInit() {
-        if (this.routingByIDService.getRouting() === 'type') {
-            this.holidayService.getHolidaysByType(this.routingByIDService.getId()).subscribe(data => {
-                this.holidayList = data;
-            });
-        } else {
-            this.holidayService.getHolidaysByCategory(this.routingByIDService.getId()).subscribe(data => {
-                this.holidayList = data;
-            });
-        }
+        this.route.params.subscribe(() => {
+            this.holidayList = this.route.snapshot.data['holidays'];
+        })
 
         // if (this.holidayList instanceof Array) {
         //     for (let holidaySummary of this.holidayList) {
@@ -62,6 +63,10 @@ export class HolidaysListComponent {
         // }
     }
 
+    onPageChange(page) {
+        this.paginationConfig.currentPage = page;
+    }
+
     test(holiday) {
         holiday = this.holidaysListService.constructArrays(holiday);
         console.log(holiday);
@@ -70,17 +75,5 @@ export class HolidaysListComponent {
     goToDetailPage(holiday, first, last) {
         this.holidayDetailViewService.setHoliday(holiday);
         this.router.navigate(['holiday/nissi-beach-resort']);
-    }
-
-    // PAGINATION
-    public maxSize: number = 5;
-    public bigTotalItems: number = 175;
-    public bigCurrentPage: number = 1;
-    public itemsPerPage: number = 5;
-    public numPages: number = 10;
-
-    public pageChanged(event: any): void {
-        console.log('Page changed to: ' + event.page);
-        console.log('Number items per page: ' + event.itemsPerPage);
     }
 }

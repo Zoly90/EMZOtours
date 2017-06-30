@@ -2,7 +2,8 @@
     <md-card class="holidaysListContainer">
         <md-card-content fxLayout="column" fxFlex>
             <ul>
-                <li class="holidayItem" *ngFor="let holiday of holidayList; let first = first; let last = last" fxLayout fxFlex>
+                <li class="holidayItem" *ngFor="let holiday of holidayList | paginate: paginationConfig; let first = first; let last = last"
+                    fxLayout fxFlex>
                     <div *ngIf="holiday.earlyBookingImage">
                         <img class="earlyBookingImage" src="../../../assets/images/holidaysList/early-booking_optimized.png">
                     </div>
@@ -14,7 +15,8 @@
                             <!--<span *ngIf="first != last" [hidden]="test(holiday)"></span>
                             <img class="stars" *ngFor="let number of holiday.hotelInformation.nrStars" src="../../../assets/images/icons/star-size_s.png">-->
                         </h2>
-                        <h4>{{holiday.accommodationAddress.country}} <span class="glyphicon glyphicon-arrow-right"></span> {{holiday.accommodationAddress.city}}, {{holiday.accommodationAddress.street}}, nr. {{holiday.accommodationAddress.streetNr}}, {{holiday.accommodationAddress.zip}}</h4>
+                        <h4>{{holiday.accommodationAddress.country}} <span class="glyphicon glyphicon-arrow-right"></span> {{holiday.accommodationAddress.city}},
+                            {{holiday.accommodationAddress.street}}, nr. {{holiday.accommodationAddress.streetNr}}, {{holiday.accommodationAddress.zip}}</h4>
                         <div fxLayout fxFlex="30%">
                             <div class="infoColumn" fxLayout="column" fxFlex="25%">
                                 <span><h4>Transportation</h4></span>
@@ -49,13 +51,14 @@
                         <h4>Starting price</h4>
                         <h3>{{holiday.offerInformation.startingPrice}}<span class="glyphicon glyphicon-euro"></span>/adult</h3>
                         <h4>Departures between</h4>
-                        <h4>{{holiday.offerInformation.departureDatesFrom | date}} <span class="glyphicon glyphicon-arrow-right"></span> {{holiday.offerInformation.departureDatesUntil | date}}</h4>
+                        <h4>{{holiday.offerInformation.departureDatesFrom | date}} <span class="glyphicon glyphicon-arrow-right"></span>                            {{holiday.offerInformation.departureDatesUntil | date}}</h4>
                         <button (click)="goToDetailPage(holiday)" class="btn btn-primary detailsBtn" type="submit">Details</button>
                     </div>
                 </li>
             </ul>
-            <pagination [totalItems]="bigTotalItems" [maxSize]="maxSize" class="pagination-sm" (numPages)="numPages = $event" [itemsPerPage]="itemsPerPage"
-              [boundaryLinks]="false" [rotate]="true" (pageChanged)="pageChanged($event)"></pagination>
+
+            <pagination-controls (pageChange)="onPageChange($event)"></pagination-controls>
+            
         </md-card-content>
     </md-card>
 </div>

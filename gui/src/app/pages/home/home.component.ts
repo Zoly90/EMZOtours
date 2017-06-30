@@ -44,7 +44,6 @@ export class HomeComponent {
     this.categoriesAndTypesService.setCategoriesAndTypes();
     this.categoriesAndTypesService.$categories.subscribe(data => {
       this.categories = data;
-      console.log('categories -> ', data);
     });
   }
 
@@ -71,7 +70,6 @@ export class HomeComponent {
 
   goToListPage(currentCategory): void {
     let categoryId: number;
-    console.log(currentCategory);
     for (let category of this.categories) {
       for (let subcategory of category.holidaySubcategories)
         if (subcategory.subcategory === currentCategory) {
