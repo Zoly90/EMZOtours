@@ -1,6 +1,11 @@
 import { Component, Output, EventEmitter } from '@angular/core';
-import { LoginService } from "../../../services/login.service";
-import { User } from "../../../models/user.model";
+import { AuthenticationService } from "../../../authentication/services/authentication.service";
+import { UserLogin } from "../../../authentication/models/user-login.model";
+import { UserValidatorService } from "../../../services/user-validator.service";
+import { AuthorizationService } from "../../../authentication/services/authorization.service";
+import { Router } from "@angular/router";
+import { UtilsService } from "../../../../utils/utils.service";
+import { TurismAppConstants } from "../../../../utils/constants";
 
 @Component({
   selector: 'sd-login',
@@ -12,54 +17,70 @@ export class LoginDropdownComponent {
   @Output() onLoginSuccessful = new EventEmitter();
 
   private loginSuccessfull: boolean = false;
-  private userLogedIn: User = new User();
-  private usernameExists: boolean = false;
-
-  private usernameFetched: boolean = false;
+  private wrongCredentials: string = '';
+  private usernameExists: string = '';
 
   private username: string;
   private password: string;
 
   constructor(
-    private loginService: LoginService
+    private _authenticationService: AuthenticationService,
+    private _userValidatorService: UserValidatorService,
+    private _authorizationService: AuthorizationService,
+    private _router: Router,
+    private _utilsService: UtilsService
   ) { }
 
   public login() {
-    this.loginService.getUserLogingIn(this.username).subscribe(data => {
-      if (data != null) {
-        this.userLogedIn = data;
-        if (this.userLogedIn.userLogin.password == this.password) {
+
+    const userLogin: UserLogin = new UserLogin();
+
+    this._checkIfIsEmail(userLogin);
+    userLogin.password = this._utilsService.encodePassword(this.password);
+
+    this._authenticationService.login(userLogin)
+      .subscribe(res => {
+        if (res != null && res != '') {
+          this._authorizationService.setCredentials(res);
+          this._router.navigateByUrl('/');
           this.loginSuccessfull = true;
           this.onLoginSuccessful.emit(this.loginSuccessfull);
-          this.usernameExists = true;
         } else {
-          this.usernameExists = true;
+          this.wrongCredentials = TurismAppConstants.WRONG_CREDENTIALS;
+          this.password = null;
         }
-      } else {
-        this.userLogedIn = null;
-      }
-    });
+      })
   }
 
-  public resetPassword() {
-    if (this.userLogedIn != null && this.userLogedIn.userLogin.username == this.username) {
-      this.usernameFetched = true;
-    } else {
-      this.loginService.getUserLogingIn(this.username).subscribe(data => {
-        if (data != null) {
-          this.userLogedIn = data;
-          this.usernameFetched = true;
+  public forgotPassword() {
+
+    const userLogin: UserLogin = new UserLogin();
+
+    this._checkIfIsEmail(userLogin);
+
+    this._authenticationService.resetPassword(userLogin)
+      .subscribe(data => {
+        if (data != null && data != '') {
+          this.usernameExists = TurismAppConstants.RESET_PASSWORD_USERNAME_EXISTS;
         } else {
-          this.userLogedIn = null;
+          this.usernameExists = TurismAppConstants.RESET_PASSWORD_USERNAME_NOT_EXISTS;
         }
       });
-    }
   }
 
   public closeForgotPasswordModal() {
+    if (this.usernameExists === TurismAppConstants.RESET_PASSWORD_USERNAME_NOT_EXISTS) {
+      this.username = null;
+    }
     this.loginSuccessfull = false;
-    this.usernameExists = false;
-    this.usernameFetched = false;
-    this.userLogedIn = new User();
+    this.usernameExists = '';
+  }
+
+  private _checkIfIsEmail(userLogin: UserLogin) {
+    if (this._userValidatorService.validateEmailAddressForInput(this.username)) {
+      userLogin.emailAddress = this.username;
+    } else {
+      userLogin.username = this.username;
+    }
   }
 }

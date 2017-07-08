@@ -1,12 +1,14 @@
 package ro.emzo.turismapp.user.model;
 
 import java.util.Collection;
+import java.util.Set;
 
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import ro.emzo.turismapp.core.model.BaseModel;
+import ro.emzo.turismapp.user.service.Role;
 
 @Entity
 @Table(name = "user_login")
@@ -20,9 +22,10 @@ public class UserLogin extends BaseModel{
 	
 	@Column(name = "email_address")
 	private String emailAddress;
-	
+
+	@Enumerated(EnumType.STRING)
 	@Column(name = "role")
-	private String role;
+	private Role role;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "userLogin")
 	@JsonBackReference
@@ -52,11 +55,11 @@ public class UserLogin extends BaseModel{
 		this.emailAddress = emailAddress;
 	}
 
-	public String getRole() {
+	public Role getRole() {
 		return role;
 	}
 
-	public void setRole(String role) {
+	public void setRole(Role role) {
 		this.role = role;
 	}
 	

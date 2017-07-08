@@ -17,8 +17,13 @@ import { SignUpModalComponent } from './toolbar/signUpModal/signupModal.componen
 import { LoginDropdownComponent } from './toolbar/loginDropdown/loginDropdown.component';
 import { LogoutButtonComponent } from "./toolbar/logout-button/logout-button.component";
 import { MyProfileDropdownComponent } from "./toolbar/my-profile-dropdown/my-profile-dropdown.component";
-import { LoginService } from "../services/login.service";
 import { UserService } from "../services/user.service";
+import { AuthenticationService } from "../authentication/services/authentication.service";
+import { HttpClientTokenService } from "../authentication/services/http-client.service";
+import { ErrorHandlingService } from "../authentication/services/error-handling.service";
+import { AuthorizationService } from "../authentication/services/authorization.service";
+import { UserValidatorService } from "../services/user-validator.service";
+import { UtilsService } from "../../utils/utils.service";
 
 /**
  * Do not specify providers for modules that might be imported by a lazy loaded module.
@@ -28,7 +33,7 @@ import { UserService } from "../services/user.service";
   imports: [
     CommonModule,
     RouterModule,
-    BsDropdownModule.forRoot(), 
+    BsDropdownModule.forRoot(),
     ModalModule.forRoot(),
     AccordionModule.forRoot(),
     FormsModule,
@@ -37,7 +42,6 @@ import { UserService } from "../services/user.service";
     FlexLayoutModule
   ],
   declarations: [
-    // SelectModule,
     BackgroundImageComponent,
     ToolbarComponent,
     SignUpModalComponent,
@@ -47,21 +51,27 @@ import { UserService } from "../services/user.service";
     NavbarComponent
   ],
   exports: [
-    ToolbarComponent, 
+    ToolbarComponent,
     NavbarComponent,
-    // SignUpModalComponent,
-    // LoginDropdownComponent,
-    CommonModule, 
-    FormsModule, 
-    RouterModule, 
+    CommonModule,
+    FormsModule,
+    RouterModule,
     SelectModule
   ],
-  providers: [LoginService, UserService]
+  providers: [
+    UserService,
+    AuthenticationService,
+    HttpClientTokenService,
+    ErrorHandlingService,
+    AuthorizationService,
+    UserValidatorService,
+    UtilsService
+  ]
 })
 export class SharedModule {
   static forRoot(): ModuleWithProviders {
     return {
-      ngModule: SharedModule,    
+      ngModule: SharedModule,
     };
   }
 }

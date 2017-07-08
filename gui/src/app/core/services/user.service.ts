@@ -5,7 +5,7 @@ import { Observable } from "rxjs/Observable";
 
 @Injectable()
 export class UserService {
-    private baseUrl: string = 'api/turism-app'
+    private baseUrl: string = 'api/turism-app/registration'
 
     constructor(
         private _http: Http

@@ -9,10 +9,10 @@ div, label, h4, p {
 #signUpModal {
     border: none;
     background: transparent;
-}
-
-#signUpModal:hover {
-    background-color: lightskyblue;
+    
+    &:hover {
+        background-color: lightskyblue;
+    }
 }
 
 .form-control { 
@@ -69,11 +69,24 @@ div, label, h4, p {
     margin: 0 5px;
 }
 
-.password-check, .age-check {
+.input-check {
     color: red;
-    margin-top: -10px;
+    margin-top: -20px;
+    padding: 0 25px;
+
+    p {
+        margin: 0 0 10px;
+    }
 }
 
 .form-submitted {
     text-align: center;
+}
+
+.modal-body-form {
+    padding: 0;
+}
+
+.form-container {
+    padding: 15px;
 }

@@ -1,3 +1,6 @@
+import { UserLogin } from "../authentication/models/user-login.model";
+import { UserAddress } from "../authentication/models/user-address.model";
+
 export class User {
     id?: number
     title?: string
@@ -6,28 +9,13 @@ export class User {
     newsletter?: boolean
     telephoneNr?: string
     birthday?: Date
-    userAddress: {
-        id?: number
-        country?: string
-        city?: string
-        street?: string
-        streetNr?: string
-        zip?: string
-        apartment?: string
-        block?: string
-    }
-    userLogin: {
-        id?: number
-        username?: string
-        password?: string
-        emailAddress?: string
-        role?: string
-    }
+    userAddressTO?: UserAddress
+    userLoginTO?: UserLogin
 
     constructor() {
         Object.assign(this, {
-            userAdress: {},
-            userLogin: {}
+            userAdressTO: new UserAddress(),
+            userLoginTO: new UserLogin
         })
     }
 }

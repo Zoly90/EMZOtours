@@ -6,52 +6,68 @@
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title pull-left">Sign up form</h4>
-        <button type="button" class="close pull-right" (click)="lgModal.hide(); resetForm()" aria-label="Close">
+        <button type="button" class="close pull-right" (click)="lgModal.hide(); signUpForm.reset(); resetForm()" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
-        <form *ngIf="!submitted" id="formSignUp" class="form" (ngSubmit)="onSubmit(); signUpForm.reset()" #signUpForm="ngForm" fxLayout fxFlex>
-          <div class="sign-up-info" fxLayout="column" fxFlex="50%">
-            <ng-select class="select-field title" [options]="titles" [multiple]="false" placeholder="Title" [noFilter]="4" [allowClear]="true"
-              (selected)="onTitleSelected($event)">
-            </ng-select>
-            <input class="form-control input-element" name="firstName" type="text" placeholder="First name" [(ngModel)]="user.firstName"
-              [ngModelOptions]="{standalone: true}">
-            <input class="form-control input-element" name="lastName" type="text" placeholder="Last name" [(ngModel)]="user.lastName"
-              [ngModelOptions]="{standalone: true}">
-            <label class="birthdate" for="birthdate">Date of birth</label>
-            <div class="input-element" fxLayout fxLayoutAlign="space-between center">
-              <ng-select class="select-field input-year" [options]="years" [multiple]="false" placeholder="Year" [noFilter]="100" [allowClear]="true"
-                (selected)="onYearSelected($event)" fxFlex="30%">
+      <div class="modal-body modal-body-form">
+        <form *ngIf="!submitted" id="formSignUp" class="form" (ngSubmit)="onSubmit(); signUpForm.reset()" #signUpForm="ngForm">
+          <div class="form-container" fxLayout fxFlex>
+            <div class="sign-up-info" fxLayout="column" fxFlex="50%">
+              <ng-select class="select-field title" [options]="titles" [multiple]="false" placeholder="Title" [noFilter]="4" [allowClear]="true"
+                (selected)="onTitleSelected($event)">
               </ng-select>
-              <ng-select class="select-field input-month" [options]="months" [multiple]="false" placeholder="Month" [noFilter]="100" [allowClear]="true"
-                (selected)="onMonthSelected($event)" fxFlex="30%">
-              </ng-select>
-              <button type="button" class="number-of-days" (click)="onDayOpened(); days = updatedDays.slice(0, updatedDays.length)" fxFlex="40%">
+              <input class="form-control input-element" name="firstName" type="text" placeholder="First name" [(ngModel)]="user.firstName"
+                required>
+              <input class="form-control input-element" name="lastName" type="text" placeholder="Last name" [(ngModel)]="user.lastName"
+                required>
+              <label class="birthdate" for="birthdate">Date of birth</label>
+              <div class="input-element" fxLayout fxLayoutAlign="space-between center">
+                <ng-select class="select-field input-year" [options]="years" [multiple]="false" placeholder="Year" [noFilter]="100" [allowClear]="true"
+                  (selected)="onYearSelected($event)" fxFlex="30%" required>
+                </ng-select>
+                <ng-select class="select-field input-month" [options]="months" [multiple]="false" placeholder="Month" [noFilter]="100" [allowClear]="true"
+                  (selected)="onMonthSelected($event)" fxFlex="30%" required>
+                </ng-select>
+                <button type="button" class="number-of-days" (click)="onDayOpened(); days = updatedDays.slice(0, updatedDays.length)" fxFlex="40%">
                 <ng-select class="select-field input-day" [options]="days" [multiple]="false" placeholder="Day" [noFilter]="100"
-                          [allowClear]="true" (selected)="onDaySelected($event)">
+                          [allowClear]="true" (selected)="onDaySelected($event)" required>
                 </ng-select>
               </button>
+              </div>
+              <p class="input-check">{{notOver18Message}}</p>
             </div>
-            <p class="age-check" *ngIf="!over18">You must be at least 18 years old to create an account.</p>
+            <div class="sign-up-info" fxLayout="column" fxFlex="50%">
+              <input class="form-control input-element" type="text" name="email" placeholder="E-mail address" [(ngModel)]="user.userLoginTO.emailAddress"
+                (focusout)="validateEmailAddress()" required>
+              <p class="input-check">{{inValidEmailAddressMessage}}</p>
+              <input class="form-control input-element" type="text" name="username" placeholder="Username" [(ngModel)]="user.userLoginTO.username"
+                (focusout)="validateUsernameLength()" required>
+              <p class="input-check">{{inValidUsernameLengthMessage}}</p>
+              <input class="form-control input-element" type="password" name="password" placeholder="Password" [(ngModel)]="user.userLoginTO.password"
+                (focusout)="validatePasswordLength()" required>
+              <p class="input-check">{{inValidPasswordLengthMessage}}</p>
+              <input class="form-control input-element" type="password" name="passwordConfirm" placeholder="Repeat the password" [(ngModel)]="user.userLoginTO.passwordConfirm"
+                (focusout)="validatePasswordEquality()" required>
+              <p class="input-check">{{passwordNotEqualMessage}}</p>
+              <md-checkbox class="input-element" [(ngModel)]="user.newsletter" [ngModelOptions]="{standalone: true}">
+                Check this box if you wish to receive newsletters from us in the future.
+              </md-checkbox>
+            </div>
           </div>
-          <div class="sign-up-info" fxLayout="column" fxFlex="50%">
-            <input class="form-control input-element" type="text" name="email" placeholder="E-mail address" [(ngModel)]="user.userLogin.emailAddress">
-            <input class="form-control input-element" type="text" name="username" placeholder="Username" [(ngModel)]="user.userLogin.username">
-            <input class="form-control input-element" type="password" name="password" placeholder="Password" [(ngModel)]="user.userLogin.password">
-            <input class="form-control input-element" type="password" name="passwordCheck" placeholder="Repeat the password" [(ngModel)]="passwordCheck">
-            <p class="password-check" *ngIf="passwordEqual">The passwords entered are not equal! Please check again.</p>
-            <md-checkbox class="input-element" [(ngModel)]="user.newsletter" [ngModelOptions]="{standalone: true}">
-              Check this box if you wish to receive newsletters from us in the future.
-            </md-checkbox>
+          <div class="modal-footer">
+            <button *ngIf="!submitted" [disabled]="signUpForm.form.invalid || notOver18 || passwordNotEqual || !validPasswordLength || !validEmailAddress || !validUsernameLength"
+              type="button" class="btn btn-success pull-right" (click)="saveData()">Sign up</button>
+            <button type="button" class="pull-right btn btn-danger" (click)="lgModal.hide(); signUpForm.reset(); resetForm()" aria-label="Close">Close</button>
           </div>
         </form>
-        <p class="form-submitted" *ngIf="submitted">An e-mail was sent to {{user.userLogin.emailAddress}}. Please click on the link in the e-mail so that we can verify your e-mail adress and complete your registration.</p>
-      </div>
-      <div class="modal-footer">
-        <button *ngIf="!submitted" type="submit" class="btn btn-success pull-right" (click)="dataSaved()">Sign up</button>
-        <button type="button" class="pull-right btn btn-danger" (click)="lgModal.hide(); resetForm()" aria-label="Close">Close</button>
+        <div class="modal-body" *ngIf="submitted">
+          <p class="form-submitted">An e-mail was sent to {{user.userLoginTO.emailAddress}}. Please click on the link in the e-mail so that we can verify
+            your e-mail adress and complete your registration.</p>
+        </div>
+        <div class="modal-footer" *ngIf="submitted">
+          <button type="button" class="pull-right btn btn-danger" (click)="lgModal.hide(); resetForm()" aria-label="Close">Close</button>
+        </div>
       </div>
     </div>
   </div>

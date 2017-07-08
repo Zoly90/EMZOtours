@@ -18,8 +18,12 @@ public class UserDataService {
 	@Autowired
 	private UserLoginRepository userLoginRepository;
 	
-	public UserLogin getLoginCredentials(String username) {
+	public UserLogin credentialsByUsername(String username) {
 		return userLoginRepository.findByUsername(username);
+	}
+
+	public UserLogin credentialsByEmail(String email) {
+		return userLoginRepository.findByEmailAddress(email);
 	}
 	
 	public UserInfo getUserInfo(UserLogin userLogin) {

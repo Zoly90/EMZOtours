@@ -15,14 +15,14 @@ h6 {
 #loginDropdown {
     border: none;
     background: transparent;
+
+    &:hover {
+        background-color: lightskyblue;
+    }
 }
 
-#loginDropdown:hover {
-    background-color: lightskyblue;
-}
-
-#btnLogin {
-    margin: 0 28% 10px 28%;
+.dropdown-menu {
+    min-width: 220px;
 }
 
 .username {

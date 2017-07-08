@@ -20,7 +20,6 @@ export class ToolbarComponent {
     private check(logedIn: boolean) {
         if (logedIn) {
             this.userLogedIn = !this.userLogedIn;
-            console.log(this.userLogedIn);
         }
     }
 }

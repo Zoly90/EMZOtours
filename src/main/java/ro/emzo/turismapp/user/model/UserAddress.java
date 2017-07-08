@@ -30,9 +30,6 @@ public class UserAddress extends BaseModel {
 	@Column(name = "apartment")
 	private String apartment;
 	
-	@Column(name = "block")
-	private String block;
-	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "userAddress")
 	@JsonBackReference
 	private Collection<UserInfo> userInfo;
@@ -84,15 +81,7 @@ public class UserAddress extends BaseModel {
 	public void setApartment(String apartment) {
 		this.apartment = apartment;
 	}
-	
-	public String getBlock() {
-		return block;
-	}
-	
-	public void setBlock(String block) {
-		this.block = block;
-	}
-	
+
 	public Collection<UserInfo> getUserInfo() {
 		return userInfo;
 	}
