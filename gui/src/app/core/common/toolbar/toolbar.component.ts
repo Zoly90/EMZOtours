@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter, Input } from '@angular/core';
 
 import { SignUpModalComponent } from './signUpModal/signupModal.component';
 import { LoginDropdownComponent } from './loginDropdown/loginDropdown.component';
@@ -15,12 +15,17 @@ import { LoginDropdownComponent } from './loginDropdown/loginDropdown.component'
 })
 export class ToolbarComponent {
 
-    private userLogedIn: boolean = false;
+    @Output() onLoginSuccessful = new EventEmitter();
+    @Output() onLogout = new EventEmitter();
 
-    private check(logedIn: boolean) {
-        if (logedIn) {
-            this.userLogedIn = !this.userLogedIn;
-        }
+    @Input() userLogedIn: boolean;
+
+    public loggingIn(logedIn: boolean) {
+        this.onLoginSuccessful.emit(logedIn);
+    }
+
+    public loggingOut() {
+        this.onLogout.emit()
     }
 }
 

@@ -109,9 +109,33 @@
             <a [routerLink]="['/contact']" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}">
                 <span class="glyphicon glyphicon-earphone"></span> Contact</a>
         </li>
+        <li dropdown *ngIf="role === 'EMPLOYEE' || role === 'ADMIN'">
+            <a href id="winterDropdown" dropdownToggle (click)="false">
+                <span class="glyphicon glyphicon-list"></span> Holiday management <span class="caret"></span></a>
+            <ul class="dropdown-menu" *dropdownMenu>
+                <li>
+                    <a class="dropdown-item" (click)="goToListPage('christmas')" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}">
+                        <img class="icon" id="icon" src="../../../assets/images/icons/holidays-managemnet.png" alt="view1" style="width: 24px; height: 24px" />                        Manage holidays</a>
+                </li>
+                <li>
+                    <a class="dropdown-item" (click)="goToListPage('new year')" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}">
+                        <img class="icon" id="icon" src="../../../assets/images/icons/personalized-offers-management.png" alt="view1" style="width: 24px; height: 24px" />                        Manage client offers</a>
+                </li>
+            </ul>
+        </li>
+        <li dropdown *ngIf="role === 'ADMIN'">
+            <a href id="winterDropdown" dropdownToggle (click)="false">
+                <span class="glyphicon glyphicon-list-alt"></span> User management <span class="caret"></span></a>
+            <ul class="dropdown-menu" *dropdownMenu>
+                <li>
+                    <a class="dropdown-item" (click)="goToListPage('christmas')" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}">
+                        <img class="icon" id="icon" src="../../../assets/images/icons/user-management.png" alt="view1" style="width: 24px; height: 24px" /> Manage users</a>
+                </li>
+            </ul>
+        </li>
     </ul>
 
-    <ul class="dropdown-menu" role="menu">
+    <!--<ul class="dropdown-menu" role="menu">
         <li *ngFor="let item of items" [ngClass]="{'dropdown-submenu': item.submenu && item.submenu.length}">
             <a href="#">{{item.name}}</a>
             <ul *ngIf="item.submenu && item.submenu.length" class="dropdown-menu">
@@ -119,5 +143,5 @@
                     <a href="#">{{subitem.name}}</a></li>
             </ul>
         </li>
-    </ul>
+    </ul>-->
 </nav>

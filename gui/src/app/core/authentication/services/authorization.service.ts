@@ -36,6 +36,9 @@ export class AuthorizationService {
 	
 	public getDecodedToken() {
 		let token = localStorage.getItem('token');
+		if (token == null) {
+			return
+		}
 		return jwtDecode(token);
 	}
 

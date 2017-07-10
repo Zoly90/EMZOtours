@@ -16,6 +16,6 @@ export class LogoutButtonComponent {
 
     private logout() {
         this.authorizationService.clearCredentials();
-        this.onLogout.emit(true);
+        this.onLogout.emit();
     }
 }

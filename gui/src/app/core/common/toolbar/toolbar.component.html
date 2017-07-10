@@ -15,8 +15,8 @@
     </div>
 
     <ul class="col-md-2 toolbar-buttons">
-        <sd-login *ngIf="!userLogedIn" (onLoginSuccessful)="check($event)"></sd-login>
-        <logout-button *ngIf="userLogedIn" (onLogout)="check($event)"></logout-button>
+        <sd-login *ngIf="!userLogedIn" (onLoginSuccessful)="loggingIn($event)"></sd-login>
+        <logout-button *ngIf="userLogedIn" (onLogout)="loggingOut()"></logout-button>
         <sd-signup *ngIf="!userLogedIn"></sd-signup>
         <my-profile-dropdown *ngIf="userLogedIn"></my-profile-dropdown>
     </ul>

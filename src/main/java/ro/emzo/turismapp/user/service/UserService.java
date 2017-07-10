@@ -58,7 +58,7 @@ public class UserService {
         String result = null;
         if (userLogin != null && userLoginTO.getPassword().equals(userLogin.getPassword())) {
             UserInfo userInfo = userDataService.getUserInfo(userLogin);
-            result = jwtService.createJWT(userInfo, 300000);
+            result = jwtService.createJWT(userInfo, 86400000);
         }
         return result;
     }

@@ -1,11 +1,11 @@
 
 <!--<div class="container-fluid">-->
 
-<template ngbModalContainer></template>
+<!--<template ngbModalContainer></template>-->
 
-<sd-toolbar></sd-toolbar>
+<sd-toolbar [userLogedIn]="userLogedIn" (onLoginSuccessful)="loggingIn($event)" (onLogout)="loggingOut()"></sd-toolbar>
 
-<sd-navbar></sd-navbar>
+<sd-navbar [role]="role"></sd-navbar>
 
 <router-outlet></router-outlet>
 

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { CategoriesAndTypesService } from "../../services/categories-types.service";
 import { Types } from "../../models/types.model";
@@ -14,6 +14,8 @@ import { RoutingByIDService } from "../../services/routing-by-id.service";
   styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent {
+
+  @Input() role: string;
 
   glyphiconClassDownCitybreaks = false;
   glyphiconClassRightCitybreaks = true;
