@@ -1,0 +1,39 @@
+@import '../../../styles/variables.scss';
+
+
+.imageBackground {
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+.holidays-management-container {
+	margin: 0 auto;
+  width: 70%;
+}
+
+.table-header {
+	background-color: $header-background-color;
+}
+
+.table-items {
+	cursor: default;
+	background-color: $items-background-color;
+	border-top: $items-border-color;
+
+	&:hover {
+    background-color: $items-background-color-on-hover;
+	}
+}
+
+.update-button, .delete-button {
+	width: 80px;
+}
+
+.update-button {
+	margin: 0 10px;
+}
+
+.delete-button {
+	background-color: $delete-button-background-color;
+	border-color: $delete-button-border-color;
+}

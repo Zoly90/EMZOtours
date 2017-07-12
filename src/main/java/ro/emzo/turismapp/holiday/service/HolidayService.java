@@ -38,4 +38,13 @@ public class HolidayService {
 		}
 		return holidayList;
 	}
+
+    public List<HolidaySummary> getAllHolidays() {
+		List<HolidaySummary> result = holidaySummaryDataService.getHolidaysList();
+		return result;
+    }
+
+	public void deleteHoliday(Long holidayId) {
+		holidaySummaryDataService.deleteHoliday(holidayId);
+	}
 }

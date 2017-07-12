@@ -1,7 +1,5 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import * as moment from 'moment';
-
-
 import * as Collections from 'typescript-collections';
 import { PersonalizedOffer, DepartureCountries, DestinationCountries, TravelByOptions, ContactInformationOptions } from "../pages-models/personalized-offer-model";
 import { PersonalizedOfferService } from "../pages-services/personalized-offer.service";
@@ -16,8 +14,8 @@ import { PersonalizedOfferService } from "../pages-services/personalized-offer.s
   styleUrls: ['./personalizedOffer.component.scss']
 })
 export class PersonalizedOfferComponent implements OnInit {
-  // List of countries for client adresses and destinations
-  backgroundImagePath = "../../assets/images/background/rsz_background.jpg";
+  
+  private backgroundImagePath = '../../assets/images/background/rsz_background.jpg';
 
   private adressCountries;
   private destinationCountries;

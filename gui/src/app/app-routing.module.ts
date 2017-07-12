@@ -8,6 +8,7 @@ import { ContactComponent } from "./pages/contact/contact.component";
 import { PersonalizedOfferComponent } from "./pages/personalizedOffer/personalizedOffer.component";
 import { HolidaysListComponent } from "./holiday/holidaysList/holidaysList.component";
 import { HolidayDetailViewComponent } from "./holiday/holidayDetailView/holidayDetailView.component";
+import { HolidaysManagementComponent } from "./pages/management/holidays-management/holidays-management.component";
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -15,7 +16,8 @@ const appRoutes: Routes = [
   { path: 'contact', component: ContactComponent },
   { path: 'offer', component: PersonalizedOfferComponent },
   { path: 'honeymoons', component: HolidaysListComponent },
-  { path: 'nissi-beach-resort', component: HolidayDetailViewComponent }
+  { path: 'nissi-beach-resort', component: HolidayDetailViewComponent },
+  { path: 'holidays-management', component: HolidaysManagementComponent}
 ];
 
 @NgModule({

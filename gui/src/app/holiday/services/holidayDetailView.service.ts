@@ -24,8 +24,10 @@ export class HolidayDetailViewService {
             room.roomFacilities = this._convertToArrayOfStrings(room.roomFacilities);
         }
 
-        holiday.localization.map.lattitude = Number(holiday.localization.map.lattitude);
-        holiday.localization.map.longitude = Number(holiday.localization.map.longitude);
+        if (holiday.localization != null) {
+            holiday.localization.map.lattitude = Number(holiday.localization.map.lattitude);
+            holiday.localization.map.longitude = Number(holiday.localization.map.longitude);
+        }
     }
 
     private _constructStarsArrays(holiday: Holiday): Holiday {
@@ -46,6 +48,9 @@ export class HolidayDetailViewService {
     }
 
     private _convertToArrayOfStrings(items: any) {
+        if (items == null) {
+            return
+        }
         this.array = items.split(',');
         return this.array;
     }

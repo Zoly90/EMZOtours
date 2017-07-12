@@ -1,5 +1,4 @@
 /* Colors */
-
 $container-border-color: #F7E2CB;
 $label-color: #C96B0C;
 $check-box-radio-btn-slider-color: #EDA70E;
@@ -7,5 +6,19 @@ $link-color: darkorange;
 $link-color-on-hover: orangered;
 
 /* Shadows */
-
 $container-border-shadow: 0 1px 3px 0 rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 2px 1px -1px rgba(0,0,0,.12);
+
+
+/**
+	* Table colors
+	*/
+$header-background-color: #EBB757;
+$items-background-color: #EDDDC0;
+$items-background-color-on-hover: #F2D7A5;
+$items-border-color: 1px solid lightblue;
+
+/**
+	* Button collors
+	*/
+$delete-button-background-color: #E63030;
+$delete-button-border-color: #D91111;

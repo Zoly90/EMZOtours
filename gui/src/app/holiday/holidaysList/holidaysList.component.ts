@@ -72,8 +72,9 @@ export class HolidaysListComponent {
         console.log(holiday);
     }
 
-    goToDetailPage(holiday, first, last) {
+    goToDetailPage(holiday) {
         this.holidayDetailViewService.setHoliday(holiday);
-        this.router.navigate(['holiday/nissi-beach-resort']);
+        console.log(holiday)
+        this.router.navigate(['holiday/' + holiday.hotelInformation.accommodationName]);
     }
 }

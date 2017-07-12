@@ -19,6 +19,9 @@ import { ContactComponent } from "./contact/contact.component";
 import { HomeComponent } from "./home/home.component";
 import { PersonalizedOfferService } from "./pages-services/personalized-offer.service";
 import { CategoriesAndTypesService } from "../core/services/categories-types.service";
+import { HolidaysManagementRoutingModule } from "./management/holidays-management/holidays-management-routing.module";
+import { HolidaysManagementComponent } from "./management/holidays-management/holidays-management.component";
+import { HolidayDetailViewService } from "../holiday/services/holidayDetailView.service";
 
 @NgModule({
     imports: [
@@ -28,6 +31,7 @@ import { CategoriesAndTypesService } from "../core/services/categories-types.ser
         AboutRoutingModule,
         ContactRoutingModule,
         HomeRoutingModule,
+        HolidaysManagementRoutingModule,
         AgmCoreModule.forRoot({
             apiKey: 'AIzaSyBjisHSBvdTWkynJPKVAAcpTgB6PQrkXbY'
         }),
@@ -40,17 +44,20 @@ import { CategoriesAndTypesService } from "../core/services/categories-types.ser
         PersonalizedOfferComponent,
         AboutComponent,
         ContactComponent,
-        HomeComponent
+        HomeComponent,
+        HolidaysManagementComponent
     ],
     providers: [
         PersonalizedOfferService,
-        CategoriesAndTypesService
+        CategoriesAndTypesService,
+        HolidayDetailViewService
     ],
     exports: [
         PersonalizedOfferComponent,
         AboutComponent,
         ContactComponent,
-        HomeComponent
+        HomeComponent,
+        HolidaysManagementComponent
     ]
 })
 export class PagesModule { }

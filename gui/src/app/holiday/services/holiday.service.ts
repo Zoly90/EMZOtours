@@ -18,8 +18,6 @@ export class HolidayService {
             })
     }
 
-
-
     public getHolidaysByCategory(id): Observable<any> {
         return this._http.get(`${this.baseUrl}/holidaysBySubcategory/${id}`)
             .map(res => {
@@ -27,4 +25,14 @@ export class HolidayService {
             })
     }
 
+    public getAllHolidays(): Observable<Array<Holiday>> {
+        return this._http.get(`${this.baseUrl}/holidays`)
+            .map(res => {
+                return res.json();
+            })
+    }
+
+    public deleteHoliday(id: number) {
+        return this._http.delete(`${this.baseUrl}/holiday/${id}`);
+    }
 }

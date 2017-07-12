@@ -21,7 +21,11 @@ public class HolidayDataService {
 	public List<HolidaySummary> getHolidaysList() {
 		return holidaySummaryRepository.findAll();
 	}
-	
+
+	public void deleteHoliday(Long holidayId) {
+		holidaySummaryRepository.delete(holidayId);
+	}
+
 //	public List<HolidaySummary> getHolidaysListByTypeID(Long holidayTypeId) {
 //		Query query = entityManager.createQuery("select hs from HolidaySummary hs where hs.holidayTypeId = ?1");
 //		query.setParameter(1, holidayTypeId);

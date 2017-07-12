@@ -178,18 +178,18 @@ li {
 
 .tableHeader {
     text-align: center;
-    background-color: #EBB757;
+    background-color: $header-background-color;
     font-size: 18px;
 }
 
 .tableItems {
     cursor: default;
-    background-color: #EDDDC0;
-    border-top: 1px solid lightblue;
-}
+    background-color: $items-background-color;
+    border-top: $items-border-color;
 
-.tableItems:hover {
-    background-color: #F2D7A5;
+    &:hover {
+        background-color: $items-background-color-on-hover;
+    }
 }
 
 .tableItem {

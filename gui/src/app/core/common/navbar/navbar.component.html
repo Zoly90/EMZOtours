@@ -114,11 +114,11 @@
                 <span class="glyphicon glyphicon-list"></span> Holiday management <span class="caret"></span></a>
             <ul class="dropdown-menu" *dropdownMenu>
                 <li>
-                    <a class="dropdown-item" (click)="goToListPage('christmas')" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}">
-                        <img class="icon" id="icon" src="../../../assets/images/icons/holidays-managemnet.png" alt="view1" style="width: 24px; height: 24px" />                        Manage holidays</a>
+                    <a class="dropdown-item" [routerLink]="['/holidays-management']" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}">
+                        <img class="icon" id="icon" src="../../../assets/images/icons/holidays-management.png" alt="view1" style="width: 24px; height: 24px" />                        Manage holidays</a>
                 </li>
                 <li>
-                    <a class="dropdown-item" (click)="goToListPage('new year')" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}">
+                    <a class="dropdown-item" [routerLink]="['/client-offers-managemnet']" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}">
                         <img class="icon" id="icon" src="../../../assets/images/icons/personalized-offers-management.png" alt="view1" style="width: 24px; height: 24px" />                        Manage client offers</a>
                 </li>
             </ul>
@@ -128,7 +128,7 @@
                 <span class="glyphicon glyphicon-list-alt"></span> User management <span class="caret"></span></a>
             <ul class="dropdown-menu" *dropdownMenu>
                 <li>
-                    <a class="dropdown-item" (click)="goToListPage('christmas')" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}">
+                    <a class="dropdown-item" [routerLink]="['/user-managemnet']" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}">
                         <img class="icon" id="icon" src="../../../assets/images/icons/user-management.png" alt="view1" style="width: 24px; height: 24px" /> Manage users</a>
                 </li>
             </ul>
