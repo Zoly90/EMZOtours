@@ -8,7 +8,6 @@ import { PersonalizedOfferService } from "../pages-services/personalized-offer.s
  * This class represents the lazy loaded AboutComponent.
  */
 @Component({
-  moduleId: module.id,
   selector: 'personalized-offer',
   templateUrl: './personalizedOffer.component.html',
   styleUrls: ['./personalizedOffer.component.scss']

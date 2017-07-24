@@ -1,17 +1,11 @@
 <div class="btn-group" dropdown>
     <button type="button" class="btn btn-primary dropdown-toggle" id="my-profile-dropdown" dropdownToggle>
         <span class="glyphicon glyphicon-user"></span> My profile</button>
-    <div *dropdownMenu class="dropdown-menu" role="menu">
+    <div *dropdownMenu class="dropdown-menu" role="menu" (click)="$event.stopPropagation()">
         <ul>
-            <li>
-                <a [routerLink]="['/about']" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}">Holidays applied for</a>
-            </li>
-            <li>
-                <a [routerLink]="['/about']" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}">Holidays wishlist</a>
-            </li>
-            <li>
-                <a [routerLink]="['/about']" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}">Personal information</a>
-            </li>
+            <button (click)="navigateToAppliedHolidays(user)" class="btn btn-transparent btn-info" type="button">Holidays applied for</button>
+            <button (click)="navigateToHolidaysWishlist(user)" class="btn btn-transparent btn-info" type="button">Holidays wishlist</button>
+            <sd-signup [modalButtonFor]="'view'"></sd-signup>
         </ul>
     </div>
 </div>

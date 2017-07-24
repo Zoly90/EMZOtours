@@ -41,4 +41,8 @@ public class UserDataService {
 	public List<UserInfo> getAllUsers() {
 		return userRepository.findAll();
 	}
+
+    public void deleteUser(Long userId) {
+		userRepository.delete(userId);
+    }
 }

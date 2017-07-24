@@ -9,7 +9,6 @@ import { HolidayService } from "../services/holiday.service";
 import { Holiday } from "../models/holiday.model";
 
 @Component({
-    moduleId: module.id,
     selector: 'sd-list',
     templateUrl: './holidaysList.component.html',
     styleUrls: ['./holidaysList.component.scss'],

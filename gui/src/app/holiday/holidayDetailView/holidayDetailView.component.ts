@@ -6,7 +6,6 @@ import { HolidayDetailViewService } from "../services/holidayDetailView.service"
 import { Holiday } from "../models/holiday.model";
 
 @Component({
-    moduleId: module.id,
     selector: 'sd-detail',
     templateUrl: './holidayDetailView.component.html',
     styleUrls: ['./holidayDetailView.component.scss'],

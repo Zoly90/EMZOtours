@@ -1,0 +1,14 @@
+<div fxLayout fxLayoutAlign="space-between center">
+	<ng-select class="select-field input-year" [options]="years" [multiple]="false" placeholder="Year" [noFilter]="100" [allowClear]="true"
+	 (selected)="onYearSelected($event)" fxFlex="30%" required>
+	</ng-select>
+	<ng-select class="select-field input-month" [options]="months" [multiple]="false" placeholder="Month" [noFilter]="100" [allowClear]="true"
+	 (selected)="onMonthSelected($event)" fxFlex="30%" required>
+	</ng-select>
+	<button type="button" class="number-of-days" (click)="onDayOpened(); days = updatedDays.slice(0, updatedDays.length)" fxFlex="40%">
+		<ng-select class="select-field input-day" [options]="days" [multiple]="false" placeholder="Day" [noFilter]="100"
+							[allowClear]="true" (selected)="onDaySelected($event)" required>
+		</ng-select>
+	</button>
+</div>
+<p class="input-check">{{notOver18Message}}</p>

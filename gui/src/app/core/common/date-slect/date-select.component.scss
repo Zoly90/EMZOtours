@@ -1,0 +1,42 @@
+:host {
+	height: 34px;
+}
+
+.input-element {
+    margin-bottom: 30px; 
+    max-width: 85%;
+}
+
+.input-year {
+    min-width: 105px;
+    margin-right: 5px;
+}
+
+.input-month {
+    min-width: 155px;
+    margin: 0 4px;
+}
+
+.input-day {
+    min-width: inherit;
+}
+
+.number-of-days {
+    background-color: Transparent;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    padding: 0;
+    min-width: 90px;
+    margin-left: 5px;
+}
+
+.input-check {
+    color: red;
+    margin-top: -20px;
+    padding: 0 25px;
+
+    p {
+        margin: 0 0 10px;
+    }
+}

@@ -11,6 +11,7 @@ import org.springframework.util.StringUtils;
 import ro.emzo.turismapp.user.auth.UserValidator;
 import ro.emzo.turismapp.user.dao.UserDataService;
 import ro.emzo.turismapp.user.exceptions.RegistrationException;
+import ro.emzo.turismapp.user.exceptions.UserDoesNotExistInTheDatabase;
 import ro.emzo.turismapp.user.model.UserAddress;
 import ro.emzo.turismapp.user.model.UserInfo;
 import ro.emzo.turismapp.user.model.UserLogin;
@@ -58,7 +59,7 @@ public class UserService {
         String result = null;
         if (userLogin != null && userLoginTO.getPassword().equals(userLogin.getPassword())) {
             UserInfo userInfo = userDataService.getUserInfo(userLogin);
-            result = jwtService.createJWT(userInfo, 86400000);
+            result = jwtService.createJWT(userInfo, 86400);
         }
         return result;
     }
@@ -211,5 +212,22 @@ public class UserService {
         result.setUserAddress(userAddress);
         result.setUserLogin(userLogin);
         return result;
+    }
+
+    public void deleteUser(Long userId) {
+        userDataService.deleteUser(userId);
+    }
+
+    public UserInfoTO updateExistingUser(UserInfoTO userInfoTO) throws UserDoesNotExistInTheDatabase {
+        UserInfo userInfo = userDataService.getUserInfo(userInfoTO.getId());
+        if (userInfo == null) {
+            throw new UserDoesNotExistInTheDatabase();
+        }
+
+        userInfo = fromUserInfoTOToUserInfo(userInfoTO);
+        userDataService.save(userInfo);
+        userInfoTO = fromUserInfoToUserInfoTO(userInfo);
+
+        return userInfoTO;
     }
 }

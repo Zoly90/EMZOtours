@@ -2,29 +2,28 @@
     float: right;
 }
 
-a {
-    text-decoration: none;
-}
-
 ul {
     min-width: 190px;
-    padding-left: 15px;
+    padding-left: 0;
     list-style-type: none;
 }
 
-li {
-    margin: 5px 0;
-
-    a {
-        color: darkorange;
-    }
+.btn-transparent {
+    border: none;
+    background: transparent;
 }
 
-li:hover {
-    transform: scaleX(1.1);
-    text-decoration: blink;
+.btn + .btn {   // ????
+    margin: 0;
+}
 
-    a {
+.btn-info {
+    width: 190px;
+    color: darkorange;
+    border-radius: 0;
+
+    &:hover {
+        background-color: lightskyblue;
         color: orangered;
     }
 }
@@ -36,4 +35,8 @@ li:hover {
 
 #my-profile-dropdown:hover {
     background-color: lightskyblue;
+}
+
+.dropdown-menu {
+    z-index: 1050;
 }

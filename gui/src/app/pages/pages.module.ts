@@ -22,30 +22,36 @@ import { CategoriesAndTypesService } from "../core/services/categories-types.ser
 import { HolidaysManagementRoutingModule } from "./management/holidays-management/holidays-management-routing.module";
 import { HolidaysManagementComponent } from "./management/holidays-management/holidays-management.component";
 import { HolidayDetailViewService } from "../holiday/services/holidayDetailView.service";
+import { UserManagementRoutingModule } from "./management/user-management/user-management-routing.module";
+import { UserManagementComponent } from "./management/user-management/user-management.component";
+import { SharedModule } from "../core/common/common.module";
 
 @NgModule({
     imports: [
         CommonModule,
         FormsModule,
+        MaterialModule,
+        DatepickerModule.forRoot(),
+        Daterangepicker,
+        FlexLayoutModule,
+        SharedModule,
         PersonalizedOfferRoutingModule,
         AboutRoutingModule,
         ContactRoutingModule,
         HomeRoutingModule,
         HolidaysManagementRoutingModule,
+        UserManagementRoutingModule,
         AgmCoreModule.forRoot({
             apiKey: 'AIzaSyBjisHSBvdTWkynJPKVAAcpTgB6PQrkXbY'
-        }),
-        MaterialModule,
-        DatepickerModule.forRoot(),
-        Daterangepicker,
-        FlexLayoutModule
+        })
     ],
     declarations: [
         PersonalizedOfferComponent,
         AboutComponent,
         ContactComponent,
         HomeComponent,
-        HolidaysManagementComponent
+        HolidaysManagementComponent,
+        UserManagementComponent
     ],
     providers: [
         PersonalizedOfferService,
@@ -57,7 +63,8 @@ import { HolidayDetailViewService } from "../holiday/services/holidayDetailView.
         AboutComponent,
         ContactComponent,
         HomeComponent,
-        HolidaysManagementComponent
+        HolidaysManagementComponent,
+        UserManagementComponent
     ]
 })
 export class PagesModule { }

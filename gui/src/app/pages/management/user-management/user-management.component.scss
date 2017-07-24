@@ -5,7 +5,7 @@
   background-attachment: fixed;
 }
 
-.holidays-management-container {
+.user-management-container {
 	margin: 0 auto;
   width: 70%;
 }
@@ -24,7 +24,7 @@
 	}
 }
 
-.update-button, .delete-button {
+.delete-button {
 	width: 80px;
 }
 
@@ -32,7 +32,6 @@
 	margin: 0 10px;
 }
 
-.delete-button {
-	background-color: $delete-button-background-color;
-	border-color: $delete-button-border-color;
+.mat-card-title {
+	font-size: 14px;
 }

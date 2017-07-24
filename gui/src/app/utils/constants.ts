@@ -14,6 +14,7 @@ export class TurismAppConstants {
 	public static INVALID_PASWORD_LENGTH_MESSAGE = 'The password must contain a minimum of 8 and a maximum of 32 characters.';
 	public static INVALID_USERNAME_LENGTH_MESSAGE = 'The username must contain a minimum of 6 and a maximum of 32 characters.';
 	public static INVALID_EMAIL_ADDRESS_MESSAGE = 'The e-mail address you entered is not valid.';
+	public static INVALID_TELEPHONE_NUMBER_MESSAGE = 'The telephone number you entered is invalid.'
 
 	/**
 	 * 

@@ -24,6 +24,7 @@ import { ErrorHandlingService } from "../authentication/services/error-handling.
 import { AuthorizationService } from "../authentication/services/authorization.service";
 import { UserValidatorService } from "../services/user-validator.service";
 import { UtilsService } from "../../utils/utils.service";
+import { DateSelecComponent } from "./date-slect/date-select.component";
 
 /**
  * Do not specify providers for modules that might be imported by a lazy loaded module.
@@ -44,6 +45,7 @@ import { UtilsService } from "../../utils/utils.service";
   declarations: [
     BackgroundImageComponent,
     ToolbarComponent,
+    DateSelecComponent,
     SignUpModalComponent,
     LoginDropdownComponent,
     LogoutButtonComponent,
@@ -51,6 +53,8 @@ import { UtilsService } from "../../utils/utils.service";
     NavbarComponent
   ],
   exports: [
+    DateSelecComponent,
+    SignUpModalComponent,
     ToolbarComponent,
     NavbarComponent,
     CommonModule,

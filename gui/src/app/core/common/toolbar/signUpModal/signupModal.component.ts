@@ -1,10 +1,13 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, Input } from '@angular/core';
 import * as Collections from 'typescript-collections';
 import { User } from "../../../models/user.model";
 import { UserService } from "../../../services/user.service";
 import { TurismAppConstants } from "../../../../utils/constants";
 import { UtilsService } from "../../../../utils/utils.service";
 import { UserValidatorService } from "../../../services/user-validator.service";
+import { AuthorizationService } from "../../../authentication/services/authorization.service";
+import { UserAddress } from "../../../authentication/models/user-address.model";
+import { UserIdentity } from "../../../authentication/models/user-identity.model";
 
 @Component({
   selector: 'sd-signup',
@@ -15,8 +18,17 @@ export class SignUpModalComponent {
 
   @ViewChild('signUpForm') signUpForm;
 
+  @Input() existingUser: User;
+  @Input() modalButtonFor: string;
+
+  private signedInAsAdmin: boolean = false;
+  private signUpButtonText: string;
+  private width: string;
+
   private submitted = false;
   private user: User = new User();
+  private selectedBirthdate: { selectedYear: '', selectedMonth: '', selectedDay: '', notOver18: false };
+  private selectedIdCardExpirationDate: { selectedYear: '', selectedMonth: '', selectedDay: '' };
 
   private validEmailAddress: boolean = false;
   private inValidEmailAddressMessage: string = '';
@@ -26,37 +38,23 @@ export class SignUpModalComponent {
   private inValidPasswordLengthMessage: string = '';
   private passwordNotEqual: boolean = true;
   private passwordNotEqualMessage: string = '';
-
-  // Logic for client's birthday
-  // https://www.npmjs.com/package/angular2-select
-  private notOver18: boolean = true;
-  private notOver18Message: string = '';
+  private validTelephoneNumber: boolean = false;
+  private invalidTelephoneNumberMessage: string = '';
 
   // Array for Title, construction happens in constructor
   private titlesArray = TurismAppConstants.TITLES;
   private titles: Array<any> = [];
-  private selectedTitle = "";
+  private selectedTitle = '';
 
-  private years: Array<any> = [];
-  private isLeapYear = false;
-  private selectedYear = "";
-
-  // Array for Months, construction happens in constructor
-  private monthsArray = TurismAppConstants.MONTHS;
-  private months: Array<any> = [];
-  private selectedMonth = "";
-
-  private days: Array<any> = [];
-  private day_29 = TurismAppConstants.DAY_29;
-  private day_30 = TurismAppConstants.DAY_30;
-  private day_31 = TurismAppConstants.DAY_31;
-  private updatedDays: Array<any> = [];
-  private selectedDay = ""
+  // admin & employee checkboxes
+  private adminChecked: boolean = false;
+  private employeeChecked: boolean = false;
 
   constructor(
     private userService: UserService,
     private utilsService: UtilsService,
-    private userValidatorService: UserValidatorService
+    private userValidatorService: UserValidatorService,
+    private authorizationService: AuthorizationService
   ) {
     this.submitted = false;
 
@@ -66,37 +64,47 @@ export class SignUpModalComponent {
         label: this.titlesArray[i]
       }
     }
-
-    let firstYear = TurismAppConstants.FIRST_YEAR;
-    let lastYear = new Date().getFullYear() - 18;
-    for (let i = 0; i < (lastYear - firstYear + 1); i++) {
-      this.years[i] = {
-        value: i.toString(),
-        label: (i + firstYear).toString()
-      }
-    }
-
-    for (let i = 0; i < this.monthsArray.length; i++) {
-      this.months[i] = {
-        value: i.toString(),
-        label: this.monthsArray[i]
-      }
-    }
-
-    for (let i = 0; i < TurismAppConstants.NUMBER_OF_DAYS; i++) {
-      this.days[i] = {
-        value: i.toString(),
-        label: (i + 1).toString()
-      }
-    }
-    this.updatedDays = this.days
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+    let token = this.authorizationService.getDecodedToken();
+    if (token != null && token.role === TurismAppConstants.ADMIN) {
+      if (this.modalButtonFor === 'admin-new') {
+        this.signUpButtonText = 'Add a new user';
+      } else if (this.modalButtonFor === 'admin-edit') {
+        this.signUpButtonText = 'Edit';
+      } else if (this.modalButtonFor === 'view') {
+        this.signUpButtonText = 'Personal information';
+        // this.userService.getUser(token.id)
+        //   .subscribe(user => this.user = user);
+      }
+      this.signedInAsAdmin = true;
+      this.width = '368px';
 
-  validateEmailAddress() {
-    if (this.user.userLoginTO.emailAddress && this.user.userLoginTO.emailAddress != '') {
-      this.validEmailAddress = this.userValidatorService.validateEmailAddress(this.user.userLoginTO);
+      if (this.existingUser) {
+        this.user = this.existingUser;
+
+        if (this.existingUser.userAddress == null) {
+          this.user.userAddress = new UserAddress();
+        }
+        if (this.existingUser.userIdentity == null) {
+          this.user.userIdentity = new UserIdentity();
+        }
+      }
+    } else if (token != null && this.modalButtonFor === 'view') {
+      this.signUpButtonText = 'Personal information';
+      // this.userService.getUser(token.id)
+      //   .subscribe(user => this.user = user);
+    } else {
+      this.signUpButtonText = ' Sign up';
+      this.signedInAsAdmin = false;
+      this.width = '100%';
+    }
+  }
+
+  public validateEmailAddress() {
+    if (this.user.userLogin.emailAddress && this.user.userLogin.emailAddress != '') {
+      this.validEmailAddress = this.userValidatorService.validateEmailAddress(this.user.userLogin);
       if (!this.validEmailAddress) {
         this.inValidEmailAddressMessage = TurismAppConstants.INVALID_EMAIL_ADDRESS_MESSAGE;
       } else {
@@ -105,9 +113,9 @@ export class SignUpModalComponent {
     }
   }
 
-  validateUsernameLength() {
-    if (this.user.userLoginTO.username && this.user.userLoginTO.username != '') {
-      this.validUsernameLength = this.userValidatorService.validateUsernameLength(this.user.userLoginTO);
+  public validateUsernameLength() {
+    if (this.user.userLogin.username && this.user.userLogin.username != '') {
+      this.validUsernameLength = this.userValidatorService.validateUsernameLength(this.user.userLogin);
       if (!this.validUsernameLength) {
         this.inValidUsernameLengthMessage = TurismAppConstants.INVALID_USERNAME_LENGTH_MESSAGE;
       } else {
@@ -116,9 +124,9 @@ export class SignUpModalComponent {
     }
   }
 
-  validatePasswordLength() {
-    if (this.user.userLoginTO.password && this.user.userLoginTO.password != '') {
-      this.validPasswordLength = this.userValidatorService.validatePasswordLength(this.user.userLoginTO);
+  public validatePasswordLength() {
+    if (this.user.userLogin.password && this.user.userLogin.password != '') {
+      this.validPasswordLength = this.userValidatorService.validatePasswordLength(this.user.userLogin);
       if (!this.validPasswordLength) {
         this.inValidPasswordLengthMessage = TurismAppConstants.INVALID_PASWORD_LENGTH_MESSAGE;
       } else {
@@ -129,9 +137,9 @@ export class SignUpModalComponent {
     this.validatePasswordEquality();
   }
 
-  validatePasswordEquality() {
-    if (this.user.userLoginTO.passwordConfirm && this.user.userLoginTO.passwordConfirm != '') {
-      this.passwordNotEqual = this.userValidatorService.validatePasswordEquality(this.user.userLoginTO);
+  public validatePasswordEquality() {
+    if (this.user.userLogin.passwordConfirm && this.user.userLogin.passwordConfirm != '') {
+      this.passwordNotEqual = this.userValidatorService.validatePasswordEquality(this.user.userLogin);
       if (this.passwordNotEqual) {
         this.passwordNotEqualMessage = TurismAppConstants.PASSWORD_NOT_EQUAL_MESSAGE;
       } else {
@@ -140,95 +148,80 @@ export class SignUpModalComponent {
     }
   }
 
-  private setNumberOfDays() {
-    this.updatedDays.splice(29, 31);
-    if (this.selectedMonth === 'February' && this.isLeapYear) {
-      if (!this.updatedDays.includes(this.day_29)) {
-        this.updatedDays.push(this.day_29);
-      }
-    } else if ((this.selectedMonth === 'April') || (this.selectedMonth === 'June') ||
-      (this.selectedMonth === 'September') || (this.selectedMonth === 'November')) {
-      if (this.updatedDays.includes(this.day_29)) {
-        this.updatedDays.push(this.day_30);
+  public validateTelephoneNumber() {
+    if (this.user.telephoneNr && this.user.telephoneNr != '') {
+      this.validTelephoneNumber = this.userValidatorService.validatePasswordEquality(this.user);
+      if (this.validTelephoneNumber) {
+        this.invalidTelephoneNumberMessage = TurismAppConstants.INVALID_TELEPHONE_NUMBER_MESSAGE;
       } else {
-        this.updatedDays.push(this.day_29, this.day_30);
-      }
-    } else if ((this.selectedMonth === 'January') || (this.selectedMonth === 'March') || (this.selectedMonth === 'May') ||
-      (this.selectedMonth === 'July') || (this.selectedMonth === 'August') || (this.selectedMonth === 'October') ||
-      (this.selectedMonth === 'December')) {
-      if (this.updatedDays.includes(this.day_29) && this.updatedDays.includes(this.day_30)) {
-        this.updatedDays.push(this.day_31);
-      } else if (this.updatedDays.includes(this.day_29)) {
-        this.updatedDays.push(this.day_30, this.day_31);
-      } else {
-        this.updatedDays.push(this.day_29, this.day_30, this.day_31);
+        this.invalidTelephoneNumberMessage = '';
       }
     }
   }
 
-  onDayOpened() {
-    this.setNumberOfDays();
+  public setRoleAsEmployee(event) {
+    if (event) {
+      this.user.userLogin.role = TurismAppConstants.EMPLOYEE;
+    } else {
+      this.user.userLogin.role = TurismAppConstants.CLIENT;
+    }
   }
 
-  onTitleSelected(item) {
+  public setRoleAsAdmin(event) {
+    if (event) {
+      this.user.userLogin.role = TurismAppConstants.ADMIN;
+    } else {
+      this.user.userLogin.role = TurismAppConstants.CLIENT;
+    }
+  }
+
+  public onTitleSelected(item) {
     this.selectedTitle = item.label;
   }
 
-  onYearSelected(item) {
-    this.selectedYear = item.label;
-    this.isLeapYear = this.utilsService.leapYear(this.selectedYear);
-    if (this.selectedMonth && this.selectedDay) {
-      this._checkAge();
-    }
+  public setSelectedBirthdate(date) {
+    this.selectedBirthdate = date;
   }
 
-  onMonthSelected(item) {
-    this.selectedMonth = item.label;
-    if (this.selectedDay) {
-      this._checkAge();
-    }
-  }
-
-  onDaySelected(item) {
-    this.selectedDay = item.label;
-
-    this._checkAge();
+  public setSelectedIdCardExpirationDate(date) {
+    this.selectedIdCardExpirationDate = date;
   }
 
   private onSubmit() {
     this.submitted = true;
   }
 
-  private _checkAge() {
-    let todaysDate = new Date();
-    let enteredDate = new Date(
-      Number(this.selectedYear),
-      this.utilsService.convertToNumericalMonth(this.selectedMonth),
-      Number(this.selectedDay)
-    );
-    // get time difference in miliseconds
-    let timeDifference = Math.abs(todaysDate.getTime() - enteredDate.getTime());
-    // convert it to number of years
-    let differenceInYears = (timeDifference / (1000 * 3600 * 24)) * TurismAppConstants.DAY_TO_YEAR_CONVERSION;
-
-    if (differenceInYears < 18) {
-      this.notOver18 = true;
-      this.notOver18Message = TurismAppConstants.NOT_OVER_18_MESSAGE;
-    } else {
-      this.notOver18 = false;
-      this.notOver18Message = '';
-    }
-  }
-
-  saveData() {
+  public saveData() {
     if (this.signUpForm.form.valid &&
-      (this.validEmailAddress && !this.notOver18 && this.validUsernameLength && this.validPasswordLength && !this.passwordNotEqual)) {
+      (this.validEmailAddress && !this.selectedBirthdate.notOver18 && this.validUsernameLength && this.validPasswordLength && !this.passwordNotEqual)) {
       this.user.title = this.selectedTitle;
-      this.selectedMonth = this.utilsService.convertToNumericalMonth(this.selectedMonth);
-      this.user.birthday = new Date(Number(this.selectedYear), Number(this.selectedMonth), Number(this.selectedDay));
-      this.user.userLoginTO.password = this.utilsService.encodePassword(this.user.userLoginTO.password);
-      this.user.userLoginTO.passwordConfirm = this.utilsService.encodePassword(this.user.userLoginTO.passwordConfirm);
-      this.userService.addUser(this.user).subscribe();
+
+      this.selectedBirthdate.selectedMonth = this.utilsService.convertToNumericalMonth(this.selectedBirthdate.selectedMonth);
+      this.user.birthday = new Date(Number(this.selectedBirthdate.selectedYear), Number(this.selectedBirthdate.selectedMonth), Number(this.selectedBirthdate.selectedDay));
+
+      this.selectedIdCardExpirationDate.selectedMonth = this.utilsService.convertToNumericalMonth(this.selectedBirthdate.selectedMonth);
+      this.user.userIdentity.idCardExpirationDate = new Date(Number(this.selectedIdCardExpirationDate.selectedYear), Number(this.selectedIdCardExpirationDate.selectedMonth), Number(this.selectedIdCardExpirationDate.selectedDay));
+
+      /*  When the application reaches a final phase, if an admin tries to create a new user, the password should be generated automatically,
+      and at first log in the USER should be forced to change his/her password.
+      if (this.signedInAsAdmin) {
+        this.user.userLoginTO.password = this.utilsService.generateString();
+        this.user.userLoginTO.password = this.utilsService.encode(this.user.userLoginTO.password);
+        this.user.userLoginTO.passwordConfirm = this.user.userLoginTO.password;
+      } else {
+        this.user.userLoginTO.password = this.utilsService.encode(this.user.userLoginTO.password);
+        this.user.userLoginTO.passwordConfirm = this.utilsService.encode(this.user.userLoginTO.passwordConfirm);
+      }
+      */
+
+      this.user.userLogin.password = this.utilsService.encode(this.user.userLogin.password);
+      this.user.userLogin.passwordConfirm = this.utilsService.encode(this.user.userLogin.passwordConfirm);
+      this.user.userIdentity.cnp = this.utilsService.encode(this.user.userIdentity.cnp);
+      this.user.userIdentity.identityCardSeries = this.utilsService.encode(this.user.userIdentity.identityCardSeries);
+      this.user.userIdentity.identityCardNumber = this.utilsService.encode(this.user.userIdentity.identityCardNumber);
+      this.user.userIdentity.iban = this.utilsService.encode(this.user.userIdentity.iban);
+
+      this.userService.addUser(this.user);
       this.onSubmit();
     }
   }
@@ -244,7 +237,5 @@ export class SignUpModalComponent {
     this.inValidPasswordLengthMessage = '';
     this.passwordNotEqual = true;
     this.passwordNotEqualMessage = '';
-    this.notOver18 = true;
-    this.notOver18Message = '';
   }
 }

@@ -36,7 +36,7 @@ export class LoginDropdownComponent {
     const userLogin: UserLogin = new UserLogin();
 
     this._checkIfIsEmail(userLogin);
-    userLogin.password = this._utilsService.encodePassword(this.password);
+    userLogin.password = this._utilsService.encode(this.password);
 
     this._authenticationService.login(userLogin)
       .subscribe(res => {

@@ -42,8 +42,6 @@ export class HolidaysManagementComponent {
 
 	private goToDetailPage(holiday: Holiday) {
 		this.holidayDetailViewService.setHoliday(holiday);
-		console.log(holiday)
 		this.router.navigate(['holiday/' + holiday.hotelInformation.accommodationName]);
 	}
-
 }

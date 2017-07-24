@@ -1,11 +1,13 @@
 import { Injectable } from "@angular/core";
 import { UserLogin } from "../authentication/models/user-login.model";
 import { UtilsService } from "../../utils/utils.service";
+import { User } from "../models/user.model";
 
 @Injectable()
 export class UserValidatorService {
 
 	private emailRegexPattern: any;
+	private telephoneNumberRegexPattern: any;
 
 	constructor(
 		private utilsService: UtilsService
@@ -52,6 +54,17 @@ export class UserValidatorService {
 	public validatePasswordEquality(userLogin: UserLogin) {
 		let result: boolean = true;
 		if (userLogin.password === userLogin.passwordConfirm) {
+			result = false;
+		}
+		return result;
+	}
+
+	public validateTelephoneNumber(user: User) {
+		let result: boolean = true;
+		if (!this.telephoneNumberRegexPattern) {
+			this.telephoneNumberRegexPattern = this.utilsService.getPhoneNumberRegex();
+		}
+		if (!this.telephoneNumberRegexPattern.test(user.telephoneNr)) {
 			result = false;
 		}
 		return result;

@@ -4,12 +4,12 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { JsonpModule } from '@angular/http';
 import { AuthorizationService } from "./core/authentication/services/authorization.service";
+import { Router } from "@angular/router";
 // import { ToolbarComponent } from './common/toolbar/toolbar.component'
 // import { NgbdModalBasic } from './modal-basic';
 // import { NgbdDropdownBasic } from './dropdown-basic';
 
 @Component({
-  moduleId: module.id,
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
@@ -21,7 +21,8 @@ export class AppComponent implements OnInit {
   private userLogedIn: boolean = false;
 
   constructor(
-    private authorizationService: AuthorizationService
+    private authorizationService: AuthorizationService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -44,6 +45,7 @@ export class AppComponent implements OnInit {
     this.userLogedIn = false;
     this.token = null;
     this.role = '';
+    this.router.navigate(['/']);
   }
 
   private getToken() {

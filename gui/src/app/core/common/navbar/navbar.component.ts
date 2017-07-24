@@ -8,7 +8,6 @@ import { RoutingByIDService } from "../../services/routing-by-id.service";
  * This class represents the navigation bar component.
  */
 @Component({
-  moduleId: module.id,
   selector: 'sd-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss'],

@@ -2,18 +2,26 @@ import { Injectable } from "@angular/core";
 
 @Injectable()
 export class UtilsService {
-	
-	public getEmailRegexPattern() {
+
+  public getEmailRegexPattern() {
     return /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   }
 
-  public encodePassword(password: string) {
-    return btoa(password);
+  public getPhoneNumberRegex() {
+    return /^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d?)\)?)?[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?){0,})(?:[\-\.\ \\\/]?(?:#|ext\.?|extension|x)[\-\.\ \\\/]?(\d+))?$/i;
+  }
+
+  public getOnlyNumbersRegex() {
+    return /^\d+$/;
+  }
+
+  public encode(input: string) {
+    return btoa(input);
   }
 
   public parseJSON(response) {
-		return response.text() ? response.json() : null;
-	}
+    return response.text() ? response.json() : null;
+  }
 
   public leapYear(year) {
     let result: boolean = false;
@@ -64,5 +72,16 @@ export class UtilsService {
         break;
     }
     return month;
+  }
+
+  public generateString() {
+    const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let text = '';
+
+    for (var i = 0; i < 8; i++) {
+      text += possible.charAt(Math.floor(Math.random() * possible.length));
+    }
+
+    return text;
   }
 }

@@ -1,7 +1,8 @@
-<button class="btn btn-primary" id="signUpModal" (click)="lgModal.show()">
-  <span class="glyphicon glyphicon-user"></span> Sign up</button>
+<button class="btn" [ngClass]="{'btn-transparent regular-sign-up': !signedInAsAdmin, 'btn-primary': modalButtonFor === 'admin-edit', 'btn-transparent btn-info': modalButtonFor === 'view', 'btn-success': modalButtonFor === 'admin-new'}"
+  id="signUpModal" (click)="lgModal.show()">
+  <span *ngIf="!signedInAsAdmin" class="glyphicon glyphicon-user"></span>{{signUpButtonText}}</button>
 
-<div bsModal #lgModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="signUpModal" aria-hidden="true">
+<div bsModal #lgModal="bs-modal" class="modal fade" [ngClass]="{'does-not-show': modalButtonFor === 'view'}" tabindex="-1" role="dialog" aria-labelledby="signUpModal" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
@@ -11,58 +12,110 @@
         </button>
       </div>
       <div class="modal-body modal-body-form">
-        <form *ngIf="!submitted" id="formSignUp" class="form" (ngSubmit)="onSubmit(); signUpForm.reset()" #signUpForm="ngForm">
-          <div class="form-container" fxLayout fxFlex>
+        <form *ngIf="!submitted" id="formSignUp" (ngSubmit)="onSubmit(); signUpForm.reset()" #signUpForm="ngForm">
+          <div class="form-container">
+          <label *ngIf="signedInAsAdmin && modalButtonFor !== 'view'" class="user-contact-info" for="address">Users contact and login information</label>
+          <div fxLayout fxFlex>
             <div class="sign-up-info" fxLayout="column" fxFlex="50%">
-              <ng-select class="select-field title" [options]="titles" [multiple]="false" placeholder="Title" [noFilter]="4" [allowClear]="true"
-                (selected)="onTitleSelected($event)">
-              </ng-select>
+              <div [ngClass]="{'input-element': signedInAsAdmin}" fxLayout="row" fxLayoutAlign="space-between center" [ngStyle]="{'min-width': width}">
+                <md-checkbox *ngIf="signedInAsAdmin && modalButtonFor !== 'view'" name="employee" [(ngModel)]="employeeChecked" [align]="start"
+                  [disabled]="adminChecked" (ngModelChange)="setRoleAsEmployee($event)" fxFlex="26%">
+                  Employee
+                </md-checkbox>
+                <md-checkbox *ngIf="signedInAsAdmin && modalButtonFor !== 'view'" name="admin" [(ngModel)]="adminChecked" [align]="start"
+                  [disabled]="employeeChecked" (ngModelChange)="setRoleAsAdmin($event)">
+                  Admin
+                </md-checkbox>
+                <ng-select class="select-field title" [ngClass]="{'title': !signedInAsAdmin}" [options]="titles" [multiple]="false" placeholder="Title"
+                  [noFilter]="4" [allowClear]="true" (selected)="onTitleSelected($event)" fxFlex="30%">
+                </ng-select>
+              </div>
               <input class="form-control input-element" name="firstName" type="text" placeholder="First name" [(ngModel)]="user.firstName"
                 required>
               <input class="form-control input-element" name="lastName" type="text" placeholder="Last name" [(ngModel)]="user.lastName"
                 required>
-              <label class="birthdate" for="birthdate">Date of birth</label>
-              <div class="input-element" fxLayout fxLayoutAlign="space-between center">
-                <ng-select class="select-field input-year" [options]="years" [multiple]="false" placeholder="Year" [noFilter]="100" [allowClear]="true"
-                  (selected)="onYearSelected($event)" fxFlex="30%" required>
-                </ng-select>
-                <ng-select class="select-field input-month" [options]="months" [multiple]="false" placeholder="Month" [noFilter]="100" [allowClear]="true"
-                  (selected)="onMonthSelected($event)" fxFlex="30%" required>
-                </ng-select>
-                <button type="button" class="number-of-days" (click)="onDayOpened(); days = updatedDays.slice(0, updatedDays.length)" fxFlex="40%">
-                <ng-select class="select-field input-day" [options]="days" [multiple]="false" placeholder="Day" [noFilter]="100"
-                          [allowClear]="true" (selected)="onDaySelected($event)" required>
-                </ng-select>
-              </button>
-              </div>
-              <p class="input-check">{{notOver18Message}}</p>
+              <label class="user-birthdate" for="birthdate">Date of birth</label>
+              <date-select (onDateSelected)="setSelectedBirthdate($event)"></date-select>
             </div>
             <div class="sign-up-info" fxLayout="column" fxFlex="50%">
-              <input class="form-control input-element" type="text" name="email" placeholder="E-mail address" [(ngModel)]="user.userLoginTO.emailAddress"
+              <input *ngIf="signedInAsAdmin && modalButtonFor !== 'view'" class="form-control input-element" type="text" name="phoneNr" placeholder="Telephone number"
+                [(ngModel)]="user.telephoneNr" (focusout)="validateTelephoneNumber()" required>
+              <p class="input-check">{{invalidTelephoneNumberMessage}}</p>
+              <input class="form-control input-element" type="text" name="email" placeholder="E-mail address" [(ngModel)]="user.userLogin.emailAddress"
                 (focusout)="validateEmailAddress()" required>
               <p class="input-check">{{inValidEmailAddressMessage}}</p>
-              <input class="form-control input-element" type="text" name="username" placeholder="Username" [(ngModel)]="user.userLoginTO.username"
+              <input class="form-control input-element" type="text" name="username" placeholder="Username" [(ngModel)]="user.userLogin.username"
                 (focusout)="validateUsernameLength()" required>
               <p class="input-check">{{inValidUsernameLengthMessage}}</p>
-              <input class="form-control input-element" type="password" name="password" placeholder="Password" [(ngModel)]="user.userLoginTO.password"
+              <input class="form-control input-element" type="password" name="password" placeholder="Password" [(ngModel)]="user.userLogin.password"
                 (focusout)="validatePasswordLength()" required>
               <p class="input-check">{{inValidPasswordLengthMessage}}</p>
-              <input class="form-control input-element" type="password" name="passwordConfirm" placeholder="Repeat the password" [(ngModel)]="user.userLoginTO.passwordConfirm"
+              <input class="form-control input-element" type="password" name="passwordConfirm" placeholder="Repeat the password" [(ngModel)]="user.userLogin.passwordConfirm"
                 (focusout)="validatePasswordEquality()" required>
               <p class="input-check">{{passwordNotEqualMessage}}</p>
-              <md-checkbox class="input-element" [(ngModel)]="user.newsletter" [ngModelOptions]="{standalone: true}">
+              <md-checkbox class="input-element" [(ngModel)]="user.newsletter" name="newsletter">
                 Check this box if you wish to receive newsletters from us in the future.
               </md-checkbox>
             </div>
           </div>
+          <label *ngIf="signedInAsAdmin && modalButtonFor !== 'view'" class="user-address" for="address">Users address</label>
+          <div *ngIf="signedInAsAdmin && modalButtonFor !== 'view'" fxLayout fxFlex>
+            <div class="address-info" fxLayout="column" fxFlex="50%">
+              <input class="form-control input-element" type="text" name="country" placeholder="Country" [(ngModel)]="user.userAddress.country"
+                required>
+              <input class="form-control input-element" type="text" name="city" placeholder="City" [(ngModel)]="user.userAddress.city"
+                required>
+            </div>
+            <div class="address-info" fxLayout="column" fxFlex="50%">
+              <div class="address-info-street" fxLayout fxLayoutAlign="space-around" fxFlex>
+                <input class="form-control input-element" type="text" name="street" placeholder="Street" [(ngModel)]="user.userAddress.street"
+                  fxFlex="65%" required>
+                <input class="form-control input-element" type="text" name="streetNr" placeholder="Street nr" [(ngModel)]="user.userAddress.streetNr"
+                  fxFlex="25%" required>
+              </div>
+              <div class="address-info" fxLayout fxLayoutAlign="space-around" fxFlex>
+                <input class="form-control input-element" type="number" name="apartment" placeholder="Apartment" [(ngModel)]="user.userAddress.apartment"
+                  fxFlex="45%" required>
+                <input class="form-control input-element" type="number" name="zip" placeholder="ZIP code" [(ngModel)]="user.userAddress.zip"
+                  fxFlex="45%" required>
+              </div>
+              <p class="input-check">{{invalidAddressText}}</p>
+            </div>
+          </div>
+          <label *ngIf="signedInAsAdmin && modalButtonFor !== 'view'" class="user-identity" for="address">Users identity information</label>
+          <div *ngIf="signedInAsAdmin && modalButtonFor !== 'view'" fxLayout fxFlex>
+            <div class="identity-info-col-1" fxLayout="column" fxLayoutAlign="space-between center" fxFlex="50%">
+              <input class="form-control input-element" type="text" name="cnp" placeholder="Personal identification number (CNP)" [(ngModel)]="user.userIdentity.cnp"
+                required>
+              <div class="address-info" fxLayout fxLayoutAlign="space-around" fxFlex>
+                <input class="form-control input-element" type="text" name="idcs" placeholder="Identity card series" [(ngModel)]="user.userIdentity.identityCardSeries"
+                  fxFlex="45%" required>
+                <input class="form-control input-element" type="number" name="idcnr" placeholder="Identity card number" [(ngModel)]="user.userIdentity.identityCardNumber"
+                  fxFlex="45%" required>
+              </div>
+            </div>
+            <div class="identity-info-col-2" fxLayout="column" fxLayoutAlign="space-between center" fxFlex="50%">
+              <label class="expiration-date" for="expirationdate">Date of expiration</label>
+              <date-select class="input-element" (onDateSelected)="setSelectedIdCardExpirationDate($event)"></date-select>
+              <input class="form-control input-element" type="text" name="iban" placeholder="Bank account number (IBAN)" [(ngModel)]="user.userIdentity.iban"
+                required>
+            </div>
+          </div>
+          </div>
           <div class="modal-footer">
-            <button *ngIf="!submitted" [disabled]="signUpForm.form.invalid || notOver18 || passwordNotEqual || !validPasswordLength || !validEmailAddress || !validUsernameLength"
+            <button *ngIf="!submitted && modalButtonFor !== 'admin-edit' && modalButtonFor !== 'view'" [disabled]="signUpForm.form.invalid || notOver18 || passwordNotEqual || !validPasswordLength || !validEmailAddress || !validUsernameLength"
               type="button" class="btn btn-success pull-right" (click)="saveData()">Sign up</button>
-            <button type="button" class="pull-right btn btn-danger" (click)="lgModal.hide(); signUpForm.reset(); resetForm()" aria-label="Close">Close</button>
+            <button *ngIf="modalButtonFor !== 'admin-edit' && modalButtonFor !== 'view'" type="button" class="pull-right btn btn-danger" (click)="lgModal.hide(); signUpForm.reset(); resetForm()"
+              aria-label="Close">Close</button>
+
+            <button *ngIf="modalButtonFor === 'admin-edit' || modalButtonFor === 'view'" [disabled]="signUpForm.form.invalid || notOver18 || passwordNotEqual || !validPasswordLength || !validEmailAddress || !validUsernameLength"
+              type="button" class="btn btn-success pull-right" (click)="saveData()">Update user</button>
+            <button *ngIf="modalButtonFor === 'admin-edit' || modalButtonFor === 'view'" type="button" class="pull-right btn btn-danger" (click)="lgModal.hide()"
+              aria-label="Close">Close</button>
           </div>
         </form>
         <div class="modal-body" *ngIf="submitted">
-          <p class="form-submitted">An e-mail was sent to {{user.userLoginTO.emailAddress}}. Please click on the link in the e-mail so that we can verify
+          <p class="form-submitted">An e-mail was sent to {{user.userLogin.emailAddress}}. Please click on the link in the e-mail so that we can verify
             your e-mail adress and complete your registration.</p>
         </div>
         <div class="modal-footer" *ngIf="submitted">

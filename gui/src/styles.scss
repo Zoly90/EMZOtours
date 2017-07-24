@@ -88,3 +88,19 @@ sd-detail {
         border: 1px solid $container-border-color;
     }
 }
+
+sd-signup{
+    .mat-card-title {
+        font-size: 14px
+    }
+
+    md-checkbox {
+        .mat-checkbox-label {
+            color: dimgrey;
+        }
+    }
+}
+
+.btn:focus, .btn:active {
+   outline: none !important;
+}
