@@ -25,6 +25,11 @@ import { HolidayDetailViewService } from "../holiday/services/holidayDetailView.
 import { UserManagementRoutingModule } from "./management/user-management/user-management-routing.module";
 import { UserManagementComponent } from "./management/user-management/user-management.component";
 import { SharedModule } from "../core/common/common.module";
+import { OffersManagementRoutingModule } from "./management/offers-management/offers-management-routing.module";
+import { OffersManagementComponent } from "./management/offers-management/offers-management.component";
+import { PersonalizedOfferViewModeComponent } from "./personalizedOffer/personalized-offer-view-mode/personalized-offer-view-mode.component";
+import { OfferViewModalComponent } from "./management/offers-management/offer-view-modal/offer-view-modal.component";
+import { ModalModule } from "ng2-bootstrap/modal";
 
 @NgModule({
     imports: [
@@ -34,12 +39,14 @@ import { SharedModule } from "../core/common/common.module";
         DatepickerModule.forRoot(),
         Daterangepicker,
         FlexLayoutModule,
+        ModalModule,
         SharedModule,
         PersonalizedOfferRoutingModule,
         AboutRoutingModule,
         ContactRoutingModule,
         HomeRoutingModule,
         HolidaysManagementRoutingModule,
+        OffersManagementRoutingModule,
         UserManagementRoutingModule,
         AgmCoreModule.forRoot({
             apiKey: 'AIzaSyBjisHSBvdTWkynJPKVAAcpTgB6PQrkXbY'
@@ -47,11 +54,14 @@ import { SharedModule } from "../core/common/common.module";
     ],
     declarations: [
         PersonalizedOfferComponent,
+        PersonalizedOfferViewModeComponent,
         AboutComponent,
         ContactComponent,
         HomeComponent,
         HolidaysManagementComponent,
-        UserManagementComponent
+        UserManagementComponent,
+        OffersManagementComponent,
+        OfferViewModalComponent
     ],
     providers: [
         PersonalizedOfferService,
@@ -60,11 +70,14 @@ import { SharedModule } from "../core/common/common.module";
     ],
     exports: [
         PersonalizedOfferComponent,
+        PersonalizedOfferViewModeComponent,
         AboutComponent,
         ContactComponent,
         HomeComponent,
         HolidaysManagementComponent,
-        UserManagementComponent
+        UserManagementComponent,
+        OffersManagementComponent,
+        OfferViewModalComponent
     ]
 })
 export class PagesModule { }

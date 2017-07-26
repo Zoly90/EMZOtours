@@ -1,0 +1,20 @@
+<button (click)="staticModal.show()" class="btn btn-danger delete-button" type="button" id="deleteConfirmationModal" [disabled]="assigned">
+	<i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></button>
+
+<div bsModal #staticModal="bs-modal" [config]="{backdrop: 'static'}" class="modal fade" tabindex="-1"
+ role="dialog" aria-labelledby="deleteConfirmationModal" aria-hidden="true">
+	<div class="modal-dialog modal-sm">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title pull-left">Delete confirmation</h4>
+			</div>
+			<div class="modal-body modal-body-form">
+				Are you sure you want to delete '{{ toDelete }}' {{ whatToDelete }}?
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="pull-right btn btn-danger" (click)="staticModal.hide(); confirmDelete(true)" aria-label="Yes">Yes</button>
+				<button type="button" class="pull-right btn btn-secondary" (click)="staticModal.hide()" aria-label="No">No</button>
+			</div>
+		</div>
+	</div>
+</div>

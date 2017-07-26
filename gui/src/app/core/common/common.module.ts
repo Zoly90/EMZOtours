@@ -25,6 +25,7 @@ import { AuthorizationService } from "../authentication/services/authorization.s
 import { UserValidatorService } from "../services/user-validator.service";
 import { UtilsService } from "../../utils/utils.service";
 import { DateSelecComponent } from "./date-slect/date-select.component";
+import { DeleteConfirmationModalComponent } from "./delete-confirmation-modal/delete-confirmation-modal.component";
 
 /**
  * Do not specify providers for modules that might be imported by a lazy loaded module.
@@ -50,13 +51,15 @@ import { DateSelecComponent } from "./date-slect/date-select.component";
     LoginDropdownComponent,
     LogoutButtonComponent,
     MyProfileDropdownComponent,
-    NavbarComponent
+    NavbarComponent,
+    DeleteConfirmationModalComponent
   ],
   exports: [
     DateSelecComponent,
     SignUpModalComponent,
     ToolbarComponent,
     NavbarComponent,
+    DeleteConfirmationModalComponent,
     CommonModule,
     FormsModule,
     RouterModule,

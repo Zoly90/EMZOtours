@@ -37,10 +37,10 @@
 }
 
 .travel-by-option {
-    margin: 0;
-    font-size: 14px;
-    min-width: 120px;
-    text-align: left;
+  margin: 0;
+  font-size: 14px;
+  min-width: 120px;
+  text-align: left;
 }
 
 .price-slider {
@@ -86,7 +86,7 @@
   margin-bottom: 15px;
 }
 
-.contact-info-radio-group{
+.contact-info-radio-group {
   margin-bottom: 13px;
 }
 
@@ -123,21 +123,24 @@
 // }
 
 .custom-day {      
-      text-align: center;
-      padding: 0.185rem 0.25rem;
-      border-radius: 0.25rem;
-      display: inline-block;
-      width: 2rem;
-    }
-    .custom-day:hover {
-      background-color: #e6e6e6;
-    }
-    .weekend {
-      background-color: #f0ad4e;
-      border-radius: 1rem;
-      color: white;
-    }
-    .hidden {
-      display: none;
-    }
+  text-align: center;
+  padding: 0.185rem 0.25rem;
+  border-radius: 0.25rem;
+  display: inline-block;
+  width: 2rem;
+
+  &:hover {
+    background-color: #e6e6e6;
+  }
+}
+
+.weekend {
+  background-color: #f0ad4e;
+  border-radius: 1rem;
+  color: white;
+}
+
+.hidden {
+  display: none;
+}
   

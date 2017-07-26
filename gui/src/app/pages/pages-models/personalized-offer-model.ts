@@ -18,6 +18,8 @@ export class PersonalizedOffer {
   pets?: string
   comments?: string
   nrChildren?: number | string
+  handeledBy?: string
+  offerStatus?: string
 
   constructor() {
     Object.assign(this, {})

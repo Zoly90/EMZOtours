@@ -1,0 +1,45 @@
+@import '../../../styles/variables.scss';
+
+.personal-information-container, .main-holiday-information-container, .additional-holiday-information-container {
+  border: 1px solid $container-border-color;
+  box-shadow: $container-border-shadow;
+  padding: 20px;
+  margin: 15px 0;
+}
+
+.container-element {
+  margin-left: 20px;
+  font-size: 16px;
+  color: $label-color;
+}
+
+.with-subelements {
+  margin-bottom: 0;
+}
+
+.last-subelement {
+  margin-bottom: 5px;
+}
+
+.normal-color {
+	color: #000;
+  font-weight: normal;
+}
+
+.container-title {
+  font-size: 20px;
+  margin-bottom: 25px;
+}
+
+.first-container-column {
+  padding-right: 20px;
+}
+
+.second-container-column {
+  margin-left: 20px;
+}
+
+.not-label {
+  margin: 0 0 0 40px;
+}
+

@@ -12,7 +12,7 @@ export class PersonalizedOfferService {
         private _http: Http
     ) { }
 
-    public getPersonalizedOffers(): Observable<PersonalizedOffer> {
+    public getPersonalizedOffers(): Observable<Array<PersonalizedOffer>> {
         return this._http.get(`${this.baseUrl}`)
             .map(res => res.json());
     }
@@ -25,5 +25,14 @@ export class PersonalizedOfferService {
     public savePersonalizedOffer(newPersonalizedOffer: PersonalizedOffer): Observable<PersonalizedOffer> {
         return this._http.post(`${this.baseUrl}`, newPersonalizedOffer)
             .map(res => res.json());
+    }
+
+    public applyToUser(applyTo: Object): Observable<PersonalizedOffer> {
+        return this._http.post(`${this.baseUrl}`, applyTo)
+            .map(res => res.json())
+    }
+
+    public deleteOffer(id: number) {
+        return this._http.delete(`${this.baseUrl}/${id}`);
     }
 }

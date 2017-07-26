@@ -1,0 +1,63 @@
+<div class="imageBackground" [ngStyle]="{'background-image':'url(' + backgroundImagePath + ')'}">
+	<md-card class="offers-management-container">
+		<md-card-title fxLayout fxLayoutAlign="space-between center">
+			<h1>Manage client offers</h1>
+		</md-card-title>
+
+		<md-card-content fxLayout="column" fxFlex>
+			<div class="offers-list-container">
+				<md-list class="offers-list" fxLayout="column" fxFlex>
+					<md-list-item fxLayout="column" class="table-header">
+						<div fxLayout fxFlex>
+							<div fxLayout fxLayoutAlign="start center" fxFlex="6%"></div>
+							<div fxLayout fxLayoutAlign="space-around center" fxFlex="5%">
+								<h4 md-line>Offer id</h4>
+							</div>
+							<div fxLayout fxLayoutAlign="space-around center" fxFlex="18%">
+								<h4 md-line>Client name</h4>
+							</div>
+							<div fxLayout fxLayoutAlign="space-around center" fxFlex="20%">
+								<h4 md-line>Destination</h4>
+							</div>
+							<div fxLayout fxLayoutAlign="space-around center" fxFlex="15%">
+								<h4 md-line>Period</h4>
+							</div>
+							<div fxLayout fxLayoutAlign="space-around center" fxFlex="18%">
+								<h4 md-line>Handeled by</h4>
+							</div>
+						</div>
+					</md-list-item>
+					<md-list-item fxLayout="column" class="table-items" *ngFor="let offer of listOfOffers">
+						<div fxLayout fxFlex>
+							<div fxLayout fxLayoutAlign="start center" fxFlex="6%">
+								<div class="offer-status" [ngClass]="{'status-open': offer.offerStatus === 'OPEN', 'status-wip': offer.offerStatus === 'WIP', 'status-done': offer.offerStatus === 'DONE'}">{{offer.offerStatus}}</div>								
+							</div>
+							<div fxLayout fxLayoutAlign="space-around center" fxFlex="5%">
+								<h5 md-line class="table-item">{{offer.id}}</h5>
+							</div>
+							<div fxLayout fxLayoutAlign="space-around center" fxFlex="18%">
+								<h5 md-line class="table-item">{{offer.name}}</h5>
+							</div>
+							<div fxLayout fxLayoutAlign="space-around center" fxFlex="20%">
+								<h5 md-line class="table-item">{{offer.travelDestination}}</h5>
+							</div>
+							<div fxLayout fxLayoutAlign="space-around center" fxFlex="15%">
+								<h5 md-line class="table-item">{{offer.firstDayOfHoliday | date}} - {{offer.lastDayOfHoliday | date}}</h5>
+							</div>
+							<div fxLayout fxLayoutAlign="space-around center" fxFlex="18%">
+								<h5 md-line class="table-item">{{offer.handeledBy}}</h5>
+							</div>
+							<div fxLayout fxLayoutAlign="end center" fxFlex class="buttons-container">
+								<offer-view-modal [personalizedOffer]="offer"></offer-view-modal>
+								<button (click)="assignToMe(offer)" class="btn btn-primary assign-button" type="button" [disabled]="offer.handeledBy"><i class="fa fa-lg" [ngClass]="{'fa-unlock': !offer.handeledBy, 'fa-lock': offer.handeledBy}" aria-hidden="true"></i></button>
+								<delete-confirmation-modal [whatToDelete]="'offer with id'" [toDelete]="offer.id" [assigned]="offer.handeledBy != null" (deleteConfirmation)="deleteConfirmed($event, offer)"></delete-confirmation-modal>
+								<!--<i class="fa fa-lock" aria-hidden="true"></i>-->
+								<!--<i class="fa fa-unlock-alt" aria-hidden="true"></i>-->
+							</div>
+						</div>
+					</md-list-item>
+				</md-list>
+			</div>
+		</md-card-content>
+	</md-card>
+</div>

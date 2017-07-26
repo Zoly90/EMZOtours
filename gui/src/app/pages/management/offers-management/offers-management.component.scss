@@ -1,0 +1,54 @@
+@import '../../../styles/variables.scss';
+
+.imageBackground {
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+.offers-management-container {
+	margin: 0 auto;
+  width: 70%;
+}
+
+.table-header {
+	background-color: $header-background-color;
+}
+
+.table-items {
+	cursor: default;
+	background-color: $items-background-color;
+	border-top: $items-border-color;
+
+	&:hover {
+    background-color: $items-background-color-on-hover;
+	}
+}
+
+.assign-button, .delete-button {
+	width: 60px;
+}
+
+.assign-button {
+	margin: 0 10px;
+}
+
+.offer-status {
+	padding: 5px;
+	color: white;
+	border-radius: 12px;
+	font-size: 14px;
+	min-width: 50px;
+	text-align: center;
+}
+
+.status-open {
+	background-color: red;
+}
+
+.status-wip {
+	background-color: darkorange;
+}
+
+.status-done {
+	background-color: mediumseagreen;
+}

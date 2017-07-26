@@ -1,0 +1,22 @@
+<button (click)="lgModal.show()" class="btn btn-info view-button" type="button" id="offerViewModal">
+	<i class="fa fa-eye fa-lg" aria-hidden="true"></i></button>
+
+<div bsModal #lgModal="bs-modal" class="modal fade" tabindex="-1"
+ role="dialog" aria-labelledby="offerViewModal" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title pull-left">View offer</h4>
+				<button type="button" class="close pull-right" (click)="lgModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+			</div>
+			<div class="modal-body modal-body-form">
+				<personalized-offer-view-mode [personalizedOffer]="personalizedOffer"></personalized-offer-view-mode>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="pull-right btn btn-danger" (click)="lgModal.hide()" aria-label="Close">Close</button>
+			</div>
+		</div>
+	</div>
+</div>

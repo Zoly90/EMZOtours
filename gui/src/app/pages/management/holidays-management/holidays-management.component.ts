@@ -4,6 +4,8 @@ import { Holiday } from "../../../holiday/models/holiday.model";
 import { HolidayDetailViewService } from "../../../holiday/services/holidayDetailView.service";
 import { Router } from "@angular/router";
 import * as _ from 'lodash'
+import { TurismAppConstants } from "../../../utils/constants";
+import { AuthorizationService } from "../../../core/authentication/services/authorization.service";
 
 @Component({
 	selector: 'holidays-management',
@@ -18,11 +20,19 @@ export class HolidaysManagementComponent {
 	constructor(
 		private router: Router,
 		private holidayService: HolidayService,
-		private holidayDetailViewService: HolidayDetailViewService
+		private holidayDetailViewService: HolidayDetailViewService,
+		private authorizationService: AuthorizationService
 	) { }
 
 	ngOnInit() {
-		this.holidayService.getAllHolidays().subscribe(list => this.listOfHolidays = list);
+		let token = this.authorizationService.getDecodedToken();
+		if (token != null && token.role === TurismAppConstants.EMPLOYEE || token.role === TurismAppConstants.ADMIN) {
+			this.holidayService.getAllHolidays().subscribe(
+				list => this.listOfHolidays = list
+			)
+		} else {
+			this.router.navigate(['/']);
+		}
 	}
 
 	public updateHoliday(holiday: Holiday) {
@@ -33,7 +43,7 @@ export class HolidaysManagementComponent {
 		this.holidayService.deleteHoliday(holiday.id).toPromise()
 			.then(res => {
 				this.listOfHolidays.splice(_.findIndex(
-					this.listOfHolidays, function (o) { 
+					this.listOfHolidays, function (o) {
 						return o.hotelInformation.accommodationName === holiday.hotelInformation.accommodationName;
 					}), 1)
 			})

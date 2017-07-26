@@ -246,60 +246,7 @@
           <h3><i>You want to submit the following:</i></h3>
         </md-card-subtitle>
 
-        <div class="personal-information-container">
-          <label class="container-title">Personal information</label>
-          <div fxLayout fxFlex>
-            <div class="first-container-column" fxLayout="column" fxFlex="50%">
-              <label for="name"><i class="container-element">Name: </i>{{ personalizedOffer.name }}</label>
-
-              <label for="countryAddress"><i class="container-element">Departure country: </i>{{ personalizedOffer.departureCountry }}</label>
-
-              <label for="cityAddress"><i class="container-element">Departure city: </i>{{ personalizedOffer.departureCity }}</label>
-            </div>
-
-            <div class="second-container-column" fxLayout="column" fxFlex="50%">
-              <label for="contact"><i class="container-element">Contact information</i></label>
-              <label class="normal-color not-label">Telephone number: {{ personalizedOffer.telephone }}</label>
-              <label class="normal-color not-label">E-mail address: {{ personalizedOffer.email }}</label>
-            </div>
-          </div>
-        </div>
-
-        <div class="main-holiday-information-container">
-          <label class="container-title">Main holiday information</label>
-          <div fxLayout fxFlex>
-            <div class="first-container-column" fxLayout="column" fxFlex="50%">
-              <label for="destination"><i class="container-element">Destination of your choosing: </i>{{ personalizedOffer.travelDestination }}</label>
-                <label for="numberOfNights"><i class="container-element">Number of nights: </i>{{ personalizedOffer.nrNights }}</label>
-                <label for="numberOfGuests"><i class="container-element">Total number of guests: </i>{{ personalizedOffer.nrGuests }}</label>
-                <label for="numberOfChildren"><i class="container-element">Number of children: </i>{{ personalizedOffer.nrChildren }}</label>
-                <label for="pets"><i class="container-element">Pets you wish to bring along: </i>{{ personalizedOffer.pets }}</label>
-            </div>
-
-            <div class="second-container-column" fxLayout="column" fxFlex="50%">
-              <label for="daterange"><i class="container-element with-subelements">The daterange you prefer for your holiday </i></label>
-              <label class="normal-color not-label">From: {{ personalizedOffer.firstDayOfHoliday | date }}</label>
-              <label class="normal-color not-label last-subelement">Until: {{ personalizedOffer.lastDayOfHoliday | date }}</label>
-              <label for="travelBy"><i class="container-element">Means of transport chosen: </i>{{ personalizedOffer.travelBy }}</label>
-              <label for="maxPrice"><i class="container-element">This is how much you want to spend (EUR): </i>{{ personalizedOffer.maxPrice }}</label>
-            </div>
-          </div>
-        </div>
-
-        <div class="additional-holiday-information-container">
-          <label class="container-title">Additional holiday information</label>
-          <div fxLayout fxFlex>
-            <div class="first-container-column" fxLayout="column" fxFlex="50%">
-              <label for="typeOfAccomodation"><i class="container-element">The type of accomodation you'd prefer: </i>{{ personalizedOffer.accommodationType }}</label>
-            </div>
-
-            <div class="second-container-column" fxLayout="column" fxFlex="50%">
-              <label for="food"><i class="container-element">Food to be included in the offer: </i>{{ personalizedOffer.food }}</label>
-            </div>
-
-          </div>
-            <label for="comments"><i class="container-element">Additional comments / preferences: </i>{{ personalizedOffer.comments }}</label>
-        </div>
+        <personalized-offer-view-mode [personalizedOffer]="personalizedOffer"></personalized-offer-view-mode>
 
         <md-card-actions>
           <button type="submit" class="btn btn-success pull-right" (click)="saveToDatabase(); offerForm.reset()">Continue</button>
