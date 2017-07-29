@@ -9,7 +9,7 @@ export class DeleteConfirmationModalComponent {
 
 	@Input() whatToDelete: string;
 	@Input() toDelete: any;
-	@Input() assigned: boolean;
+	@Input() disabled: boolean;
 
 	@Output() deleteConfirmation: EventEmitter<any> = new EventEmitter<any>();
 

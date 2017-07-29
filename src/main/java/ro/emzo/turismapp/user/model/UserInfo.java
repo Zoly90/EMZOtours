@@ -1,10 +1,13 @@
 package ro.emzo.turismapp.user.model;
 
 import java.sql.Date;
+import java.util.Collection;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import ro.emzo.turismapp.core.model.BaseModel;
+import ro.emzo.turismapp.offer.model.PersonalizedOffer;
 
 @Entity
 @Table(name = "user_info")
@@ -35,6 +38,10 @@ public class UserInfo extends BaseModel {
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn
 	private UserLogin userLogin;
+
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "userInfo")
+	@JsonBackReference
+	private Collection<PersonalizedOffer> personalizedOffers;
 
 	public String getTitle() {
 		return title;
@@ -98,5 +105,13 @@ public class UserInfo extends BaseModel {
 
 	public void setUserLogin(UserLogin userLogin) {
 		this.userLogin = userLogin;
+	}
+
+	public Collection<PersonalizedOffer> getPersonalizedOffers() {
+		return personalizedOffers;
+	}
+
+	public void setPersonalizedOffers(Collection<PersonalizedOffer> personalizedOffers) {
+		this.personalizedOffers = personalizedOffers;
 	}
 }

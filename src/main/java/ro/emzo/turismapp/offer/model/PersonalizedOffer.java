@@ -5,6 +5,7 @@ import java.sql.Date;
 import javax.persistence.*;
 
 import ro.emzo.turismapp.core.model.BaseModel;
+import ro.emzo.turismapp.user.model.UserInfo;
 
 @Entity
 @Table(name = "personalized_offer")
@@ -60,6 +61,14 @@ public class PersonalizedOffer extends BaseModel{
 	
 	@Column(name = "nr_children")
 	private Short nrChildren;
+
+	@Enumerated(EnumType.STRING)
+	@Column(name = "status")
+	private Status status;
+
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn
+	private UserInfo userInfo;
 
 	public String getComments() {
 		return comments;
@@ -195,5 +204,21 @@ public class PersonalizedOffer extends BaseModel{
 
 	public void setNrChildren(Short nrChildren) {
 		this.nrChildren = nrChildren;
+	}
+
+	public Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
+	}
+
+	public UserInfo getUserInfo() {
+		return userInfo;
+	}
+
+	public void setUserInfo(UserInfo userInfo) {
+		this.userInfo = userInfo;
 	}
 }

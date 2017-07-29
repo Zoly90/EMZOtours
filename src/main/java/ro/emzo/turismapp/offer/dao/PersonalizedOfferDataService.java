@@ -24,4 +24,8 @@ public class PersonalizedOfferDataService {
 	public PersonalizedOffer savePersonalizedOffer(PersonalizedOffer personalizedOffer) {
 		return personalizedOfferRepository.save(personalizedOffer);
 	}
+
+	public void deleteOffer(Long offerId) {
+		personalizedOfferRepository.delete(offerId);
+	}
 }

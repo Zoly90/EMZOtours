@@ -24,11 +24,8 @@
 	}
 }
 
-.assign-button, .delete-button {
-	width: 60px;
-}
-
-.assign-button {
+.assign-button, .finished-button {
+	width: 50px;
 	margin: 0 10px;
 }
 
@@ -39,6 +36,10 @@
 	font-size: 14px;
 	min-width: 50px;
 	text-align: center;
+}
+
+.status-open, .status-wip, .status-done {
+	font-weight: bold;
 }
 
 .status-open {

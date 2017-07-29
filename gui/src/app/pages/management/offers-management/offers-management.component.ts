@@ -5,6 +5,7 @@ import { Router } from "@angular/router";
 import { AuthorizationService } from "../../../core/authentication/services/authorization.service";
 import { TurismAppConstants } from "../../../utils/constants";
 import * as _ from 'lodash';
+import { User } from "../../../core/models/user.model";
 
 @Component({
 	selector: 'offers-management',
@@ -29,7 +30,6 @@ export class OffersManagementComponent {
 			this.personalizedOfferService.getPersonalizedOffers().subscribe(
 				list => {
 					this.listOfOffers = list
-					this.listOfOffers.forEach(item => item.offerStatus = 'OPEN')
 				}
 			)
 		} else {
@@ -38,20 +38,34 @@ export class OffersManagementComponent {
 	}
 
 	public assignToMe(offer) {
-		// this.personalizedOfferService.applyToUser({ offerId: offer.id, userId: this.token.userId })
-		// 	.subscribe(res => {
-		// 		let updatedOfferId = this.listOfOffers.findIndex(item => item.id === offer.id);
-		// 		this.listOfOffers[updatedOfferId] = res;
-		// 	})
-		let updatedOfferId = this.listOfOffers.findIndex(item => item.id === offer.id);
-				this.listOfOffers[updatedOfferId].handeledBy = this.token.name;
-				this.listOfOffers[updatedOfferId].offerStatus = 'WIP';
+		this.personalizedOfferService.applyToUser({ offerID: offer.id, userID: this.token.userID })
+			.subscribe(res => {
+				this._updateOffer(offer, res);
+			})
+	}
+
+	public finalizeOffer(offer) {
+		if (this._checkIfOfferBelongsToLoggedInUser(offer)) {
+			this.personalizedOfferService.finalizeOffer(offer)
+				.subscribe(res => {
+					this._updateOffer(offer, res);
+				})
+		}
 	}
 
 	public deleteConfirmed(cofirmation, offer) {
-		if (cofirmation) {
+		if (this._checkIfOfferBelongsToLoggedInUser(offer) && cofirmation) {
 			this._deleteOffer(offer);
 		}
+	}
+
+	private _checkIfOfferBelongsToLoggedInUser(offer: PersonalizedOffer) {
+		return (offer.userInfo.userLogin.username === this.token.username)
+	}
+
+	private _updateOffer(offer, newOffer) {
+		let updatedOfferId = this.listOfOffers.findIndex(item => item.id === offer.id);
+		this.listOfOffers[updatedOfferId] = newOffer;
 	}
 
 	private _deleteOffer(offer) {

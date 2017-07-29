@@ -3,7 +3,6 @@ import { Http } from "@angular/http";
 import { Observable } from "rxjs/Observable";
 import { PersonalizedOffer } from "../pages-models/personalized-offer-model";
 
-
 @Injectable()
 export class PersonalizedOfferService {
     private baseUrl: string = 'api/turism-app/personalized-offer'
@@ -17,7 +16,7 @@ export class PersonalizedOfferService {
             .map(res => res.json());
     }
 
-    public getPersonalizedOffer(id): Observable<PersonalizedOffer> {
+    public getPersonalizedOffer(id: number): Observable<PersonalizedOffer> {
         return this._http.get(`${this.baseUrl}/${id}`)
             .map(res => res.json())
     }
@@ -28,7 +27,12 @@ export class PersonalizedOfferService {
     }
 
     public applyToUser(applyTo: Object): Observable<PersonalizedOffer> {
-        return this._http.post(`${this.baseUrl}`, applyTo)
+        return this._http.post(`${this.baseUrl}/apply`, applyTo)
+            .map(res => res.json())
+    }
+
+    public finalizeOffer(offer: PersonalizedOffer): Observable<PersonalizedOffer> {
+        return this._http.post(`${this.baseUrl}/finalize`, offer)
             .map(res => res.json())
     }
 

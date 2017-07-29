@@ -4,6 +4,8 @@ import java.util.Base64;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -55,22 +57,6 @@ public class UserService {
         return result;
     }
 
-    private String createToken(UserLogin userLogin, UserLoginTO userLoginTO) {
-        String result = null;
-        if (userLogin != null && userLoginTO.getPassword().equals(userLogin.getPassword())) {
-            UserInfo userInfo = userDataService.getUserInfo(userLogin);
-            result = jwtService.createJWT(userInfo, 86400);
-        }
-        return result;
-    }
-
-    private UserLogin checkCredentialsByUsername(String username) {
-        return userDataService.credentialsByUsername(username);
-    }
-
-    private UserLogin checkCredentialsByEmail(String email) {
-        return userDataService.credentialsByEmail(email);
-    }
 
     public UserInfoTO registerUser(UserInfoTO userInfoTO) throws RegistrationException {
         if (!userValidator.validatePasswordEquality(userInfoTO.getUserLoginTO())) {
@@ -90,6 +76,23 @@ public class UserService {
         userValidator.validateDateOfBirthToBeOver18(userInfoTO);
 
         UserInfo userInfo = fromUserInfoTOToUserInfo(userInfoTO);
+        userDataService.save(userInfo);
+        userInfoTO = fromUserInfoToUserInfoTO(userInfo);
+
+        return userInfoTO;
+    }
+
+    public void deleteUser(Long userId) {
+        userDataService.deleteUser(userId);
+    }
+
+    public UserInfoTO updateExistingUser(UserInfoTO userInfoTO) throws UserDoesNotExistInTheDatabase {
+        UserInfo userInfo = userDataService.getUserInfo(userInfoTO.getId());
+        if (userInfo == null) {
+            throw new UserDoesNotExistInTheDatabase();
+        }
+
+        userInfo = fromUserInfoTOToUserInfo(userInfoTO);
         userDataService.save(userInfo);
         userInfoTO = fromUserInfoToUserInfoTO(userInfo);
 
@@ -214,20 +217,29 @@ public class UserService {
         return result;
     }
 
-    public void deleteUser(Long userId) {
-        userDataService.deleteUser(userId);
+    private String createToken(UserLogin userLogin, UserLoginTO userLoginTO) {
+        String result = null;
+        if (userLogin != null && userLoginTO.getPassword().equals(userLogin.getPassword())) {
+            UserInfo userInfo = userDataService.getUserInfo(userLogin);
+            result = jwtService.createJWT(userInfo, 86400);
+        }
+        return result;
     }
 
-    public UserInfoTO updateExistingUser(UserInfoTO userInfoTO) throws UserDoesNotExistInTheDatabase {
-        UserInfo userInfo = userDataService.getUserInfo(userInfoTO.getId());
-        if (userInfo == null) {
-            throw new UserDoesNotExistInTheDatabase();
+    private UserLogin checkCredentialsByUsername(String username) {
+        return userDataService.credentialsByUsername(username);
+    }
+
+    private UserLogin checkCredentialsByEmail(String email) {
+        return userDataService.credentialsByEmail(email);
+    }
+
+    public String getLoggedInUsername() {
+        String result = null;
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null) {
+            result = (String) authentication.getPrincipal();
         }
-
-        userInfo = fromUserInfoTOToUserInfo(userInfoTO);
-        userDataService.save(userInfo);
-        userInfoTO = fromUserInfoToUserInfoTO(userInfo);
-
-        return userInfoTO;
+        return result;
     }
 }

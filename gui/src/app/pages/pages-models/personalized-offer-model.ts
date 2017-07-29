@@ -1,3 +1,5 @@
+import { User } from "../../core/models/user.model";
+
 export class PersonalizedOffer {
 
   id?: number
@@ -18,11 +20,13 @@ export class PersonalizedOffer {
   pets?: string
   comments?: string
   nrChildren?: number | string
-  handeledBy?: string
-  offerStatus?: string
+  status?: string
+  userInfo?: User
 
   constructor() {
-    Object.assign(this, {})
+    Object.assign(this, {
+      userInfo: new User()
+    })
   }
 }
 

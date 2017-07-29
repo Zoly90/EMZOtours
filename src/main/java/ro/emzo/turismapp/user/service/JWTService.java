@@ -54,20 +54,10 @@ public class JWTService {
                 .setSubject(SUBJECT)
                 .setIssuer(userInfo.getFirstName() + " " + userInfo.getLastName())
                 .claim("name", userInfo.getTitle() + " " + userInfo.getFirstName() + " " + userInfo.getLastName())
-                .claim("birthday", "" + userInfo.getBirthday())
-                .claim("newsletter", "" + userInfo.getNewsletter())
-                .claim("telephoneNumber", "" + userInfo.getTelephoneNr())
+                .claim("userID", "" + userInfo.getId())
                 .claim("username", "" + userInfo.getUserLogin().getUsername())
                 .claim("emailAddress", "" + userInfo.getUserLogin().getEmailAddress())
                 .claim("role", "" + userInfo.getUserLogin().getRole());
-
-        if (userInfo.getUserAddress() != null) {
-            builder.claim("homeAddress", userInfo.getUserAddress().getCountry() + ", " +
-                    userInfo.getUserAddress().getCity() + ", " +
-                    userInfo.getUserAddress().getStreet() + " street, nr. " +
-                    userInfo.getUserAddress().getStreetNr() + ", ap. " +
-                    userInfo.getUserAddress().getApartment() + ", " + userInfo.getUserAddress().getZip() + " (ZIP code)");
-        }
 
         builder.signWith(signatureAlgorithm, signingKey);
 

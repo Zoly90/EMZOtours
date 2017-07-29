@@ -6,16 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import ro.emzo.turismapp.offer.model.ApplyToUserTO;
 import ro.emzo.turismapp.offer.model.PersonalizedOffer;
 import ro.emzo.turismapp.offer.service.PersonalizedOfferService;
+import ro.emzo.turismapp.user.exceptions.InsufficientPermissionException;
+import ro.emzo.turismapp.user.exceptions.UserDoesNotExistInTheDatabase;
 
 @RestController
 @RequestMapping("/api/turism-app/personalized-offer")
@@ -38,5 +35,23 @@ public class PersonalizedOfferController {
     @ResponseBody
 	public ResponseEntity<PersonalizedOffer> savePersonalizedOffer(@RequestBody PersonalizedOffer personalizedOffer) {
 		return new ResponseEntity<>(personalizedOfferService.saveNewPersonalizedOffer(personalizedOffer), HttpStatus.OK);
+	}
+
+	@PostMapping(value = "/apply", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public ResponseEntity<PersonalizedOffer> applyToUser(@RequestBody ApplyToUserTO applyToUserTO) throws UserDoesNotExistInTheDatabase {
+		return new ResponseEntity<>(personalizedOfferService.applyToUser(applyToUserTO), HttpStatus.OK);
+	}
+
+	@PostMapping(value = "/finalize", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public ResponseEntity<PersonalizedOffer> applyToUser(@RequestBody PersonalizedOffer personalizedOffer) throws InsufficientPermissionException {
+		return new ResponseEntity<>(personalizedOfferService.finalizeOffer(personalizedOffer), HttpStatus.OK);
+	}
+
+	@DeleteMapping("/{personalizedOfferId}")
+	public ResponseEntity<Void> deletePersonalizedOffer(@PathVariable("personalizedOfferId") Long personalizedOfferId) throws InsufficientPermissionException {
+		personalizedOfferService.deleteOffer(personalizedOfferId);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 }

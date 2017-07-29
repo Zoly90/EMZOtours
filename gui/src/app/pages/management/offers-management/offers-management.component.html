@@ -30,7 +30,7 @@
 					<md-list-item fxLayout="column" class="table-items" *ngFor="let offer of listOfOffers">
 						<div fxLayout fxFlex>
 							<div fxLayout fxLayoutAlign="start center" fxFlex="6%">
-								<div class="offer-status" [ngClass]="{'status-open': offer.offerStatus === 'OPEN', 'status-wip': offer.offerStatus === 'WIP', 'status-done': offer.offerStatus === 'DONE'}">{{offer.offerStatus}}</div>								
+								<div class="offer-status" [ngClass]="{'status-open': offer.status === 'OPEN', 'status-wip': offer.status === 'WIP', 'status-done': offer.status === 'DONE'}">{{offer.status}}</div>
 							</div>
 							<div fxLayout fxLayoutAlign="space-around center" fxFlex="5%">
 								<h5 md-line class="table-item">{{offer.id}}</h5>
@@ -45,14 +45,17 @@
 								<h5 md-line class="table-item">{{offer.firstDayOfHoliday | date}} - {{offer.lastDayOfHoliday | date}}</h5>
 							</div>
 							<div fxLayout fxLayoutAlign="space-around center" fxFlex="18%">
-								<h5 md-line class="table-item">{{offer.handeledBy}}</h5>
+								<h5 md-line *ngIf="offer.userInfo != null" class="table-item">{{offer.userInfo.firstName}} {{offer.userInfo.lastName}}</h5>
 							</div>
 							<div fxLayout fxLayoutAlign="end center" fxFlex class="buttons-container">
 								<offer-view-modal [personalizedOffer]="offer"></offer-view-modal>
-								<button (click)="assignToMe(offer)" class="btn btn-primary assign-button" type="button" [disabled]="offer.handeledBy"><i class="fa fa-lg" [ngClass]="{'fa-unlock': !offer.handeledBy, 'fa-lock': offer.handeledBy}" aria-hidden="true"></i></button>
-								<delete-confirmation-modal [whatToDelete]="'offer with id'" [toDelete]="offer.id" [assigned]="offer.handeledBy != null" (deleteConfirmation)="deleteConfirmed($event, offer)"></delete-confirmation-modal>
-								<!--<i class="fa fa-lock" aria-hidden="true"></i>-->
-								<!--<i class="fa fa-unlock-alt" aria-hidden="true"></i>-->
+								<button *ngIf="!offer.userInfo" (click)="assignToMe(offer)" class="btn btn-primary assign-button" type="button" [disabled]="offer.userInfo && offer.userInfo.userLogin.username !== token.username">
+									<i class="fa fa-unlock fa-lg" aria-hidden="true"></i>
+								</button>
+								<button *ngIf="offer.userInfo" (click)="finalizeOffer(offer)" class="btn btn-success finished-button" type="button" [disabled]="offer.userInfo.userLogin.username !== token.username || offer.status === 'DONE'">
+									<i class="fa fa-lg" [ngClass]="{'fa-check-square-o': offer.userInfo.userLogin.username === token.username, 'fa-lock': offer.userInfo.userLogin.username !== token.username}" aria-hidden="true"></i>
+								</button>
+								<delete-confirmation-modal [whatToDelete]="'offer with id'" [toDelete]="offer.id" [disabled]="offer.userInfo && offer.userInfo.userLogin.username !== token.username" (deleteConfirmation)="deleteConfirmed($event, offer)"></delete-confirmation-modal>
 							</div>
 						</div>
 					</md-list-item>
