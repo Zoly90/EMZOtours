@@ -11,15 +11,15 @@ import { RoutingByIDService } from "../../core/services/routing-by-id.service";
 export class HolidayListResolver implements Resolve<Holiday> {
 
   constructor(
-     private holidayService: HolidayService,
-     private routingByIDService: RoutingByIDService
-  ) {}
+    private holidayService: HolidayService,
+    private routingByIDService: RoutingByIDService
+  ) { }
 
   resolve(route: ActivatedRouteSnapshot): Holiday | Observable<Holiday> {
-     if (this.routingByIDService.getRouting() === 'type') {
-           return this.holidayService.getHolidaysByType(this.routingByIDService.getId());
-        } else {
-           return this.holidayService.getHolidaysByCategory(this.routingByIDService.getId());
-        }
+    if (this.routingByIDService.getRouting() === 'type') {
+      return this.holidayService.getHolidaysByType(this.routingByIDService.getId());
+    } else {
+      return this.holidayService.getHolidaysByCategory(this.routingByIDService.getId());
+    }
   }
 }

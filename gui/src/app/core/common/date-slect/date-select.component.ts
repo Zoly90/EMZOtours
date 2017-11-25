@@ -1,6 +1,7 @@
-import { Component, Output, EventEmitter, OnInit } from "@angular/core";
+import { Component, Output, EventEmitter, OnInit, Input } from "@angular/core";
 import { TurismAppConstants } from "../../../utils/constants";
 import { UtilsService } from "../../../utils/utils.service";
+import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 
 @Component({
 	selector: 'date-select',
@@ -9,10 +10,18 @@ import { UtilsService } from "../../../utils/utils.service";
 })
 export class DateSelecComponent implements OnInit {
 
+	@Input() applyForOffer: string;
+	@Input() existingData: any;
+
 	@Output() onDateSelected: EventEmitter<any> = new EventEmitter<any>();
+	@Output() onExpirationDateSelected: EventEmitter<any> = new EventEmitter<any>();
+
+	public dateSelectForm: FormGroup;
 
 	private notOver18: boolean = true;
 	private notOver18Message: string = '';
+	private creditCardExpired: boolean = true;
+	private creditCardExpiredMessage: string = '';
 
 	// Logic for date selection { https://www.npmjs.com/package/angular2-select }
 	private years: Array<any> = [];
@@ -32,10 +41,57 @@ export class DateSelecComponent implements OnInit {
 	private selectedDay = '';
 
 	constructor(
-		private utilsService: UtilsService
+		private utilsService: UtilsService,
+		private formBuilder: FormBuilder
 	) {
-		let firstYear = TurismAppConstants.FIRST_YEAR;
-		let lastYear = new Date().getFullYear() - 18;
+		this.dateSelectForm = this.formBuilder.group({
+			year: [
+				{
+					value: '',
+					disabled: false
+				},
+				Validators.compose([
+					Validators.required
+				])
+			],
+			month: [
+				{
+					value: '',
+					disabled: false
+				},
+				Validators.compose([
+					Validators.required
+				])
+			],
+			day: [
+				{
+					value: '',
+					disabled: false
+				},
+				Validators.compose([
+					Validators.required
+				])
+			]
+		}, {
+				validator: Validators.compose([
+					this.ValidateAge.bind(this),
+					this.ValidateExpirationDate.bind(this)
+				])
+			})
+	}
+
+	ngOnInit() {
+		let firstYear: number = TurismAppConstants.FIRST_YEAR;
+		let lastYear: number = new Date().getFullYear() - 18;
+
+		if (!this.applyForOffer) {
+			firstYear = TurismAppConstants.FIRST_YEAR;
+			lastYear = new Date().getFullYear() - 18;
+		} else {
+			firstYear = new Date().getFullYear();
+			lastYear = new Date().getFullYear() + 10;
+		}
+
 		for (let i = 0; i < (lastYear - firstYear + 1); i++) {
 			this.years[i] = {
 				value: i.toString(),
@@ -57,45 +113,46 @@ export class DateSelecComponent implements OnInit {
 			}
 		}
 		this.updatedDays = this.days
-	}
 
-	ngOnInit() { }
+		if (this.existingData) {
+			this._initFormWithExistingUserData()
+		}
+	}
 
 	public onDayOpened() {
 		this._setNumberOfDays();
 	}
 
-	public onYearSelected(item) {
-		this.selectedYear = item.label;
-		this.isLeapYear = this.utilsService.leapYear(this.selectedYear);
-		if (this.selectedMonth && this.selectedDay) {
-			this._checkAge();
+	public onMonthSelected(formValues) {
+		if (this.applyForOffer) {
+			if (formValues && formValues.year && formValues.month) {
+				this.onExpirationDateSelected.emit({
+					selectedYear: formValues.year,
+					selectedMonth: formValues.month
+				})
+			}
 		}
 	}
 
-	public onMonthSelected(item) {
-		this.selectedMonth = item.label;
-		if (this.selectedDay) {
-			this._checkAge();
-		}
-	}
-
-	public onDaySelected(item) {
-		this.selectedDay = item.label;
-
-		this._checkAge();
-
-		if (!this.notOver18) {
+	public onDaySelected(formValues) {
+		if (this.dateSelectForm.valid) {
 			this.onDateSelected.emit({
-				selectedYear: this.selectedYear,
-				selectedMonth: this.selectedMonth,
-				selectedDay: this.selectedDay,
+				selectedYear: formValues.year,
+				selectedMonth: formValues.month,
+				selectedDay: formValues.day,
 				notOver18: this.notOver18
 			});
 		}
 	}
 
+	private _initFormWithExistingUserData() {
+		// this.
+    this.dateSelectForm.controls.year.setValue(this.existingData.year);
+		this.dateSelectForm.controls.month.setValue(this.existingData.month);
+  }
+
 	private _setNumberOfDays() {
+		this.isLeapYear = this.utilsService.leapYear(this.selectedYear);
 		this.updatedDays.splice(29, 31);
 		if (this.selectedMonth === 'February' && this.isLeapYear) {
 			if (!this.updatedDays.includes(this.day_29)) {
@@ -121,24 +178,46 @@ export class DateSelecComponent implements OnInit {
 		}
 	}
 
-	private _checkAge() {
-		let todaysDate = new Date();
-		let enteredDate = new Date(
-			Number(this.selectedYear),
-			this.utilsService.convertToNumericalMonth(this.selectedMonth),
-			Number(this.selectedDay)
-		);
-		// get time difference in miliseconds
-		let timeDifference = Math.abs(todaysDate.getTime() - enteredDate.getTime());
-		// convert it to number of years
-		let differenceInYears = (timeDifference / (1000 * 3600 * 24)) * TurismAppConstants.DAY_TO_YEAR_CONVERSION;
+	private ValidateAge() {
+		if (!this.applyForOffer) {
+			const todaysDate = new Date();
+			const enteredDate = new Date(
+				Number(this.selectedYear),
+				this.utilsService.convertToNumericalMonth(this.selectedMonth),
+				Number(this.selectedDay)
+			);
+			// get time difference in miliseconds
+			let timeDifference = Math.abs(todaysDate.getTime() - enteredDate.getTime());
+			// convert it to number of years
+			let differenceInYears = (timeDifference / (1000 * 3600 * 24)) * TurismAppConstants.DAY_TO_YEAR_CONVERSION;
 
-		if (differenceInYears < 18) {
-			this.notOver18 = true;
-			this.notOver18Message = TurismAppConstants.NOT_OVER_18_MESSAGE;
+			if (differenceInYears >= 18) {
+				return null
+			} else {
+				return { notOver18: true }
+			}
 		} else {
-			this.notOver18 = false;
-			this.notOver18Message = '';
+			return
+		}
+	}
+
+	private ValidateExpirationDate() {
+		if (this.applyForOffer) {
+			const selectedYear = this.years[Number(this.dateSelectForm.controls.year.value)]
+			const todaysDate = new Date();
+			const enteredDate = new Date(
+				selectedYear.label,
+				this.utilsService.convertToNumericalMonth(this.dateSelectForm.controls.month.value),
+				1
+			);
+			
+			if (enteredDate > todaysDate) {
+				return null
+			} else {
+				return { creditCardExpired: true }
+			}
+		} else {
+			return
 		}
 	}
 }

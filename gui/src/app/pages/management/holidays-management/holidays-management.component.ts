@@ -16,6 +16,7 @@ export class HolidaysManagementComponent {
 
 	private backgroundImagePath = '../../assets/images/background/rsz_background.jpg';
 	private listOfHolidays: Array<Holiday> = new Array<Holiday>();
+	private token;
 
 	constructor(
 		private router: Router,
@@ -25,8 +26,8 @@ export class HolidaysManagementComponent {
 	) { }
 
 	ngOnInit() {
-		let token = this.authorizationService.getDecodedToken();
-		if (token != null && token.role === TurismAppConstants.EMPLOYEE || token.role === TurismAppConstants.ADMIN) {
+		this.token = this.authorizationService.getDecodedToken();
+		if (this._checkIfLoggedInUserIsAdminOrEmployee()) {
 			this.holidayService.getAllHolidays().subscribe(
 				list => this.listOfHolidays = list
 			)
@@ -36,10 +37,20 @@ export class HolidaysManagementComponent {
 	}
 
 	public updateHoliday(holiday: Holiday) {
-		this.goToDetailPage(holiday)
+		this._goToDetailPage(holiday)
 	}
 
-	public deleteHoliday(holiday: Holiday) {
+	public deleteConfirmed(cofirmation: boolean, holiday: Holiday) {
+		if (this._checkIfLoggedInUserIsAdminOrEmployee() && cofirmation) {
+			this._deleteHoliday(holiday);
+		}
+	}
+
+	private _checkIfLoggedInUserIsAdminOrEmployee() {
+		return (this.token != null && this.token.role === TurismAppConstants.EMPLOYEE || this.token.role === TurismAppConstants.ADMIN) 
+	}
+
+	private _deleteHoliday(holiday: Holiday) {
 		this.holidayService.deleteHoliday(holiday.id).toPromise()
 			.then(res => {
 				this.listOfHolidays.splice(_.findIndex(
@@ -50,7 +61,7 @@ export class HolidaysManagementComponent {
 			.catch(err => console.log(err));
 	}
 
-	private goToDetailPage(holiday: Holiday) {
+	private _goToDetailPage(holiday: Holiday) {
 		this.holidayDetailViewService.setHoliday(holiday);
 		this.router.navigate(['holiday/' + holiday.hotelInformation.accommodationName]);
 	}

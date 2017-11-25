@@ -1,14 +1,7 @@
-
-<!--<div class="container-fluid">-->
-
-<!--<template ngbModalContainer></template>-->
-
 <sd-toolbar [userLogedIn]="userLogedIn" (onLoginSuccessful)="loggingIn($event)" (onLogout)="loggingOut()"></sd-toolbar>
 
-<sd-navbar [role]="role"></sd-navbar>
+<sd-navbar [types]="types" [role]="role"></sd-navbar>
 
-<router-outlet></router-outlet>
-
-<!--<ngbd-modal-basic></ngbd-modal-basic>-->
-<!--<demo-dropdown-basic-link></demo-dropdown-basic-link>-->
-<!--</div>-->
+<div class="imageBackground" [ngStyle]="{'background-image':'url(' + backgroundImagePath + ')'}">
+	<router-outlet></router-outlet>
+</div>

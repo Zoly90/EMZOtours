@@ -1,20 +1,18 @@
-<div class="imageBackground" [ngStyle]="{'background-image':'url(' + backgroundImagePath + ')'}">
-  <md-card class="homePageContentContainer">
-    <md-card-content fxLayout fxLayoutWrap>
-      <div *ngFor="let category of categories; let i = index">
-        <div class="image-and-text">
-          <h3 [ngClass]="{'odd-column': (i % 2 == 0), 'even-column': (i % 2 != 0)}">{{category.mainCategory}}</h3>
-          <img class="grow" id="{{category.elementId}}" [ngClass]="{'changeImageOpacity' : category.imageOpacity}" (click)="activateOpacityAndFading(category.id)"
-            src="{{category.imageSrc}}" />
-          <ul [@visibilityChanged]="category.visibility" class="subcategories" [ngClass]="{'toggleFade' : category.subcategoriesHidden, 'odd-column-subcategories': (i % 2 == 0), 'even-column-subcategories': (i % 2 != 0)}">
-            <li *ngFor="let sub of category.holidaySubcategories">
-              <a (click)="goToListPage(sub.subcategory)" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}">
-                <b>{{sub.subcategory}}</b>
-              </a>
-            </li>
-          </ul>
-        </div>
+<mat-card class="homePageContentContainer">
+  <mat-card-content fxLayout fxLayoutWrap>
+    <div *ngFor="let category of categories; let i = index">
+      <div class="image-and-text">
+        <h3 [ngClass]="{'odd-column': (i % 2 == 0), 'even-column': (i % 2 != 0)}">{{category.mainCategory}}</h3>
+        <img class="grow" id="{{category.elementId}}" [ngClass]="{'changeImageOpacity' : category.imageOpacity}" (click)="activateOpacityAndFading(category.id)"
+          src="{{category.imageSrc}}" />
+        <ul [@visibilityChanged]="category.visibility" class="subcategories" [ngClass]="{'toggleFade' : category.subcategoriesHidden, 'odd-column-subcategories': (i % 2 == 0), 'even-column-subcategories': (i % 2 != 0)}">
+          <li *ngFor="let sub of category.holidaySubcategories">
+            <a (click)="goToListPage(sub.subcategory)" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}">
+              <b>{{sub.subcategory}}</b>
+            </a>
+          </li>
+        </ul>
       </div>
-    </md-card-content>
-  </md-card>
-</div>
+    </div>
+  </mat-card-content>
+</mat-card>

@@ -3,7 +3,6 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 import { HolidaysListService } from "../services/holidaysList.service";
 import { HolidayDetailViewService } from "../services/holidayDetailView.service";
-import { RoutingByIDService } from "../../core/services/routing-by-id.service";
 import { HolidayService } from "../services/holiday.service";
 
 import { Holiday } from "../models/holiday.model";
@@ -25,16 +24,16 @@ export class HolidaysListComponent {
         currentPage: this.currentPage
     }
 
-    backgroundImagePath = "../../../assets/images/background/rsz_background.jpg";
-
     numberOfStars: any[];
+
+    private routingBy: string;
+    private routingById: number;
 
     constructor(
         private router: Router,
         private holidaysListService: HolidaysListService,
         private holidayDetailViewService: HolidayDetailViewService,
         private holidayService: HolidayService,
-        private routingByIDService: RoutingByIDService,
         private route: ActivatedRoute
     ) { }
 
@@ -68,12 +67,10 @@ export class HolidaysListComponent {
 
     test(holiday) {
         holiday = this.holidaysListService.constructArrays(holiday);
-        console.log(holiday);
     }
 
     goToDetailPage(holiday) {
         this.holidayDetailViewService.setHoliday(holiday);
-        console.log(holiday)
         this.router.navigate(['holiday/' + holiday.hotelInformation.accommodationName]);
     }
 }

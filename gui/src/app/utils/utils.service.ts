@@ -1,7 +1,12 @@
 import { Injectable } from "@angular/core";
+import { AuthorizationService } from "../core/authentication/services/authorization.service";
 
 @Injectable()
 export class UtilsService {
+
+  constructor(
+    private authorizationService: AuthorizationService
+  ) { }
 
   public getEmailRegexPattern() {
     return /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -15,12 +20,16 @@ export class UtilsService {
     return /^\d+$/;
   }
 
-  public encode(input: string) {
+  public encode(input: any) {
     return btoa(input);
   }
 
+  public decode(input: any) {
+    return atob(input);
+  }
+
   public parseJSON(response) {
-    return response.text() ? response.json() : null;
+    return response.text() ? response : null;
   }
 
   public leapYear(year) {
@@ -83,5 +92,17 @@ export class UtilsService {
     }
 
     return text;
+  }
+
+  public checkAuthAndGetToken() {
+    let token;
+    if (this.authorizationService.isAuthenticated()) {
+      token = this.authorizationService.getDecodedToken();
+    }
+    return token;
+  }
+
+  public getRealNumberReggexPattern() {
+    return /([0-9]*[.])?[0-9]+/;
   }
 }

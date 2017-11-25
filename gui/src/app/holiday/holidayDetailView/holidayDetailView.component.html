@@ -1,260 +1,348 @@
-<div class="imageBackground" [ngStyle]="{'background-image':'url(' + backgroundImagePath + ')'}">
-    <md-card class="holidayDetailViewContainer">
-        <md-card-content fxLayout="column" fxFlex>
-            <div fxLayout fxFlex="20%">
-                <div fxLayout="column" fxFlex="50%">
-                    <h2>{{holiday.hotelInformation.accommodationName}}
-                        <!--<img class="stars" *ngFor="let number of holiday.hotelInformation.nrStars" src="../../../assets/images/icons/star-size_s.png">-->
-                    </h2>
-                </div>
-                <div fxLayout="column" fxFlex="50%">
-                    <a id="myLargeModalLabel" (click)="lgModal.show()">{{holiday.accommodationAddress.country}}, {{holiday.accommodationAddress.city}}, {{holiday.accommodationAddress.street}}, nr. {{holiday.accommodationAddress.streetNr}}, {{holiday.accommodationAddress.zip}} <span class="glyphicon glyphicon-map-marker"></span></a>
-                    <div bsModal #lgModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true"
-                        (onShow)="changeMapVisility()" (onHide)="changeMapVisility()">
-                        <div class="modal-dialog modal-lg">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close pull-right" (click)="lgModal.hide()" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <!--<div [hidden]="mapInModal.triggerResize()">-->
-                                    <span *ngIf="showMap" [hidden]="mapInModal.triggerResize()"></span>
-                                    <sebm-google-map #mapInModal [hidden]="changeCoordinates()" [latitude]="holiday.localization.map.lattitude" [longitude]="holiday.localization.map.longitude">
-                                        <sebm-google-map-marker [latitude]="holiday.localization.map.lattitude" [longitude]="holiday.localization.map.longitude"></sebm-google-map-marker>
-                                    </sebm-google-map>
-                                    <!--</div>-->
-                                </div>
+<mat-card class="holidayDetailViewContainer">
+    <mat-card-content fxLayout="column">
+        <div fxLayout fxLayoutAlign="space-between center" fxFlex="20%">
+            <div fxFlex="50%">
+                <h2>{{holiday.hotelInformation.accommodationName}}
+                    <!--<img class="stars" *ngFor="let number of holiday.hotelInformation.nrStars" src="../../../assets/images/icons/star-size_s.png">-->
+                </h2>
+            </div>
+            <div class="address-container" fxFlex="50%">
+                <display-address
+                    [address]="holiday.accommodationAddress"
+                    (onClick)="lgModal.show()">
+                </display-address>
+                <div bsModal #lgModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true"
+                    (onShow)="changeMapVisility()" (onHide)="changeMapVisility()">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close pull-right" (click)="lgModal.hide()" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <span *ngIf="showMap" [hidden]="mapInModal.triggerResize()"></span>
+                                <agm-map #mapInModal [latitude]="holiday.localization.map.latitude" [longitude]="holiday.localization.map.longitude">
+                                    <agm-marker [latitude]="holiday.localization.map.latitude" [longitude]="holiday.localization.map.longitude"></agm-marker>
+                                </agm-map>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div fxLayout fxFlex="20%" class="mainImagesContainer" fxLayoutWrap>
-                <div class="singleImageContainer" fxLayout="column" fxFlex="75%">
-                    <div class="crop">
-                        <img [@visibilityChanged]="imageFading" [src]="currentImage.image">
+        </div>
+        <div fxLayout class="mainImagesContainer" fxLayoutWrap>
+            <div class="singleImageContainer" fxLayout="column" fxFlex="75%">
+                <div class="crop">
+                    <img [@visibilityChanged]="imageFading" [src]="currentImage.image">
+                </div>
+            </div>
+            <div class="multipleImagesContainer" fxLayout="column" fxFlex="25%">
+                <div fxLayout fxFlex fxLayoutWrap>
+                    <div *ngFor="let image of holiday.imageSet, let i = index">
+                        <img (click)="setSelectedImageAsCurrent(image)" *ngIf="i <= 8" class="smallImages" [ngClass]="{'firstRowOfImages': i==0 || i==1 || i==2, 'firstColumnOfImages': i==0 || i==3 || i==6, 'middleColumnOfImages': i==1 || i==4 || i==7, 'thirdColumnOfImages': i==2 || i==5 || i==8}"
+                            [src]="image.image">
                     </div>
                 </div>
-                <div class="multipleImagesContainer" fxLayout="column" fxFlex="25%">
-                    <div fxLayout fxFlex fxLayoutWrap>
-                        <div *ngFor="let image of holiday.imageSet, let i = index">
-                            <img (click)="setSelectedImageAsCurrent(image)" *ngIf="i <= 8" class="smallImages" [ngClass]="{'firstRowOfImages': i==0 || i==1 || i==2, 'firstColumnOfImages': i==0 || i==3 || i==6, 'middleColumnOfImages': i==1 || i==4 || i==7, 'thirdColumnOfImages': i==2 || i==5 || i==8}"
-                                [src]="image.image">
-                        </div>
+                <mat-divider class="multipleImagesContainerDivider"></mat-divider>
+            </div>
+            <div class="footerMainImagesContainer" fxLayout fxFlex>
+                <div fxLayout="column" fxFlex="85%">
+                    <span class="glyphicon glyphicon-fullscreen" (click)="openImageModal()"></span>
+                    <div *ngIf="photoModalWindowOpened">
+                        <!--<ImageModal [modalImages]="holiday.imageSet" [imagePointer]="imagePointer" (cancelEvent)="cancelImageModal()"></ImageModal>-->
                     </div>
-                    <md-divider class="multipleImagesContainerDivider"></md-divider>
                 </div>
-                <div class="footerMainImagesContainer" fxLayout fxFlex>
-                    <div fxLayout="column" fxFlex="85%">
-                        <span class="glyphicon glyphicon-fullscreen" (click)="openImageModal()"></span>
-                        <div *ngIf="photoModalWindowOpened">
-                            <ImageModal [modalImages]="holiday.imageSet" [imagePointer]="imagePointer" (cancelEvent)="cancelImageModal()"></ImageModal>
-                        </div>
-                    </div>
-                    <div fxLayout="column" fxFlex="15%">
-                        <div fxLayout fxFlex>
-                            <span class="glyphicon glyphicon-circle-arrow-left" (click)="navigate(false)"></span>
-                            <span class="glyphicon glyphicon-circle-arrow-right" (click)="navigate(true)"></span>
-                            <i *ngIf="playIcon" class="fa fa-play-circle" (click)="clickedPlayIcon()" aria-hidden="true"></i>
-                            <i *ngIf="pauseIcon" class="fa fa-pause-circle" (click)="clickedPauseIcon()" aria-hidden="true"></i>
-                        </div>
+                <div fxLayout="column" fxFlex="15%">
+                    <div fxLayout fxFlex>
+                        <span class="glyphicon glyphicon-circle-arrow-left" (click)="navigate(false)"></span>
+                        <span class="glyphicon glyphicon-circle-arrow-right" (click)="navigate(true)"></span>
+                        <i *ngIf="playIcon" class="fa fa-play-circle" (click)="clickedPlayIcon()" aria-hidden="true"></i>
+                        <i *ngIf="pauseIcon" class="fa fa-pause-circle" (click)="clickedPauseIcon()" aria-hidden="true"></i>
                     </div>
                 </div>
             </div>
-            <div fxLayout fxFlex="60%">
-                <div fxLayout="column" fxFlex="75%">
-                    <tabset type="pills">
-                        <tab heading="Hotel & region description">
-                            <div class="hotel-description-container">
+        </div>
+        <div fxLayout fxFlex="60%">
+            <div fxLayout="column" fxFlex="75%">
+                <tabset type="pills">
+                    <tab heading="Hotel & region description">
+                        <div class="hotel-description-container">
+                            <div fxLayout fxLayoutAlign="space-between center">
                                 <h3>Hotel description</h3>
-                                {{holiday.descriptions.hotel}}
+                                <button *ngIf="authorizedToEdit" (click)="updateHotelDescription()" class="btn update-button" [ngClass]="{'btn-primary': !editHotelDescription, 'btn-success': editHotelDescription}"
+                                    type="button">
+                                        <i *ngIf="!editHotelDescription" class="fa fa-wrench fa-lg" aria-hidden="true"></i>
+                                        <i *ngIf="editHotelDescription" class="fa fa-floppy-o fa-lg" aria-hidden="true"></i>
+                                    </button>
                             </div>
-                            <div class="region-description-container">
+                            <div *ngIf="!editHotelDescription">{{holiday.descriptions.hotel}}</div>
+                            <textarea #editHotelDescriptionTextarea *ngIf="editHotelDescription" type="text" class="form-control" id="comments" placeholder="Add hotel description"
+                                [(ngModel)]="holiday.descriptions.hotel" name="hotelDescription" (focusout)="focus(editHotelDescriptionTextarea.value)"></textarea>
+                        </div>
+                        <div class="region-description-container">
+                            <div fxLayout fxLayoutAlign="space-between center">
                                 <h3>Region description</h3>
-                                {{holiday.descriptions.region}}
+                                <button *ngIf="authorizedToEdit" (click)="updateRegionDescription()" class="btn update-button" [ngClass]="{'btn-primary': !editRegionDescription, 'btn-success': editRegionDescription}"
+                                    type="button">
+                                        <i *ngIf="!editRegionDescription" class="fa fa-wrench fa-lg" aria-hidden="true"></i>
+                                        <i *ngIf="editRegionDescription" class="fa fa-floppy-o fa-lg" aria-hidden="true"></i>
+                                    </button>
                             </div>
-                        </tab>
-                        <tab heading="Hotel facilities & rooms">
-                            <div class="facilities-container">
+                            <div *ngIf="!editRegionDescription">{{holiday.descriptions.region}}</div>
+                            <textarea *ngIf="editRegionDescription" type="text" class="form-control" id="comments" placeholder="Add region description"
+                                [(ngModel)]="holiday.descriptions.region" name="regionDescription"></textarea>
+                        </div>
+                    </tab>
+                    <tab heading="Hotel facilities & rooms">
+                        <div class="facilities-container">
+                            <div class="facilities-title-container" fxLayout="column" fxLayoutAlign="space-between center">
                                 <h3>Hotel facilities</h3>
-                                <div fxLayout fxFlex>
-                                    <div fxLayout fxFlex fxLayoutWrap fxLayoutGap="10px">
-                                        <div class="facilityAndRoomTypeContainer" fxFlex="32%" *ngFor="let facility of holiday.facilities">
-                                            <div class="facilityAndRoomTypeHeader">
-                                                <h4>{{facility.facilityCategory}}</h4>
-                                            </div>
-                                            <img class="facilityAndRoomTypeImage" [src]="facility.image" fxFlex>
-                                            <ul>
+                                <button *ngIf="authorizedToEdit" (click)="updateHotelFacilities()" class="btn update-button" [ngClass]="{'btn-primary': !editHotelFacilities, 'btn-success': editHotelFacilities}"
+                                    type="button">
+                                    <i *ngIf="!editHotelFacilities" class="fa fa-wrench fa-lg" aria-hidden="true"></i>
+                                    <i *ngIf="editHotelFacilities" class="fa fa-floppy-o fa-lg" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                            <div fxLayout>
+                                <div fxLayout fxFlex fxLayoutWrap fxLayoutGap="10px">
+                                    <div class="facilityAndRoomTypeContainer" fxFlex="32%" *ngFor="let facility of holiday.facilities">
+                                        <div class="facilityAndRoomTypeHeader">
+                                            <h4>{{facility.facilityCategory}}</h4>
+                                        </div>
+                                        <img class="facilityAndRoomTypeImage" [src]="facility.image" fxFlex>
+                                        <ul>
+                                            <div *ngIf="!editHotelFacilities">
                                                 <li class="facilityAndRoomTypeListItem" *ngFor="let facilityItem of facility.facilitiesList">
                                                     <span class="glyphicon glyphicon-menu-right"></span> {{facilityItem}}</li>
-                                            </ul>
-                                        </div>
+                                            </div>
+                                            <textarea #facilitiesList *ngIf="editHotelFacilities" type="text" class="form-control" id="comments" placeholder="Add hotel facilities"
+                                                [ngModel]="facility.facilitiesList" name="regionDescription" (focusout)="updateHotelFacilitiesList(facilitiesList.value, facility)"></textarea>
+                                        </ul>
                                     </div>
                                 </div>
                             </div>
-                            <div class="rooms-container">
+                        </div>
+                        <div class="rooms-container">
+                            <div class="facilities-title-container" fxLayout="column" fxLayoutAlign="space-between center">
                                 <h3>Room types</h3>
-                                <div fxLayout fxFlex>
-                                    <div fxLayout fxFlex fxLayoutWrap fxLayoutGap="10px">
-                                        <div class="facilityAndRoomTypeContainer" fxFlex="32%" *ngFor="let room of holiday.rooms">
-                                            <div class="facilityAndRoomTypeHeader">
-                                                <h4>{{room.roomType}}</h4>
-                                            </div>
-                                            <img class="facilityAndRoomTypeImage" [src]="room.image" fxFlex>
-                                            <h5><i>Maximal person capacity: {{room.personCapacity}}</i></h5>
-                                            <md-divider class="roomTypeDivider"></md-divider>
-                                            <h5><b>Room facilities:</b></h5>
-                                            <ul>
+                                <button *ngIf="authorizedToEdit" (click)="updateRoomFacilities()" class="btn update-button" [ngClass]="{'btn-primary': !editRoomFacilities, 'btn-success': editRoomFacilities}"
+                                    type="button">
+                                        <i *ngIf="!editRoomFacilities" class="fa fa-wrench fa-lg" aria-hidden="true"></i>
+                                        <i *ngIf="editRoomFacilities" class="fa fa-floppy-o fa-lg" aria-hidden="true"></i>
+                                    </button>
+                            </div>
+                            <div fxLayout>
+                                <div fxLayout fxFlex fxLayoutWrap fxLayoutGap="10px">
+                                    <div class="facilityAndRoomTypeContainer" fxFlex="32%" *ngFor="let room of holiday.rooms">
+                                        <div class="facilityAndRoomTypeHeader">
+                                            <h4>{{room.roomType}}</h4>
+                                        </div>
+                                        <img class="facilityAndRoomTypeImage" [src]="room.image" fxFlex>
+                                        <h5><i>Maximal person capacity: {{room.personCapacity}}</i></h5>
+                                        <mat-divider class="roomTypeDivider"></mat-divider>
+                                        <h5><b>Room facilities:</b></h5>
+                                        <ul>
+                                            <div *ngIf="!editRoomFacilities">
                                                 <li class="facilityAndRoomTypeListItems" *ngFor="let roomFacility of room.roomFacilities ">
                                                     <span class="glyphicon glyphicon-menu-right"></span> {{roomFacility}}</li>
-                                            </ul>
-                                        </div>
+                                            </div>
+                                            <textarea #facilitiesList *ngIf="editRoomFacilities" type="text" class="form-control" id="comments" placeholder="Add hotel facilities"
+                                                [ngModel]="room.roomFacilities" name="regionDescription" (focusout)="updateRoomFacilitiesList(facilitiesList.value, room)"></textarea>
+                                        </ul>
                                     </div>
                                 </div>
                             </div>
-                        </tab>
-                        <tab heading="Offer information">
-                            <div class="offer-list-container">
+                        </div>
+                    </tab>
+                    <tab heading="Offer information">
+                        <div class="offer-list-container">
+                            <div fxLayout fxLayoutAlign="space-between center">
                                 <h4><span class="glyphicon glyphicon-menu-right"></span> Departure from {{holiday.offerInformation.departureFrom}}
                                     airport / {{holiday.offerInformation.nrNights}} nights trip available for the following
                                     periods...
                                 </h4>
-                                <md-list fxLayout="column" fxFlex>
-                                    <md-list-item class="tableHeader">
-                                        <div fxLayout fxFlex>
-                                            <div fxLayout="column" fxFlex="13%">
-                                                <h4 md-line>From</h4>
-                                            </div>
-                                            <div fxLayout="column" fxFlex="13%">
-                                                <h4 md-line>Until</h4>
-                                            </div>
-                                            <div fxLayout="column" fxFlex="18%">
-                                                <h4 md-line>Price</h4>
-                                            </div>
-                                            <div fxLayout="column" fxFlex="17%">
-                                                <h4 md-line>Room type</h4>
-                                            </div>
-                                            <div fxLayout="column" fxFlex="17%">
-                                                <h4 md-line>View from room</h4>
-                                            </div>
+                                <button *ngIf="authorizedToEdit" (click)="updateOfferAndPeriodsInformation()" class="btn update-button" [ngClass]="{'btn-primary': !editOfferAndPeriodsInformation, 'btn-success': editOfferAndPeriodsInformation}"
+                                    type="button">
+                                    <i *ngIf="!editOfferAndPeriodsInformation" class="fa fa-wrench fa-lg" aria-hidden="true"></i>
+                                    <i *ngIf="editOfferAndPeriodsInformation" class="fa fa-floppy-o fa-lg" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                            <mat-list fxLayout="column" fxFlex>
+                                <mat-list-item class="tableHeader">
+                                    <div fxLayout fxFlex>
+                                        <div fxLayout="column" fxFlex="13%">
+                                            <h4 md-line>From</h4>
                                         </div>
-                                    </md-list-item>
-                                    <md-list-item class="tableItems" *ngFor="let offer of holiday.offerInformation.periods">
-                                        <div fxLayout fxFlex>
-                                            <div fxLayout="column" fxFlex="13%">
-                                                <h5 md-line class="tableItem">{{offer.from | date}}</h5>
-                                            </div>
-                                            <div fxLayout="column" fxFlex="13%">
-                                                <h5 md-line class="tableItem">{{offer.until | date}}</h5>
-                                            </div>
-                                            <div fxLayout="column" fxFlex="18%">
-                                                <h5 md-line class="tableItem">{{offer.price}}<span class="glyphicon glyphicon-euro"></span>/trip/adult</h5>
-                                            </div>
-                                            <div fxLayout="column" fxFlex="17%">
-                                                <h5 md-line class="tableItem">{{offer.roomType}}</h5>
-                                            </div>
-                                            <div fxLayout="column" fxFlex="17%">
-                                                <h5 md-line class="tableItem">{{offer.viewType}}</h5>
-                                            </div>
-                                            <div fxLayout="column" fxFlex class="apply-btn-container">
-                                                <button (click)="applyForOffer(offer)" class="btn btn-primary applyBtn" type="submit">Apply for offer</button>
-                                            </div>
+                                        <div fxLayout="column" fxFlex="13%">
+                                            <h4 md-line>Until</h4>
                                         </div>
-                                    </md-list-item>
-                                </md-list>
+                                        <div fxLayout="column" fxFlex="18%">
+                                            <h4 md-line>Price</h4>
+                                        </div>
+                                        <div fxLayout="column" fxFlex="17%">
+                                            <h4 md-line>Room type</h4>
+                                        </div>
+                                        <div fxLayout="column" fxFlex="17%">
+                                            <h4 md-line>View from room</h4>
+                                        </div>
+                                    </div>
+                                </mat-list-item>
+                                <mat-list-item class="tableItems" *ngFor="let offer of holiday.offerInformation.periods">
+                                    <div fxLayout fxFlex>
+                                        <div fxLayout="column" fxFlex="13%">
+                                            <h5 md-line class="tableItem">{{offer.from | date}}</h5>
+                                        </div>
+                                        <div fxLayout="column" fxFlex="13%">
+                                            <h5 md-line class="tableItem">{{offer.until | date}}</h5>
+                                        </div>
+                                        <div fxLayout="column" fxFlex="18%">
+                                            <h5 md-line class="tableItem">{{offer.price}}<span class="glyphicon glyphicon-euro"></span>/trip/adult</h5>
+                                        </div>
+                                        <div fxLayout="column" fxFlex="17%">
+                                            <h5 md-line class="tableItem">{{offer.roomType}}</h5>
+                                        </div>
+                                        <div fxLayout="column" fxFlex="17%">
+                                            <h5 md-line class="tableItem">{{offer.viewType}}</h5>
+                                        </div>
+                                        <div fxLayout fxLayoutAlign="space-around center" fxFlex>
+                                            <button *ngIf="editOfferAndPeriodsInformation" (click)="editOffer(offer)" class="btn btn-primary" type="submit">
+                                                    <i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i></button>
+                                            <button *ngIf="editOfferAndPeriodsInformation" (click)="disableOrEnableOffer(offer)" class="btn" [ngClass]="{'btn-danger': !offer.available, 'btn-info': offer.available}"
+                                                type="submit">
+                                                    <i *ngIf="!offer.available" class="fa fa-ban fa-lg" aria-hidden="true"></i>
+                                                    <i *ngIf="offer.available" class="fa fa-external-link fa-lg" aria-hidden="true"></i>
+                                                </button>
+                                            <button (click)="applyForOffer(offer)" class="btn btn-success" [ngClass]="{'apply-offer-button': !editOfferAndPeriodsInformation}"
+                                                type="submit" [disabled]="editOfferAndPeriodsInformation || offer.available">
+                                                    <i class="fa fa-check-circle-o fa-lg" aria-hidden="true"></i> {{applyButtonText}}</button>
+                                        </div>
+                                    </div>
+                                </mat-list-item>
+                            </mat-list>
 
-                                <md-divider></md-divider>
+                            <mat-divider></mat-divider>
 
-                                <div class="included-and-not-container" fxLayout fxFlex>
-                                    <div fxLayout="column" fxFlex="50%">
-                                        <h4>Included in price</h4>
-                                        <ul>
+                            <div class="included-and-not-container" fxLayout fxFlex>
+                                <div fxLayout="column" fxFlex="50%">
+                                    <h4>Included in price</h4>
+                                    <ul>
+                                        <div *ngIf="!editOfferAndPeriodsInformation">
                                             <li *ngFor="let info of holiday.offerInformation.included">
                                                 <span class="glyphicon glyphicon-ok"></span> {{info}}</li>
-                                        </ul>
-                                    </div>
-                                    <div fxLayout="column" fxFlex="50%">
-                                        <h4>Not included in price</h4>
-                                        <ul>
+                                        </div>
+                                        <textarea #list *ngIf="editOfferAndPeriodsInformation" type="text" class="form-control" id="comments" placeholder="Add hotel facilities"
+                                            [ngModel]="holiday.offerInformation.included" name="regionDescription" (focusout)="updateOfferIncludedInformation(list.value)"></textarea>
+                                    </ul>
+                                </div>
+                                <div fxLayout="column" fxFlex="50%">
+                                    <h4>Not included in price</h4>
+                                    <ul>
+                                        <div *ngIf="!editOfferAndPeriodsInformation">
                                             <li *ngFor="let info of holiday.offerInformation.notIncluded">
                                                 <span class="glyphicon glyphicon-remove"></span> {{info}}</li>
-                                        </ul>
-                                    </div>
+                                        </div>
+                                        <textarea #list *ngIf="editOfferAndPeriodsInformation" type="text" class="form-control" id="comments" placeholder="Add hotel facilities"
+                                            [ngModel]="holiday.offerInformation.notIncluded" name="regionDescription" (focusout)="updateOfferNotIncludedInformation(list.value)"></textarea>
+                                    </ul>
                                 </div>
                             </div>
-                        </tab>
-                        <tab (select)="mapInTab.triggerResize()" heading="Location & points of interest">
-                            <div class="location-container">
-                                <h3>Exact location of the hotel</h3>
-                                <sebm-google-map #mapInTab [hidden]="changeCoordinates()" [latitude]="holiday.localization.map.lattitude" [longitude]="holiday.localization.map.longitude">
-                                    <sebm-google-map-marker [latitude]="holiday.localization.map.lattitude" [longitude]="holiday.localization.map.longitude"></sebm-google-map-marker>
-                                </sebm-google-map>
-                            </div>
+                        </div>
+                    </tab>
+                    <tab (select)="mapInTab.triggerResize()" heading="Location & points of interest">
+                        <div class="location-container">
+                            <h3>Exact location of the hotel</h3>
+                            <agm-map #mapInTab [hidden]="changeCoordinates()" [latitude]="holiday.localization.map.latitude" [longitude]="holiday.localization.map.longitude">
+                                <agm-marker [latitude]="holiday.localization.map.latitude" [longitude]="holiday.localization.map.longitude"></agm-marker>
+                            </agm-map>
+                        </div>
 
-                            <div class="location-container">
+                        <div class="location-container">
+                            <div fxLayout fxLayoutAlign="space-between center">
                                 <h3>Points of interest around the hotel</h3>
-                                <ul>
-                                    <li *ngFor="let poi of holiday.localization.pointsOfInterest">
-                                        <span class="glyphicon glyphicon-menu-right"></span> {{poi.pointOfInterest}} ({{poi.distance}} km)</li>
-                                </ul>
+                                <button *ngIf="authorizedToEdit" (click)="updatePointsOfInterest()" class="btn update-button" [ngClass]="{'btn-primary': !editPointsOfInterest, 'btn-success': editPointsOfInterest}"
+                                    type="button">
+                                        <i *ngIf="!editPointsOfInterest" class="fa fa-wrench fa-lg" aria-hidden="true"></i>
+                                        <i *ngIf="editPointsOfInterest" class="fa fa-floppy-o fa-lg" aria-hidden="true"></i>
+                                    </button>
                             </div>
-                        </tab>
-                        <tab heading="Reviews">
-                            <div class="accordion-container">
-                                <accordion>
-                                    <accordion-group class="accordion" #group *ngFor="let review of holiday.reviews">
-                                        <div class="reviewTitle" accordion-heading>
-                                            {{review.title}}
-                                            <div class="rating mdeium star-icon direction-ltr color-ok" [ngClass]="{'value-1': review.rating[0], 'value-2': review.rating[1], 'value-3': review.rating[2], 'value-4': review.rating[3], 'value-5': review.rating[4]}">
-                                                <div class="star-container">
-                                                    <div class="star">
-                                                        <i class="star-empty"></i>
-                                                        <i class="star-half"></i>
-                                                        <i class="star-filled"></i>
-                                                    </div>
-                                                    <div class="star">
-                                                        <i class="star-empty"></i>
-                                                        <i class="star-half"></i>
-                                                        <i class="star-filled"></i>
-                                                    </div>
-                                                    <div class="star">
-                                                        <i class="star-empty"></i>
-                                                        <i class="star-half"></i>
-                                                        <i class="star-filled"></i>
-                                                    </div>
-                                                    <div class="star">
-                                                        <i class="star-empty"></i>
-                                                        <i class="star-half"></i>
-                                                        <i class="star-filled"></i>
-                                                    </div>
-                                                    <div class="star">
-                                                        <i class="star-empty"></i>
-                                                        <i class="star-half"></i>
-                                                        <i class="star-filled"></i>
-                                                    </div>
+                            <ul>
+                                <li *ngFor="let poi of holiday.localization.pointsOfInterest" (click)="editPoi(poi)">
+                                    <div *ngIf="!poi.isEditable">
+                                        <span class="glyphicon glyphicon-menu-right"></span> {{poi.pointOfInterest}} ({{poi.distance}}
+                                        km)
+                                    </div>
+                                    <div fxLayout *ngIf="poi.isEditable">
+                                        <input class="form-control" type="text" name="poi" placeholder="Point of interest" [(ngModel)]="poi.pointOfInterest" fxFlex="30"
+                                            required>
+                                        <input class="form-control distance-input" type="number" name="distance" placeholder="Distance" [(ngModel)]="poi.distance"
+                                            fxFlex="12" required>
+                                        <i class="fa fa-minus-square fa-2x" aria-hidden="true" (click)="removeFromPOIList(poi)"></i>
+                                    </div>
+                                </li>
+                                <div fxLayout *ngIf="editPointsOfInterest">
+                                    <input #pointOfInterest class="form-control" type="text" name="poi" placeholder="Point of interest" fxFlex="30" required>
+                                    <input #distance class="form-control distance-input" type="number" name="distance" placeholder="Distance" fxFlex="12" required>
+                                    <i class="fa fa-plus-square fa-2x" aria-hidden="true" (click)="addToPOIList(pointOfInterest, distance)"></i>
+                                </div>
+                            </ul>
+                        </div>
+                    </tab>
+                    <tab heading="Reviews">
+                        <div class="accordion-container">
+                            <accordion>
+                                <accordion-group class="accordion" #group *ngFor="let review of holiday.reviews">
+                                    <div class="reviewTitle" accordion-heading>
+                                        {{review.title}}
+                                        <div class="rating mdeium star-icon direction-ltr color-ok" [ngClass]="{'value-1': review.rating[0], 'value-2': review.rating[1], 'value-3': review.rating[2], 'value-4': review.rating[3], 'value-5': review.rating[4]}">
+                                            <div class="star-container">
+                                                <div class="star">
+                                                    <i class="star-empty"></i>
+                                                    <i class="star-half"></i>
+                                                    <i class="star-filled"></i>
+                                                </div>
+                                                <div class="star">
+                                                    <i class="star-empty"></i>
+                                                    <i class="star-half"></i>
+                                                    <i class="star-filled"></i>
+                                                </div>
+                                                <div class="star">
+                                                    <i class="star-empty"></i>
+                                                    <i class="star-half"></i>
+                                                    <i class="star-filled"></i>
+                                                </div>
+                                                <div class="star">
+                                                    <i class="star-empty"></i>
+                                                    <i class="star-half"></i>
+                                                    <i class="star-filled"></i>
+                                                </div>
+                                                <div class="star">
+                                                    <i class="star-empty"></i>
+                                                    <i class="star-half"></i>
+                                                    <i class="star-filled"></i>
                                                 </div>
                                             </div>
-                                            <i class="pull-right float-xs-right glyphicon" [ngClass]="{'glyphicon-chevron-down': group?.isOpen, 'glyphicon-chevron-right': !group?.isOpen}"></i>
                                         </div>
-                                        <div class="reviewText">
-                                            {{review.text}}
+                                        <i class="pull-right float-xs-right glyphicon" [ngClass]="{'glyphicon-chevron-down': group?.isOpen, 'glyphicon-chevron-right': !group?.isOpen}"></i>
+                                    </div>
+                                    <div class="reviewText">
+                                        {{review.text}}
+                                    </div>
+                                    <div class="reviewDetails">
+                                        <b>...review by: </b><i>{{review.nameOfReviewer}}</i>
+                                        <div class="reviewDates">
+                                            <i><b>Date of review: </b>{{review.dateOfReview | date}}</i>
+                                            <i><b>Date of travel: </b>{{review.dateOfTravel | date}}</i>
                                         </div>
-                                        <div class="reviewDetails">
-                                            <b>...review by: </b><i>{{review.nameOfReviewer}}</i>
-                                            <div class="reviewDates">
-                                                <i><b>Date of review: </b>{{review.dateOfReview | date}}</i>
-                                                <i><b>Date of travel: </b>{{review.dateOfTravel | date}}</i>
-                                            </div>
-                                        </div>
-                                    </accordion-group>
-                                </accordion>
-                            </div>
-                        </tab>
-                    </tabset>
-                </div>
+                                    </div>
+                                </accordion-group>
+                            </accordion>
+                        </div>
+                    </tab>
+                </tabset>
+
+                <button *ngIf="authorizedToEdit" (click)="updateHoliday()" class="btn btn-success update-holiday-button" type="button">Update holiday</button>
             </div>
-        </md-card-content>
-    </md-card>
-</div>
+        </div>
+    </mat-card-content>
+</mat-card>

@@ -17,6 +17,7 @@ import ro.emzo.turismapp.user.exceptions.UserDoesNotExistInTheDatabase;
 import ro.emzo.turismapp.user.model.UserInfo;
 import ro.emzo.turismapp.user.model.UserLogin;
 import ro.emzo.turismapp.user.service.UserService;
+import ro.emzo.turismapp.user.to.UserCreditCardTO;
 import ro.emzo.turismapp.user.to.UserInfoTO;
 import ro.emzo.turismapp.user.to.UserLoginTO;
 
@@ -71,7 +72,9 @@ public class UserControllerRegistration {
 //	}
 	
 	@GetMapping("/{userInfoId}")
-	public ResponseEntity<UserInfoTO> getUser(@PathVariable("userInfoId") Long userInfoId) {
+	public ResponseEntity<UserInfoTO> getUser(
+			@PathVariable("userInfoId") Long userInfoId
+	) {
 		return new ResponseEntity<>(userService.getUserInfo(userInfoId), HttpStatus.OK);
 	}
 	
@@ -82,19 +85,32 @@ public class UserControllerRegistration {
 	
 	@PostMapping(value="/registration", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<UserInfoTO> registration(@RequestBody UserInfoTO userInfoTO) throws RegistrationException {
+    public ResponseEntity<UserInfoTO> registration(
+    		@RequestBody UserInfoTO userInfoTO
+	) throws RegistrationException {
         return new ResponseEntity<>(userService.registerUser(userInfoTO), HttpStatus.OK);
     }
 
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public ResponseEntity<UserInfoTO> updateExistingUser(@RequestBody UserInfoTO userInfoTO) throws UserDoesNotExistInTheDatabase {
+	public ResponseEntity<UserInfoTO> updateExistingUser(
+			@RequestBody UserInfoTO userInfoTO
+	) throws UserDoesNotExistInTheDatabase {
 		return new ResponseEntity<>(userService.updateExistingUser(userInfoTO), HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{userId}")
-	public ResponseEntity<Void> deleteUser(@PathVariable("userId") Long userId) {
+	public ResponseEntity<Void> deleteUser(
+			@PathVariable("userId") Long userId
+	) {
 		userService.deleteUser(userId);
 		return new ResponseEntity<>(HttpStatus.OK);
+	}
+
+	@GetMapping("/{userInfoId}/credit-card-data")
+	public ResponseEntity<UserCreditCardTO> getUserCreditCardData(
+			@PathVariable("userInfoId") Long userInfoId
+	) {
+		return new ResponseEntity<>(userService.getUserCreditCardData(userInfoId), HttpStatus.OK);
 	}
 }

@@ -10,5 +10,4 @@ import { Component } from '@angular/core';
 })
 export class AboutComponent {
 
-  backgroundImagePath = "../../assets/images/background/rsz_background.jpg";
- }
+}

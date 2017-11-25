@@ -1,0 +1,251 @@
+<div class="modal-header">
+	<h4 class="modal-title pull-left">Update contact information</h4>
+	<button type="button" class="close pull-right" aria-label="Close" (click)="_bsModalRef.hide()">
+		<span aria-hidden="true">&times;</span>
+	</button>
+</div>
+<div class="modal-body">
+	<div class="contact-information-container" fxFlex>
+		<form [formGroup]="contactInformationForm" ngNativeValidate>
+			<div class="subtitle">Contact information</div>
+			<div class="form-group" fxLayout>
+				<label for="bookingEmail">
+					Booking e-mail address:
+				</label>
+				<div class="input-container">
+					<input type="text" class="form-control" formControlName="bookingEmail" (focusout)="checkChanges('bookingEmail')">
+					<div class="feedback-wrapper" *ngIf="contactInformationForm.controls['bookingEmail'].errors && (contactInformationForm.controls['bookingEmail'].dirty || contactInformationForm.controls['bookingEmail'].touched)">
+						<small [hidden]="!contactInformationForm.controls['bookingEmail'].errors.required" class="feedback">
+							Booking e-mail address is required!
+						</small>
+						<small [hidden]="!contactInformationForm.controls['bookingEmail'].errors.pattern" class="feedback">
+							Invalid e-mail address!
+						</small>
+					</div>
+				</div>
+			</div>
+			<div class="form-group" fxLayout>
+				<label for="inquiriesEmail">
+					Inquiries e-mail address:
+				</label>
+				<div class="input-container">
+					<input type="text" class="form-control" formControlName="inquiriesEmail" (focusout)="checkChanges('inquiriesEmail')">
+					<div class="feedback-wrapper" *ngIf="contactInformationForm.controls['inquiriesEmail'].errors && (contactInformationForm.controls['inquiriesEmail'].dirty || contactInformationForm.controls['inquiriesEmail'].touched)">
+						<small [hidden]="!contactInformationForm.controls['inquiriesEmail'].errors.required" class="feedback">
+							Inquiries e-mail address is required!
+						</small>
+						<small [hidden]="!contactInformationForm.controls['inquiriesEmail'].errors.pattern" class="feedback">
+							Invalid e-mail address!
+						</small>
+					</div>
+				</div>
+			</div>
+			<div class="form-group" fxLayout>
+				<label for="bookingTelephoneNr">
+					Booking telephone nr.:
+				</label>
+				<div class="input-container">
+					<input type="text" class="form-control" formControlName="bookingTelephoneNr" (focusout)="checkChanges('bookingTelephoneNr')">
+					<div class="feedback-wrapper" *ngIf="contactInformationForm.controls['bookingTelephoneNr'].errors && (contactInformationForm.controls['bookingTelephoneNr'].dirty || contactInformationForm.controls['bookingTelephoneNr'].touched)">
+						<small [hidden]="!contactInformationForm.controls['bookingTelephoneNr'].errors.required" class="feedback">
+							Booking telephone number is required!
+						</small>
+						<small [hidden]="!contactInformationForm.controls['bookingTelephoneNr'].errors.pattern" class="feedback">
+							Booking telephone number should contain only numbers!
+						</small>
+					</div>
+				</div>
+			</div>
+			<div class="form-group" fxLayout>
+				<label for="inquiriesTelephoneNr">
+					Inquiries telephone nr.:
+				</label>
+				<div class="input-container">
+					<input type="text" class="form-control" formControlName="inquiriesTelephoneNr" (focusout)="checkChanges('inquiriesTelephoneNr')">
+					<div class="feedback-wrapper" *ngIf="contactInformationForm.controls['inquiriesTelephoneNr'].errors && (contactInformationForm.controls['inquiriesTelephoneNr'].dirty || contactInformationForm.controls['inquiriesTelephoneNr'].touched)">
+						<small [hidden]="!contactInformationForm.controls['inquiriesTelephoneNr'].errors.required" class="feedback">
+							Inquiries telephone number is required!
+						</small>
+						<small [hidden]="!contactInformationForm.controls['inquiriesTelephoneNr'].errors.pattern" class="feedback">
+							Inquiries telephone number should contain only numbers!
+						</small>
+					</div>
+				</div>
+			</div>
+			<div class="form-group" fxLayout>
+				<label for="fax">
+					Fax number:
+				</label>
+				<div class="input-container">
+					<input type="text" class="form-control" formControlName="fax" (focusout)="checkChanges('fax')">
+					<div class="feedback-wrapper" *ngIf="contactInformationForm.controls['fax'].errors && (contactInformationForm.controls['fax'].dirty || contactInformationForm.controls['fax'].touched)">
+						<small [hidden]="!contactInformationForm.controls['fax'].errors.required" class="feedback">
+							Fax number is required!
+						</small>
+						<small [hidden]="!contactInformationForm.controls['fax'].errors.pattern" class="feedback">
+							Fax number should contain only numbers!
+						</small>
+					</div>
+				</div>
+			</div>
+			<div class="form-group" fxLayout>
+				<label for="weekdays">
+					Working hours on weekdays:
+				</label>
+				<div class="input-container">
+					<input type="text" class="form-control" formControlName="weekdays" (focusout)="checkChanges('weekdays')">
+					<div class="feedback-wrapper" *ngIf="contactInformationForm.controls['weekdays'].errors && (contactInformationForm.controls['weekdays'].dirty || contactInformationForm.controls['weekdays'].touched)">
+						<small [hidden]="!contactInformationForm.controls['weekdays'].errors.required" class="feedback">
+							Weekdays working hours is required!
+						</small>
+					</div>
+				</div>
+			</div>
+			<div class="form-group" fxLayout>
+				<label for="saturday">
+					Working hours on Saturday:
+				</label>
+				<div class="input-container">
+					<input type="text" class="form-control" formControlName="saturday" (focusout)="checkChanges('saturday')">
+					<div class="feedback-wrapper" *ngIf="contactInformationForm.controls['saturday'].errors && (contactInformationForm.controls['saturday'].dirty || contactInformationForm.controls['saturday'].touched)">
+						<small [hidden]="!contactInformationForm.controls['saturday'].errors.required" class="feedback">
+							Saturday working hours is required!
+						</small>
+					</div>
+				</div>
+			</div>
+			<div class="form-group" fxLayout>
+				<label for="sunday">
+					Working hours on Sunday:
+				</label>
+				<div class="input-container">
+					<input type="text" class="form-control" formControlName="sunday" (focusout)="checkChanges('sunday')">
+					<div class="feedback-wrapper" *ngIf="contactInformationForm.controls['sunday'].errors && (contactInformationForm.controls['sunday'].dirty || contactInformationForm.controls['sunday'].touched)">
+						<small [hidden]="!contactInformationForm.controls['sunday'].errors.required" class="feedback">
+							Sunday working hours is required!
+						</small>
+					</div>
+				</div>
+			</div>
+			<div class="divider"></div>
+			<div class="subtitle">Google maps coordinates</div>
+			<div class="form-group" fxLayout>
+				<label for="latitude">
+					Latitude coordinate:
+				</label>
+				<div class="input-container">
+					<input type="number" class="form-control" formControlName="latitude" (focusout)="checkChanges('latitude')">
+					<div class="feedback-wrapper" *ngIf="contactInformationForm.controls['latitude'].errors && (contactInformationForm.controls['latitude'].dirty || contactInformationForm.controls['latitude'].touched)">
+						<small [hidden]="!contactInformationForm.controls['latitude'].errors.required" class="feedback">
+							Latitude coordinate is required!
+						</small>
+						<small [hidden]="!contactInformationForm.controls['latitude'].errors.pattern" class="feedback">
+							Latitude coordinate should be a real type number!
+						</small>
+					</div>
+				</div>
+			</div>
+			<div class="form-group" fxLayout>
+				<label for="longitude">
+					Longitude coordinate:
+				</label>
+				<div class="input-container">
+					<input type="number" class="form-control" formControlName="longitude" (focusout)="checkChanges('longitude')">
+					<div class="feedback-wrapper" *ngIf="contactInformationForm.controls['longitude'].errors && (contactInformationForm.controls['longitude'].dirty || contactInformationForm.controls['longitude'].touched)">
+						<small [hidden]="!contactInformationForm.controls['longitude'].errors.required" class="feedback">
+							Longitude coordinate is required!
+						</small>
+						<small [hidden]="!contactInformationForm.controls['longitude'].errors.pattern" class="feedback">
+							Longitude coordinate should be a real type number!
+						</small>
+					</div>
+				</div>
+			</div>
+			<div class="divider"></div>
+			<div class="subtitle">Branch address</div>
+			<div class="form-group" fxLayout>
+				<label for="city">
+					City name:
+				</label>
+				<div class="input-container">
+					<input type="text" class="form-control" formControlName="city" (focusout)="checkChanges('city')">
+					<div class="feedback-wrapper" *ngIf="contactInformationForm.controls['city'].errors && (contactInformationForm.controls['city'].dirty || contactInformationForm.controls['city'].touched)">
+						<small [hidden]="!contactInformationForm.controls['city'].errors.required" class="feedback">
+							City name is required!
+						</small>
+					</div>
+				</div>
+			</div>
+			<div class="form-group" fxLayout>
+				<label for="street">
+					Street name:
+				</label>
+				<div class="input-container">
+					<input type="text" class="form-control" formControlName="street" (focusout)="checkChanges('street')">
+					<div class="feedback-wrapper" *ngIf="contactInformationForm.controls['street'].errors && (contactInformationForm.controls['street'].dirty || contactInformationForm.controls['street'].touched)">
+						<small [hidden]="!contactInformationForm.controls['street'].errors.required" class="feedback">
+							Street name is required!
+						</small>
+					</div>
+				</div>
+			</div>
+			<div class="form-group" fxLayout>
+				<label for="streetNr">
+					Street nr.:
+				</label>
+				<div class="input-container">
+					<input type="text" class="form-control" formControlName="streetNr" (focusout)="checkChanges('streetNr')">
+					<div class="feedback-wrapper" *ngIf="contactInformationForm.controls['streetNr'].errors && (contactInformationForm.controls['streetNr'].dirty || contactInformationForm.controls['streetNr'].touched)">
+						<small [hidden]="!contactInformationForm.controls['streetNr'].errors.required" class="feedback">
+							Street number is required!
+						</small>
+						<small [hidden]="!contactInformationForm.controls['streetNr'].errors.pattern" class="feedback">
+							Street number should contain only numbers!
+						</small>
+					</div>
+				</div>
+			</div>
+			<div class="form-group" fxLayout>
+				<label for="block">
+					Block:
+				</label>
+				<div class="input-container">
+					<input type="text" class="form-control" formControlName="block" (focusout)="checkChanges('block')">
+				</div>
+			</div>
+			<div class="form-group" fxLayout>
+				<label for="apartment">
+					Apartment:
+				</label>
+				<div class="input-container">
+					<input type="number" class="form-control" formControlName="apartment" (focusout)="checkChanges('apartment')">
+				</div>
+			</div>
+			<div class="form-group" fxLayout>
+				<label for="zip">
+					ZIP code:
+				</label>
+				<div class="input-container">
+					<input type="number" class="form-control" formControlName="zip" (focusout)="checkChanges('zip')">
+					<div class="feedback-wrapper" *ngIf="contactInformationForm.controls['zip'].errors && (contactInformationForm.controls['zip'].dirty || contactInformationForm.controls['zip'].touched)">
+						<small [hidden]="!contactInformationForm.controls['zip'].errors.pattern" class="feedback">
+							ZIP code should contain only numbers!
+						</small>
+					</div>
+				</div>
+			</div>
+			<div class="form-group additional-explanation-group" fxLayout>
+				<label for="additionalExplanation">
+					Additional explanation:
+				</label>
+				<div class="input-container">
+					<input type="text" class="form-control" formControlName="additionalExplanation" (focusout)="checkChanges('additionalExplanation')">
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<div class="modal-footer">
+	<button type="button" class="btn btn-default" (click)="closeModal()">Close</button>
+	<button type="button" class="btn btn-success" [disabled]="!contactInformationChanged" (click)="updateContactInformation()">Update</button>
+</div>

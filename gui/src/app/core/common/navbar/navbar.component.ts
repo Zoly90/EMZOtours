@@ -15,14 +15,13 @@ import { RoutingByIDService } from "../../services/routing-by-id.service";
 export class NavbarComponent {
 
   @Input() role: string;
+  @Input() types: Types[];
 
   glyphiconClassDownCitybreaks = false;
   glyphiconClassRightCitybreaks = true;
 
   glyphiconClassDownSpecialOffers = false;
   glyphiconClassRightSpecialOffers = true;
-
-  types: Types[] = [];
 
   constructor(
     private router: Router,
@@ -33,7 +32,7 @@ export class NavbarComponent {
   ngOnInit() {
     this.categoriesAndTypesService.$types.subscribe(data => {
       this.types = data;
-    })
+    });
   }
 
   onMouseOverCityBreaks(): void {
@@ -64,7 +63,7 @@ export class NavbarComponent {
         typeId = type.id;
       }
     }
-
+    
     this.routingByIDService.set(typeId, 'type');
     this.router.navigate(['/holidays/' + currentType]);
   }

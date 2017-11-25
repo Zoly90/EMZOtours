@@ -15,8 +15,6 @@ const appRoutes: Routes = [
   { path: 'about', component: AboutComponent },
   { path: 'contact', component: ContactComponent },
   { path: 'offer', component: PersonalizedOfferComponent },
-  { path: 'honeymoons', component: HolidaysListComponent },
-  { path: 'nissi-beach-resort', component: HolidayDetailViewComponent },
   { path: 'holidays-management', component: HolidaysManagementComponent}
 ];
 

@@ -26,6 +26,8 @@ public class UserInfoTO {
 
     private UserAddressTO userAddressTO;
 
+    private UserCreditCardTO userCreditCardTO;
+
     public Long getId() {
         return id;
     }
@@ -96,5 +98,13 @@ public class UserInfoTO {
 
     public void setUserAddressTO(UserAddressTO userAddressTO) {
         this.userAddressTO = userAddressTO;
+    }
+
+    public UserCreditCardTO getUserCreditCardTO() {
+        return userCreditCardTO;
+    }
+
+    public void setUserCreditCardTO(UserCreditCardTO userCreditCardTO) {
+        this.userCreditCardTO = userCreditCardTO;
     }
 }

@@ -8,7 +8,7 @@ import ro.emzo.turismapp.core.model.BaseModel;
 
 @Entity
 @Table(name = "periods")
-public class Periods extends BaseModel{
+public class Period extends BaseModel{
 	
 	@Column(name = "from")
 	private String from;

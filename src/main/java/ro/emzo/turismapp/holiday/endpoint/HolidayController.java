@@ -16,7 +16,7 @@ public class HolidayController {
 	
 	@Autowired
 	HolidayService holidaySummaryService;
-	
+
 	@GetMapping("/holidaysByType/{holidayTypeId}")
 	public ResponseEntity<List<HolidaySummary>> getHolidaysListByTypeID(@PathVariable("holidayTypeId") Long holidayTypeId) {
 		return new ResponseEntity<> (holidaySummaryService.getHolidaysListByTypeID(holidayTypeId), HttpStatus.OK);

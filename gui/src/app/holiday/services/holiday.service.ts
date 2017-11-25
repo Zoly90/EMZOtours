@@ -2,37 +2,39 @@ import { Injectable } from "@angular/core";
 import { Http } from "@angular/http";
 import { Observable } from "rxjs/Observable";
 import { Holiday } from "../../holiday/models/holiday.model";
+import { HttpClient } from "@angular/common/http";
 
 @Injectable()
 export class HolidayService {
-    private baseUrl: string = 'api/turism-app'
+
+    private _baseURL: string = 'api/turism-app';
 
     constructor(
-        private _http: Http
+        private _http: HttpClient
     ) { }
 
     public getHolidaysByType(id): Observable<any> {
-        return this._http.get(`${this.baseUrl}/holidaysByType/${id}`)
+        return this._http.get(`${this._baseURL}/holidaysByType/${id}`)
             .map(res => {
-                return res.json();
-            })
+                return res;
+            });
     }
 
     public getHolidaysByCategory(id): Observable<any> {
-        return this._http.get(`${this.baseUrl}/holidaysBySubcategory/${id}`)
+        return this._http.get(`${this._baseURL}/holidaysBySubcategory/${id}`)
             .map(res => {
-                return res.json();
-            })
+                return res;
+            });
     }
 
-    public getAllHolidays(): Observable<Array<Holiday>> {
-        return this._http.get(`${this.baseUrl}/holidays`)
+    public getAllHolidays(): Observable<any> {
+        return this._http.get(`${this._baseURL}/holidays`)
             .map(res => {
-                return res.json();
+                return res;
             })
     }
 
     public deleteHoliday(id: number) {
-        return this._http.delete(`${this.baseUrl}/holiday/${id}`);
+        return this._http.delete(`${this._baseURL}/holiday/${id}`);
     }
 }

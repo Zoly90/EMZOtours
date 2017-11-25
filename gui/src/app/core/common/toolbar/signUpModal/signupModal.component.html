@@ -18,14 +18,14 @@
           <div fxLayout fxFlex>
             <div class="sign-up-info" fxLayout="column" fxFlex="50%">
               <div [ngClass]="{'input-element': signedInAsAdmin}" fxLayout="row" fxLayoutAlign="space-between center" [ngStyle]="{'min-width': width}">
-                <md-checkbox *ngIf="signedInAsAdmin && modalButtonFor !== 'view'" name="employee" [(ngModel)]="employeeChecked" [align]="start"
+                <mat-checkbox *ngIf="signedInAsAdmin && modalButtonFor !== 'view'" name="employee" [(ngModel)]="employeeChecked" [align]="start"
                   [disabled]="adminChecked" (ngModelChange)="setRoleAsEmployee($event)" fxFlex="26%">
                   Employee
-                </md-checkbox>
-                <md-checkbox *ngIf="signedInAsAdmin && modalButtonFor !== 'view'" name="admin" [(ngModel)]="adminChecked" [align]="start"
+                </mat-checkbox>
+                <mat-checkbox *ngIf="signedInAsAdmin && modalButtonFor !== 'view'" name="admin" [(ngModel)]="adminChecked" [align]="start"
                   [disabled]="employeeChecked" (ngModelChange)="setRoleAsAdmin($event)">
                   Admin
-                </md-checkbox>
+                </mat-checkbox>
                 <ng-select class="select-field title" [ngClass]="{'title': !signedInAsAdmin}" [options]="titles" [multiple]="false" placeholder="Title"
                   [noFilter]="4" [allowClear]="true" (selected)="onTitleSelected($event)" fxFlex="30%">
                 </ng-select>
@@ -53,9 +53,9 @@
               <input class="form-control input-element" type="password" name="passwordConfirm" placeholder="Repeat the password" [(ngModel)]="user.userLogin.passwordConfirm"
                 (focusout)="validatePasswordEquality()" required>
               <p class="input-check">{{passwordNotEqualMessage}}</p>
-              <md-checkbox class="input-element" [(ngModel)]="user.newsletter" name="newsletter">
+              <mat-checkbox class="input-element" [(ngModel)]="user.newsletter" name="newsletter">
                 Check this box if you wish to receive newsletters from us in the future.
-              </md-checkbox>
+              </mat-checkbox>
             </div>
           </div>
           <label *ngIf="signedInAsAdmin && modalButtonFor !== 'view'" class="user-address" for="address">Users address</label>

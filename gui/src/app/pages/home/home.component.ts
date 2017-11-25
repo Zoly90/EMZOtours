@@ -1,8 +1,7 @@
 import {
   Component, OnChanges, Input,
-  trigger, state, animate, transition, style
 } from '@angular/core';
-
+import { trigger, state, animate, transition, style } from '@angular/animations';
 import { Category } from "../../core/models/category.model";
 import { CategoriesAndTypesService } from "../../core/services/categories-types.service";
 import { RoutingByIDService } from "../../core/services/routing-by-id.service";
@@ -24,8 +23,6 @@ import { Router } from "@angular/router";
   ]
 })
 export class HomeComponent {
-
-  backgroundImagePath = "../../assets/images/background/rsz_background.jpg";
 
   jsonReceived: any;
   categories: Category[] = [];
@@ -75,7 +72,7 @@ export class HomeComponent {
           categoryId = subcategory.id;
         }
     }
-
+    
     this.routingByIDService.set(categoryId, 'category');
     this.router.navigate(['/holidays/' + currentCategory]);
   }

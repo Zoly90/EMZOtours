@@ -1,6 +1,10 @@
 package ro.emzo.turismapp.user.service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Base64;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,14 +14,18 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import org.springframework.util.StringUtils;
+import ro.emzo.turismapp.holiday.service.ApplyForOfferService;
+import ro.emzo.turismapp.holiday.to.ApplyForOfferTO;
 import ro.emzo.turismapp.user.auth.UserValidator;
 import ro.emzo.turismapp.user.dao.UserDataService;
 import ro.emzo.turismapp.user.exceptions.RegistrationException;
 import ro.emzo.turismapp.user.exceptions.UserDoesNotExistInTheDatabase;
 import ro.emzo.turismapp.user.model.UserAddress;
+import ro.emzo.turismapp.user.model.UserCreditCard;
 import ro.emzo.turismapp.user.model.UserInfo;
 import ro.emzo.turismapp.user.model.UserLogin;
 import ro.emzo.turismapp.user.to.UserAddressTO;
+import ro.emzo.turismapp.user.to.UserCreditCardTO;
 import ro.emzo.turismapp.user.to.UserInfoTO;
 import ro.emzo.turismapp.user.to.UserLoginTO;
 import ro.emzo.turismapp.utils.Utils;
@@ -36,6 +44,9 @@ public class UserService {
 
     @Autowired
     private UserValidator userValidator;
+
+    @Autowired
+    private ApplyForOfferService applyForOfferService;
 
     public String getUserLoggingIn(UserLoginTO userLoginTO) {
         String result = null;
@@ -124,6 +135,13 @@ public class UserService {
         return userDataService.getAllUsers();
     }
 
+    public UserCreditCardTO getUserCreditCardData(Long userInfoId) {
+        UserCreditCardTO result;
+        UserInfoTO userInfoTO = getUserInfo(userInfoId);
+        result = userInfoTO.getUserCreditCardTO();
+        return result;
+    }
+
     private String encodePassword(String pass) {
         java.util.Base64.Encoder encoder = Base64.getEncoder();
         byte[] stringAsBytes = pass.getBytes();
@@ -189,6 +207,7 @@ public class UserService {
         UserLoginTO userLoginTO = fromUserLoginToUserLoginTO(userInfo.getUserLogin());
         UserAddressTO userAddressTO = fromUserAddressToUserAddressTO(userInfo.getUserAddress());
         UserInfoTO userInfoTO = new UserInfoTO();
+        UserCreditCardTO userCreditCardTO = applyForOfferService.getTOFromUserCreditCard(userInfo.getUserCreditCard());
         userInfoTO.setId(userInfo.getId());
         userInfoTO.setTitle(userInfo.getTitle());
         userInfoTO.setFirstName(userInfo.getFirstName());
@@ -198,6 +217,7 @@ public class UserService {
         userInfoTO.setNewsletter(userInfo.getNewsletter());
         userInfoTO.setUserLoginTO(userLoginTO);
         userInfoTO.setUserAddressTO(userAddressTO);
+        userInfoTO.setUserCreditCardTO(userCreditCardTO);
         return userInfoTO;
     }
 
@@ -221,7 +241,7 @@ public class UserService {
         String result = null;
         if (userLogin != null && userLoginTO.getPassword().equals(userLogin.getPassword())) {
             UserInfo userInfo = userDataService.getUserInfo(userLogin);
-            result = jwtService.createJWT(userInfo, 86400);
+            result = jwtService.createJWT(userInfo, 86400000);
         }
         return result;
     }

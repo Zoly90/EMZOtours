@@ -1,0 +1,55 @@
+<div *ngIf="modalTitle" class="modal-header">
+	<h4 class="modal-title pull-left">{{modalTitle}}</h4>
+	<button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+		<span aria-hidden="true">&times;</span>
+	</button>
+</div>
+<div class="modal-body" fxLayout="column" fxLayoutAlign="space-around center">
+	<div *ngIf="!modalTitle" fxLayout="column" class="authentication-container">
+		<span>Please log in with your account if you have one already or register (sign up) on our website.</span>
+		<button type="button" class="btn btn-log-in" (click)="openDropdown($event)">Log in</button>
+		<button type="button" class="btn btn-sign-up" (click)="openSignUpModal()">Sign up</button>
+	</div>
+	<div *ngIf="modalTitle" class="credit-card-data-container" fxLayout fxLayoutAlign="space-around center">
+		<form [formGroup]="applyForOfferForm" fxLayout="column" fxFlex ngNativeValidate>
+			<div class="form-group" fxLayout="column">
+				<label for="creditCardNumber" class="form-label">Credit card number *</label>
+				<div class="input-container" fxFlex="30">
+					<input type="number" class="form-control" id="creditCardNumber" placeholder="Ex. 5964 8997 1154 3122" formControlName="creditCardNumber">
+				</div>
+				<div fxFlex class="feedback-wrapper" *ngIf="applyForOfferForm.controls['creditCardNumber'].errors && (applyForOfferForm.controls['creditCardNumber'].dirty || applyForOfferForm.controls['creditCardNumber'].touched)">
+					<small [hidden]="!applyForOfferForm.controls['creditCardNumber'].errors.required" class="feedback">
+						Credit card number is required.
+					</small>
+					<small [hidden]="!applyForOfferForm.controls['creditCardNumber'].errors.maxLength || !applyForOfferForm.controls['creditCardNumber'].errors.minLength" class="feedback">
+						Credit card number should have 16 numbers.
+					</small>
+				</div>
+			</div>
+
+			<div class="form-group" fxLayout="column">
+				<label for="creditCardExpirationDate" class="form-label">Credit card expiration date *</label>
+				<date-select (onExpirationDateSelected)="onDateSelected($event)" [applyForOffer]="'applyForOffer'" [existingData]="creditCardExpirationDate"></date-select>
+			</div>
+
+			<div class="form-group" fxLayout="column">
+				<label for="creditCardVerificationNumber" class="form-label">CVV/CVC number *</label>
+				<div class="input-container" fxFlex="30">
+					<input type="number" class="form-control" id="creditCardVerificationNumber" placeholder="Ex. 512" formControlName="creditCardVerificationNumber">
+				</div>
+				<div fxFlex class="feedback-wrapper" *ngIf="applyForOfferForm.controls['creditCardVerificationNumber'].errors && (applyForOfferForm.controls['creditCardVerificationNumber'].dirty || applyForOfferForm.controls['creditCardVerificationNumber'].touched)">
+					<small [hidden]="!applyForOfferForm.controls['creditCardVerificationNumber'].errors.required" class="feedback">
+						CVV/CVC number is required.
+					</small>
+					<small [hidden]="!applyForOfferForm.controls['creditCardVerificationNumber'].errors.maxLength || !applyForOfferForm.controls['creditCardVerificationNumber'].errors.minLength" class="feedback">
+						CVV/CVC number should have 3 numbers.
+					</small>
+				</div>
+			</div>
+
+			<button class="btn btn-success" type="button" (click)="applyForOffer(applyForOfferForm.value)" [disabled]="applyForOfferForm.invalid">
+				Apply for offer
+			</button>
+		</form>
+	</div>
+</div>

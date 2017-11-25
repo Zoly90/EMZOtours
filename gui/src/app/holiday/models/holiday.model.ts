@@ -25,13 +25,14 @@ export class Holiday {
         id?: number
         map: {
             id?: number
-            lattitude?: number
+            latitude?: number
             longitude?: number
         }
         pointsOfInterest: [{
             id?: number
             pointOfInterest?: string
             distance?: string
+            isEditable?: boolean
         }]
     }
     offerInformation: {
@@ -54,6 +55,7 @@ export class Holiday {
             price?: string
             roomType?: string
             viewType?: string
+            available?: boolean
         }]
     }
     imageSet: {

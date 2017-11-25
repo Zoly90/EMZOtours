@@ -1,8 +1,7 @@
 @import '../../styles/variables.scss';
 
-.imageBackground {
-  background-repeat: no-repeat;
-  background-attachment: fixed;
+mat-card-content {
+  max-width: 70%;
 }
 
 .personalized-offer-container {
@@ -15,6 +14,7 @@
   box-shadow: $container-border-shadow;
   padding: 20px;
   margin: 15px 0;
+  display: block !important;
 }
 
 .container-element {

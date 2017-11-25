@@ -1,14 +1,52 @@
-<div class="imageBackground" [ngStyle]="{'background-image':'url(' + backgroundImagePath + ')'}">
-    <md-card class="contactContainer">
-        <md-card-content fxLayout="column" fxFlex>
-            <div fxLayout fxFlex>
-            <div fxLayout="column" fxFlex="50%">
-            <div>Contact info</div>
-            <sebm-google-map [latitude]="lat" [longitude]="lng">
-                <sebm-google-map-marker [latitude]="lat" [longitude]="lng"></sebm-google-map-marker>
-            </sebm-google-map>
+<mat-card class="contact-container">
+    <mat-card-title fxLayoutAlign="space-between center">
+        <h1 class="card-title" fxFlex>Contact information</h1>
+        <button *ngIf="token && token.role === 'ADMIN'" (click)="openUpdateContactInformationModal()" class="btn btn-primary update-button"
+            type="button">
+            <i class="fa fa-wrench fa-lg" aria-hidden="true"></i>
+        </button>
+    </mat-card-title>
+    
+    <mat-card-content fxLayout="column">
+        <div class="" fxLayout fxLayoutAlign="space-between center">
+            <div class="contact-information-container" fxLayout="column" fxFlex="40%">
+                <div class="contact-info">
+                    <label for="bookingPhone">Booking telephone nr.:</label> (004) {{contactInformation.bookingTelephoneNr}}
+                </div>
+                <div class="contact-info">
+                    <label for="bookingEmail">Booking e-mail address:</label> {{contactInformation.bookingEmail}}
+                </div>
+                <div class="contact-info">
+                    <label for="inquiriesPhone">Inquiries telephone nr.:</label> (004) {{contactInformation.inquiriesTelephoneNr}}
+                </div>
+                <div class="contact-info">
+                    <label for="inquiriesEmail">Inquiries e-mail address:</label> {{contactInformation.inquiriesEmail}}
+                </div>
+                <div class="contact-info">
+                    <label for="fax">Fax:</label> (004) {{contactInformation.fax}}
+                </div>
+                <div class="contact-info working_hours_container">
+                    <label for="workingHours">Working hours:</label>
+                    <div class="working_hours_info" *ngFor="let hours of contactInformation.workingHours; let i = index; let last = last" [ngClass]="{'last': last }">
+                        <label for="workingHours">{{days[i]}}:</label> {{hours}}
+                    </div>
+                </div>
+                <div class="contact-info">
+                    <label for="branchOfficeAddress">Branch office address:</label>
+                    <span *ngIf="contactInformation.address.city != null">{{contactInformation.address.city}}</span>
+                    <span *ngIf="contactInformation.address.street != null">, {{contactInformation.address.street}} street</span>
+                    <span *ngIf="contactInformation.address.streetNr != null">, nr. {{contactInformation.address.streetNr}}</span>
+                    <span *ngIf="contactInformation.address.block != null">, block {{contactInformation.address.block}}</span>
+                    <span *ngIf="contactInformation.address.apartment != null">, ap. {{contactInformation.address.apartment}}</span>
+                    <span *ngIf="contactInformation.address.zip != null">, {{contactInformation.address.zip}}</span>
+                    <span *ngIf="contactInformation.address.additionalExplanation != null">, ({{contactInformation.address.additionalExplanation}})</span>
+                </div>
             </div>
-            </div>
-        </md-card-content>
-    </md-card>
-</div>
+            <!--<div class="map-information-container" fxLayout="column" fxFlex="50%">
+            </div>-->
+        </div>
+        <agm-map [latitude]="contactInformation.map.latitude" [longitude]="contactInformation.map.longitude" [zoom]="17" fxFlex>
+            <agm-marker [latitude]="contactInformation.map.latitude" [longitude]="contactInformation.map.longitude"></agm-marker>
+        </agm-map>
+    </mat-card-content>
+</mat-card>

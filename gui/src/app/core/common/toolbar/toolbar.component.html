@@ -1,7 +1,9 @@
-<div class="row toolbar" >
-    <a class="col-md-2" href="/"><img class="logo" id="logo" src="../../../assets/images/logo-small.png" alt="view1" /></a>
+<div class="toolbar" fxLayout fxLayoutAlign="space-between" fxFlex>
+    <a class="logo-container" href="/" fxFlex="30">
+        <img class="logo" id="logo" src="../../../assets/images/logo-small.png" alt="view1" />
+    </a>
 
-    <div class="col-md-8 search">
+    <div class="search" fxFlexAlign="center" fxFlex>
         <form>
             <div class="input-group">
                 <input type="text" class="form-control" placeholder="Search for your destination..." />
@@ -14,7 +16,7 @@
         </form>
     </div>
 
-    <ul class="col-md-2 toolbar-buttons">
+    <ul class="toolbar-buttons" fxFlex="30">
         <sd-login *ngIf="!userLogedIn" (onLoginSuccessful)="loggingIn($event)"></sd-login>
         <logout-button *ngIf="userLogedIn" (onLogout)="loggingOut()"></logout-button>
         <sd-signup *ngIf="!userLogedIn"></sd-signup>

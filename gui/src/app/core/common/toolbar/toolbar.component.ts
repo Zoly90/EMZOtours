@@ -9,7 +9,7 @@ import { LoginDropdownComponent } from './loginDropdown/loginDropdown.component'
 @Component({
   selector: 'sd-toolbar',
   templateUrl: './toolbar.component.html',
-  styleUrls: ['./toolbar.component.css']
+  styleUrls: ['./toolbar.component.scss']
 })
 export class ToolbarComponent {
 
@@ -18,12 +18,12 @@ export class ToolbarComponent {
 
     @Input() userLogedIn: boolean;
 
-    public loggingIn(logedIn: boolean) {
-        this.onLoginSuccessful.emit(logedIn);
-    }
+    // public loggingIn(logedIn: boolean) {
+    //     this.onLoginSuccessful.emit(logedIn);
+    // }
 
-    public loggingOut() {
-        this.onLogout.emit()
-    }
+    // public loggingOut() {
+    //     this.onLogout.emit()
+    // }
 }
 

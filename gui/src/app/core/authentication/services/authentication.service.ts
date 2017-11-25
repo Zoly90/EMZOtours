@@ -3,6 +3,7 @@ import { HttpClientTokenService } from "./http-client.service";
 import { UserLogin } from "../models/user-login.model";
 import { Observable } from "rxjs/Observable";
 import { Http } from "@angular/http";
+import { HttpClient } from "@angular/common/http";
 import { UtilsService } from "../../../utils/utils.service";
 
 @Injectable()
@@ -12,7 +13,7 @@ export class AuthenticationService {
 
 	constructor(
 		private _httpClientTokenService: HttpClientTokenService,
-		private _http: Http,
+		private _http: HttpClient,
 		private utilsService: UtilsService
 	) { }
 

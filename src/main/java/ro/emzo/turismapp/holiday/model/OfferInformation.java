@@ -52,13 +52,13 @@ public class OfferInformation extends BaseModel {
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "offer_information_id")
-	private Collection<Periods> periods = new ArrayList<>();
+	private Collection<Period> periods = new ArrayList<>();
 
-	public Collection<Periods> getPeriods() {
+	public Collection<Period> getPeriods() {
 		return periods;
 	}
 
-	public void setPeriods(Collection<Periods> periods) {
+	public void setPeriods(Collection<Period> periods) {
 		this.periods = periods;
 	}
 

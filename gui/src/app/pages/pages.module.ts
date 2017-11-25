@@ -1,13 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { MaterialModule } from '@angular/material';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FlexLayoutModule } from "@angular/flex-layout";
 import 'hammerjs';
 
-import { DatepickerModule } from 'ng2-bootstrap/datepicker';
+// import { DatepickerModule } from 'ngx-bootstrap/datepicker';
 import { Daterangepicker } from 'ng2-daterangepicker';
-import { AgmCoreModule } from "angular2-google-maps/core";
+import { AgmCoreModule } from "@agm/core";
 
 import { PersonalizedOfferRoutingModule } from "./personalizedOffer/personalizedOffer-routing.module";
 import { AboutRoutingModule } from "./about/about-routing.module";
@@ -29,14 +28,22 @@ import { OffersManagementRoutingModule } from "./management/offers-management/of
 import { OffersManagementComponent } from "./management/offers-management/offers-management.component";
 import { PersonalizedOfferViewModeComponent } from "./personalizedOffer/personalized-offer-view-mode/personalized-offer-view-mode.component";
 import { OfferViewModalComponent } from "./management/offers-management/offer-view-modal/offer-view-modal.component";
-import { ModalModule } from "ng2-bootstrap/modal";
+import { ModalModule } from "ngx-bootstrap/modal";
+import { ContactService } from "./contact/service/contact.service";
+import { UpdateContactInformationModal } from "./contact/update-contact-information-modal/update-contact-information-modal.component";
+import { MatCheckboxModule } from "@angular/material/checkbox";
+import { MatCardModule } from '@angular/material/card';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatSliderModule } from '@angular/material/slider';
+import { MatListModule } from '@angular/material/list';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
     imports: [
         CommonModule,
         FormsModule,
-        MaterialModule,
-        DatepickerModule.forRoot(),
+        ReactiveFormsModule,
+        // DatepickerModule.forRoot(),
         Daterangepicker,
         FlexLayoutModule,
         ModalModule,
@@ -50,7 +57,13 @@ import { ModalModule } from "ng2-bootstrap/modal";
         UserManagementRoutingModule,
         AgmCoreModule.forRoot({
             apiKey: 'AIzaSyBjisHSBvdTWkynJPKVAAcpTgB6PQrkXbY'
-        })
+        }),
+        MatCheckboxModule,
+        MatCardModule,
+        MatRadioModule,
+        MatSliderModule,
+        MatListModule,
+        BrowserAnimationsModule
     ],
     declarations: [
         PersonalizedOfferComponent,
@@ -61,12 +74,14 @@ import { ModalModule } from "ng2-bootstrap/modal";
         HolidaysManagementComponent,
         UserManagementComponent,
         OffersManagementComponent,
-        OfferViewModalComponent
+        OfferViewModalComponent,
+        UpdateContactInformationModal
     ],
     providers: [
         PersonalizedOfferService,
         CategoriesAndTypesService,
-        HolidayDetailViewService
+        HolidayDetailViewService,
+        ContactService
     ],
     exports: [
         PersonalizedOfferComponent,
@@ -78,6 +93,9 @@ import { ModalModule } from "ng2-bootstrap/modal";
         UserManagementComponent,
         OffersManagementComponent,
         OfferViewModalComponent
+    ],
+    entryComponents: [
+        UpdateContactInformationModal
     ]
 })
 export class PagesModule { }

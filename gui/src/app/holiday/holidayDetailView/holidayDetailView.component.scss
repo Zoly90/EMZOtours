@@ -4,10 +4,9 @@
     display: block;
 }
 
-a {
-    align-self: flex-end;
-    margin-top: 30px;
-    cursor: pointer;
+textarea {
+    resize: none;
+    height: 250px;
 }
 
 li {
@@ -16,11 +15,6 @@ li {
 
 .nav-link {
     border: 1px solid orange;
-}
-
-.imageBackground {
-  background-repeat: no-repeat;
-  background-attachment: fixed;
 }
 
 .holidayDetailViewContainer {
@@ -118,11 +112,16 @@ li {
     padding: 2px 0 0 0;
 }
 
+.facilities-title-container {
+    display: block !important;
+}
+
 .facilityAndRoomTypeContainer {
     margin-bottom: 10px;
     background-color: #EBEBEB;
     border: 1px solid lightgray;
     position: relative;
+    display: block !important;
 
     ul {
         margin: 10px 0;
@@ -197,8 +196,8 @@ li {
     font-size: 14px;
 }
 
-.applyBtn {
-    width: 125px;
+.apply-offer-button {
+    width: 85px !important;
     align-self: center;
     font-size: 16px;
 }
@@ -211,12 +210,16 @@ li {
     color: #E35946;
 }
 
-.sebm-google-map-container {
+agm-map {
   height: 300px;
 }
 
 .accordion {
-    padding: 100px;
+    padding: 10px 0;
+}
+
+.panel-group {
+    margin: 20px 0;
 }
 
 .reviewTitle {
@@ -259,19 +262,20 @@ li {
     }
 }
 
-.apply-btn-container {
-    align-self: center;
-}
-
 tab {
     h3 {
         margin-top: 0;
         font-size: 22px;
+        margin-bottom: 22px;
     }
 
     h4 {
         margin-top: 0;
     }
+}
+
+.offer-list-container {
+    display: block !important;
 }
 
 .hotel-description-container, .region-description-container, .facilities-container, .rooms-container, .offer-list-container, .accordion-container, .location-container {
@@ -337,4 +341,57 @@ tab {
     ul {
         margin: 0;
     }
+}
+
+.btn {
+    width: 50px;
+}
+
+.distance-input {
+    margin: 0 10px;
+}
+
+.fa-2x {
+    padding-top: 2px;
+    cursor: pointer;
+}
+
+.fa-plus-square {
+    color: green;
+}
+
+.fa-minus-square {
+    color: red;
+}
+
+.update-holiday-button {
+    margin: 0 auto;
+    width: 150px;
+}
+
+.modal-header {
+    position: relative;
+    border: 0;
+    padding: 0;
+
+    button {
+        position: absolute;
+        top: 5px;
+        right: 3px;
+        color: #7D7B79;
+        z-index: 1;
+        font-size: 44px;
+        background-color: #E8B56D;
+        padding: 0 10px;
+        border-radius: 50%;
+        opacity: 0.4;
+
+        &:hover {
+            opacity: 1;
+        }
+    }
+}
+
+.address-container {
+    flex: none !important;
 }

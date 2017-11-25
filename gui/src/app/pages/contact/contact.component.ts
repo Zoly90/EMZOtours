@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
+import { ContactInformation } from "./contact.model.ts/contact.model";
+import { ContactService } from "./service/contact.service";
+import { UtilsService } from "../../utils/utils.service";
+import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
+import { UpdateContactInformationModal } from "./update-contact-information-modal/update-contact-information-modal.component";
 
-/**
- * This class represents the lazy loaded AboutComponent.
- */
 @Component({
   selector: 'sd-contact',
   templateUrl: './contact.component.html',
@@ -10,8 +12,35 @@ import { Component } from '@angular/core';
 })
 export class ContactComponent {
 
-  backgroundImagePath = "../../assets/images/background/rsz_background.jpg";
+  bsModalRef: BsModalRef;
+  private contactInformation: ContactInformation = new ContactInformation();
+  private days = ['Monday - Friday', 'Saturday', 'Sunday'];
+  private token: string;
 
-  lat: number = 51.678418;
-  lng: number = 7.809007;
+  constructor(
+    private _contactService: ContactService,
+    private _utilsService: UtilsService,
+    private modalService: BsModalService
+  ) { }
+
+  ngOnInit() {
+    this._getContactInformation();
+    this.token = this._utilsService.checkAuthAndGetToken();
+  }
+
+  public openUpdateContactInformationModal() {
+    this.bsModalRef = this.modalService.show(UpdateContactInformationModal);
+    this.bsModalRef.content.contactInformation = this.contactInformation;
+    this.modalService.onHidden.subscribe(res => this._getContactInformation());
+  }
+
+  private _getContactInformation() {
+    this._contactService.getContactInformation()
+      .subscribe(res => {
+        this.contactInformation = res;
+        this.contactInformation.workingHours = this.contactInformation.workingHours.split(',');
+        this.contactInformation.map.latitude = Number(this.contactInformation.map.latitude)
+        this.contactInformation.map.longitude = Number(this.contactInformation.map.longitude)
+      });
+  }
 }

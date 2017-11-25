@@ -1,0 +1,4 @@
+<a id="myLargeModalLabel" (click)="emitAction()">
+	{{address.country}}{{(address.city != null) ? ', ' + address.city : ''}}{{(address.street != null) ? ', ' + address.street : ''}}{{(address.streetNr != null) ? ', nr. ' + address.streetNr : ''}}{{(address.block != null) ? ', block ' + address.block : ''}}{{(address.apartment != null) ? ', ap. ' + address.apartment : ''}}{{(address.zip != null) ? ', ' + address.zip : ''}}{{(address.additionalExplanation != null) ? ', (' + address.additionalExplanation + ')' : ''}}
+	<span class="glyphicon glyphicon-map-marker"></span>
+</a>

@@ -25,7 +25,7 @@ export class HolidayDetailViewService {
         }
 
         if (holiday.localization != null) {
-            holiday.localization.map.lattitude = Number(holiday.localization.map.lattitude);
+            holiday.localization.map.latitude = Number(holiday.localization.map.latitude);
             holiday.localization.map.longitude = Number(holiday.localization.map.longitude);
         }
     }

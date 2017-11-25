@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Http, RequestOptionsArgs, RequestOptions } from "@angular/http";
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from "@angular/router";
 import { Observable } from "rxjs/Observable";
 import * as _ from 'lodash';
@@ -11,28 +12,28 @@ import { Headers } from '@angular/http';
 export class HttpClientTokenService {
 
 	constructor(
-		private http: Http,
+		private http: HttpClient,
 		private authorizationService: AuthorizationService,
 		private errorHandlingService: ErrorHandlingService,
 		private router: Router
 	) { }
 
-	public get(url: string, options?: RequestOptionsArgs): Observable<Response> {
+	public get(url: string, options?: RequestOptionsArgs): Observable<any> {
 		return this.http.get(url, this._getRequestOptions(options))
 			.catch(this._errorHandler.bind(this));
 	}
 
-	public post(url: string, body: any, options?: RequestOptionsArgs): Observable<Response> {
+	public post(url: string, body: any, options?: RequestOptionsArgs): Observable<any> {
 		return this.http.post(url, body, this._getRequestOptions(options))
 			.catch(this._errorHandler.bind(this));
 	}
 
-	public authGET(url: string, options?: RequestOptionsArgs): Observable<Response> {
-		return this.http.get(url, this._getAuthRequestOptions(options))
-			.catch(this._errorHandler.bind(this));
-	}
+	// public authGET(url: string, options?: RequestOptionsArgs): Observable<Response> {
+	// 	return this.http.get(url, this._getAuthRequestOptions(options))
+	// 		.catch(this._errorHandler.bind(this));
+	// }
 
-	public authPOST(url: string, body: any, options?: RequestOptionsArgs): Observable<Response> {
+	public authPOST(url: string, body: any, options?: RequestOptionsArgs): Observable<any> {
 		return this.http.post(url, body, this._getRequestOptions(options))
 			.catch(this._errorHandler.bind(this));
 	}
@@ -41,10 +42,10 @@ export class HttpClientTokenService {
 	 * === Private Methods ===
 	 * =======================
 	 */
-	private _getRequestOptions(options?: RequestOptionsArgs): RequestOptionsArgs {
-		options = options ? options : new RequestOptions();
-		options.headers = options.headers ? options.headers : new Headers();
-		return options;
+	private _getRequestOptions(options) {
+		options = options ? options : null;
+		options.headers = options.headers ? options.headers : new HttpHeaders();
+		return options.headers;
 	}
 
 	private _getAuthRequestOptions(options?: RequestOptionsArgs): RequestOptionsArgs {

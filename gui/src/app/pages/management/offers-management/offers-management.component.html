@@ -1,66 +1,65 @@
-<div class="imageBackground" [ngStyle]="{'background-image':'url(' + backgroundImagePath + ')'}">
-	<md-card class="offers-management-container">
-		<md-card-title fxLayout fxLayoutAlign="space-between center">
-			<h1>Manage client offers</h1>
-		</md-card-title>
+<mat-card class="offers-management-container">
+	<mat-card-title fxLayout fxLayoutAlign="space-between center">
+		<h1>Manage client offers</h1>
+	</mat-card-title>
 
-		<md-card-content fxLayout="column" fxFlex>
-			<div class="offers-list-container">
-				<md-list class="offers-list" fxLayout="column" fxFlex>
-					<md-list-item fxLayout="column" class="table-header">
-						<div fxLayout fxFlex>
-							<div fxLayout fxLayoutAlign="start center" fxFlex="6%"></div>
-							<div fxLayout fxLayoutAlign="space-around center" fxFlex="5%">
-								<h4 md-line>Offer id</h4>
-							</div>
-							<div fxLayout fxLayoutAlign="space-around center" fxFlex="18%">
-								<h4 md-line>Client name</h4>
-							</div>
-							<div fxLayout fxLayoutAlign="space-around center" fxFlex="20%">
-								<h4 md-line>Destination</h4>
-							</div>
-							<div fxLayout fxLayoutAlign="space-around center" fxFlex="15%">
-								<h4 md-line>Period</h4>
-							</div>
-							<div fxLayout fxLayoutAlign="space-around center" fxFlex="18%">
-								<h4 md-line>Handeled by</h4>
-							</div>
+	<mat-card-content fxLayout="column" fxFlex>
+		<div class="offers-list-container">
+			<mat-list class="offers-list" fxLayout="column" fxFlex>
+				<mat-list-item fxLayout="column" class="table-header">
+					<div fxLayout fxFlex>
+						<div fxLayout fxLayoutAlign="start center" fxFlex="6%"></div>
+						<div fxLayout fxLayoutAlign="space-around center" fxFlex="5%">
+							<h4 md-line>Offer id</h4>
 						</div>
-					</md-list-item>
-					<md-list-item fxLayout="column" class="table-items" *ngFor="let offer of listOfOffers">
-						<div fxLayout fxFlex>
-							<div fxLayout fxLayoutAlign="start center" fxFlex="6%">
-								<div class="offer-status" [ngClass]="{'status-open': offer.status === 'OPEN', 'status-wip': offer.status === 'WIP', 'status-done': offer.status === 'DONE'}">{{offer.status}}</div>
-							</div>
-							<div fxLayout fxLayoutAlign="space-around center" fxFlex="5%">
-								<h5 md-line class="table-item">{{offer.id}}</h5>
-							</div>
-							<div fxLayout fxLayoutAlign="space-around center" fxFlex="18%">
-								<h5 md-line class="table-item">{{offer.name}}</h5>
-							</div>
-							<div fxLayout fxLayoutAlign="space-around center" fxFlex="20%">
-								<h5 md-line class="table-item">{{offer.travelDestination}}</h5>
-							</div>
-							<div fxLayout fxLayoutAlign="space-around center" fxFlex="15%">
-								<h5 md-line class="table-item">{{offer.firstDayOfHoliday | date}} - {{offer.lastDayOfHoliday | date}}</h5>
-							</div>
-							<div fxLayout fxLayoutAlign="space-around center" fxFlex="18%">
-								<h5 md-line *ngIf="offer.userInfo != null" class="table-item">{{offer.userInfo.firstName}} {{offer.userInfo.lastName}}</h5>
-							</div>
-							<div fxLayout fxLayoutAlign="end center" fxFlex class="buttons-container">
-								<offer-view-modal [personalizedOffer]="offer"></offer-view-modal>
-								<button *ngIf="!offer.userInfo" (click)="assignToMe(offer)" class="btn btn-primary assign-button" type="button" [disabled]="offer.userInfo && offer.userInfo.userLogin.username !== token.username">
+						<div fxLayout fxLayoutAlign="space-around center" fxFlex="18%">
+							<h4 md-line>Client name</h4>
+						</div>
+						<div fxLayout fxLayoutAlign="space-around center" fxFlex="20%">
+							<h4 md-line>Destination</h4>
+						</div>
+						<div fxLayout fxLayoutAlign="space-around center" fxFlex="15%">
+							<h4 md-line>Period</h4>
+						</div>
+						<div fxLayout fxLayoutAlign="space-around center" fxFlex="18%">
+							<h4 md-line>Handeled by</h4>
+						</div>
+					</div>
+				</mat-list-item>
+				<mat-list-item fxLayout="column" class="table-items" *ngFor="let offer of listOfOffers">
+					<div fxLayout fxFlex>
+						<div fxLayout fxLayoutAlign="start center" fxFlex="6%">
+							<div class="offer-status" [ngClass]="{'status-open': offer.status === 'OPEN', 'status-wip': offer.status === 'WIP', 'status-done': offer.status === 'DONE'}">{{offer.status}}</div>
+						</div>
+						<div fxLayout fxLayoutAlign="space-around center" fxFlex="5%">
+							<h5 md-line class="table-item">{{offer.id}}</h5>
+						</div>
+						<div fxLayout fxLayoutAlign="space-around center" fxFlex="18%">
+							<h5 md-line class="table-item">{{offer.name}}</h5>
+						</div>
+						<div fxLayout fxLayoutAlign="space-around center" fxFlex="20%">
+							<h5 md-line class="table-item">{{offer.travelDestination}}</h5>
+						</div>
+						<div fxLayout fxLayoutAlign="space-around center" fxFlex="15%">
+							<h5 md-line class="table-item">{{offer.firstDayOfHoliday | date}} - {{offer.lastDayOfHoliday | date}}</h5>
+						</div>
+						<div fxLayout fxLayoutAlign="space-around center" fxFlex="18%">
+							<h5 md-line *ngIf="offer.userInfo != null" class="table-item">{{offer.userInfo.firstName}} {{offer.userInfo.lastName}}</h5>
+						</div>
+						<div fxLayout fxLayoutAlign="end center" fxFlex class="buttons-container">
+							<offer-view-modal [personalizedOffer]="offer"></offer-view-modal>
+							<button *ngIf="!offer.userInfo" (click)="assignToMe(offer)" class="btn btn-primary assign-button" type="button" [disabled]="offer.userInfo && offer.userInfo.userLogin.username !== token.username">
 									<i class="fa fa-unlock fa-lg" aria-hidden="true"></i>
 								</button>
-								<button *ngIf="offer.userInfo" (click)="finalizeOffer(offer)" class="btn btn-success finished-button" type="button" [disabled]="offer.userInfo.userLogin.username !== token.username || offer.status === 'DONE'">
+							<button *ngIf="offer.userInfo" (click)="finalizeOffer(offer)" class="btn btn-success finished-button" type="button" [disabled]="offer.userInfo.userLogin.username !== token.username || offer.status === 'DONE'">
 									<i class="fa fa-lg" [ngClass]="{'fa-check-square-o': offer.userInfo.userLogin.username === token.username, 'fa-lock': offer.userInfo.userLogin.username !== token.username}" aria-hidden="true"></i>
 								</button>
-								<delete-confirmation-modal [whatToDelete]="'offer with id'" [toDelete]="offer.id" [disabled]="offer.userInfo && offer.userInfo.userLogin.username !== token.username" (deleteConfirmation)="deleteConfirmed($event, offer)"></delete-confirmation-modal>
-							</div>
+							<delete-confirmation-modal [whatToDelete]="'offer with id'" [toDelete]="offer.id" [disabled]="offer.userInfo && offer.userInfo.userLogin.username !== token.username"
+							 (deleteConfirmation)="deleteConfirmed($event, offer)"></delete-confirmation-modal>
 						</div>
-					</md-list-item>
-				</md-list>
-			</div>
-		</md-card-content>
-	</md-card>
-</div>
+					</div>
+				</mat-list-item>
+			</mat-list>
+		</div>
+	</mat-card-content>
+</mat-card>

@@ -1,10 +1,5 @@
 @import '../../../styles/variables.scss';
 
-.imageBackground {
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-}
-
 .holidays-management-container {
 	margin: 0 auto;
   width: 70%;
@@ -25,7 +20,7 @@
 }
 
 .update-button, .delete-button {
-	width: 80px;
+	width: 50px;
 }
 
 .update-button {

@@ -1,63 +1,65 @@
-<div class="imageBackground" [ngStyle]="{'background-image':'url(' + backgroundImagePath + ')'}">
-	<md-card class="holidays-management-container">
-		<md-card-title fxLayout fxLayoutAlign="space-between center">
-			<h1>Manage holidays</h1>
-			<button (click)="addHoliday()" class="btn btn-success add-button" type="button">Add a new holiday</button>
-		</md-card-title>
+<mat-card class="holidays-management-container">
+	<mat-card-title fxLayout fxLayoutAlign="space-between center">
+		<h1>Manage holidays</h1>
+		<button (click)="addHoliday()" class="btn btn-success add-button" type="button">Add a new holiday</button>
+	</mat-card-title>
 
-		<md-card-content fxLayout="column" fxFlex>
-			<div class="holidays-list-container">
-				<md-list class="holidays-list" fxLayout="column" fxFlex>
-					<md-list-item fxLayout="column" class="table-header">
-						<div fxLayout fxFlex>
-							<div fxLayout fxLayoutAlign="space-around center" fxFlex="18%">
-								<h4 md-line>Hotel name</h4>
-							</div>
-							<div fxLayout fxLayoutAlign="space-around center" fxFlex="16%">
-								<h4 md-line>Destination country</h4>
-							</div>
-							<div fxLayout fxLayoutAlign="space-around center" fxFlex="16%">
-								<h4 md-line>Destination city</h4>
-							</div>
-							<div fxLayout fxLayoutAlign="space-around center" fxFlex="15%">
-								<h4 md-line>Period</h4>
-							</div>
-							<div fxLayout fxLayoutAlign="space-around center" fxFlex="10%">
-								<h4 md-line>Transportation</h4>
-							</div>
-							<div fxLayout fxLayoutAlign="space-around center" fxFlex="7%">
-								<h4 md-line>Price</h4>
-							</div>
+	<mat-card-content fxLayout="column" fxFlex>
+		<div class="holidays-list-container">
+			<mat-list class="holidays-list" fxLayout="column" fxFlex>
+				<mat-list-item fxLayout="column" class="table-header">
+					<div fxLayout fxFlex>
+						<div fxLayout fxLayoutAlign="space-around center" fxFlex="18%">
+							<h4 md-line>Hotel name</h4>
 						</div>
-					</md-list-item>
-					<md-list-item fxLayout="column" class="table-items" *ngFor="let holiday of listOfHolidays">
-						<div fxLayout fxFlex>
-							<div fxLayout fxLayoutAlign="space-around center" fxFlex="18%">
-								<h5 md-line class="table-item">{{holiday.hotelInformation.accommodationName}}</h5>
-							</div>
-							<div fxLayout fxLayoutAlign="space-around center" fxFlex="16%">
-								<h5 md-line class="table-item">{{holiday.accommodationAddress.country}}</h5>
-							</div>
-							<div fxLayout fxLayoutAlign="space-around center" fxFlex="16%">
-								<h5 md-line class="table-item">{{holiday.accommodationAddress.city}}</h5>
-							</div>
-							<div fxLayout fxLayoutAlign="space-around center" fxFlex="15%">
-								<h5 md-line class="table-item">{{holiday.offerInformation.departureDatesFrom | date}} - {{holiday.offerInformation.departureDatesUntil | date}}</h5>
-							</div>
-							<div fxLayout fxLayoutAlign="space-around center" fxFlex="10%">
-								<h5 md-line class="table-item">{{holiday.offerInformation.transportation}}</h5>
-							</div>
-							<div fxLayout fxLayoutAlign="space-around center" fxFlex="7%">
-								<h5 md-line class="table-item">{{holiday.offerInformation.startingPrice}} <span class="glyphicon glyphicon-euro"></span></h5>
-							</div>
-							<div fxLayout fxLayoutAlign="end center" fxFlex class="buttons-container">
-								<button (click)="updateHoliday(holiday)" class="btn btn-primary update-button" type="button">Update</button>
-								<button (click)="deleteHoliday(holiday)" class="btn btn-warning delete-button" type="button">Delete</button>
-							</div>
+						<div fxLayout fxLayoutAlign="space-around center" fxFlex="16%">
+							<h4 md-line>Destination country</h4>
 						</div>
-					</md-list-item>
-				</md-list>
-			</div>
-		</md-card-content>
-	</md-card>
-</div>
+						<div fxLayout fxLayoutAlign="space-around center" fxFlex="16%">
+							<h4 md-line>Destination city</h4>
+						</div>
+						<div fxLayout fxLayoutAlign="space-around center" fxFlex="15%">
+							<h4 md-line>Period</h4>
+						</div>
+						<div fxLayout fxLayoutAlign="space-around center" fxFlex="10%">
+							<h4 md-line>Transportation</h4>
+						</div>
+						<div fxLayout fxLayoutAlign="space-around center" fxFlex="7%">
+							<h4 md-line>Price</h4>
+						</div>
+					</div>
+				</mat-list-item>
+				<mat-list-item fxLayout="column" class="table-items" *ngFor="let holiday of listOfHolidays">
+					<div fxLayout fxFlex>
+						<div fxLayout fxLayoutAlign="space-around center" fxFlex="18%">
+							<h5 md-line class="table-item">{{holiday.hotelInformation.accommodationName}}</h5>
+						</div>
+						<div fxLayout fxLayoutAlign="space-around center" fxFlex="16%">
+							<h5 md-line class="table-item">{{holiday.accommodationAddress.country}}</h5>
+						</div>
+						<div fxLayout fxLayoutAlign="space-around center" fxFlex="16%">
+							<h5 md-line class="table-item">{{holiday.accommodationAddress.city}}</h5>
+						</div>
+						<div fxLayout fxLayoutAlign="space-around center" fxFlex="15%">
+							<h5 md-line class="table-item">{{holiday.offerInformation.departureDatesFrom | date}} - {{holiday.offerInformation.departureDatesUntil | date}}</h5>
+						</div>
+						<div fxLayout fxLayoutAlign="space-around center" fxFlex="10%">
+							<h5 md-line class="table-item">{{holiday.offerInformation.transportation}}</h5>
+						</div>
+						<div fxLayout fxLayoutAlign="space-around center" fxFlex="7%">
+							<h5 md-line class="table-item">{{holiday.offerInformation.startingPrice}} <span class="glyphicon glyphicon-euro"></span></h5>
+						</div>
+						<div fxLayout fxLayoutAlign="end center" fxFlex class="buttons-container">
+							<button (click)="updateHoliday(holiday)" class="btn btn-primary update-button" type="button">
+									<i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i>
+								</button>
+							<!--<button (click)="deleteHoliday(holiday)" class="btn btn-warning delete-button" type="button">Delete</button>-->
+							<delete-confirmation-modal [whatToDelete]="'holiday with hotel name'" [toDelete]="holiday.hotelInformation.accommodationName"
+							 (deleteConfirmation)="deleteConfirmed($event, holiday)"></delete-confirmation-modal>
+						</div>
+					</div>
+				</mat-list-item>
+			</mat-list>
+		</div>
+	</mat-card-content>
+</mat-card>

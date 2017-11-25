@@ -10,6 +10,7 @@ export class TurismAppConstants {
 
 	// sign up form
 	public static NOT_OVER_18_MESSAGE = 'You must be at least 18 years old to create an account.';
+	public static CREDIT_CARD_EXPIRED_MESSAGE = 'You can not enter an expired credit card.'
 	public static PASSWORD_NOT_EQUAL_MESSAGE = 'The passwords entered are not equal! Please check again.';
 	public static INVALID_PASWORD_LENGTH_MESSAGE = 'The password must contain a minimum of 8 and a maximum of 32 characters.';
 	public static INVALID_USERNAME_LENGTH_MESSAGE = 'The username must contain a minimum of 6 and a maximum of 32 characters.';

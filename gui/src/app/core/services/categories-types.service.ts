@@ -7,6 +7,7 @@ import { Types } from "../models/types.model";
 import { Subject } from "rxjs/Subject";
 import { BehaviorSubject } from "rxjs/BehaviorSubject";
 import { sortById } from "../utils";
+import { HttpClient } from "@angular/common/http";
 
 
 @Injectable()
@@ -19,12 +20,12 @@ export class CategoriesAndTypesService {
 
 
     constructor(
-        private _http: Http
+        private _http: HttpClient
     ) { }
 
     private getCategoriesAndTypesHTTP(): Observable<CategoriesAndTypes> {
         return this._http.get(`${this.baseUrl}/home-page`)
-            .map(res => res.json());
+            .map(res => res);
     }
 
     public setCategoriesAndTypes() {

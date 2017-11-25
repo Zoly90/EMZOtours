@@ -12,29 +12,29 @@ import ro.emzo.turismapp.core.model.BaseModel;
 @Table(name = "map")
 public class Map extends BaseModel{
 	
-	@Column(name = "lattitude")
-	private String lattitude;
+	@Column(name = "latitude")
+	private Double latitude;
 	
 	@Column(name = "longitude")
-	private String longitude;
+	private Double longitude;
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "map")
 	@JsonBackReference
 	private Collection<Localization> localization;
 
-	public String getLattitude() {
-		return lattitude;
+	public Double getLatitude() {
+		return latitude;
 	}
 
-	public void setLattitude(String lattitude) {
-		this.lattitude = lattitude;
+	public void setLatitude(Double latitude) {
+		this.latitude = latitude;
 	}
 
-	public String getLongitude() {
+	public Double getLongitude() {
 		return longitude;
 	}
 
-	public void setLongitude(String longitude) {
+	public void setLongitude(Double longitude) {
 		this.longitude = longitude;
 	}
 

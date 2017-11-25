@@ -1,14 +1,44 @@
-.imageBackground {
-    background-repeat: no-repeat;
-    background-attachment: fixed;
+agm-map {
+  height: 300px;
 }
 
-.contactContainer {
+.contact-container {
     margin: 0 auto;
     width: 70%;
 }
 
-.sebm-google-map-container {
-  height: 300px;
-  /*width: 400px;*/
+.contact-information-container, .map-information-container {
+    border: 1px solid #F7E2CB;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 2px 1px -1px rgba(0, 0, 0, 0.12);
+    padding: 20px;
+    margin: 15px 0;
+}
+
+.contact-info {
+  margin-bottom: 10px;
+
+  label {
+    min-width: 170px;
+  }
+}
+
+.working_hours_container {
+  margin-bottom: 0;
+}
+
+.working_hours_info {
+  margin-bottom: 0;
+  margin-left: 30px;
+
+  label {
+    min-width: 130px;
+    font-weight: normal;
+    font-style: italic;
+  }
+}
+
+.last {
+  label {
+    margin-bottom: 0;
+  }
 }

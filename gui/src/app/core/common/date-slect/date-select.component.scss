@@ -1,7 +1,3 @@
-:host {
-	height: 34px;
-}
-
 .input-element {
     margin-bottom: 30px; 
     max-width: 85%;
@@ -9,12 +5,12 @@
 
 .input-year {
     min-width: 105px;
-    margin-right: 5px;
+    margin-right: 9px;
 }
 
 .input-month {
     min-width: 155px;
-    margin: 0 4px;
+    // margin: 0 4px;
 }
 
 .input-day {
@@ -28,15 +24,40 @@
     outline: none;
     padding: 0;
     min-width: 90px;
-    margin-left: 5px;
+    margin-left: 9px;
 }
 
-.input-check {
-    color: red;
-    margin-top: -20px;
-    padding: 0 25px;
+// .input-check {
+//     color: red;
+//     margin-top: -20px;
+//     padding: 0 25px;
 
-    p {
-        margin: 0 0 10px;
-    }
+//     p {
+//         margin: 0 0 10px;
+//     }
+// }
+
+// .offer-input {
+//     margin-top: -10px;
+//     padding: 0;
+// }
+
+.apply-for-offer {
+    display: none;
+}
+
+.feedback {
+    color: red;
+}
+
+.form-group {
+    margin-bottom: 0;
+}
+
+.feedback-month {
+    margin-left: 147px;
+}
+
+.feedback-month-a {
+    margin-left: 95px;
 }

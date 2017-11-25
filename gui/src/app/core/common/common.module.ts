@@ -1,16 +1,12 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { BsDropdownModule } from 'ng2-bootstrap/dropdown';
-import { ModalModule } from 'ng2-bootstrap/modal'
-import { AccordionModule } from 'ng2-bootstrap/accordion'
-import { MaterialModule } from '@angular/material';
-import { SelectModule } from 'angular2-select';
-import { BackgroundImageComponent } from './backgroundImage/backgroundImage.component';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { ModalModule } from 'ngx-bootstrap/modal'
+import { AccordionModule } from 'ngx-bootstrap/accordion';
+import { SelectModule } from 'ng-select';
 import { FlexLayoutModule } from '@angular/flex-layout';
-
-
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { SignUpModalComponent } from './toolbar/signUpModal/signupModal.component';
@@ -26,6 +22,12 @@ import { UserValidatorService } from "../services/user-validator.service";
 import { UtilsService } from "../../utils/utils.service";
 import { DateSelecComponent } from "./date-slect/date-select.component";
 import { DeleteConfirmationModalComponent } from "./delete-confirmation-modal/delete-confirmation-modal.component";
+import { LoginDropdownService } from "./toolbar/loginDropdown/login-dropdown.service";
+import { ResetPasswordModalComponent } from "./toolbar/loginDropdown/reset-password-modal/reset-password-modal.component";
+import { DisplayAddressComponent } from "./display-address/display-address.component";
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatCardModule } from '@angular/material/card';
+import { RoutingByIDService } from "../services/routing-by-id.service";
 
 /**
  * Do not specify providers for modules that might be imported by a lazy loaded module.
@@ -39,12 +41,13 @@ import { DeleteConfirmationModalComponent } from "./delete-confirmation-modal/de
     ModalModule.forRoot(),
     AccordionModule.forRoot(),
     FormsModule,
-    MaterialModule,
+    ReactiveFormsModule,
     SelectModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    MatCheckboxModule,
+    MatCardModule,
   ],
   declarations: [
-    BackgroundImageComponent,
     ToolbarComponent,
     DateSelecComponent,
     SignUpModalComponent,
@@ -52,7 +55,9 @@ import { DeleteConfirmationModalComponent } from "./delete-confirmation-modal/de
     LogoutButtonComponent,
     MyProfileDropdownComponent,
     NavbarComponent,
-    DeleteConfirmationModalComponent
+    DeleteConfirmationModalComponent,
+    ResetPasswordModalComponent,
+    DisplayAddressComponent
   ],
   exports: [
     DateSelecComponent,
@@ -63,7 +68,8 @@ import { DeleteConfirmationModalComponent } from "./delete-confirmation-modal/de
     CommonModule,
     FormsModule,
     RouterModule,
-    SelectModule
+    SelectModule,
+    DisplayAddressComponent
   ],
   providers: [
     UserService,
@@ -72,7 +78,12 @@ import { DeleteConfirmationModalComponent } from "./delete-confirmation-modal/de
     ErrorHandlingService,
     AuthorizationService,
     UserValidatorService,
-    UtilsService
+    UtilsService,
+    LoginDropdownService,
+    RoutingByIDService
+  ],
+  entryComponents: [
+    ResetPasswordModalComponent
   ]
 })
 export class SharedModule {

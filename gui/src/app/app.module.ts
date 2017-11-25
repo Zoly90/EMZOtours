@@ -6,13 +6,14 @@ import { AppComponent } from './app.component';
 import { SharedModule } from "./core/common/common.module";
 import { PagesModule } from "./pages/pages.module";
 import { HolidayService } from "./holiday/services/holiday.service";
-import { RoutingByIDService } from "./core/services/routing-by-id.service";
 import { HolidayModule } from "./holiday/holiday.module";
-import {NgxPaginationModule} from 'ngx-pagination'; 
+import { NgxPaginationModule } from 'ngx-pagination';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { HttpModule } from '@angular/http';
 
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent
   ],
   imports: [
     BrowserModule,
@@ -20,9 +21,14 @@ import {NgxPaginationModule} from 'ngx-pagination';
     PagesModule,
     HolidayModule,
     SharedModule.forRoot(),
-    NgxPaginationModule
+    NgxPaginationModule,
+    HttpClientModule,
+    HttpModule
   ],
-  providers: [HolidayService, RoutingByIDService],
+  providers: [
+    HolidayService, 
+    HttpClientModule
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

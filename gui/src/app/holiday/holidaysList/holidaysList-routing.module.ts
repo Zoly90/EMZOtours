@@ -16,7 +16,9 @@ import { HolidayListResolver } from "./holidayList-resolver";
       }
     ])
   ],
-  exports: [RouterModule],
+  exports: [
+    RouterModule
+  ],
   providers: [
     HolidayListResolver
   ]

@@ -7,6 +7,8 @@ import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import ro.emzo.turismapp.core.model.BaseModel;
+import ro.emzo.turismapp.holiday.model.HolidaySummary;
+import ro.emzo.turismapp.holiday.model.Period;
 import ro.emzo.turismapp.offer.model.PersonalizedOffer;
 
 @Entity
@@ -38,6 +40,18 @@ public class UserInfo extends BaseModel {
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn
 	private UserLogin userLogin;
+
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn
+	private UserCreditCard userCreditCard;
+
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn
+	private HolidaySummary reservedOffer;
+
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn
+	private Period reservedOfferPerriod;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "userInfo")
 	@JsonBackReference
@@ -105,6 +119,30 @@ public class UserInfo extends BaseModel {
 
 	public void setUserLogin(UserLogin userLogin) {
 		this.userLogin = userLogin;
+	}
+
+	public UserCreditCard getUserCreditCard() {
+		return userCreditCard;
+	}
+
+	public void setUserCreditCard(UserCreditCard userCreditCard) {
+		this.userCreditCard = userCreditCard;
+	}
+
+	public HolidaySummary getReservedOffer() {
+		return reservedOffer;
+	}
+
+	public void setReservedOffer(HolidaySummary reservedOffer) {
+		this.reservedOffer = reservedOffer;
+	}
+
+	public Period getReservedOfferPerriod() {
+		return reservedOfferPerriod;
+	}
+
+	public void setReservedOfferPerriod(Period reservedOfferPerriod) {
+		this.reservedOfferPerriod = reservedOfferPerriod;
 	}
 
 	public Collection<PersonalizedOffer> getPersonalizedOffers() {

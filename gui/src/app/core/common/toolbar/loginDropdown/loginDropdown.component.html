@@ -1,4 +1,4 @@
-<div class="btn-group" dropdown>
+<div class="btn-group" dropdown [isOpen]="status.isopen" (isOpenChange)="toggleDropdown($event)">
     <button type="button" class="btn btn-primary dropdown-toggle" id="loginDropdown" dropdownToggle>
         <span class="glyphicon glyphicon-log-in"></span> Login</button>
     <div *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu" (click)="$event.stopPropagation()">
@@ -13,41 +13,16 @@
             </div>
             <p class="login-error-message">{{wrongCredentials}}</p>
             <div class="form-group">
-                <md-checkbox class="" [(ngModel)]="remember" [ngModelOptions]="{standalone: true}">
+                <mat-checkbox class="" [(ngModel)]="remember" [ngModelOptions]="{standalone: true}">
                     <h6>Remember me</h6>
-                </md-checkbox>
+                </mat-checkbox>
             </div>
             <div class="form-group">
                 <button type="submit" id="btnLogin" class="btn btn-success">Login</button>
             </div>
             <div class="form-group">
-                <a class="forgot-password" id="forgotPassword" (click)="staticModal.show()">Forgot password?</a>
+                <a class="forgot-password" id="forgotPassword" (click)="openResetPasswordModal()">Forgot password?</a>
             </div>
         </form>
-    </div>
-</div>
-<div class="modal fade" bsModal #staticModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="forgotPassword" aria-hidden="true">
-    <div class="modal-dialog modal-sm">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title pull-left">Password recovery</h4>
-                <button type="button" class="close pull-right" (click)="staticModal.hide(); closeForgotPasswordModal()" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form (ngSubmit)="onSubmit()" #forgotPasswordForm="ngForm" id="formLogin" class="form container-fluid">
-                    <div class="form-group" *ngIf="!usernameExists">
-                        <label class="username" for="user">Please enter your e-mail or username:</label>
-                        <input type="text" class="form-control" id="user" name="user" placeholder="Ex. john.doe" [(ngModel)]="username" />
-                    </div>
-                    <p>{{usernameExists}}</p>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button *ngIf="!usernameExists" type="submit" id="btnResetPassword" (click)="forgotPassword()" class="btn btn-success">Reset password</button>
-                <button *ngIf="usernameExists" type="" id="btnClose" (click)="staticModal.hide(); closeForgotPasswordModal()" class="btn btn-danger">Close</button>
-            </div>
-        </div>
     </div>
 </div>
