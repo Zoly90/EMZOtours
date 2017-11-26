@@ -4,8 +4,8 @@ import {
 import { trigger, state, animate, transition, style } from '@angular/animations';
 import { Category } from "../../core/models/category.model";
 import { CategoriesAndTypesService } from "../../core/services/categories-types.service";
-import { RoutingByIDService } from "../../core/services/routing-by-id.service";
 import { Router } from "@angular/router";
+import { TurismAppConstants } from "../../utils/constants";
 
 /**
  * This class represents the lazy loaded HomeComponent.
@@ -33,11 +33,9 @@ export class HomeComponent {
   constructor(
     private router: Router,
     private categoriesAndTypesService: CategoriesAndTypesService,
-    private routingByIDService: RoutingByIDService
   ) { }
 
   ngOnInit() {
-    this.categoriesAndTypesService.setCategoriesAndTypes();
     this.categoriesAndTypesService.$categories.subscribe(data => {
       this.categories = data;
     });
@@ -66,15 +64,16 @@ export class HomeComponent {
 
   goToListPage(currentCategory): void {
     let categoryId: number;
+
     for (let category of this.categories) {
       for (let subcategory of category.holidaySubcategories)
         if (subcategory.subcategory === currentCategory) {
           categoryId = subcategory.id;
         }
     }
-    
-    this.routingByIDService.set(categoryId, 'category');
-    this.router.navigate(['/holidays/' + currentCategory]);
+
+    this.router.navigate([TurismAppConstants.HOLIDAY_LIST_VIEW_PAGE_PATH + '/' + currentCategory],
+      { queryParams: { category: currentCategory, id: categoryId } });
   }
 
 }

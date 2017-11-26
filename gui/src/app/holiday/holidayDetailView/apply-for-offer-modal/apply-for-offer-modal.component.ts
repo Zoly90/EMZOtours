@@ -1,14 +1,14 @@
 import { Component, TemplateRef } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap/modal/modal-options.class';
 import { BsModalService } from 'ngx-bootstrap/modal';
-import { SignUpModalComponent } from '../../../core/common/toolbar/signUpModal/signupModal.component';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserCreditCard } from '../../../core/authentication/models/user-credit-card.model';
 import { ApplyForOfferService } from '../../services/apply-for-offer.service';
 import { ApplyForOffer } from '../../models/apply-for-offer.model';
-import { LoginDropdownService } from '../../../core/common/toolbar/loginDropdown/login-dropdown.service';
 import { UtilsService } from '../../../utils/utils.service';
-import { UserService } from "../../../core/services/user.service";
+import { LoginDropdownService } from "../../../shared/toolbar/loginDropdown/login-dropdown.service";
+import { UserService } from "../../../shared/services/user.service";
+import { SignUpModalComponent } from "../../../shared/toolbar/signUpModal/signupModal.component";
 
 @Component({
   selector: 'apply-for-offer-modal',

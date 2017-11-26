@@ -44,6 +44,11 @@ public class HolidayService {
 		return result;
     }
 
+    public HolidaySummary getHolidayById(Long holidayId) {
+		HolidaySummary result = holidaySummaryDataService.getHolidayById(holidayId);
+		return result;
+	}
+
 	public void deleteHoliday(Long holidayId) {
 		holidaySummaryDataService.deleteHoliday(holidayId);
 	}

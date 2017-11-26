@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, OnChanges, trigger, state, animate, transition, style } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 import * as _ from 'lodash';
 import { HolidayDetailViewService } from "../services/holidayDetailView.service";
@@ -41,7 +41,7 @@ export class HolidayDetailViewComponent {
     pauseIcon: boolean = true;
     playIcon: boolean = false;
 
-    currentImage: string;
+    currentImage: any;
     photoModalWindowOpened: boolean = false;
     imagePointer: number;
 
@@ -55,7 +55,7 @@ export class HolidayDetailViewComponent {
     start = () => {
         this.index++;
         this.currentImage = this.holiday.imageSet[this.index];
-        if (this.index == 8) {
+        if (this.index == this.holiday.imageSet.length - 1) {
             this.index = -1;
         }
     }
@@ -68,7 +68,8 @@ export class HolidayDetailViewComponent {
         private holidayDetailViewService: HolidayDetailViewService,
         private authorizationService: AuthorizationService,
         private modalService: BsModalService,
-        private utilsService: UtilsService
+        private utilsService: UtilsService,
+        private activatedRoute: ActivatedRoute
     ) {
         this.imageChanging = setInterval(this.start, 6000);
     }
@@ -83,7 +84,11 @@ export class HolidayDetailViewComponent {
         if (this._checkIfLoggedInUserIsAdminOrEmployee()) {
             this.authorizedToEdit = true;
         }
-        this.holiday = this.holidayDetailViewService.getHolidayDetails();
+
+        this.activatedRoute.params.subscribe(() => {
+            this.holiday = this.holidayDetailViewService.setHoliday(this.activatedRoute.snapshot.data['holiday']);
+        })
+
         this.fading();
         this.currentImage = this.holiday.imageSet[this.index];
     }

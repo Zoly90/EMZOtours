@@ -44,4 +44,16 @@ export class TurismAppConstants {
 	public static CLIENT = 'CLIENT';
 	public static EMPLOYEE = 'EMPLOYEE';
 	public static ADMIN = 'ADMIN';
+
+	// routes
+	public static UNMATCHED_PATH = '**';
+	public static HOME_PAGE_PATH = '';
+	public static HOLIDAYS_MANAGEMENT_PAGE_PATH = 'holidays-management';
+	public static USER_MANAGEMENT_PAGE_PATH = 'user-management';
+	public static PERSONALIZED_OFFERS_MANAGEMENT_PAGE_PATH = 'personalized-offers-management'
+	public static PERSONALIZED_OFFER_PAGE_PATH = 'personalized-offer';
+	public static CONTACT_PAGE_PATH = 'contact';
+	public static ABOUT_PAGE_PATH = 'about';
+	public static HOLIDAY_DETAIL_VIEW_PAGE_PATH = 'holiday';
+	public static HOLIDAY_LIST_VIEW_PAGE_PATH = 'holidays-list';
 }

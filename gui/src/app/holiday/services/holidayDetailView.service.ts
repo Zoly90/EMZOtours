@@ -2,32 +2,34 @@ import { Injectable } from '@angular/core';
 import * as Rx from 'rxjs';
 import { Holiday } from "../models/holiday.model";
 
-let holiday: Holiday;
 
 @Injectable()
 export class HolidayDetailViewService {
 
+    private holiday: Holiday;
     private array: string[];
 
     public setHoliday(holidayToSet) {
-        holiday = holidayToSet;
-        holiday = this._constructStarsArrays(holiday);
+        this.holiday = holidayToSet;
+        this.holiday = this._constructStarsArrays(this.holiday);
 
-        holiday.offerInformation.included = this._convertToArrayOfStrings(holiday.offerInformation.included);
-        holiday.offerInformation.notIncluded = this._convertToArrayOfStrings(holiday.offerInformation.notIncluded);
+        this.holiday.offerInformation.included = this._convertToArrayOfStrings(this.holiday.offerInformation.included);
+        this.holiday.offerInformation.notIncluded = this._convertToArrayOfStrings(this.holiday.offerInformation.notIncluded);
 
-        for (let facility of holiday.facilities) {
+        for (let facility of this.holiday.facilities) {
             facility.facilitiesList = this._convertToArrayOfStrings(facility.facilitiesList);
         }
 
-        for (let room of holiday.rooms) {
+        for (let room of this.holiday.rooms) {
             room.roomFacilities = this._convertToArrayOfStrings(room.roomFacilities);
         }
 
-        if (holiday.localization != null) {
-            holiday.localization.map.latitude = Number(holiday.localization.map.latitude);
-            holiday.localization.map.longitude = Number(holiday.localization.map.longitude);
+        if (this.holiday.localization != null) {
+            this.holiday.localization.map.latitude = Number(this.holiday.localization.map.latitude);
+            this.holiday.localization.map.longitude = Number(this.holiday.localization.map.longitude);
         }
+
+        return this.holiday;
     }
 
     private _constructStarsArrays(holiday: Holiday): Holiday {
@@ -53,9 +55,5 @@ export class HolidayDetailViewService {
         }
         this.array = items.split(',');
         return this.array;
-    }
-
-    public getHolidayDetails() {
-        return holiday;
     }
 }

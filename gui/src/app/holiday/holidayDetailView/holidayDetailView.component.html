@@ -68,7 +68,7 @@
                 <tabset type="pills">
                     <tab heading="Hotel & region description">
                         <div class="hotel-description-container">
-                            <div fxLayout fxLayoutAlign="space-between center">
+                            <div fxLayout fxLayoutAlign="space-between start">
                                 <h3>Hotel description</h3>
                                 <button *ngIf="authorizedToEdit" (click)="updateHotelDescription()" class="btn update-button" [ngClass]="{'btn-primary': !editHotelDescription, 'btn-success': editHotelDescription}"
                                     type="button">
@@ -81,7 +81,7 @@
                                 [(ngModel)]="holiday.descriptions.hotel" name="hotelDescription" (focusout)="focus(editHotelDescriptionTextarea.value)"></textarea>
                         </div>
                         <div class="region-description-container">
-                            <div fxLayout fxLayoutAlign="space-between center">
+                            <div fxLayout fxLayoutAlign="space-between start">
                                 <h3>Region description</h3>
                                 <button *ngIf="authorizedToEdit" (click)="updateRegionDescription()" class="btn update-button" [ngClass]="{'btn-primary': !editRegionDescription, 'btn-success': editRegionDescription}"
                                     type="button">
@@ -96,7 +96,7 @@
                     </tab>
                     <tab heading="Hotel facilities & rooms">
                         <div class="facilities-container">
-                            <div class="facilities-title-container" fxLayout="column" fxLayoutAlign="space-between center">
+                            <div class="facilities-title-container" fxLayout fxLayoutAlign="space-between start">
                                 <h3>Hotel facilities</h3>
                                 <button *ngIf="authorizedToEdit" (click)="updateHotelFacilities()" class="btn update-button" [ngClass]="{'btn-primary': !editHotelFacilities, 'btn-success': editHotelFacilities}"
                                     type="button">
@@ -124,7 +124,7 @@
                             </div>
                         </div>
                         <div class="rooms-container">
-                            <div class="facilities-title-container" fxLayout="column" fxLayoutAlign="space-between center">
+                            <div class="rooms-title-container" fxLayout fxLayoutAlign="space-between start">
                                 <h3>Room types</h3>
                                 <button *ngIf="authorizedToEdit" (click)="updateRoomFacilities()" class="btn update-button" [ngClass]="{'btn-primary': !editRoomFacilities, 'btn-success': editRoomFacilities}"
                                     type="button">
@@ -258,7 +258,7 @@
                         </div>
 
                         <div class="location-container">
-                            <div fxLayout fxLayoutAlign="space-between center">
+                            <div fxLayout fxLayoutAlign="space-between start">
                                 <h3>Points of interest around the hotel</h3>
                                 <button *ngIf="authorizedToEdit" (click)="updatePointsOfInterest()" class="btn update-button" [ngClass]="{'btn-primary': !editPointsOfInterest, 'btn-success': editPointsOfInterest}"
                                     type="button">

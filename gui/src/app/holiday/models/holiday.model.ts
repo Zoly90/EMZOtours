@@ -58,11 +58,11 @@ export class Holiday {
             available?: boolean
         }]
     }
-    imageSet: {
+    imageSet: [{
         id?: number
         image?: any
         description?: string
-    }
+    }]
     rooms: [{
         id?: number
         roomType?: string

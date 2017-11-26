@@ -5,7 +5,6 @@ import { Router } from "@angular/router";
 import { AuthorizationService } from "../../../core/authentication/services/authorization.service";
 import { TurismAppConstants } from "../../../utils/constants";
 import * as _ from 'lodash';
-import { User } from "../../../core/models/user.model";
 
 @Component({
 	selector: 'offers-management',

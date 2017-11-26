@@ -1,5 +1,9 @@
 @import '../../../styles/variables.scss';
 
+mat-card {
+	display: block !important;
+}
+
 .holidays-management-container {
 	margin: 0 auto;
   width: 70%;

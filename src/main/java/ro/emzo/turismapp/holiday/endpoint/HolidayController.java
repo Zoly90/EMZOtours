@@ -19,17 +19,22 @@ public class HolidayController {
 
 	@GetMapping("/holidaysByType/{holidayTypeId}")
 	public ResponseEntity<List<HolidaySummary>> getHolidaysListByTypeID(@PathVariable("holidayTypeId") Long holidayTypeId) {
-		return new ResponseEntity<> (holidaySummaryService.getHolidaysListByTypeID(holidayTypeId), HttpStatus.OK);
+		return new ResponseEntity<>(holidaySummaryService.getHolidaysListByTypeID(holidayTypeId), HttpStatus.OK);
 	}
 	
 	@GetMapping("/holidaysBySubcategory/{holidaySubcategoryId}")
 	public ResponseEntity<List<HolidaySummary>> getHolidayListBySubcategoryID(@PathVariable("holidaySubcategoryId") Long holidaySubcategoryId) {
-		return new ResponseEntity<> (holidaySummaryService.getHolidayListBySubcategoryID(holidaySubcategoryId), HttpStatus.OK);
+		return new ResponseEntity<>(holidaySummaryService.getHolidayListBySubcategoryID(holidaySubcategoryId), HttpStatus.OK);
 	}
 
 	@GetMapping("/holidays")
 	public ResponseEntity<List<HolidaySummary>> getAllHolidays() {
-		return new ResponseEntity<> (holidaySummaryService.getAllHolidays(), HttpStatus.OK);
+		return new ResponseEntity<>(holidaySummaryService.getAllHolidays(), HttpStatus.OK);
+	}
+
+	@GetMapping("/holiday/{holidayId}")
+	public ResponseEntity<HolidaySummary> getHolidayById(@PathVariable("holidayId") Long holidayId) {
+		return new ResponseEntity<>(holidaySummaryService.getHolidayById(holidayId), HttpStatus.OK);
 	}
 
 	@DeleteMapping("/holiday/{holidayId}")

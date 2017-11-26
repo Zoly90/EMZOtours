@@ -51,6 +51,12 @@ ng-select:focus {
     height: 32px !important;
 }
 
+mat-checkbox {
+    label {
+        white-space: normal !important;
+    }
+}
+
 personalized-offer {
     
     .mat-checkbox-layout {

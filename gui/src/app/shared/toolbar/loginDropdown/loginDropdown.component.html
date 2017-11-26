@@ -1,0 +1,28 @@
+<div class="btn-group" dropdown [isOpen]="status.isopen">
+    <button type="button" class="btn btn-primary dropdown-toggle" id="loginDropdown" dropdownToggle>
+        <span class="glyphicon glyphicon-log-in"></span> Login</button>
+    <div *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu" (click)="$event.stopPropagation()">
+        <form (ngSubmit)="login()" #loginForm="ngForm" id="formLogin" class="form container-fluid" *ngIf="!loginSuccessfull">
+            <div class="form-group">
+                <label class="username" for="user">E-mail / username:</label>
+                <input type="text" class="form-control" id="user" name="user" placeholder="Ex. john.doe" [(ngModel)]="username" />
+            </div>
+            <div class="form-group">
+                <label class="password" for="pwd">Password:</label>
+                <input type="password" class="form-control" id="pwd" name="pwd" placeholder="Ex. PasSworD123$" [(ngModel)]="password" />
+            </div>
+            <p class="login-error-message">{{wrongCredentials}}</p>
+            <div class="form-group">
+                <mat-checkbox class="" [(ngModel)]="remember" [ngModelOptions]="{standalone: true}">
+                    <h6>Remember me</h6>
+                </mat-checkbox>
+            </div>
+            <div class="form-group">
+                <button type="submit" id="btnLogin" class="btn btn-success">Login</button>
+            </div>
+            <div class="form-group">
+                <a class="forgot-password" id="forgotPassword" (click)="openResetPasswordModal()">Forgot password?</a>
+            </div>
+        </form>
+    </div>
+</div>

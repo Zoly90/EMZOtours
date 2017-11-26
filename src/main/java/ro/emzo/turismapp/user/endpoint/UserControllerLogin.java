@@ -26,8 +26,9 @@ public class UserControllerLogin {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public String getUserByUsername(@RequestBody UserLoginTO userLoginTO) {
-        return userService.getUserLoggingIn(userLoginTO);
+    public ResponseEntity<?> getUserByUsername(@RequestBody UserLoginTO userLoginTO) {
+        String token = userService.getUserLoggingIn(userLoginTO);
+        return new ResponseEntity<>(token, HttpStatus.OK);
     }
 
     @PostMapping(value="/reset-password", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)

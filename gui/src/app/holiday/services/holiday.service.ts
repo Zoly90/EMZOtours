@@ -14,24 +14,19 @@ export class HolidayService {
     ) { }
 
     public getHolidaysByType(id): Observable<any> {
-        return this._http.get(`${this._baseURL}/holidaysByType/${id}`)
-            .map(res => {
-                return res;
-            });
+        return this._http.get(`${this._baseURL}/holidaysByType/${id}`);
     }
 
     public getHolidaysByCategory(id): Observable<any> {
-        return this._http.get(`${this._baseURL}/holidaysBySubcategory/${id}`)
-            .map(res => {
-                return res;
-            });
+        return this._http.get(`${this._baseURL}/holidaysBySubcategory/${id}`);
     }
 
     public getAllHolidays(): Observable<any> {
-        return this._http.get(`${this._baseURL}/holidays`)
-            .map(res => {
-                return res;
-            })
+        return this._http.get(`${this._baseURL}/holidays`);
+    }
+
+    public getHolidayById(id: number): Observable<any> {
+        return this._http.get(`${this._baseURL}/holiday/${id}`);
     }
 
     public deleteHoliday(id: number) {

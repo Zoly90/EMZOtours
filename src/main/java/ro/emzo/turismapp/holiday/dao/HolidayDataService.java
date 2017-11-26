@@ -22,6 +22,10 @@ public class HolidayDataService {
 		return holidaySummaryRepository.findAll();
 	}
 
+	public HolidaySummary getHolidayById(Long id) {
+		return holidaySummaryRepository.findOne(id);
+	}
+
 	public void deleteHoliday(Long holidayId) {
 		holidaySummaryRepository.delete(holidayId);
 	}

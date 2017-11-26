@@ -1,4 +1,4 @@
-import { User } from "../../core/models/user.model";
+import { User } from "../../shared/models/user.model";
 
 export class PersonalizedOffer {
 

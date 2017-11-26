@@ -6,6 +6,7 @@ import { HolidayDetailViewService } from "../services/holidayDetailView.service"
 import { HolidayService } from "../services/holiday.service";
 
 import { Holiday } from "../models/holiday.model";
+import { TurismAppConstants } from "../../utils/constants";
 
 @Component({
     selector: 'sd-list',
@@ -34,12 +35,12 @@ export class HolidaysListComponent {
         private holidaysListService: HolidaysListService,
         private holidayDetailViewService: HolidayDetailViewService,
         private holidayService: HolidayService,
-        private route: ActivatedRoute
+        private activatedRoute: ActivatedRoute
     ) { }
 
     ngOnInit() {
-        this.route.params.subscribe(() => {
-            this.holidayList = this.route.snapshot.data['holidays'];
+        this.activatedRoute.params.subscribe(() => {
+            this.holidayList = this.activatedRoute.snapshot.data['holidays'];
         })
 
         // if (this.holidayList instanceof Array) {
@@ -69,8 +70,8 @@ export class HolidaysListComponent {
         holiday = this.holidaysListService.constructArrays(holiday);
     }
 
-    goToDetailPage(holiday) {
-        this.holidayDetailViewService.setHoliday(holiday);
-        this.router.navigate(['holiday/' + holiday.hotelInformation.accommodationName]);
+    goToDetailPage(holiday: Holiday) {
+        this.router.navigate([TurismAppConstants.HOLIDAY_DETAIL_VIEW_PAGE_PATH + '/' + holiday.hotelInformation.accommodationName],
+            { queryParams: { id: holiday.id } });
     }
 }

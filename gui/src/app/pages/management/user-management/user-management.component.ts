@@ -1,10 +1,10 @@
 import { Component } from "@angular/core";
-import { User } from "../../../core/models/user.model";
 import { Router } from "@angular/router";
 import * as _ from 'lodash'
-import { UserService } from "../../../core/services/user.service";
 import { AuthorizationService } from "../../../core/authentication/services/authorization.service";
 import { TurismAppConstants } from "../../../utils/constants";
+import { User } from "../../../shared/models/user.model";
+import { UserService } from "../../../shared/services/user.service";
 
 @Component({
 	selector: 'user-management',

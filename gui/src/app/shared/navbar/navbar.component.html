@@ -1,0 +1,137 @@
+<nav>
+    <ul class="nav navbar-nav navbar-left">
+        <li>
+            <a [routerLink]="['/' + homePagePath]" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}">
+                <span class="glyphicon glyphicon-home"></span> Home</a>
+        </li>
+        <li dropdown>
+            <a id="ideasDropdown" dropdownToggle>
+                <span class="glyphicon glyphicon-globe"></span> Holiday ideas <span class="caret"></span></a>
+            <ul *dropdownMenu class="dropdown-menu">
+                <li>
+                    <a class="dropdown-item" (click)="goToListPage('dream honeymoons')" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}">
+                        <img class="icon" id="icon" src="../../../assets/images/icons/honeymoon-icon.png" alt="view1" />                        Dream Honeymoons</a>
+                </li>
+                <li>
+                    <a class="dropdown-item" (click)="goToListPage('cruises')" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}">
+                        <img class="icon" id="icon" src="../../../assets/images/icons/cruise-ship-icon.png" alt="view1" />                        Cruises</a>
+                </li>
+                <li>
+                    <a class="dropdown-item" (click)="goToListPage('luxury trips')" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}">
+                        <img class="icon" id="icon" src="../../../assets/images/icons/luxury-trip-icon.png" alt="view1" />                        Luxury trips</a>
+                </li>
+                <li>
+                    <div class="accordion">
+                        <section class="accordion-item city-breaks" (mouseover)="onMouseOverCityBreaks()" (mouseout)="onMouseOutCityBreaks()">
+                            <div class="dropdown-item customized-dropdown-item">
+                                <img class="icon" id="icon" src="../../../assets/images/icons/city-break-icon.png" alt="view1" />                                City breaks
+                                <i class="pull-right float-xs-right glyphicon" [ngClass]="{'glyphicon-chevron-right': glyphiconClassRightCitybreaks, 'glyphicon-chevron-down': glyphiconClassDownCitybreaks}"></i>
+                            </div>
+                            <div class="accordion-item-content">
+                                <ul>
+                                    <li>
+                                        <a class="dropdown-item" (click)="goToListPage('city breaks by bus')" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}">
+                                            <i class="fa fa-bus" aria-hidden="true"></i> By bus</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" (click)="goToListPage('city breaks by plane')" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}">
+                                            <i class="fa fa-plane" aria-hidden="true"></i> By plane</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </section>
+                    </div>
+                </li>
+                <li class="divider first"></li>
+                <li>
+                    <div class="accordion">
+                        <section class="accordion-item special-offers" (mouseover)="onMouseOverSpecialOffers()" (mouseout)="onMouseOutSpecialOffers()">
+                            <div class="dropdown-item customized-dropdown-item">
+                                <i class="fa fa-briefcase" aria-hidden="true"></i> Special offers
+                                <i class="pull-right float-xs-right glyphicon" [ngClass]="{'glyphicon-chevron-right': glyphiconClassRightSpecialOffers, 'glyphicon-chevron-down': glyphiconClassDownSpecialOffers}"></i>
+                            </div>
+                            <div class="accordion-item-content">
+                                <ul>
+                                    <li>
+                                        <a class="dropdown-item" (click)="goToListPage('special offers early booking')" [routerLinkActive]="['router-link-active']"
+                                            [routerLinkActiveOptions]="{exact:true}">
+                                            <span class="fa fa-book" aria-hidden="true"></span> Last minute</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" (click)="goToListPage('special offers last minute')" [routerLinkActive]="['router-link-active']"
+                                            [routerLinkActiveOptions]="{exact:true}">
+                                            <img class="icon" id="icon" src="../../../assets/images/icons/early-booking-icon.png" alt="view1" style="" />                                            Early booking</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </section>
+                    </div>
+                </li>
+                <li class="divider second"></li>
+                <li>
+                    <a class="dropdown-item" (click)="goToListPage('aqua & amusement parks')" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}">
+                        <img class="icon" id="icon" src="../../../assets/images/icons/park-icon.png" alt="view1" style="" />                        Aqua and Amusement parks</a>
+                </li>
+                <li>
+                    <a class="dropdown-item" (click)="goToListPage('zoos & amusement parks')" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}">
+                        <img class="icon" id="icon" src="../../../assets/images/icons/zoo-icon.png" alt="view1" style="" />                        Zoos and Nature reserves</a>
+                </li>
+            </ul>
+        </li>
+
+        <li dropdown>
+            <a href id="winterDropdown" dropdownToggle (click)="false">
+                <span class="fa fa-snowflake-o" aria-hidden="true"></span> Winter season <span class="caret"></span></a>
+            <ul class="dropdown-menu" *dropdownMenu>
+                <li>
+                    <a class="dropdown-item" (click)="goToListPage('christmas')" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}">
+                        <img class="icon" id="icon" src="../../../assets/images/icons/christmas-icon.png" alt="view1" style="" />                        Christmas</a>
+                </li>
+                <li>
+                    <a class="dropdown-item" (click)="goToListPage('new year')" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}">
+                        <img class="icon" id="icon" src="../../../assets/images/icons/new-year-icon.png" alt="view1" style="" />                        New Year</a>
+                </li>
+                <li>
+                    <a class="dropdown-item" (click)="goToListPage('skiing')" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}">
+                        <img class="icon" id="icon" src="../../../assets/images/icons/skiing-icon.png" alt="view1" style="" />                        Skiing</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a [routerLink]="['/' + personalizedOfferPagePath]" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}">
+                <span class="glyphicon glyphicon-pencil"></span> Personalized offer</a>
+        </li>
+        <li>
+            <a [routerLink]="['/' + aboutPagePath]" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}">
+                <span class="glyphicon glyphicon-info-sign"></span> About us</a>
+        </li>
+        <li>
+            <a [routerLink]="['/' + contactPagePath]" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}">
+                <span class="glyphicon glyphicon-earphone"></span> Contact</a>
+        </li>
+        <li dropdown *ngIf="role === 'EMPLOYEE' || role === 'ADMIN'">
+            <a href id="winterDropdown" dropdownToggle (click)="false">
+                <span class="glyphicon glyphicon-list"></span> Holiday management <span class="caret"></span></a>
+            <ul class="dropdown-menu" *dropdownMenu>
+                <li>
+                    <a class="dropdown-item" [routerLink]="['/' + holidaysManagementPagePath]" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}">
+                        <img class="icon" id="icon" src="../../../assets/images/icons/holidays-management.png" alt="view1" style="width: 24px; height: 24px" />                        Manage holidays</a>
+                </li>
+                <li>
+                    <a class="dropdown-item" [routerLink]="['/' + personalizedOffersManagementPagePath]" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}">
+                        <img class="icon" id="icon" src="../../../assets/images/icons/personalized-offers-management.png" alt="view1" style="width: 24px; height: 24px" />                        Manage client offers</a>
+                </li>
+            </ul>
+        </li>
+        <li dropdown *ngIf="role === 'ADMIN'">
+            <a href id="winterDropdown" dropdownToggle (click)="false">
+                <span class="glyphicon glyphicon-list-alt"></span> User management <span class="caret"></span></a>
+            <ul class="dropdown-menu" *dropdownMenu>
+                <li>
+                    <a class="dropdown-item" [routerLink]="['/' + userManagementPagePath]" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}">
+                        <img class="icon" id="icon" src="../../../assets/images/icons/user-management.png" alt="view1" style="width: 24px; height: 24px" /> Manage users</a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</nav>

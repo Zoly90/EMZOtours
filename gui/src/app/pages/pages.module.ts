@@ -8,23 +8,15 @@ import 'hammerjs';
 import { Daterangepicker } from 'ng2-daterangepicker';
 import { AgmCoreModule } from "@agm/core";
 
-import { PersonalizedOfferRoutingModule } from "./personalizedOffer/personalizedOffer-routing.module";
-import { AboutRoutingModule } from "./about/about-routing.module";
-import { ContactRoutingModule } from "./contact/contact-routing.module";
-import { HomeRoutingModule } from "./home/home-routing.module";
 import { PersonalizedOfferComponent } from "./personalizedOffer/personalizedOffer.component";
 import { AboutComponent } from "./about/about.component";
 import { ContactComponent } from "./contact/contact.component";
 import { HomeComponent } from "./home/home.component";
 import { PersonalizedOfferService } from "./pages-services/personalized-offer.service";
-import { CategoriesAndTypesService } from "../core/services/categories-types.service";
-import { HolidaysManagementRoutingModule } from "./management/holidays-management/holidays-management-routing.module";
 import { HolidaysManagementComponent } from "./management/holidays-management/holidays-management.component";
 import { HolidayDetailViewService } from "../holiday/services/holidayDetailView.service";
-import { UserManagementRoutingModule } from "./management/user-management/user-management-routing.module";
 import { UserManagementComponent } from "./management/user-management/user-management.component";
-import { SharedModule } from "../core/common/common.module";
-import { OffersManagementRoutingModule } from "./management/offers-management/offers-management-routing.module";
+import { SharedModule } from "../shared/shared.module";
 import { OffersManagementComponent } from "./management/offers-management/offers-management.component";
 import { PersonalizedOfferViewModeComponent } from "./personalizedOffer/personalized-offer-view-mode/personalized-offer-view-mode.component";
 import { OfferViewModalComponent } from "./management/offers-management/offer-view-modal/offer-view-modal.component";
@@ -37,6 +29,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatListModule } from '@angular/material/list';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterModule } from "@angular/router";
 
 @NgModule({
     imports: [
@@ -48,13 +41,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
         FlexLayoutModule,
         ModalModule,
         SharedModule,
-        PersonalizedOfferRoutingModule,
-        AboutRoutingModule,
-        ContactRoutingModule,
-        HomeRoutingModule,
-        HolidaysManagementRoutingModule,
-        OffersManagementRoutingModule,
-        UserManagementRoutingModule,
         AgmCoreModule.forRoot({
             apiKey: 'AIzaSyBjisHSBvdTWkynJPKVAAcpTgB6PQrkXbY'
         }),
@@ -63,7 +49,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
         MatRadioModule,
         MatSliderModule,
         MatListModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        RouterModule
     ],
     declarations: [
         PersonalizedOfferComponent,
@@ -79,7 +66,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ],
     providers: [
         PersonalizedOfferService,
-        CategoriesAndTypesService,
         HolidayDetailViewService,
         ContactService
     ],
