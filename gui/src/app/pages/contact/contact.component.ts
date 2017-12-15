@@ -4,6 +4,7 @@ import { ContactService } from "./service/contact.service";
 import { UtilsService } from "../../utils/utils.service";
 import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
 import { UpdateContactInformationModal } from "./update-contact-information-modal/update-contact-information-modal.component";
+import { TurismAppConstants } from "../../utils/constants";
 
 @Component({
   selector: 'sd-contact',
@@ -16,6 +17,7 @@ export class ContactComponent {
   private contactInformation: ContactInformation = new ContactInformation();
   private days = ['Monday - Friday', 'Saturday', 'Sunday'];
   private token: string;
+  private roleAdmin = TurismAppConstants.ADMIN;
 
   constructor(
     private _contactService: ContactService,

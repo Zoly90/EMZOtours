@@ -1,6 +1,9 @@
 package ro.emzo.turismapp.user.to;
 
-import java.sql.Date;
+
+import ro.emzo.turismapp.user.model.Title;
+
+import java.util.Date;
 
 /**
  * Created by E5570_2 on 2017-06-30.
@@ -10,7 +13,7 @@ public class UserInfoTO {
 
     private Long id;
 
-    private String title;
+    private Title title;
 
     private String firstName;
 
@@ -22,12 +25,6 @@ public class UserInfoTO {
 
     private Date birthday;
 
-    private UserLoginTO userLoginTO;
-
-    private UserAddressTO userAddressTO;
-
-    private UserCreditCardTO userCreditCardTO;
-
     public Long getId() {
         return id;
     }
@@ -36,11 +33,11 @@ public class UserInfoTO {
         this.id = id;
     }
 
-    public String getTitle() {
+    public Title getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
+    public void setTitle(Title title) {
         this.title = title;
     }
 
@@ -82,29 +79,5 @@ public class UserInfoTO {
 
     public void setBirthday(Date birthday) {
         this.birthday = birthday;
-    }
-
-    public UserLoginTO getUserLoginTO() {
-        return userLoginTO;
-    }
-
-    public void setUserLoginTO(UserLoginTO userLoginTO) {
-        this.userLoginTO = userLoginTO;
-    }
-
-    public UserAddressTO getUserAddressTO() {
-        return userAddressTO;
-    }
-
-    public void setUserAddressTO(UserAddressTO userAddressTO) {
-        this.userAddressTO = userAddressTO;
-    }
-
-    public UserCreditCardTO getUserCreditCardTO() {
-        return userCreditCardTO;
-    }
-
-    public void setUserCreditCardTO(UserCreditCardTO userCreditCardTO) {
-        this.userCreditCardTO = userCreditCardTO;
     }
 }

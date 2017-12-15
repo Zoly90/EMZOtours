@@ -5,7 +5,9 @@
         <ul>
             <button (click)="navigateToAppliedHolidays(user)" class="btn btn-transparent btn-info" type="button">Holidays applied for</button>
             <button (click)="navigateToHolidaysWishlist(user)" class="btn btn-transparent btn-info" type="button">Holidays wishlist</button>
-            <sd-signup [modalButtonFor]="'view'"></sd-signup>
+            <button class="btn btn-transparent btn-info" (click)="openSignUpModal('edit-my-profile')">
+                Personal information
+            </button>
         </ul>
     </div>
 </div>

@@ -1,5 +1,7 @@
 package ro.emzo.turismapp.user.to;
 
+import java.util.Date;
+
 /**
  * Created by E5570_2 on 2017-09-25.
  */
@@ -10,9 +12,9 @@ public class UserCreditCardTO {
 
     private String creditCardNumber;
 
-    private String creditCardExpirationYear;
+    private Date creditCardExpirationDate;
 
-    private String creditCardExpirationMonth;
+    private String creditCardUserName;
 
     private String creditCardVerificationNumber;
 
@@ -32,27 +34,23 @@ public class UserCreditCardTO {
         this.creditCardNumber = creditCardNumber;
     }
 
-    public String getCreditCardExpirationYear() {
-        return creditCardExpirationYear;
+    public Date getCreditCardExpirationDate() {
+        return creditCardExpirationDate;
     }
 
-    public void setCreditCardExpirationYear(String creditCardExpirationYear) {
-        this.creditCardExpirationYear = creditCardExpirationYear;
+    public void setCreditCardExpirationDate(Date creditCardExpirationDate) {
+        this.creditCardExpirationDate = creditCardExpirationDate;
     }
 
-    public String getCreditCardExpirationMonth() {
-        return creditCardExpirationMonth;
+    public String getCreditCardUserName() {
+        return creditCardUserName;
     }
 
-    public void setCreditCardExpirationMonth(String creditCardExpirationMonth) {
-        this.creditCardExpirationMonth = creditCardExpirationMonth;
+    public void setCreditCardUserName(String creditCardUserName) {
+        this.creditCardUserName = creditCardUserName;
     }
 
     public String getCreditCardVerificationNumber() {
         return creditCardVerificationNumber;
-    }
-
-    public void setCreditCardVerificationNumber(String creditCardVerificationNumber) {
-        this.creditCardVerificationNumber = creditCardVerificationNumber;
     }
 }

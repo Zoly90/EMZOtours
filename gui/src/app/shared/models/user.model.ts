@@ -2,15 +2,10 @@ import { UserAddress } from "../../core/authentication/models/user-address.model
 import { UserLogin } from "../../core/authentication/models/user-login.model";
 import { UserIdentity } from "../../core/authentication/models/user-identity.model";
 import { UserCreditCard } from "../../core/authentication/models/user-credit-card.model";
+import { UserInfo } from "./user-info.model";
 
 export class User {
-    id?: number
-    title?: string
-    firstName?: string
-    lastName?: string
-    newsletter?: boolean
-    telephoneNr?: string
-    birthday?: Date
+    userInfo?: UserInfo
     userAddress?: UserAddress
     userLogin?: UserLogin
     userIdentity?: UserIdentity
@@ -18,6 +13,7 @@ export class User {
 
     constructor() {
         Object.assign(this, {
+            userInfo: new UserInfo(),
             userAddress: new UserAddress(),
             userLogin: new UserLogin(),
             userIdentity: new UserIdentity(),

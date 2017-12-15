@@ -17,6 +17,12 @@ export class TurismAppConstants {
 	public static INVALID_EMAIL_ADDRESS_MESSAGE = 'The e-mail address you entered is not valid.';
 	public static INVALID_TELEPHONE_NUMBER_MESSAGE = 'The telephone number you entered is invalid.'
 
+	// sign up form actions
+	public static REGULAR_SIGN_UP = 'regular-sign-up';
+	public static ADMIN_ADD_USER = 'add';
+	public static ADMIN_EDIT_USER = 'edit';
+	public static EDIT_MY_PROFILE = 'edit-my-profile';
+
 	/**
 	 * 
 	 */
@@ -33,17 +39,30 @@ export class TurismAppConstants {
 	public static NUMBER_OF_DAYS = 28;
 
 	// titles
-	public static TITLES = ['Mr.', 'Ms.', 'Mrs.'];
+	public static TITLES = [
+		{
+			value: 'title.mr',
+			label: 'Mr.'
+		},
+		{
+			value: 'title.ms',
+			label: 'Ms.'
+		},
+		{
+			value: 'title.mr',
+			label: 'Mrs.'
+		}
+	];
 
 	// days
-	public static DAY_29 = { value: "28", label: "29" };
-	public static DAY_30 = { value: "29", label: "30" };
-	public static DAY_31 = { value: "30", label: "31" };
+	public static DAY_29 = { value: '29', label: '29' };
+	public static DAY_30 = { value: '30', label: '30' };
+	public static DAY_31 = { value: '31', label: '31' };
 
 	// roles
-	public static CLIENT = 'CLIENT';
-	public static EMPLOYEE = 'EMPLOYEE';
-	public static ADMIN = 'ADMIN';
+	public static CLIENT = 'role.client';
+	public static EMPLOYEE = 'role.employee';
+	public static ADMIN = 'role.admin';
 
 	// routes
 	public static UNMATCHED_PATH = '**';
@@ -56,4 +75,9 @@ export class TurismAppConstants {
 	public static ABOUT_PAGE_PATH = 'about';
 	public static HOLIDAY_DETAIL_VIEW_PAGE_PATH = 'holiday';
 	public static HOLIDAY_LIST_VIEW_PAGE_PATH = 'holidays-list';
+
+	// date select component action types
+	public static BIRTHDATE = 'birthdate';
+	public static ID_CARD_EXPIRATION_DATE = 'id-card-expiration-date';
+	public static APPLY_FOR_OFFER = 'applyForOffer';
 }

@@ -75,10 +75,7 @@ export class ApplyForOfferModalComponent {
       .subscribe(res => {
         this.userCreditCard = res;
         console.log(this.userCreditCard)
-        this.creditCardExpirationDate = {
-          year: this.userCreditCard.creditCardExpirationYear,
-          month: this.userCreditCard.creditCardExpirationMonth
-        }
+        this.creditCardExpirationDate = this.userCreditCard.creditCardExpirationDate;
         console.log(this.creditCardExpirationDate)
         this._initFormWithExistingUserData();
       })
@@ -95,8 +92,7 @@ export class ApplyForOfferModalComponent {
   }
 
   public onDateSelected(yearAndMonth) {
-    this.userCreditCard.creditCardExpirationYear = yearAndMonth.selectedYear;
-    this.userCreditCard.creditCardExpirationMonth = this.utilsService.convertToNumericalMonth(yearAndMonth.selectedMonth) + 1;
+    this.userCreditCard.creditCardExpirationDate = this.utilsService.getDateFromDateSelectModel(yearAndMonth);
   }
 
   public applyForOffer(formValues) {

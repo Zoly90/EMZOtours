@@ -1,11 +1,9 @@
 package ro.emzo.turismapp.user.service;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Base64;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -14,20 +12,16 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import org.springframework.util.StringUtils;
+import ro.emzo.turismapp.core.model.SearchCriteria;
 import ro.emzo.turismapp.holiday.service.ApplyForOfferService;
-import ro.emzo.turismapp.holiday.to.ApplyForOfferTO;
 import ro.emzo.turismapp.user.auth.UserValidator;
 import ro.emzo.turismapp.user.dao.UserDataService;
-import ro.emzo.turismapp.user.exceptions.RegistrationException;
+import ro.emzo.turismapp.user.dao.UserRepository;
+import ro.emzo.turismapp.user.exceptions.UserException;
+import ro.emzo.turismapp.user.exceptions.IncompleteChangeMyPasswordFlow;
 import ro.emzo.turismapp.user.exceptions.UserDoesNotExistInTheDatabase;
-import ro.emzo.turismapp.user.model.UserAddress;
-import ro.emzo.turismapp.user.model.UserCreditCard;
-import ro.emzo.turismapp.user.model.UserInfo;
-import ro.emzo.turismapp.user.model.UserLogin;
-import ro.emzo.turismapp.user.to.UserAddressTO;
-import ro.emzo.turismapp.user.to.UserCreditCardTO;
-import ro.emzo.turismapp.user.to.UserInfoTO;
-import ro.emzo.turismapp.user.to.UserLoginTO;
+import ro.emzo.turismapp.user.model.*;
+import ro.emzo.turismapp.user.to.*;
 import ro.emzo.turismapp.utils.Utils;
 
 @Service
@@ -35,6 +29,9 @@ public class UserService {
 
     @Autowired
     private UserDataService userDataService;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -69,28 +66,104 @@ public class UserService {
     }
 
 
-    public UserInfoTO registerUser(UserInfoTO userInfoTO) throws RegistrationException {
-        if (!userValidator.validatePasswordEquality(userInfoTO.getUserLoginTO())) {
-            return userInfoTO;
+    public void registerUser(UserRegistrationTO userRegistrationTO) throws UserException {
+        userValidator.validatePasswordEquality(userRegistrationTO.getPassword(), userRegistrationTO.getPasswordConfirm());
+
+        userValidator.checkExistingEmail(userRegistrationTO.getEmailAddress());
+
+        userValidator.checkExistingUsername(userRegistrationTO.getUsername());
+
+        userValidator.validateUsernameLength(userRegistrationTO.getUsername());
+
+        userValidator.validateEmailAddress(userRegistrationTO.getEmailAddress());
+
+        userValidator.validatePassword(userRegistrationTO.getPassword());
+
+        userValidator.validateDateOfBirthToBeOver18(userRegistrationTO.getBirthday());
+
+        UserInfo userInfo = fromUserRegistrationTOToUserInfo(userRegistrationTO);
+        userDataService.save(userInfo);
+    }
+
+    private UserInfo fromUserRegistrationTOToUserInfo(UserRegistrationTO userRegistrationTO) {
+        UserInfo result = new UserInfo();
+        UserLogin userLogin = new UserLogin();
+        userLogin.setEmailAddress(userRegistrationTO.getEmailAddress());
+        userLogin.setUsername(userRegistrationTO.getUsername());
+        userLogin.setPassword(encodePassword(userRegistrationTO.getPassword()));
+        userLogin.setRole(userRegistrationTO.getRole());
+        result.setTitle(userRegistrationTO.getTitle());
+        result.setFirstName(userRegistrationTO.getFirstName());
+        result.setLastName(userRegistrationTO.getLastName());
+        result.setTelephoneNr(userRegistrationTO.getTelephoneNr());
+        result.setBirthday(userRegistrationTO.getBirthday());
+        result.setNewsletter(userRegistrationTO.getNewsletter());
+        result.setUserLogin(userLogin);
+        return result;
+    }
+
+    public AddOrUpdateUserTO createOrUpdateUser(AddOrUpdateUserTO userModel, String passwordChanged)
+            throws UserDoesNotExistInTheDatabase, UserException {
+
+        UserInfo userEntity = null;
+        UserInfoTO userInfoTO = userModel.getUserInfo();
+        UserLoginTO userLoginTO = userModel.getUserLogin();
+        UserAddressTO userAddressTO = userModel.getUserAddress();
+        UserIdentityTO userIdentityTO = userModel.getUserIdentity();
+        UserCreditCardTO userCreditCardTO = userModel.getUserCreditCard();
+
+        boolean editMode = false;
+        if (userInfoTO.getId() != null) {
+            editMode = true;
+
+            userEntity = userDataService.getUserInfo(userInfoTO.getId());
+            if (userEntity == null) {
+                throw new UserDoesNotExistInTheDatabase();
+            }
+
+            if (StringUtils.hasLength(passwordChanged)) {
+                if (StringUtils.isEmpty(userLoginTO.getOldPassword())) {
+                    throw new IncompleteChangeMyPasswordFlow();
+                }
+
+                userValidator.validateOldPassword(userLoginTO.getOldPassword(), userEntity.getUserLogin().getPassword());
+
+                userValidator.validatePassword(userLoginTO.getPassword());
+
+                userValidator.validatePasswordEquality(userLoginTO.getPassword(), userLoginTO.getPasswordConfirm());
+
+                userEntity.getUserLogin().setPassword(userLoginTO.getPassword());
+            }
         }
 
-        userValidator.checkExistingEmail(userInfoTO.getUserLoginTO());
+        if (!editMode) {
+            userValidator.checkExistingEmail(userLoginTO.getEmailAddress());
+            userValidator.checkExistingUsername(userLoginTO.getUsername());
+        }
 
-        userValidator.checkExistingUsername(userInfoTO.getUserLoginTO());
+        userValidator.validateUsernameLength(userLoginTO.getUsername());
 
-        userValidator.validateUsernameLength(userInfoTO.getUserLoginTO());
+        userValidator.validateEmailAddress(userLoginTO.getEmailAddress());
 
-        userValidator.validateEmailAddress(userInfoTO.getUserLoginTO());
+        userValidator.validateDateOfBirthToBeOver18(userInfoTO.getBirthday());
 
-        userValidator.validatePasswordLength(userInfoTO.getUserLoginTO());
+        userEntity = fromUserInfoTOToUserInfo(userInfoTO);
+        userEntity.setUserLogin(fromUserLoginTOToUserLogin(userLoginTO, editMode, false));
+        userEntity.setUserIdentity(fromUserIdentityTOToUserIdentity(userIdentityTO));
 
-        userValidator.validateDateOfBirthToBeOver18(userInfoTO);
+        if (userLoginTO.getRole() != Role.CLIENT) {
+            userValidator.checkIfUserAddressExistsForAdminAndEmployee(userAddressTO);
 
-        UserInfo userInfo = fromUserInfoTOToUserInfo(userInfoTO);
-        userDataService.save(userInfo);
-        userInfoTO = fromUserInfoToUserInfoTO(userInfo);
+            userValidator.checkIfTelephoneNrExistsForAdminAndEmployee(userInfoTO.getTelephoneNr());
 
-        return userInfoTO;
+            userEntity.setUserAddress(fromUserAddressTOToUserAddress(userAddressTO));
+        } else {
+            userEntity.setUserCreditCard(fromUserCreditCardTOToUserCreditCard(userCreditCardTO));
+        }
+
+        userDataService.save(userEntity);
+
+        return userModel;
     }
 
     public void deleteUser(Long userId) {
@@ -126,19 +199,77 @@ public class UserService {
         return result;
     }
 
-    public UserInfoTO getUserInfo(Long userInfoId) {
-        UserInfo userInfo = userDataService.getUserInfo(userInfoId);
-        return fromUserInfoToUserInfoTO(userInfo);
+    public AddOrUpdateUserTO getUserForUpdate(Long userId) {
+        AddOrUpdateUserTO result = new AddOrUpdateUserTO();
+        UserInfo userInfo = userDataService.getUserInfo(userId);
+        result.setUserInfo(fromUserInfoToUserInfoTO(userInfo));
+        result.setUserLogin(fromUserLoginToUserLoginTO(userInfo.getUserLogin()));
+        result.setUserAddress(fromUserAddressToUserAddressTO(userInfo.getUserAddress()));
+        result.setUserIdentity(fromUserIdentityToUserIdentityTO(userInfo.getUserIdentity()));
+        result.setUserCreditCard(fromUserCreditCardToUserCreditCardTO(userInfo.getUserCreditCard()));
+        return result;
     }
 
-    public List<UserInfo> getAllUsers() {
-        return userDataService.getAllUsers();
+    public List<UserTableDataTO> getAllUsers(SearchCriteria searchCriteria) {
+        List<UserInfo> userInfoList = userRepository.findAllBySearchCriteriaWithPagination(searchCriteria);
+        List<UserTableDataTO> userTableData = userInfoList.stream()
+                .map(user -> new UserTableDataTO(user.getId(), user.getFirstName(), user.getLastName(), user.getUserLogin().getRole().getRoleKey(),
+                        user.getTelephoneNr(), user.getUserLogin().getEmailAddress(), false, user.getNewsletter()))
+                .collect(Collectors.toList());
+        return userTableData;
     }
 
     public UserCreditCardTO getUserCreditCardData(Long userInfoId) {
         UserCreditCardTO result;
-        UserInfoTO userInfoTO = getUserInfo(userInfoId);
-        result = userInfoTO.getUserCreditCardTO();
+        UserInfo userInfo = userDataService.getUserInfo(userInfoId);
+        UserCreditCard userCreditCard = userInfo.getUserCreditCard();
+        result = fromUserCreditCardToUserCreditCardTO(userCreditCard);
+        return result;
+    }
+
+    private UserIdentityTO fromUserIdentityToUserIdentityTO(UserIdentity userIdentity) {
+        UserIdentityTO result = null;
+        if (userIdentity != null) {
+            result = new UserIdentityTO();
+            result.setId(userIdentity.getId());
+            result.setCnp(userIdentity.getCnp());
+            result.setIdentityCardNumber(userIdentity.getIdentityCardNumber());
+            result.setIdentityCardSeries(userIdentity.getIdentityCardSeries());
+            result.setIban(userIdentity.getIban());
+            result.setIdCardExpirationDate(userIdentity.getIdCardExpirationDate());
+        }
+        return result;
+    }
+
+    private UserIdentity fromUserIdentityTOToUserIdentity(UserIdentityTO userIdentityTO) {
+        UserIdentity result = new UserIdentity();
+        result.setId(userIdentityTO.getId());
+        result.setCnp(userIdentityTO.getCnp());
+        result.setIdentityCardNumber(userIdentityTO.getIdentityCardNumber());
+        result.setIdentityCardSeries(userIdentityTO.getIdentityCardSeries());
+        result.setIdCardExpirationDate(userIdentityTO.getIdCardExpirationDate());
+        result.setIban(userIdentityTO.getIban());
+        return result;
+    }
+
+    private UserCreditCardTO fromUserCreditCardToUserCreditCardTO(UserCreditCard userCreditCard) {
+        UserCreditCardTO result = null;
+        if (userCreditCard != null) {
+            result = new UserCreditCardTO();
+            result.setId(userCreditCard.getId());
+            result.setCreditCardNumber(userCreditCard.getCreditCardNumber());
+            result.setCreditCardExpirationDate(userCreditCard.getExpirationDate());
+            result.setCreditCardUserName(userCreditCard.getCreditCardUserName());
+        }
+        return result;
+    }
+
+    private UserCreditCard fromUserCreditCardTOToUserCreditCard(UserCreditCardTO userCreditCardTO) {
+        UserCreditCard result = new UserCreditCard();
+        result.setId(userCreditCardTO.getId());
+        result.setCreditCardNumber(userCreditCardTO.getCreditCardNumber());
+        result.setExpirationDate(userCreditCardTO.getCreditCardExpirationDate());
+        result.setCreditCardUserName(userCreditCardTO.getCreditCardUserName());
         return result;
     }
 
@@ -149,25 +280,26 @@ public class UserService {
         return encodedText;
     }
 
-    private UserLoginTO fromUserLoginToUserLoginTO(UserLogin userLogin) {
-        UserLoginTO userLoginTO = new UserLoginTO();
-        userLoginTO.setId(userLogin.getId());
-        userLoginTO.setUsername(userLogin.getUsername());
-        userLoginTO.setEmailAddress(userLogin.getEmailAddress());
-        userLoginTO.setPassword(userLogin.getPassword());
-        userLoginTO.setRole(userLogin.getRole());
-        return userLoginTO;
+    private UserLoginTO fromUserLoginToUserLoginTO(UserLogin existingUserLogin) {
+        UserLoginTO userLogin = new UserLoginTO();
+        userLogin.setId(existingUserLogin.getId());
+        userLogin.setUsername(existingUserLogin.getUsername());
+        userLogin.setEmailAddress(existingUserLogin.getEmailAddress());
+        userLogin.setRole(existingUserLogin.getRole());
+        return userLogin;
     }
 
-    private UserLogin fromUserLoginTOToUserLogin(UserLoginTO userLoginTO) {
+    private UserLogin fromUserLoginTOToUserLogin(UserLoginTO userLoginTO, boolean editMode, boolean signUpMode) {
         UserLogin result = new UserLogin();
         result.setId(userLoginTO.getId());
         result.setUsername(userLoginTO.getUsername());
         result.setEmailAddress(userLoginTO.getEmailAddress());
-        if (!org.apache.commons.codec.binary.Base64.isArrayByteBase64(userLoginTO.getPassword().getBytes())) {
-            result.setPassword(encodePassword(userLoginTO.getPassword()));
-        } else {
-            result.setPassword(userLoginTO.getPassword());
+        if (!editMode && signUpMode) {
+            if (!org.apache.commons.codec.binary.Base64.isArrayByteBase64(userLoginTO.getPassword().getBytes())) {
+                result.setPassword(encodePassword(userLoginTO.getPassword()));
+            } else {
+                result.setPassword(userLoginTO.getPassword());
+            }
         }
         result.setRole(userLoginTO.getRole());
         return result;
@@ -204,10 +336,7 @@ public class UserService {
     }
 
     private UserInfoTO fromUserInfoToUserInfoTO(UserInfo userInfo) {
-        UserLoginTO userLoginTO = fromUserLoginToUserLoginTO(userInfo.getUserLogin());
-        UserAddressTO userAddressTO = fromUserAddressToUserAddressTO(userInfo.getUserAddress());
         UserInfoTO userInfoTO = new UserInfoTO();
-        UserCreditCardTO userCreditCardTO = applyForOfferService.getTOFromUserCreditCard(userInfo.getUserCreditCard());
         userInfoTO.setId(userInfo.getId());
         userInfoTO.setTitle(userInfo.getTitle());
         userInfoTO.setFirstName(userInfo.getFirstName());
@@ -215,15 +344,10 @@ public class UserService {
         userInfoTO.setBirthday(userInfo.getBirthday());
         userInfoTO.setTelephoneNr(userInfo.getTelephoneNr());
         userInfoTO.setNewsletter(userInfo.getNewsletter());
-        userInfoTO.setUserLoginTO(userLoginTO);
-        userInfoTO.setUserAddressTO(userAddressTO);
-        userInfoTO.setUserCreditCardTO(userCreditCardTO);
         return userInfoTO;
     }
 
     private UserInfo fromUserInfoTOToUserInfo(UserInfoTO userInfoTO) {
-        UserLogin userLogin = fromUserLoginTOToUserLogin(userInfoTO.getUserLoginTO());
-        UserAddress userAddress = fromUserAddressTOToUserAddress((userInfoTO.getUserAddressTO()));
         UserInfo result = new UserInfo();
         result.setId(userInfoTO.getId());
         result.setTitle(userInfoTO.getTitle());
@@ -232,8 +356,6 @@ public class UserService {
         result.setBirthday(userInfoTO.getBirthday());
         result.setNewsletter(userInfoTO.getNewsletter());
         result.setTelephoneNr(userInfoTO.getTelephoneNr());
-        result.setUserAddress(userAddress);
-        result.setUserLogin(userLogin);
         return result;
     }
 

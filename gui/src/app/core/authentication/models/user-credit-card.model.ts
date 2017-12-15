@@ -1,8 +1,8 @@
 export class UserCreditCard {
 	id?: number
 	creditCardNumber?: string | number
-	creditCardExpirationYear?: string | number
-	creditCardExpirationMonth?: string | number
+	creditCardExpirationDate?: Date
+	creditCardUserName?: string
 	creditCardVerificationNumber?: string | number
 
 	constructor() {

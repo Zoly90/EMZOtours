@@ -109,21 +109,21 @@
             <a [routerLink]="['/' + contactPagePath]" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}">
                 <span class="glyphicon glyphicon-earphone"></span> Contact</a>
         </li>
-        <li dropdown *ngIf="role === 'EMPLOYEE' || role === 'ADMIN'">
+        <li dropdown *ngIf="role === roleEmployee || role === roleAdmin">
             <a href id="winterDropdown" dropdownToggle (click)="false">
                 <span class="glyphicon glyphicon-list"></span> Holiday management <span class="caret"></span></a>
             <ul class="dropdown-menu" *dropdownMenu>
                 <li>
                     <a class="dropdown-item" [routerLink]="['/' + holidaysManagementPagePath]" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}">
-                        <img class="icon" id="icon" src="../../../assets/images/icons/holidays-management.png" alt="view1" style="width: 24px; height: 24px" />                        Manage holidays</a>
+                        <img class="icon" id="icon" src="../../../assets/images/icons/holidays-management.png" alt="view1" style="width: 24px; height: 24px" /> Manage holidays</a>
                 </li>
                 <li>
                     <a class="dropdown-item" [routerLink]="['/' + personalizedOffersManagementPagePath]" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}">
-                        <img class="icon" id="icon" src="../../../assets/images/icons/personalized-offers-management.png" alt="view1" style="width: 24px; height: 24px" />                        Manage client offers</a>
+                        <img class="icon" id="icon" src="../../../assets/images/icons/personalized-offers-management.png" alt="view1" style="width: 24px; height: 24px" /> Manage client offers</a>
                 </li>
             </ul>
         </li>
-        <li dropdown *ngIf="role === 'ADMIN'">
+        <li dropdown *ngIf="role === roleAdmin">
             <a href id="winterDropdown" dropdownToggle (click)="false">
                 <span class="glyphicon glyphicon-list-alt"></span> User management <span class="caret"></span></a>
             <ul class="dropdown-menu" *dropdownMenu>

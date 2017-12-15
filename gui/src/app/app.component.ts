@@ -37,6 +37,8 @@ export class AppComponent implements OnInit {
     if (this.token != null) {
       this.role = this.token.role;
       this.userLogedIn = true;
+    } else {
+      this.router.navigate(['/']);
     }
   }
 

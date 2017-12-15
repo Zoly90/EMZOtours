@@ -1,7 +1,7 @@
 <mat-card class="contact-container">
     <mat-card-title fxLayoutAlign="space-between center">
         <h1 class="card-title" fxFlex>Contact information</h1>
-        <button *ngIf="token && token.role === 'ADMIN'" (click)="openUpdateContactInformationModal()" class="btn btn-primary update-button"
+        <button *ngIf="token && token.role === roleAdmin" (click)="openUpdateContactInformationModal()" class="btn btn-primary update-button"
             type="button">
             <i class="fa fa-wrench fa-lg" aria-hidden="true"></i>
         </button>

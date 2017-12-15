@@ -1,7 +1,7 @@
 <mat-card fxLayout="column" class="holidays-management-container">
 	<mat-card-title fxLayout fxLayoutAlign="space-between center">
 		<h1>Manage holidays</h1>
-		<button (click)="addHoliday()" class="btn btn-success add-button" type="button">Add a new holiday</button>
+		<button (click)="addHoliday()" class="btn btn-info" type="button">Add a new holiday</button>
 	</mat-card-title>
 
 	<mat-card-content fxLayout="column" fxFlex>
@@ -51,8 +51,8 @@
 						</div>
 						<div fxLayout fxLayoutAlign="end center" fxFlex class="buttons-container">
 							<button (click)="updateHoliday(holiday)" class="btn btn-primary update-button" type="button">
-									<i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i>
-								</button>
+								<i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i>
+							</button>
 							<!--<button (click)="deleteHoliday(holiday)" class="btn btn-warning delete-button" type="button">Delete</button>-->
 							<delete-confirmation-modal [whatToDelete]="'holiday with hotel name'" [toDelete]="holiday.hotelInformation.accommodationName"
 							 (deleteConfirmation)="deleteConfirmed($event, holiday)"></delete-confirmation-modal>

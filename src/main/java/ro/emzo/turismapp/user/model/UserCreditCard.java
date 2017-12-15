@@ -19,7 +19,11 @@ public class UserCreditCard extends BaseModel {
     private String creditCardNumber;
 
     @Column(name = "expiration_date")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date expirationDate;
+
+    @Column(name = "credit_card_user_name")
+    private String creditCardUserName;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "userCreditCard")
     @JsonBackReference
@@ -39,6 +43,14 @@ public class UserCreditCard extends BaseModel {
 
     public void setExpirationDate(Date expirationDate) {
         this.expirationDate = expirationDate;
+    }
+
+    public String getCreditCardUserName() {
+        return creditCardUserName;
+    }
+
+    public void setCreditCardUserName(String creditCardUserName) {
+        this.creditCardUserName = creditCardUserName;
     }
 
     public Collection<UserInfo> getUserInfo() {

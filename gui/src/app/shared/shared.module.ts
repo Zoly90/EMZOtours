@@ -32,6 +32,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatCardModule } from '@angular/material/card';
 import { UtilsService } from "../utils/utils.service";
+import { SearchInputComponent } from "./search-input/search-input.component";
 
 /**
  * Do not specify providers for modules that might be imported by a lazy loaded module.
@@ -61,7 +62,8 @@ import { UtilsService } from "../utils/utils.service";
     NavbarComponent,
     DeleteConfirmationModalComponent,
     ResetPasswordModalComponent,
-    DisplayAddressComponent
+    DisplayAddressComponent,
+    SearchInputComponent
   ],
   exports: [
     DateSelecComponent,
@@ -71,7 +73,8 @@ import { UtilsService } from "../utils/utils.service";
     DeleteConfirmationModalComponent,
     FormsModule,
     SelectModule,
-    DisplayAddressComponent
+    DisplayAddressComponent,
+    SearchInputComponent
   ],
   providers: [
     UserService,
@@ -80,7 +83,8 @@ import { UtilsService } from "../utils/utils.service";
     UtilsService
   ],
   entryComponents: [
-    ResetPasswordModalComponent
+    ResetPasswordModalComponent,
+    SignUpModalComponent
   ]
 })
 export class SharedModule {

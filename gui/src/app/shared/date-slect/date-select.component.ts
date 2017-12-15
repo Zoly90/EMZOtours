@@ -1,7 +1,10 @@
-import { Component, Output, EventEmitter, OnInit, Input } from "@angular/core";
+import { Component, Output, EventEmitter, OnInit, Input, SimpleChanges } from "@angular/core";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { TurismAppConstants } from "../../utils/constants";
 import { UtilsService } from "../../utils/utils.service";
+import { DateSelectModel } from "./model/date-select.model";
+import { AgeValidation } from "../services/age-validation";
+import { ExpirationDateValidation } from "../services/expiration-date-validation";
 
 @Component({
 	selector: 'date-select',
@@ -10,41 +13,39 @@ import { UtilsService } from "../../utils/utils.service";
 })
 export class DateSelecComponent implements OnInit {
 
-	@Input() applyForOffer: string;
-	@Input() existingData: any;
+	@Input() dateSelectFormAction: string;
+	@Input() existingData: Date;
+	@Input() disabled: boolean;
 
 	@Output() onDateSelected: EventEmitter<any> = new EventEmitter<any>();
 	@Output() onExpirationDateSelected: EventEmitter<any> = new EventEmitter<any>();
 
 	public dateSelectForm: FormGroup;
 
-	private notOver18: boolean = true;
-	private notOver18Message: string = '';
-	private creditCardExpired: boolean = true;
-	private creditCardExpiredMessage: string = '';
-
 	// Logic for date selection { https://www.npmjs.com/package/angular2-select }
 	private years: Array<any> = [];
 	private isLeapYear = false;
-	private selectedYear = '';
 
-	// Array for Months, construction happens in constructor
 	private monthsArray = TurismAppConstants.MONTHS;
 	private months: Array<any> = [];
-	private selectedMonth = '';
 
 	private days: Array<any> = [];
 	private day_29 = TurismAppConstants.DAY_29;
 	private day_30 = TurismAppConstants.DAY_30;
 	private day_31 = TurismAppConstants.DAY_31;
 	private updatedDays: Array<any> = [];
-	private selectedDay = '';
+
+	// date select component action types
+	private birthdate = TurismAppConstants.BIRTHDATE;
+	private idCardExpirationDate = TurismAppConstants.ID_CARD_EXPIRATION_DATE;
+	private creditCardExpirationDate = TurismAppConstants.APPLY_FOR_OFFER;
+	private applyForOffer;
 
 	constructor(
-		private utilsService: UtilsService,
-		private formBuilder: FormBuilder
+		private _utilsService: UtilsService,
+		private _formBuilder: FormBuilder
 	) {
-		this.dateSelectForm = this.formBuilder.group({
+		this.dateSelectForm = this._formBuilder.group({
 			year: [
 				{
 					value: '',
@@ -74,17 +75,19 @@ export class DateSelecComponent implements OnInit {
 			]
 		}, {
 				validator: Validators.compose([
-					this.ValidateAge.bind(this),
-					this.ValidateExpirationDate.bind(this)
+					AgeValidation.ValidateAge('year', 'month', 'day'),
+					ExpirationDateValidation.ValidateExpirationDate('year', 'month', 'day')
 				])
-			})
+			});
 	}
 
 	ngOnInit() {
-		let firstYear: number = TurismAppConstants.FIRST_YEAR;
-		let lastYear: number = new Date().getFullYear() - 18;
+		let firstYear: number;
+		let lastYear: number;
 
-		if (!this.applyForOffer) {
+		this.applyForOffer = this.dateSelectFormAction == this.creditCardExpirationDate;
+
+		if (this.dateSelectFormAction === this.birthdate) {
 			firstYear = TurismAppConstants.FIRST_YEAR;
 			lastYear = new Date().getFullYear() - 18;
 		} else {
@@ -94,7 +97,7 @@ export class DateSelecComponent implements OnInit {
 
 		for (let i = 0; i < (lastYear - firstYear + 1); i++) {
 			this.years[i] = {
-				value: i.toString(),
+				value: (i + firstYear).toString(),
 				label: (i + firstYear).toString()
 			}
 		}
@@ -108,65 +111,90 @@ export class DateSelecComponent implements OnInit {
 
 		for (let i = 0; i < TurismAppConstants.NUMBER_OF_DAYS; i++) {
 			this.days[i] = {
-				value: i.toString(),
+				value: (i + 1).toString(),
 				label: (i + 1).toString()
 			}
 		}
-		this.updatedDays = this.days
-
-		if (this.existingData) {
-			this._initFormWithExistingUserData()
-		}
+		this.updatedDays = this.days;
 	}
+
+	ngOnChanges(simpleChange: SimpleChanges) {
+    if ('existingData' in simpleChange) {
+			this._initFormWithExistingUserData();
+    }
+		if ('disabled' in simpleChange) {
+			this._updateFormAccessibility();
+    }
+  }
 
 	public onDayOpened() {
 		this._setNumberOfDays();
 	}
 
+	public onYearSelected(formValues) {
+		if (this.dateSelectFormAction === this.creditCardExpirationDate && (formValues && formValues.month)) {
+			this.onMonthSelected(formValues);
+		} else if ((this.dateSelectFormAction === this.birthdate || this.dateSelectFormAction === this.idCardExpirationDate) && (formValues && formValues.month && formValues.day)) {
+			this.onDaySelected(formValues);
+		}
+	}
+
 	public onMonthSelected(formValues) {
-		if (this.applyForOffer) {
-			if (formValues && formValues.year && formValues.month) {
-				this.onExpirationDateSelected.emit({
-					selectedYear: formValues.year,
-					selectedMonth: formValues.month
-				})
+		if (this.dateSelectFormAction === this.creditCardExpirationDate) {
+			const resultingDate: DateSelectModel = new DateSelectModel();
+			if (formValues && !this.dateSelectForm.errors.cardExpired) {
+				resultingDate.selectedYear = formValues.year;
+				resultingDate.selectedMonth = formValues.month;
+				this.onExpirationDateSelected.emit(resultingDate);
 			}
+		} else if (formValues && formValues.year && formValues.day) {
+			this.onDaySelected(formValues);
 		}
 	}
 
 	public onDaySelected(formValues) {
-		if (this.dateSelectForm.valid) {
-			this.onDateSelected.emit({
-				selectedYear: formValues.year,
-				selectedMonth: formValues.month,
-				selectedDay: formValues.day,
-				notOver18: this.notOver18
-			});
+		if ((this.dateSelectFormAction === this.birthdate) && (formValues && formValues.year && formValues.month && !this.dateSelectForm.errors.notOver18)) {
+			this._emitAllDateValues(formValues);
+		} else if ((this.dateSelectFormAction === this.idCardExpirationDate) && (formValues && formValues.year && formValues.month && !this.dateSelectForm.errors.cardExpired)) {
+			this._emitAllDateValues(formValues);
 		}
 	}
 
+	private _emitAllDateValues(formValues) {
+		const resultingDate: DateSelectModel = new DateSelectModel();
+		resultingDate.selectedYear = formValues.year;
+		resultingDate.selectedMonth = formValues.month;
+		resultingDate.selectedDay = formValues.day;
+		this.onDateSelected.emit(resultingDate);
+	}
+
 	private _initFormWithExistingUserData() {
-    this.dateSelectForm.controls.year.setValue(this.existingData.year);
-		this.dateSelectForm.controls.month.setValue(this.existingData.month);
-  }
+		if (this.existingData != null) {
+			const existingDate: Date = new Date(this.existingData);
+			const selectedDate: DateSelectModel = this._utilsService.getDateSelectModelFromDate(existingDate);
+			this.dateSelectForm.controls.year.setValue(String(selectedDate.selectedYear));
+			this.dateSelectForm.controls.month.setValue(String(selectedDate.selectedMonth));
+			this.dateSelectForm.controls.day.setValue(String(selectedDate.selectedDay));
+		}
+	}
 
 	private _setNumberOfDays() {
-		this.isLeapYear = this.utilsService.leapYear(this.selectedYear);
+		this.isLeapYear = this._utilsService.isLeapYear(this.dateSelectForm.controls['year'].value);
 		this.updatedDays.splice(29, 31);
-		if (this.selectedMonth === 'February' && this.isLeapYear) {
+		if (this.dateSelectForm.controls['month'].value === '1' && this.isLeapYear) {
 			if (!this.updatedDays.includes(this.day_29)) {
 				this.updatedDays.push(this.day_29);
 			}
-		} else if ((this.selectedMonth === 'April') || (this.selectedMonth === 'June') ||
-			(this.selectedMonth === 'September') || (this.selectedMonth === 'November')) {
+		} else if ((this.dateSelectForm.controls['month'].value === '3') || (this.dateSelectForm.controls['month'].value === '5') ||
+			(this.dateSelectForm.controls['month'].value === '8') || (this.dateSelectForm.controls['month'].value === '10')) {
 			if (this.updatedDays.includes(this.day_29)) {
 				this.updatedDays.push(this.day_30);
 			} else {
 				this.updatedDays.push(this.day_29, this.day_30);
 			}
-		} else if ((this.selectedMonth === 'January') || (this.selectedMonth === 'March') || (this.selectedMonth === 'May') ||
-			(this.selectedMonth === 'July') || (this.selectedMonth === 'August') || (this.selectedMonth === 'October') ||
-			(this.selectedMonth === 'December')) {
+		} else if ((this.dateSelectForm.controls['month'].value === '0') || (this.dateSelectForm.controls['month'].value === '2') || (this.dateSelectForm.controls['month'].value === '4') ||
+			(this.dateSelectForm.controls['month'].value === '6') || (this.dateSelectForm.controls['month'].value === '7') || (this.dateSelectForm.controls['month'].value === '9') ||
+			(this.dateSelectForm.controls['month'].value === '11')) {
 			if (this.updatedDays.includes(this.day_29) && this.updatedDays.includes(this.day_30)) {
 				this.updatedDays.push(this.day_31);
 			} else if (this.updatedDays.includes(this.day_29)) {
@@ -177,46 +205,11 @@ export class DateSelecComponent implements OnInit {
 		}
 	}
 
-	private ValidateAge() {
-		if (!this.applyForOffer) {
-			const todaysDate = new Date();
-			const enteredDate = new Date(
-				Number(this.selectedYear),
-				this.utilsService.convertToNumericalMonth(this.selectedMonth),
-				Number(this.selectedDay)
-			);
-			// get time difference in miliseconds
-			let timeDifference = Math.abs(todaysDate.getTime() - enteredDate.getTime());
-			// convert it to number of years
-			let differenceInYears = (timeDifference / (1000 * 3600 * 24)) * TurismAppConstants.DAY_TO_YEAR_CONVERSION;
-
-			if (differenceInYears >= 18) {
-				return null
-			} else {
-				return { notOver18: true }
-			}
+	private _updateFormAccessibility() {
+		if (this.disabled) {
+			this.dateSelectForm.disable();
 		} else {
-			return
-		}
-	}
-
-	private ValidateExpirationDate() {
-		if (this.applyForOffer) {
-			const selectedYear = this.years[Number(this.dateSelectForm.controls.year.value)]
-			const todaysDate = new Date();
-			const enteredDate = new Date(
-				selectedYear.label,
-				this.utilsService.convertToNumericalMonth(this.dateSelectForm.controls.month.value),
-				1
-			);
-			
-			if (enteredDate > todaysDate) {
-				return null
-			} else {
-				return { creditCardExpired: true }
-			}
-		} else {
-			return
+			this.dateSelectForm.enable();
 		}
 	}
 }

@@ -10,16 +10,26 @@
   padding: 10px 0 0 10px;
 }
 
-.input-group {
-  min-width: 300px;
-  margin: 0 auto;
-}
-
-.input-group-btn {
-  display: block;
-}
-
 .toolbar-buttons {
   margin-bottom: 0;
   padding-left: 0;
+}
+
+.btn {
+    margin: 0 5px;
+}
+
+.btn-transparent {
+    border: none;
+    background: transparent;
+}
+
+.regular-sign-up {
+    border: none;
+    background: transparent;
+    color: white;
+    
+    &:hover {
+        background-color: lightskyblue;
+    }
 }

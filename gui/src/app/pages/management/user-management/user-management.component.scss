@@ -1,5 +1,13 @@
 @import '../../../styles/variables.scss';
 
+.btn-primary, .btn-danger {
+	width: 50px;
+}
+
+.btn-primary {
+	margin: 0 10px;
+}
+
 .user-management-container {
 	margin: 0 auto;
   width: 70%;
@@ -25,8 +33,4 @@
 
 .update-button {
 	margin: 0 10px;
-}
-
-.mat-card-title {
-	font-size: 14px;
 }

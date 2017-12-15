@@ -1,7 +1,12 @@
 <mat-card class="user-management-container">
+	<h1>Manage users</h1>
 	<mat-card-title fxLayout fxLayoutAlign="space-between center">
-		<h1>Manage holidays</h1>
-		<sd-signup [modalButtonFor]="'admin-new'"></sd-signup>
+		<search-input
+			(onSearch)="searchForUsers($event)">
+    </search-input>
+		<button class="btn btn-info" (click)="openSignUpModal(signUpModalActionForAddUser)">
+			Add a new user
+		</button>
 	</mat-card-title>
 
 	<mat-card-content>
@@ -35,13 +40,13 @@
 							<h5 md-line class="table-item">{{user.firstName}} {{user.lastName}}</h5>
 						</div>
 						<div fxLayout fxLayoutAlign="space-around center" fxFlex="16%">
-							<h5 md-line class="table-item">{{user.userLogin.role}}</h5>
+							<h5 md-line class="table-item">{{user.role}}</h5>
 						</div>
 						<div fxLayout fxLayoutAlign="space-around center" fxFlex="16%">
-							<h5 md-line class="table-item">{{user.telephoneNr}}</h5>
+							<h5 md-line class="table-item">{{user.telephoneNumber}}</h5>
 						</div>
 						<div fxLayout fxLayoutAlign="space-around center" fxFlex="15%">
-							<h5 md-line class="table-item">{{user.userLogin.emailAddress}}</h5>
+							<h5 md-line class="table-item">{{user.emailAddress}}</h5>
 						</div>
 						<div fxLayout fxLayoutAlign="space-around center" fxFlex="10%">
 							<h5 md-line class="table-item"> - </h5>
@@ -50,10 +55,17 @@
 							<h5 md-line class="table-item">{{user.newsletter}}</h5>
 						</div>
 						<div fxLayout fxLayoutAlign="end center" fxFlex class="buttons-container">
-							<sd-signup [existingUser]="user" [modalButtonFor]="'admin-edit'"></sd-signup>
-							<button (click)="deleteUser(user)" class="btn btn-danger delete-button" type="button">Delete</button>
+							<button class="btn btn-primary" (click)="openSignUpModal(signUpModalActionForEditUser, user.id)">
+								<span class="fa fa-pencil-square-o fa-lg"></span>
+							</button>
+							<button (click)="deleteUser(user.id)" class="btn btn-danger delete-button" type="button">
+								<i class="fa fa-trash-o fa-lg" aria-hidden="true"></i>
+							</button>
 						</div>
 					</div>
+				</mat-list-item>
+				<mat-list-item *ngIf="!listOfUsers.length" fxLayout="row" fxLayoutAlign="space-around center">
+					No users were found.
 				</mat-list-item>
 			</mat-list>
 		</div>

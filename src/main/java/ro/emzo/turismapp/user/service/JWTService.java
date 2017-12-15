@@ -57,7 +57,7 @@ public class JWTService {
                 .claim("userID", "" + userInfo.getId())
                 .claim("username", "" + userInfo.getUserLogin().getUsername())
                 .claim("emailAddress", "" + userInfo.getUserLogin().getEmailAddress())
-                .claim("role", "" + userInfo.getUserLogin().getRole());
+                .claim("role", "" + userInfo.getUserLogin().getRole().getRoleKey());
 
         builder.signWith(signatureAlgorithm, signingKey);
 

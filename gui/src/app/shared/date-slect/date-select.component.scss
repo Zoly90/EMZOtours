@@ -4,17 +4,15 @@
 }
 
 .input-year {
-    min-width: 105px;
-    margin-right: 9px;
+    width: 115px;
 }
 
 .input-month {
-    min-width: 155px;
-    // margin: 0 4px;
+    width: 155px;
 }
 
 .input-day {
-    min-width: inherit;
+    width: inherit;
 }
 
 .number-of-days {
@@ -23,8 +21,7 @@
     cursor: pointer;
     outline: none;
     padding: 0;
-    min-width: 90px;
-    margin-left: 9px;
+    width: 90px;
 }
 
 // .input-check {
@@ -55,9 +52,21 @@
 }
 
 .feedback-month {
-    margin-left: 147px;
+    margin-left: 125px;
 }
 
 .feedback-month-a {
-    margin-left: 95px;
+    margin-left: 75px;
+}
+
+.feedback-day {
+    margin-left: 295px;
+}
+
+.feedback-day-a {
+    margin-left: 165px;
+}
+
+.feedback-day-b {
+    margin-left: 115px;
 }

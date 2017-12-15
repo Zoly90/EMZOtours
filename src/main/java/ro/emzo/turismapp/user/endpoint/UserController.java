@@ -6,24 +6,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import ro.emzo.turismapp.core.model.SearchCriteria;
 import ro.emzo.turismapp.user.auth.SecurityService;
 import ro.emzo.turismapp.user.auth.UserValidator;
-import ro.emzo.turismapp.user.exceptions.RegistrationException;
+import ro.emzo.turismapp.user.exceptions.UserException;
 import ro.emzo.turismapp.user.exceptions.UserDoesNotExistInTheDatabase;
 import ro.emzo.turismapp.user.model.UserInfo;
-import ro.emzo.turismapp.user.model.UserLogin;
 import ro.emzo.turismapp.user.service.UserService;
-import ro.emzo.turismapp.user.to.UserCreditCardTO;
-import ro.emzo.turismapp.user.to.UserInfoTO;
-import ro.emzo.turismapp.user.to.UserLoginTO;
+import ro.emzo.turismapp.user.to.*;
 
 @RestController
 @RequestMapping("/api/turism-app/user")
-public class UserControllerRegistration {
+public class UserController {
 	
 	@Autowired
 	private UserService userService;
@@ -72,31 +68,39 @@ public class UserControllerRegistration {
 //	}
 	
 	@GetMapping("/{userInfoId}")
-	public ResponseEntity<UserInfoTO> getUser(
+	public ResponseEntity<AddOrUpdateUserTO> getUser(
 			@PathVariable("userInfoId") Long userInfoId
 	) {
-		return new ResponseEntity<>(userService.getUserInfo(userInfoId), HttpStatus.OK);
+		AddOrUpdateUserTO user = userService.getUserForUpdate(userInfoId);
+		return new ResponseEntity<>(user, HttpStatus.OK);
 	}
 	
-	@GetMapping()
-	public ResponseEntity<List<UserInfo>> getAllUsers() {
-		return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
+	@PostMapping(value="/search", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public ResponseEntity<List<UserTableDataTO>> getAllUsers(
+			@RequestBody SearchCriteria searchCriteria
+	) {
+		List<UserTableDataTO> userTableData = userService.getAllUsers(searchCriteria);
+		return new ResponseEntity<>(userTableData, HttpStatus.OK);
 	}
 	
 	@PostMapping(value="/registration", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<UserInfoTO> registration(
-    		@RequestBody UserInfoTO userInfoTO
-	) throws RegistrationException {
-        return new ResponseEntity<>(userService.registerUser(userInfoTO), HttpStatus.OK);
+    public ResponseEntity<?> registration(
+    		@RequestBody UserRegistrationTO newUser
+	) throws UserException {
+		userService.registerUser(newUser);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public ResponseEntity<UserInfoTO> updateExistingUser(
-			@RequestBody UserInfoTO userInfoTO
-	) throws UserDoesNotExistInTheDatabase {
-		return new ResponseEntity<>(userService.updateExistingUser(userInfoTO), HttpStatus.OK);
+	public ResponseEntity<AddOrUpdateUserTO> createOrUpdateUser(
+			@RequestBody AddOrUpdateUserTO user,
+			@RequestParam("passwordChanged") String passwordChanged
+	) throws UserException, UserDoesNotExistInTheDatabase {
+		user = userService.createOrUpdateUser(user, passwordChanged);
+		return new ResponseEntity<>(user, HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{userId}")

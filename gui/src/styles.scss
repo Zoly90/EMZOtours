@@ -123,7 +123,7 @@ sd-detail {
     }
 }
 
-sd-signup {
+signup-modal {
     .mat-card-title {
         font-size: 14px
     }
@@ -132,6 +132,18 @@ sd-signup {
         .mat-checkbox-label {
             color: dimgrey;
         }
+    }
+
+    mat-checkbox {
+        label {
+            padding: 0 !important;
+        }
+    }
+}
+
+user-management {
+    mat-card-title {
+        margin: 16px 0 !important;
     }
 }
 

@@ -3,6 +3,8 @@ import { Http } from "@angular/http";
 import { User } from "../models/user.model";
 import { Observable } from "rxjs/Observable";
 import { HttpClient } from "@angular/common/http";
+import { UserRegistrationModel } from "../toolbar/signUpModal/model/registration-model";
+import { SearchCriteria } from "../models/search-criteria.model";
 
 @Injectable()
 export class UserService {
@@ -12,43 +14,45 @@ export class UserService {
         private _http: HttpClient
     ) { }
 
-    public addUser(newUser: User) {
-        // return this._http.post(`${this.baseUrl}/registration`, newUser)
-        //     .map(res => {
-        //         return res.json();
-        //     });
-        console.log(newUser)
+    public registerUser(newUser: UserRegistrationModel) {
+        return this._http.post(`${this.baseUrl}/registration`, newUser,
+        {
+            responseType: 'text'
+        });
+    }
+
+    public addOrUpdateUser(user: User, passwordChanged?: string) {
+        return this._http.post(`${this.baseUrl}`, 
+        {
+            userInfo: user.userInfo,
+            userLogin: user.userLogin,
+            userCreditCard: user.userCreditCard,
+            userIdentity: user.userIdentity,
+            userAddress: user.userAddress
+        },
+        {
+            params: {
+                'passwordChanged': passwordChanged ? passwordChanged : ''
+            }
+        });
     }
 
     public getUser(id: number): Observable<any> {
         return this._http.get(`${this.baseUrl}/${id}`)
-            .map(res => {
-                return res;
-            });
     }
 
-    public getAllUsers(): Observable<any> {
-        return this._http.get(`${this.baseUrl}`)
-            .map(res => {
-                return res;
-            });
-    }
-
-    public updateUser(user: User): Observable<any> {
-        return this._http.post(`${this.baseUrl}`, user)
-            .map(res => {
-                return res;
-            });
+    public getAllUsers(searchCriteria: SearchCriteria): Observable<any> {
+        return this._http.post(`${this.baseUrl}/search`, searchCriteria);
     }
 
     public deleteUser(id: number) {
-        return this._http.delete(`${this.baseUrl}/${id}`);
+        return this._http.delete(`${this.baseUrl}/${id}`,
+        {
+            responseType: 'text'
+        });
     }
 
     public getUserCreditCardData(id: number): Observable<any> {
-        return this._http.get(`${this.baseUrl}/${id}/credit-card-data`)
-            .map(res => {
-                return res;
-            });
+        return this._http.get(`${this.baseUrl}/${id}/credit-card-data`);
     }
 }

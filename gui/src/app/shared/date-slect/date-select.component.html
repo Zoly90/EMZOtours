@@ -1,44 +1,77 @@
-<form [formGroup]="dateSelectForm" fxLayout="column" ngNativeValidate>
-	<div class="form-group" fxLayout fxLayoutAlign="space-between center">
-		<ng-select class="select-field input-year" [options]="years" placeholder="Year" [noFilter]="100" [allowClear]="true"
-				formControlName="year" fxFlex="30%" required>
-		</ng-select>
-		<ng-select class="select-field input-month" [options]="months" placeholder="Month" [noFilter]="100" [allowClear]="true"
-				formControlName="month" (selected)="onMonthSelected(dateSelectForm.value)" fxFlex="30%" required>
-		</ng-select>
-		<button type="button" class="number-of-days" [ngClass]="{'apply-for-offer': applyForOffer}" (click)="onDayOpened(); days = updatedDays.slice(0, updatedDays.length)" fxFlex="40%">
-			<ng-select class="select-field input-day" [options]="days" placeholder="Day" [noFilter]="100" [allowClear]="true" 
-				formControlName="day" required>
-			</ng-select>
-		</button>
+<form [formGroup]="dateSelectForm" ngNativeValidate>
+	<div fxLayout fxLayoutAlign="space-between center">
+
+		<div class="form-group" fxLayout="row" fxLayout.xs="column">
+			<div class="input-container" fxLayout="column" fxFlex>
+				<ng-select
+					[options]="years"
+					[allowClear]="true"
+					(selected)="onYearSelected(dateSelectForm.value)"
+					class="select-field input-year"
+					placeholder="Year"
+					notFoundMsg="No results found!"
+					formControlName="year">
+				</ng-select>
+			</div>
+		</div>
+		
+		<div *ngIf="applyForOffer">/</div>
+
+		<div class="form-group" fxLayout="row" fxLayout.xs="column">
+			<div class="input-container" fxLayout="column" fxFlex>
+				<ng-select
+					[options]="months"
+					[allowClear]="true"
+					(selected)="onMonthSelected(dateSelectForm.value)"
+					class="select-field input-month"
+					placeholder="Month"
+					notFoundMsg="No results found!"
+					formControlName="month">
+				</ng-select>
+			</div>
+		</div>
+
+		<div *ngIf="!applyForOffer" class="form-group" fxLayout="row" fxLayout.xs="column">
+			<div class="input-container" fxLayout="column" fxFlex>
+				<button type="button" class="number-of-days" fxFlex="40"
+						(click)="onDayOpened(); days = updatedDays.slice(0, updatedDays.length)">
+					<ng-select
+						[options]="days"
+						[allowClear]="true"
+						(selected)="onDaySelected(dateSelectForm.value)"
+						class="select-field input-day"
+						placeholder="Day"
+						notFoundMsg="No results found!"
+						formControlName="day">
+					</ng-select>
+				</button>
+			</div>
+		</div>
 	</div>
-	<div class="required-validation-container" fxLayout>
-		<div  class="feedback-wrapper" *ngIf="dateSelectForm.controls['year'].errors && (dateSelectForm.controls['year'].dirty || dateSelectForm.controls['year'].touched)">
-			<small [hidden]="!dateSelectForm.controls['year'].errors.required" class="feedback">
+	<div class="required-validation-container" fxLayout="column">
+		<div class="feedback-wrapper" *ngIf="(dateSelectForm.controls['year'].errors && (dateSelectForm.controls['year'].dirty || dateSelectForm.controls['year'].touched))
+				|| (dateSelectForm.controls['month'].errors && (dateSelectForm.controls['month'].dirty || dateSelectForm.controls['month'].touched))
+				|| (dateSelectForm.controls['day'].errors && (dateSelectForm.controls['day'].dirty || dateSelectForm.controls['day'].touched))">
+			<small [hidden]="(dateSelectForm.controls['year'].errors && !dateSelectForm.controls['year'].errors.required) || (dateSelectForm.controls['month'].errors && !dateSelectForm.controls['month'].errors.required) || (dateSelectForm.controls['day'].errors && !dateSelectForm.controls['day'].errors.required)" class="feedback">
 				Required.
 			</small>
 		</div>
-		<div class="feedback-wrapper feedback-month" [ngClass]="{'feedback-month-a': dateSelectForm.controls['year'].errors && dateSelectForm.controls['year'].errors.required}" 
-				*ngIf="dateSelectForm.controls['month'].errors && (dateSelectForm.controls['month'].dirty || dateSelectForm.controls['month'].touched)">
-			<small [hidden]="!dateSelectForm.controls['month'].errors.required" class="feedback">
-				Required.
+		<div class="feedback-wrapper" *ngIf="(dateSelectFormAction === birthdate) && dateSelectForm.errors && (dateSelectForm.controls['year'].dirty || dateSelectForm.controls['year'].touched)
+				&& (dateSelectForm.controls['month'].dirty || dateSelectForm.controls['month'].touched) && (dateSelectForm.controls['day'].dirty || dateSelectForm.controls['day'].touched)">
+			<small [hidden]="!dateSelectForm.errors.notOver18" class="feedback">
+				You must be at least 18 years old to create an account.
 			</small>
 		</div>
-		<div class="feedback-wrapper" *ngIf="dateSelectForm.controls['day'].errors && (dateSelectForm.controls['day'].dirty || dateSelectForm.controls['day'].touched)">
-			<small [hidden]="!dateSelectForm.controls['day'].errors.required" class="feedback">
-				Required.
+		<div class="feedback-wrapper" *ngIf="(dateSelectFormAction === idCardExpirationDate) && dateSelectForm.errors && (dateSelectForm.controls['year'].dirty || dateSelectForm.controls['year'].touched)
+				&& (dateSelectForm.controls['month'].dirty || dateSelectForm.controls['month'].touched) && (dateSelectForm.controls['day'].dirty || dateSelectForm.controls['day'].touched)">
+			<small [hidden]="!dateSelectForm.errors.cardExpired" class="feedback">
+				You should enter an identification card which is not expired.
 			</small>
 		</div>
-	</div>
-	<div class="feedback-wrapper" *ngIf="dateSelectForm.errors && (dateSelectForm.controls['year'].dirty || dateSelectForm.controls['year'].touched)
-			&& (dateSelectForm.controls['month'].dirty || dateSelectForm.controls['month'].touched) && (dateSelectForm.controls['day'].dirty || dateSelectForm.controls['day'].touched)">
-		<small [hidden]="!dateSelectForm.errors.notOver18" class="feedback">
-			You must be at least 18 years old to create an account.
-		</small>
-	</div>
-	<div class="feedback-wrapper" *ngIf="dateSelectForm.errors && dateSelectForm.controls['year'].value && dateSelectForm.controls['month'].value">
-		<small [hidden]="!dateSelectForm.errors.creditCardExpired" class="feedback">
-			You can not enter an expired credit card.
-		</small>
+		<div class="feedback-wrapper" *ngIf="(dateSelectFormAction === creditCardExpirationDate) && dateSelectForm.errors && dateSelectForm.controls['year'].value && dateSelectForm.controls['month'].value">
+			<small [hidden]="!dateSelectForm.errors.cardExpired" class="feedback">
+				You can not enter an expired credit card.
+			</small>
+		</div>
 	</div>
 </form>

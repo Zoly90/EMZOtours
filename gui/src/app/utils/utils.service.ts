@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { AuthorizationService } from "../core/authentication/services/authorization.service";
+import { DateSelectModel } from "../shared/date-slect/model/date-select.model";
 
 @Injectable()
 export class UtilsService {
@@ -32,7 +33,7 @@ export class UtilsService {
     return response.text() ? response : null;
   }
 
-  public leapYear(year) {
+  public isLeapYear(year) {
     let result: boolean = false;
     if ((Number(year) % 4 === 0 && Number(year) % 100 !== 0 && Number(year) % 400 !== 0) ||
       (Number(year) % 4 === 0 && Number(year) % 100 === 0 && Number(year) % 400 === 0)) {
@@ -106,6 +107,10 @@ export class UtilsService {
     return /([0-9]*[.])?[0-9]+/;
   }
 
+  public getPasswordReggex() {
+    return /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])/;
+  }
+
   public sortById(sortable) {
     return sortable.sort((a, b) => {
       if (a.id < b.id) {
@@ -116,5 +121,22 @@ export class UtilsService {
         return 0;
       }
     });
+  }
+
+  public getDateFromDateSelectModel(selectedDate: DateSelectModel) {
+    const date: Date = new Date(
+      Number(selectedDate.selectedYear),
+      Number(selectedDate.selectedMonth),
+      Number(selectedDate.selectedDay) ? Number(selectedDate.selectedDay) : 1
+    );
+    return date;
+  }
+
+  public getDateSelectModelFromDate(date: Date) {
+    const selectedDate: DateSelectModel = new DateSelectModel();
+    selectedDate.selectedYear = date.getFullYear();
+    selectedDate.selectedMonth = date.getMonth();
+    selectedDate.selectedDay = date.getDate();
+    return selectedDate;
   }
 }

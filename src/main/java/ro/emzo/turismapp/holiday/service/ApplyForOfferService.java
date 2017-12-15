@@ -2,7 +2,6 @@ package ro.emzo.turismapp.holiday.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ro.emzo.turismapp.holiday.dao.HolidayDataService;
 import ro.emzo.turismapp.holiday.dao.HolidayRepository;
 import ro.emzo.turismapp.holiday.dao.OfferInformationRepository;
 import ro.emzo.turismapp.holiday.dao.PeriodRepository;
@@ -14,11 +13,6 @@ import ro.emzo.turismapp.user.dao.UserDataService;
 import ro.emzo.turismapp.user.model.UserCreditCard;
 import ro.emzo.turismapp.user.model.UserInfo;
 import ro.emzo.turismapp.user.to.UserCreditCardTO;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 
 /**
  * Created by E5570_2 on 2017-09-25.
@@ -72,12 +66,8 @@ public class ApplyForOfferService {
         if (userCreditCard != null) {
             result.setId(userCreditCard.getId());
             result.setCreditCardNumber(userCreditCard.getCreditCardNumber());
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(userCreditCard.getExpirationDate());
-            Integer expirationYear = calendar.get(Calendar.YEAR);
-            result.setCreditCardExpirationYear(expirationYear.toString());
-            Integer expirationMonth = calendar.get(Calendar.MONTH);
-            result.setCreditCardExpirationMonth(expirationMonth.toString());
+            result.setCreditCardExpirationDate(userCreditCard.getExpirationDate());
+            result.setCreditCardUserName(userCreditCard.getCreditCardUserName());
         }
         return result;
     }
@@ -87,14 +77,8 @@ public class ApplyForOfferService {
         if (userCreditCardTO != null) {
             result.setId(userCreditCardTO.getId());
             result.setCreditCardNumber(userCreditCardTO.getCreditCardNumber());
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            String dateInStringFormat = "" + userCreditCardTO.getCreditCardExpirationYear() + "-" + userCreditCardTO.getCreditCardExpirationMonth() + "-" + "1";
-            try {
-                Date expirationDate = sdf.parse(dateInStringFormat);
-                result.setExpirationDate(expirationDate);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+            result.setExpirationDate(userCreditCardTO.getCreditCardExpirationDate());
+            result.setCreditCardUserName(userCreditCardTO.getCreditCardUserName());
         }
         return result;
     }

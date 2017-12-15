@@ -1,7 +1,7 @@
 package ro.emzo.turismapp.user.model;
 
-import java.sql.Date;
 import java.util.Collection;
+import java.util.Date;
 
 import javax.persistence.*;
 
@@ -14,9 +14,10 @@ import ro.emzo.turismapp.offer.model.PersonalizedOffer;
 @Entity
 @Table(name = "user_info")
 public class UserInfo extends BaseModel {
-	
+
+	@Enumerated(EnumType.STRING)
 	@Column(name = "title")
-	private String title;
+	private Title title;
 	
 	@Column(name = "first_name")
 	private String firstName;
@@ -31,6 +32,7 @@ public class UserInfo extends BaseModel {
 	private String telephoneNr;
 	
 	@Column(name = "birthday")
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date birthday;
 
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -47,6 +49,10 @@ public class UserInfo extends BaseModel {
 
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn
+	private UserIdentity userIdentity;
+
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn
 	private HolidaySummary reservedOffer;
 
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -57,11 +63,11 @@ public class UserInfo extends BaseModel {
 	@JsonBackReference
 	private Collection<PersonalizedOffer> personalizedOffers;
 
-	public String getTitle() {
+	public Title getTitle() {
 		return title;
 	}
 
-	public void setTitle(String title) {
+	public void setTitle(Title title) {
 		this.title = title;
 	}
 
@@ -127,6 +133,14 @@ public class UserInfo extends BaseModel {
 
 	public void setUserCreditCard(UserCreditCard userCreditCard) {
 		this.userCreditCard = userCreditCard;
+	}
+
+	public UserIdentity getUserIdentity() {
+		return userIdentity;
+	}
+
+	public void setUserIdentity(UserIdentity userIdentity) {
+		this.userIdentity = userIdentity;
 	}
 
 	public HolidaySummary getReservedOffer() {

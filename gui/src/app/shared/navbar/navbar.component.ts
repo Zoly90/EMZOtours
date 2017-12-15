@@ -30,6 +30,8 @@ export class NavbarComponent {
   private holidaysManagementPagePath: string;
   private personalizedOffersManagementPagePath: string;
   private userManagementPagePath: string;
+  private roleAdmin = TurismAppConstants.ADMIN;
+  private roleEmployee = TurismAppConstants.EMPLOYEE;
 
   constructor(
     private router: Router,

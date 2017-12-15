@@ -29,7 +29,7 @@
 
 			<div class="form-group" fxLayout="column">
 				<label for="creditCardExpirationDate" class="form-label">Credit card expiration date *</label>
-				<date-select (onExpirationDateSelected)="onDateSelected($event)" [applyForOffer]="'applyForOffer'" [existingData]="creditCardExpirationDate"></date-select>
+				<date-select (onExpirationDateSelected)="onDateSelected($event)" [dateSelectFormAction]="'applyForOffer'" [existingData]="creditCardExpirationDate"></date-select>
 			</div>
 
 			<div class="form-group" fxLayout="column">
