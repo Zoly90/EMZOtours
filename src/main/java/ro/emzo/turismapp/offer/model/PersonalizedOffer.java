@@ -66,7 +66,7 @@ public class PersonalizedOffer extends BaseModel{
 	@Column(name = "status")
 	private Status status;
 
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
 	@JoinColumn
 	private UserInfo userInfo;
 

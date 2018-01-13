@@ -2,6 +2,7 @@ package ro.emzo.turismapp.user.dao;
 
 import org.springframework.util.StringUtils;
 import ro.emzo.turismapp.core.model.SearchCriteria;
+import ro.emzo.turismapp.user.model.Role;
 import ro.emzo.turismapp.user.model.UserInfo;
 import ro.emzo.turismapp.user.model.UserLogin;
 
@@ -45,5 +46,23 @@ public class UserRepositoryImpl implements CustomUserRepository {
     @Override
     public Long countAllBySearchCriteria(SearchCriteria searchCriteria) {
         return null;
+    }
+
+    @Override
+    public List<UserLogin> findAllEmployees() {
+
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<UserLogin> query = builder.createQuery(UserLogin.class);
+
+        Root<UserLogin> userLoginRoot = query.from(UserLogin.class);
+
+        Predicate p1 = builder.equal(
+                userLoginRoot.get("role"), Role.ADMIN);
+        Predicate p2 = builder.equal(
+                userLoginRoot.get("role"), Role.EMPLOYEE);
+        Predicate restriction = builder.or(p1, p2);
+        query.where(restriction);
+
+        return entityManager.createQuery(query).getResultList();
     }
 }

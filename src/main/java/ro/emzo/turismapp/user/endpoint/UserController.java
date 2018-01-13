@@ -13,7 +13,6 @@ import ro.emzo.turismapp.user.auth.SecurityService;
 import ro.emzo.turismapp.user.auth.UserValidator;
 import ro.emzo.turismapp.user.exceptions.UserException;
 import ro.emzo.turismapp.user.exceptions.UserDoesNotExistInTheDatabase;
-import ro.emzo.turismapp.user.model.UserInfo;
 import ro.emzo.turismapp.user.service.UserService;
 import ro.emzo.turismapp.user.to.*;
 
@@ -116,5 +115,10 @@ public class UserController {
 			@PathVariable("userInfoId") Long userInfoId
 	) {
 		return new ResponseEntity<>(userService.getUserCreditCardData(userInfoId), HttpStatus.OK);
+	}
+
+	@GetMapping("/all-employees")
+	public ResponseEntity<List<EmployeeTO>> getAllStaff() {
+		return new ResponseEntity<>(userService.getAllStaff(), HttpStatus.OK);
 	}
 }

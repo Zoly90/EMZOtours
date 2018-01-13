@@ -1,16 +1,20 @@
 package ro.emzo.turismapp.offer.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.method.P;
 import org.springframework.stereotype.Service;
 
+import ro.emzo.turismapp.core.model.PagedList;
+import ro.emzo.turismapp.core.model.SearchCriteria;
 import ro.emzo.turismapp.email.EmailServiceImpl;
 import ro.emzo.turismapp.offer.dao.PersonalizedOfferDataService;
-import ro.emzo.turismapp.offer.model.ApplyToUserTO;
+import ro.emzo.turismapp.offer.dao.PersonalizedOfferRepository;
+import ro.emzo.turismapp.offer.to.ApplyOfferToUserTO;
 import ro.emzo.turismapp.offer.model.PersonalizedOffer;
 import ro.emzo.turismapp.offer.model.Status;
+import ro.emzo.turismapp.offer.to.PersonalizedOfferTableDataTO;
 import ro.emzo.turismapp.user.dao.UserDataService;
 import ro.emzo.turismapp.user.exceptions.InsufficientPermissionException;
 import ro.emzo.turismapp.user.exceptions.UserDoesNotExistInTheDatabase;
@@ -22,6 +26,9 @@ public class PersonalizedOfferService {
 
 	@Autowired
 	private PersonalizedOfferDataService personalizedOfferDataService;
+
+	@Autowired
+	private PersonalizedOfferRepository offerRepository;
 	
 	@Autowired
 	private EmailServiceImpl emailServiceImpl;
@@ -32,8 +39,28 @@ public class PersonalizedOfferService {
 	@Autowired
 	private UserService userService;
 	
-	public List<PersonalizedOffer> getPersonalizedOffers() {
-		return personalizedOfferDataService.getAllPersonalizedOffers();
+	public PagedList<PersonalizedOfferTableDataTO> getPersonalizedOffersBySearchCriteria(SearchCriteria searchCriteria) {
+		PagedList<PersonalizedOfferTableDataTO> pagedList = new PagedList<>();
+		pagedList.setOffset(searchCriteria.getPaginationCriteria().getOffset());
+		pagedList.setItemsPerPage(searchCriteria.getPaginationCriteria().getItemsPerPage());
+		List<PersonalizedOffer> offersList = offerRepository.findAllBySearchCriteriaWithPagination(searchCriteria);
+		List<PersonalizedOfferTableDataTO> data = offersList.stream()
+				.map(offer -> new PersonalizedOfferTableDataTO(offer.getId(), offer.getName(), offer.getTravelDestination(),
+						offer.getFirstDayOfHoliday(), offer.getLastDayOfHoliday(),
+						(offer.getUserInfo() != null ? offer.getUserInfo().getId() : null),
+						(offer.getUserInfo() != null ? concatName(offer.getUserInfo().getFirstName(), offer.getUserInfo().getLastName()) : null),
+						offer.getStatus()))
+				.collect(Collectors.toList());
+		pagedList.setData(data);
+		Long totalItems = offerRepository.countAllBySearchCriteria(searchCriteria);
+		pagedList.setItemsTotal(totalItems);
+		return pagedList;
+	}
+
+	private String concatName(String firstName, String lastName) {
+		String result = ((firstName != null && firstName != "") ? firstName : "")
+				+ ((lastName != null && lastName != "") ? " " + lastName : "");
+		return result;
 	}
 	
 	public PersonalizedOffer getPersonalizedOfferById(Long id) {
@@ -45,12 +72,12 @@ public class PersonalizedOfferService {
 		return personalizedOfferDataService.savePersonalizedOffer(personalizedOffer);
 	}
 
-	public PersonalizedOffer applyToUser(ApplyToUserTO applyToUserTO) throws UserDoesNotExistInTheDatabase {
-		PersonalizedOffer result = getPersonalizedOfferById(applyToUserTO.getOfferID());
-		if (result.getUserInfo() != null && applyToUserTO.getUserID() == result.getUserInfo().getId()) {
+	public PersonalizedOffer applyToUser(ApplyOfferToUserTO applyOfferToUserTO) throws UserDoesNotExistInTheDatabase {
+		PersonalizedOffer result = getPersonalizedOfferById(applyOfferToUserTO.getOfferID());
+		if (result.getUserInfo() != null && applyOfferToUserTO.getUserID() == result.getUserInfo().getId()) {
 			result.setStatus(Status.WIP);
 		} else {
-			UserInfo userInfo = userDataService.getUserInfo(applyToUserTO.getUserID());
+			UserInfo userInfo = userDataService.getUserInfo(applyOfferToUserTO.getUserID());
 			if (userInfo == null) {
 				throw new UserDoesNotExistInTheDatabase();
 			}

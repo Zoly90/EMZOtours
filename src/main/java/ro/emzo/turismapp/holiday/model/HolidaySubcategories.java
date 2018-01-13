@@ -1,8 +1,5 @@
 package ro.emzo.turismapp.holiday.model;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;

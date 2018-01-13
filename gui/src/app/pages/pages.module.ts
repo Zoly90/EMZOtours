@@ -30,6 +30,8 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MatListModule } from '@angular/material/list';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from "@angular/router";
+import { PersonalizedOfferManagementService } from "./management/offers-management/service/offer-management.service";
+import { NgxPaginationModule } from "ngx-pagination/dist/ngx-pagination";
 
 @NgModule({
     imports: [
@@ -50,7 +52,8 @@ import { RouterModule } from "@angular/router";
         MatSliderModule,
         MatListModule,
         BrowserAnimationsModule,
-        RouterModule
+        RouterModule,
+        NgxPaginationModule
     ],
     declarations: [
         PersonalizedOfferComponent,
@@ -67,7 +70,8 @@ import { RouterModule } from "@angular/router";
     providers: [
         PersonalizedOfferService,
         HolidayDetailViewService,
-        ContactService
+        ContactService,
+        PersonalizedOfferManagementService
     ],
     exports: [
         PersonalizedOfferComponent,

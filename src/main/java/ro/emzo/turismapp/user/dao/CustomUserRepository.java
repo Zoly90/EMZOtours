@@ -3,6 +3,7 @@ package ro.emzo.turismapp.user.dao;
 import org.springframework.stereotype.Repository;
 import ro.emzo.turismapp.core.model.SearchCriteria;
 import ro.emzo.turismapp.user.model.UserInfo;
+import ro.emzo.turismapp.user.model.UserLogin;
 
 import java.util.List;
 
@@ -28,4 +29,11 @@ public interface CustomUserRepository {
      * @return number of users
      */
     Long countAllBySearchCriteria(SearchCriteria searchCriteria);
+
+    /**
+     * Find all employees
+     *
+     * @return users
+     */
+    List<UserLogin> findAllEmployees();
 }

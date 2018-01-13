@@ -2,21 +2,12 @@ package ro.emzo.turismapp.user.dao;
 
 import org.springframework.stereotype.Service;
 
-import org.springframework.util.StringUtils;
-import ro.emzo.turismapp.core.model.SearchCriteria;
 import ro.emzo.turismapp.user.model.UserInfo;
 import ro.emzo.turismapp.user.model.UserLogin;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 
 @Service
 public class UserDataService {

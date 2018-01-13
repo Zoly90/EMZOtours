@@ -1,9 +1,9 @@
-package ro.emzo.turismapp.offer.model;
+package ro.emzo.turismapp.offer.to;
 
 /**
  * Created by E5570_2 on 2017-07-29.
  */
-public class ApplyToUserTO {
+public class ApplyOfferToUserTO {
 
     private Long userID;
 

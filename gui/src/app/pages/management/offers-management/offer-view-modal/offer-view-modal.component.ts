@@ -1,5 +1,6 @@
-import { Component, Input } from "@angular/core";
+import { Component, Input, SimpleChanges } from "@angular/core";
 import { PersonalizedOffer } from "../../../pages-models/personalized-offer-model";
+import { PersonalizedOfferService } from "../../../pages-services/personalized-offer.service";
 
 @Component({
 	selector: 'offer-view-modal',
@@ -8,9 +9,14 @@ import { PersonalizedOffer } from "../../../pages-models/personalized-offer-mode
 })
 export class OfferViewModalComponent {
 
-	@Input() personalizedOffer: PersonalizedOffer;
+	@Input() personalizedOfferId: number;
 
-	constructor() { }
+	private personalizedOffer: PersonalizedOffer = new PersonalizedOffer();
 
-	ngOnInit() { }
+	constructor(private _personalizedOfferService: PersonalizedOfferService) { }
+
+	ngOnInit() {
+		this._personalizedOfferService.getPersonalizedOffer(this.personalizedOfferId)
+			.subscribe(offer => this.personalizedOffer = offer);
+	}
 }

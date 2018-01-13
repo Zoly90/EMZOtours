@@ -1,7 +1,6 @@
-package ro.emzo.turismapp.user.service;
+package ro.emzo.turismapp.user.model;
 
 import com.fasterxml.jackson.annotation.JsonValue;
-import ro.emzo.turismapp.user.model.Title;
 
 import java.util.ArrayList;
 import java.util.Collections;

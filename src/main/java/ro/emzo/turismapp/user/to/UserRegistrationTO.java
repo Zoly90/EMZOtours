@@ -3,7 +3,7 @@ package ro.emzo.turismapp.user.to;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.hibernate.validator.constraints.NotEmpty;
 import ro.emzo.turismapp.user.model.Title;
-import ro.emzo.turismapp.user.service.Role;
+import ro.emzo.turismapp.user.model.Role;
 
 import java.util.Date;
 

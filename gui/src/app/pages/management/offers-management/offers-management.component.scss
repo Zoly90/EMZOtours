@@ -4,6 +4,34 @@ mat-card {
 	display: block !important;
 }
 
+.filter-category-title {
+	font-weight: bold;
+}
+
+mat-checkbox {
+	span {
+		font-weight: normal;
+	}
+}
+
+.offers-list-container {
+	display: block !important;
+}
+
+.offers-list {
+	margin-bottom: 10px;
+}
+
+.offers-list-legend {
+	padding: 20px 0;
+	height: 265px;
+
+	.btn-legend {
+		width: 30px;
+		padding: 2px 4px;
+	}
+}
+
 .offers-management-container {
 	margin: 0 auto;
   width: 70%;
@@ -51,4 +79,8 @@ mat-card {
 
 .status-done {
 	background-color: mediumseagreen;
+}
+
+.no-offers-message {
+	margin: 0 auto;
 }

@@ -63,12 +63,12 @@ export class UserManagementComponent {
 			.catch(err => console.log(err));
 	}
 
-	private _getUsersBySearchCriteria() {
-		this._userService.getAllUsers(this.searchCriteria).subscribe(list => this.listOfUsers = list);
-	}
-
 	public searchForUsers(searchKeyWord: string) {
 		this.searchCriteria.searchKeyword = searchKeyWord;
 		this._getUsersBySearchCriteria();
+	}
+
+	private _getUsersBySearchCriteria() {
+		this._userService.getAllUsers(this.searchCriteria).subscribe(list => this.listOfUsers = list);
 	}
 }

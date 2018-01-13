@@ -1,8 +1,5 @@
 package ro.emzo.turismapp.user.to;
 
-import org.springframework.util.StringUtils;
-import ro.emzo.turismapp.user.service.Role;
-
 /**
  * Created by E5570_2 on 2017-12-10.
  */

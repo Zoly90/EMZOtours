@@ -4,6 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import ro.emzo.turismapp.offer.model.PersonalizedOffer;
 
-public interface PersonalizedOfferRepository extends JpaRepository<PersonalizedOffer, Long> {
+public interface PersonalizedOfferRepository extends JpaRepository<PersonalizedOffer, Long>, CustomPersonalizedOfferRepository {
 
 }

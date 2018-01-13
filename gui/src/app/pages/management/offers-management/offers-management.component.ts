@@ -1,10 +1,15 @@
 import { Component } from "@angular/core";
-import { PersonalizedOfferService } from "../../pages-services/personalized-offer.service";
-import { PersonalizedOffer } from "../../pages-models/personalized-offer-model";
 import { Router } from "@angular/router";
-import { AuthorizationService } from "../../../core/authentication/services/authorization.service";
 import { TurismAppConstants } from "../../../utils/constants";
 import * as _ from 'lodash';
+import { SearchCriteria, FilterCriteria, FilterFiledsName } from "../../../shared/models/search-criteria.model";
+import { UtilsService } from "../../../utils/utils.service";
+import { OffersTableDataModel } from "./model/offers-table-data.model";
+import { FormGroup, FormBuilder } from "@angular/forms";
+import { PersonalizedOfferManagementService } from "./service/offer-management.service";
+import { SharedServices } from "../../../shared/services/shared-services.service";
+import { UserService } from "../../../shared/services/user.service";
+import { PagedList } from "../../../shared/models/paged-list.model";
 
 @Component({
 	selector: 'offers-management',
@@ -14,30 +19,87 @@ import * as _ from 'lodash';
 export class OffersManagementComponent {
 
 	private backgroundImagePath = '../../assets/images/background/rsz_background.jpg';
-	private listOfOffers: Array<PersonalizedOffer>;
+	private filtersSectionOpened: boolean = false;
+	private filtersActive: boolean = false;
+	private filtersForm: FormGroup;
+
+	private searchCriteria: SearchCriteria = new SearchCriteria();
+	private paginationConfig = {
+		itemsPerPage: this.searchCriteria.paginationCriteria.itemsPerPage,
+		currentPage: 1,
+		totalItems: 0
+	}
+	private listOfOffers: Array<OffersTableDataModel> = new Array();
+	private listOfEmployees: Array<any> = new Array();
+	private listOfCountries: Array<any> = new Array();
+	private filterFiledsName = FilterFiledsName;
 	private token;
 
 	constructor(
-		private router: Router,
-		private personalizedOfferService: PersonalizedOfferService,
-		private authorizationService: AuthorizationService
-	) { }
+		private _formBuilder: FormBuilder,
+		private _router: Router,
+		private _personalizedOfferManagementService: PersonalizedOfferManagementService,
+		private _sharedServices: SharedServices,
+		private _userService: UserService,
+		private _utilsService: UtilsService
+	) {
+		this.filtersForm = this._formBuilder.group({
+			openedStatusFilter: [
+				{
+					value: false,
+					disabled: false
+				}
+			],
+			wipStatusFilter: [
+				{
+					value: '',
+					disabled: false
+				}
+			],
+			doneStatusFilter: [
+				{
+					value: false,
+					disabled: false
+				}
+			],
+			handledByFilter: [
+				{
+					value: '',
+					disabled: false
+				}
+			],
+			destinationFilter: [
+				{
+					value: '',
+					disabled: false
+				}
+			]
+		})
+	}
 
 	ngOnInit() {
-		this.token = this.authorizationService.getDecodedToken();
+		this.token = this._utilsService.checkAuthAndGetToken();
 		if (this.token != null && this.token.role === TurismAppConstants.EMPLOYEE || this.token.role === TurismAppConstants.ADMIN) {
-			this.personalizedOfferService.getPersonalizedOffers().subscribe(
-				list => {
-					this.listOfOffers = list
-				}
-			)
+			this._getPersonalizedOffersBySearchCriteria();
 		} else {
-			this.router.navigate(['/']);
+			this._router.navigate(['/']);
 		}
+
+		this._sharedServices.getAllCountries().subscribe(list => {
+			list.forEach(item => this.listOfCountries.push({ value: item.country, label: item.country }));
+		});
+		this._userService.getAllStaff().subscribe(list => {
+			list.forEach(item => this.listOfEmployees.push({ value: String(item.id), label: item.employeeName }));
+		});
+	}
+
+	public searchForOffers(searchKeyWord: string) {
+		this.searchCriteria.searchKeyword = searchKeyWord;
+		this._getPersonalizedOffersBySearchCriteria();
 	}
 
 	public assignToMe(offer) {
-		this.personalizedOfferService.applyToUser({ offerID: offer.id, userID: this.token.userID })
+		this._personalizedOfferManagementService.applyToUser({ offerID: offer.id, userID: this.token.userID })
 			.subscribe(res => {
 				this._updateOffer(offer, res);
 			})
@@ -45,7 +107,7 @@ export class OffersManagementComponent {
 
 	public finalizeOffer(offer) {
 		if (this._checkIfOfferBelongsToLoggedInUser(offer)) {
-			this.personalizedOfferService.finalizeOffer(offer)
+			this._personalizedOfferManagementService.finalizeOffer(offer)
 				.subscribe(res => {
 					this._updateOffer(offer, res);
 				})
@@ -53,13 +115,74 @@ export class OffersManagementComponent {
 	}
 
 	public deleteConfirmed(cofirmation, offer) {
-		if (this._checkIfOfferBelongsToLoggedInUser(offer) && cofirmation) {
+		if (cofirmation && this._checkIfOfferBelongsToLoggedInUser(offer)) {
 			this._deleteOffer(offer);
 		}
 	}
 
-	private _checkIfOfferBelongsToLoggedInUser(offer: PersonalizedOffer) {
-		return (offer.userInfo.userLogin.username === this.token.username)
+	public openFiltersSection() {
+		this.filtersSectionOpened = !this.filtersSectionOpened;
+	}
+
+	public clearAllFilters() {
+		this.filtersForm.reset();
+		this.searchCriteria.filterCriteria = null;
+		this.filtersActive = false;
+		this._getPersonalizedOffersBySearchCriteria();
+	}
+
+	public applySelectedFilters() {
+		this.searchCriteria.filterCriteria = new Array<FilterCriteria>();
+		Object.keys(this.filtersForm.controls).forEach(key => {
+			if (key === 'openedStatusFilter' || key === 'wipStatusFilter' || key === 'doneStatusFilter') {
+				if (key === 'openedStatusFilter' && this.filtersForm.controls[key].value) {
+					this.searchCriteria.filterCriteria.push(
+						new FilterCriteria(this.filterFiledsName.get('status'), this.filterFiledsName.get(key)));
+				}
+				if (key === 'wipStatusFilter' && this.filtersForm.controls[key].value) {
+					this.searchCriteria.filterCriteria.push(
+						new FilterCriteria(this.filterFiledsName.get('status'), this.filterFiledsName.get(key)));
+				}
+				if (key === 'doneStatusFilter' && this.filtersForm.controls[key].value) {
+					this.searchCriteria.filterCriteria.push(
+						new FilterCriteria(this.filterFiledsName.get('status'), this.filterFiledsName.get(key)));
+				}
+			}
+			if (key === 'handledByFilter' && this.filtersForm.controls[key].value) {
+				this.searchCriteria.filterCriteria.push(new FilterCriteria(this.filterFiledsName.get(key), this.filtersForm.controls[key].value));
+			}
+			if (key === 'destinationFilter' && this.filtersForm.controls[key].value) {
+				this.searchCriteria.filterCriteria.push(new FilterCriteria(this.filterFiledsName.get(key), this.filtersForm.controls[key].value));
+			}
+		});
+		if (this.searchCriteria.filterCriteria.length) {
+			this.filtersActive = true;
+			this._getPersonalizedOffersBySearchCriteria();
+		}
+	}
+
+	public onPageChange(page) {
+		if (page > this.paginationConfig.currentPage) {
+			this.searchCriteria.paginationCriteria.offset = this.searchCriteria.paginationCriteria.offset + this.paginationConfig.itemsPerPage;
+		} else if (page < this.paginationConfig.currentPage) {
+			this.searchCriteria.paginationCriteria.offset = this.searchCriteria.paginationCriteria.offset - this.paginationConfig.itemsPerPage;
+		} else {
+			return
+		}
+		this._getPersonalizedOffersBySearchCriteria();
+		this.paginationConfig.currentPage = page;
+	}
+
+	private _getPersonalizedOffersBySearchCriteria() {
+		this._personalizedOfferManagementService.getPersonalizedOffers(this.searchCriteria)
+			.subscribe((paginatedData: PagedList<OffersTableDataModel>) => {
+				this.listOfOffers = paginatedData.data;
+				this.paginationConfig.totalItems = paginatedData.itemsTotal;
+			});
+	}
+
+	private _checkIfOfferBelongsToLoggedInUser(offer: OffersTableDataModel) {
+		return (offer.handlerId == this.token.userID)
 	}
 
 	private _updateOffer(offer, newOffer) {
@@ -68,12 +191,13 @@ export class OffersManagementComponent {
 	}
 
 	private _deleteOffer(offer) {
-		this.personalizedOfferService.deleteOffer(offer.id).toPromise()
+		this._personalizedOfferManagementService.deleteOffer(offer.id).toPromise()
 			.then(res => {
-				this.listOfOffers.splice(_.findIndex(
-					this.listOfOffers, function (o) {
-						return o.id === offer.id;
-					}), 1)
+				// this.listOfOffers.splice(_.findIndex(
+				// 	this.listOfOffers, function (o) {
+				// 		return o.id === offer.id;
+				// 	}), 1)
+				this._getPersonalizedOffersBySearchCriteria();
 			})
 			.catch(err => console.log(err));
 	}

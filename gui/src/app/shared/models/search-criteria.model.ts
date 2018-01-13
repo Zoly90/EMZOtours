@@ -1,20 +1,22 @@
 export class SearchCriteria {
-		searchKeyword: string
+    searchKeyword: string
     paginationCriteria: PaginationCriteria;
+    filterCriteria: Array<FilterCriteria>
 
-		constructor(searchKeyword?: string, paginationCriteria?: PaginationCriteria) {
-			this.searchKeyword = searchKeyword ? searchKeyword : '';
-			this.paginationCriteria = paginationCriteria ? paginationCriteria : null;
-		}
+    constructor(searchKeyword?: string, paginationCriteria?: PaginationCriteria, filterCriteria?: Array<FilterCriteria>) {
+        this.searchKeyword = searchKeyword ? searchKeyword : '';
+        this.paginationCriteria = paginationCriteria ? paginationCriteria : new PaginationCriteria();
+        this.filterCriteria = filterCriteria ? filterCriteria : null;
+    }
 }
 
 export class PaginationCriteria {
-    pageNumber: number;
-    pageNumberOfItems: number;
+    offset: number;
+    itemsPerPage: number;
 
-    constructor( pageNumber = 0, pageNumberOfItems = 20 ) {
-        this.pageNumber = pageNumber;
-        this.pageNumberOfItems = pageNumberOfItems;
+    constructor(offset = 0, itemsPerPage = 10) {
+        this.offset = offset;
+        this.itemsPerPage = itemsPerPage;
     }
 }
 
@@ -23,18 +25,27 @@ export class FilterCriteria {
     operation: string;
     value: string;
 
-    constructor( field, value, operation = 'contains' ) {
+    constructor(field, value, operation = 'contains') {
         this.field = field;
         this.value = value;
         this.operation = operation;
     }
 }
 
+export const FilterFiledsName = new Map<string, string>([
+    ['status', 'status'],
+    ['openedStatusFilter', 'status.open'],
+    ['wipStatusFilter', 'status.wip'],
+    ['doneStatusFilter', 'status.done'],
+    ['handledByFilter', 'userInfo'],
+    ['destinationFilter', 'travelDestination']
+]);
+
 export class SortCriteria {
     field: string;
     direction: string;
 
-    constructor( field = '', direction = 'ASC') {
+    constructor(field = '', direction = 'ASC') {
         this.field = field;
         this.direction = direction;
     }

@@ -219,6 +219,16 @@ public class UserService {
         return userTableData;
     }
 
+    public List<EmployeeTO> getAllStaff() {
+        List<UserLogin> staffDatabaseList = userRepository.findAllEmployees();
+        List<EmployeeTO> staffList = new ArrayList<>();
+        for (UserLogin staffUserLogin : staffDatabaseList) {
+            UserInfo userInfo = userRepository.findByUserLogin(staffUserLogin);
+            staffList.add(new EmployeeTO(userInfo.getId(), concatFirstNameWithLastName(userInfo.getFirstName(), userInfo.getLastName())));
+        }
+        return staffList;
+    }
+
     public UserCreditCardTO getUserCreditCardData(Long userInfoId) {
         UserCreditCardTO result;
         UserInfo userInfo = userDataService.getUserInfo(userInfoId);
@@ -383,5 +393,10 @@ public class UserService {
             result = (String) authentication.getPrincipal();
         }
         return result;
+    }
+
+    private String concatFirstNameWithLastName(String firstName, String lastName) {
+        return ((firstName != null || firstName != "") ? firstName : "")
+                    + ((lastName != null || lastName != "") ? " " + lastName : "");
     }
 }

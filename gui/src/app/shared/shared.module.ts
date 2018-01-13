@@ -33,6 +33,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatCardModule } from '@angular/material/card';
 import { UtilsService } from "../utils/utils.service";
 import { SearchInputComponent } from "./search-input/search-input.component";
+import { SharedServices } from "./services/shared-services.service";
 
 /**
  * Do not specify providers for modules that might be imported by a lazy loaded module.
@@ -80,7 +81,8 @@ import { SearchInputComponent } from "./search-input/search-input.component";
     UserService,
     UserValidatorService,
     LoginDropdownService,
-    UtilsService
+    UtilsService,
+    SharedServices
   ],
   entryComponents: [
     ResetPasswordModalComponent,

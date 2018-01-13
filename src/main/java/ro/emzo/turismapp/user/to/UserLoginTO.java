@@ -1,8 +1,6 @@
 package ro.emzo.turismapp.user.to;
 
-import ro.emzo.turismapp.user.service.Role;
-
-import java.util.Set;
+import ro.emzo.turismapp.user.model.Role;
 
 /**
  * Created by E5570_2 on 2017-07-02.

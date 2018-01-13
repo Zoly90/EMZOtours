@@ -1,10 +1,84 @@
 <mat-card fxLayout="column" class="offers-management-container">
+	<h1>Manage client offers</h1>
 	<mat-card-title fxLayout fxLayoutAlign="space-between center">
-		<h1>Manage client offers</h1>
+		<search-input
+			(onSearch)="searchForOffers($event)">
+    </search-input>
+		<div>
+			<button *ngIf="!filtersSectionOpened && filtersActive" class="btn btn-default" type="button" (click)="clearAllFilters()"
+					[ngStyle]="{'margin-right': '10px'}">
+				Clear filters
+			</button>
+			<button class="btn btn-info" type="button" (click)="openFiltersSection()">
+				Filters <img class="icon" id="icon" src="../../../../assets/images/icons/filter-icon.png" alt="view1" style=""/>
+			</button>
+		</div>
 	</mat-card-title>
-
+ 
 	<mat-card-content fxLayout="column" fxFlex>
-		<div class="offers-list-container">
+		<div *ngIf="filtersSectionOpened" [ngStyle]="{'height': '200px'}">
+			<form [formGroup]="filtersForm" fxLayout="row" fxFlex novalidate>
+				<div fxLayout="column" fxFlex="20">
+					<h4 class="filter-category-title">Status of the offer</h4>
+					<mat-checkbox class="" align="start" formControlName="openedStatusFilter">
+						<span class="container-element checkbox" for="children">Open</span>
+					</mat-checkbox>
+					<mat-checkbox class="" align="start" formControlName="wipStatusFilter">
+						<span class="container-element checkbox" for="children">Work in progress</span>
+					</mat-checkbox>
+					<mat-checkbox class="" align="start" formControlName="doneStatusFilter">
+						<span class="container-element checkbox" for="children">Done</span>
+					</mat-checkbox>
+				</div>
+				<!--<div fxLayout="column">
+					<h4>Even more filters</h4>
+					<mat-checkbox class="" align="start">
+						<label class="container-element checkbox" for="children">My offers</label>
+					</mat-checkbox>
+					<mat-checkbox class="" align="start">
+						<label class="container-element checkbox" for="children">My finished offers</label>
+					</mat-checkbox>
+					<mat-checkbox class="" align="start">
+						<label class="container-element checkbox" for="children">Work in progress</label>
+					</mat-checkbox>
+				</div>-->
+				<div fxLayout="column" class="" fxFlex="20">
+					<div fxLayout="column">
+						<h4 class="filter-category-title">Handled by</h4>
+						<ng-select
+							[noFilter]="3"
+							[options]="listOfEmployees"
+							[allowClear]="true"
+							placeholder="Please select..."
+							notFoundMsg="No results found"
+							formControlName="handledByFilter">
+						</ng-select>
+					</div>
+					<div fxLayout="column">
+						<h4 class="filter-category-title">Destination</h4>
+						<ng-select
+							[noFilter]="3"
+							[options]="listOfCountries"
+							[allowClear]="true"
+							placeholder="Please select..."
+							notFoundMsg="No results found"
+							formControlName="destinationFilter">
+						</ng-select>
+					</div>
+				</div>
+				<div class="filter-buttons-container" fxFlexAlign="end" fxLayoutAlign="end end" fxFlex
+						[ngStyle]="{'margin-bottom': '20px'}">
+					<button *ngIf="filtersActive" class="btn btn-default" type="button" (click)="clearAllFilters()"
+							[ngStyle]="{'margin-right': '10px'}">
+						Clear filters
+					</button>
+					<button class="btn btn-info" type="button" (click)="applySelectedFilters()">
+						Apply filters
+					</button>
+				</div>
+			</form>
+		</div>
+		<div class="offers-list-container" fxLayout="column">
 			<mat-list class="offers-list" fxLayout="column" fxFlex>
 				<mat-list-item fxLayout="column" class="table-header">
 					<div fxLayout fxFlex>
@@ -26,40 +100,97 @@
 						</div>
 					</div>
 				</mat-list-item>
-				<mat-list-item fxLayout="column" class="table-items" *ngFor="let offer of listOfOffers">
+				<mat-list-item fxLayout="column" class="table-items" *ngFor="let offer of listOfOffers | paginate: paginationConfig">
 					<div fxLayout fxFlex>
 						<div fxLayout fxLayoutAlign="start center" fxFlex="6%">
-							<div class="offer-status" [ngClass]="{'status-open': offer.status === 'OPEN', 'status-wip': offer.status === 'WIP', 'status-done': offer.status === 'DONE'}">{{offer.status}}</div>
+							<div class="offer-status" 
+									[ngClass]="{'status-open': offer.handlingStatus === filterFiledsName.get('openedStatusFilter'), 
+									'status-wip': offer.handlingStatus === filterFiledsName.get('wipStatusFilter'), 
+									'status-done': offer.handlingStatus === filterFiledsName.get('doneStatusFilter')}">
+								{{offer.handlingStatus}}
+							</div>
 						</div>
 						<div fxLayout fxLayoutAlign="space-around center" fxFlex="5%">
 							<h5 md-line class="table-item">{{offer.id}}</h5>
 						</div>
 						<div fxLayout fxLayoutAlign="space-around center" fxFlex="18%">
-							<h5 md-line class="table-item">{{offer.name}}</h5>
+							<h5 md-line class="table-item">{{offer.clientName}}</h5>
 						</div>
 						<div fxLayout fxLayoutAlign="space-around center" fxFlex="20%">
-							<h5 md-line class="table-item">{{offer.travelDestination}}</h5>
+							<h5 md-line class="table-item">{{offer.destination}}</h5>
 						</div>
 						<div fxLayout fxLayoutAlign="space-around center" fxFlex="15%">
-							<h5 md-line class="table-item">{{offer.firstDayOfHoliday | date}} - {{offer.lastDayOfHoliday | date}}</h5>
+							<h5 md-line class="table-item">{{offer.firstDay | date}} - {{offer.lastDay | date}}</h5>
 						</div>
 						<div fxLayout fxLayoutAlign="space-around center" fxFlex="18%">
-							<h5 md-line *ngIf="offer.userInfo != null" class="table-item">{{offer.userInfo.firstName}} {{offer.userInfo.lastName}}</h5>
+							<h5 md-line *ngIf="offer.handlerId" class="table-item">{{offer.handlerName}}</h5>
 						</div>
 						<div fxLayout fxLayoutAlign="end center" fxFlex class="buttons-container">
-							<offer-view-modal [personalizedOffer]="offer"></offer-view-modal>
-							<button *ngIf="!offer.userInfo" (click)="assignToMe(offer)" class="btn btn-primary assign-button" type="button" [disabled]="offer.userInfo && offer.userInfo.userLogin.username !== token.username">
-									<i class="fa fa-unlock fa-lg" aria-hidden="true"></i>
-								</button>
-							<button *ngIf="offer.userInfo" (click)="finalizeOffer(offer)" class="btn btn-success finished-button" type="button" [disabled]="offer.userInfo.userLogin.username !== token.username || offer.status === 'DONE'">
-									<i class="fa fa-lg" [ngClass]="{'fa-check-square-o': offer.userInfo.userLogin.username === token.username, 'fa-lock': offer.userInfo.userLogin.username !== token.username}" aria-hidden="true"></i>
-								</button>
-							<delete-confirmation-modal [whatToDelete]="'offer with id'" [toDelete]="offer.id" [disabled]="offer.userInfo && offer.userInfo.userLogin.username !== token.username"
-							 (deleteConfirmation)="deleteConfirmed($event, offer)"></delete-confirmation-modal>
+							<offer-view-modal 
+								[personalizedOfferId]="offer.id">
+							</offer-view-modal>
+							<button *ngIf="!offer.handlerId" (click)="assignToMe(offer)" class="btn btn-primary assign-button" type="button">
+								<i class="fa fa-unlock fa-lg" aria-hidden="true"></i>
+							</button>
+							<button *ngIf="offer.handlerId" (click)="finalizeOffer(offer)" class="btn btn-success finished-button" type="button" [disabled]="offer.handlerId != token.userID || offer.handlingStatus == filterFiledsName.get('doneStatusFilter')">
+								<i class="fa fa-lg" [ngClass]="{'fa-check-square-o': offer.handlerId == token.userID, 'fa-lock': offer.handlerId != token.userID}" aria-hidden="true"></i>
+							</button>
+							<delete-confirmation-modal [whatToDelete]="'offer with id'" [toDelete]="offer.id" [disabled]="offer.handlerId != token.userID"
+								(deleteConfirmation)="deleteConfirmed($event, offer)"></delete-confirmation-modal>
 						</div>
 					</div>
 				</mat-list-item>
+
+				<mat-list-item *ngIf="listOfOffers.length == 0" class="table-items">
+					<div class="no-offers-message">
+						No offers were found.
+					</div>
+				</mat-list-item>
 			</mat-list>
+
+			<pagination-controls 
+					*ngIf="paginationConfig.totalItems > 10"
+					(pageChange)="onPageChange($event)">
+			</pagination-controls>
+
+			<div class="offers-list-legend" fxLayout="column" fxLayoutAlign="space-between start">
+				<span>Buttons legend:</span>
+				<span>
+					<button class="btn btn-info btn-legend" type="button">
+						<i class="fa fa-eye" aria-hidden="true"></i>
+					</button> - all users are allowed to view the details of an offer request
+				</span>
+				<span>
+					<button class="btn btn-primary btn-legend" type="button">
+						<i class="fa fa-unlock" aria-hidden="true"></i>
+					</button> - offer request is unassigned, use this button to assign this offer to yourself
+				</span>
+				<span>
+					<button class="btn btn-success btn-legend" type="button" [disabled]="true">
+						<i class="fa fa-lock" aria-hidden="true"></i>
+					</button> - offer rquest already taken by another user
+				</span>
+				<span>
+					<button class="btn btn-success btn-legend" type="button">
+						<i class="fa fa-check-square-o" aria-hidden="true"></i>
+					</button> - offer request taken by loged in user, use this button to finalize the offer
+				</span>
+				<span>
+					<button class="btn btn-success btn-legend" type="button" [disabled]="true">
+						<i class="fa fa-check-square-o" aria-hidden="true"></i>
+					</button> - offer request finalized by another user than the one it's loged in
+				</span>
+				<span>
+					<button class="btn btn-danger btn-legend" type="button">
+						<i class="fa fa-trash-o" aria-hidden="true"></i>
+					</button> - offer request handled by logged in user, permission to delete it
+				</span>
+				<span>
+					<button class="btn btn-danger btn-legend" type="button" [disabled]="true">
+						<i class="fa fa-trash-o" aria-hidden="true"></i>
+					</button> - offer request not handled by logged in user, no permission to delete it
+				</span>
+			</div>
 		</div>
 	</mat-card-content>
 </mat-card>

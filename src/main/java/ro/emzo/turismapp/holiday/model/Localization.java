@@ -5,8 +5,6 @@ import java.util.Collection;
 
 import javax.persistence.*;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import ro.emzo.turismapp.core.model.BaseModel;
 
 @Entity

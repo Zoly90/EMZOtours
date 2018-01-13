@@ -6,13 +6,10 @@ import org.springframework.util.StringUtils;
 import ro.emzo.turismapp.user.dao.UserDataService;
 import ro.emzo.turismapp.user.exceptions.*;
 import ro.emzo.turismapp.user.model.UserLogin;
-import ro.emzo.turismapp.user.service.Role;
 import ro.emzo.turismapp.user.to.UserAddressTO;
-import ro.emzo.turismapp.user.to.UserLoginTO;
 import ro.emzo.turismapp.utils.Utils;
 
 import java.util.Date;
-import java.util.regex.Pattern;
 
 /**
  * Created by E5570_2 on 2017-06-30.

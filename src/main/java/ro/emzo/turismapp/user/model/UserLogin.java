@@ -1,14 +1,12 @@
 package ro.emzo.turismapp.user.model;
 
 import java.util.Collection;
-import java.util.Set;
 
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import ro.emzo.turismapp.core.model.BaseModel;
-import ro.emzo.turismapp.user.service.Role;
 
 @Entity
 @Table(name = "user_login")

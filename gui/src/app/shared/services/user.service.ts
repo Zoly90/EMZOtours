@@ -55,4 +55,8 @@ export class UserService {
     public getUserCreditCardData(id: number): Observable<any> {
         return this._http.get(`${this.baseUrl}/${id}/credit-card-data`);
     }
+
+    public getAllStaff(): Observable<any> {
+        return this._http.get(`${this.baseUrl}/all-employees`);
+    }
 }
