@@ -8,6 +8,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
+import { MatTabsModule } from '@angular/material/tabs';
 
 // 3rd party
 import { TabsModule } from 'ngx-bootstrap/tabs';
@@ -47,7 +48,8 @@ import { SharedModule } from "../shared/shared.module";
         NgxPaginationModule,
         SharedModule,
         MatCardModule,
-        MatListModule
+        MatListModule,
+        MatTabsModule
     ],
     declarations: [
         HolidayDetailViewComponent,

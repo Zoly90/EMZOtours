@@ -121,6 +121,46 @@ sd-detail {
     .nav-link {
         border: 1px solid $container-border-color;
     }
+
+    .mat-tab-body {
+        h3 {
+            margin-top: 0;
+            font-size: 22px;
+            margin-bottom: 22px;
+        }
+
+        h4 {
+            margin-top: 0;
+        }
+    }
+
+    .customize {
+        /* Styles for tab labels */
+        .mat-tab-label {
+            background-color: transparent;
+            color: darkorange;
+            opacity: 0.75
+        }
+
+        /* Styles for the active tab label */
+        .mat-tab-label.mat-tab-label-active {
+            background-color: transparent;
+            color: #F59F00;
+            font-weight: 700;
+            opacity: 0.9;
+
+            &:focus {
+                color: orangered;
+                opacity: 1;
+                background-color: #F2E7D5;
+            }
+        }
+
+        /* Styles for the ink bar */
+        .mat-ink-bar {
+            background-color: orangered !important;
+        }
+    }
 }
 
 signup-modal {

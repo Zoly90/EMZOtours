@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnChanges, trigger, state, animate, transition, style } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, trigger, state, animate, transition, style, ViewEncapsulation } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 import * as _ from 'lodash';

@@ -13,6 +13,10 @@ li {
     list-style-type: none;
 }
 
+iframe {
+    margin: 20px auto 0;
+}
+
 .nav-link {
     border: 1px solid orange;
 }
@@ -255,18 +259,6 @@ agm-map {
         b {
             color: gray;
         }
-    }
-}
-
-tab {
-    h3 {
-        margin-top: 0;
-        font-size: 22px;
-        margin-bottom: 22px;
-    }
-
-    h4 {
-        margin-top: 0;
     }
 }
 
