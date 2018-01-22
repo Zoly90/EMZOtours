@@ -32,6 +32,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from "@angular/router";
 import { PersonalizedOfferManagementService } from "./management/offers-management/service/offer-management.service";
 import { NgxPaginationModule } from "ngx-pagination/dist/ngx-pagination";
+import { HolidaysManagementService } from "./management/holidays-management/service/holidays-management.service";
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 @NgModule({
     imports: [
@@ -53,7 +55,8 @@ import { NgxPaginationModule } from "ngx-pagination/dist/ngx-pagination";
         MatListModule,
         BrowserAnimationsModule,
         RouterModule,
-        NgxPaginationModule
+        NgxPaginationModule,
+        BsDatepickerModule.forRoot()
     ],
     declarations: [
         PersonalizedOfferComponent,
@@ -71,7 +74,8 @@ import { NgxPaginationModule } from "ngx-pagination/dist/ngx-pagination";
         PersonalizedOfferService,
         HolidayDetailViewService,
         ContactService,
-        PersonalizedOfferManagementService
+        PersonalizedOfferManagementService,
+        HolidaysManagementService
     ],
     exports: [
         PersonalizedOfferComponent,

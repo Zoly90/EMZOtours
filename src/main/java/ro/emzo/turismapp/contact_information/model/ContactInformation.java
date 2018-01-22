@@ -1,7 +1,6 @@
 package ro.emzo.turismapp.contact_information.model;
 
 import ro.emzo.turismapp.core.model.BaseModel;
-import ro.emzo.turismapp.holiday.model.Map;
 import ro.emzo.turismapp.user.model.UserAddress;
 
 import javax.persistence.*;
@@ -36,9 +35,11 @@ public class ContactInformation extends BaseModel {
     @JoinColumn
     private UserAddress address;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn
-    private Map map;
+    @Column(name = "latitude")
+    private Double latitude;
+
+    @Column(name = "longitude")
+    private Double longitude;
 
     public String getBookingTelephoneNr() {
         return bookingTelephoneNr;
@@ -96,11 +97,19 @@ public class ContactInformation extends BaseModel {
         this.address = address;
     }
 
-    public Map getMap() {
-        return map;
+    public Double getLatitude() {
+        return latitude;
     }
 
-    public void setMap(Map map) {
-        this.map = map;
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
     }
 }

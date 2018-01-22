@@ -1,63 +1,46 @@
 export class Holiday {
     id?: number
-    accommodationAddress: {
-        id?: number
-        country?: string
-        street?: string
-        streetNr?: string
-        zip?: string
-        city?: string
-    }
+    country?: string
+    street?: string
+    streetNr?: string
+    zip?: string
+    city?: string
     presentationImage: any
-    hotelInformation: {
+    accommodationName?: string
+    nrStars?: any
+    arrayOfStars?: Array<number>
+    accommodationType?: string
+    hotelDescription?: string
+    regionDescription?: string
+    shortDescription?: string
+    latitude?: number
+    longitude?: number
+    pointsOfInterest: [{
         id?: number
-        accommodationName?: string
-        nrStars?: any
-        accommodationType?: string
-    }
-    descriptions: {
+        pointOfInterest?: string
+        distance?: string
+        isEditable?: boolean
+    }]
+    departureFrom?: string
+    nrNights?: string
+    included?: any
+    notIncluded?: any
+    earlyBookingPercentage?: string
+    earlyBookingDeadline?: Date
+    startingPrice?: string
+    departureDatesFrom?: Date
+    departureDatesUntil?: Date
+    food?: string
+    transportation?: string
+    periods: [{
         id?: number
-        hotel?: string
-        region?: string
-        shortDescription?: string
-    }
-    localization: {
-        id?: number
-        map: {
-            id?: number
-            latitude?: number
-            longitude?: number
-        }
-        pointsOfInterest: [{
-            id?: number
-            pointOfInterest?: string
-            distance?: string
-            isEditable?: boolean
-        }]
-    }
-    offerInformation: {
-        id?: number
-        departureFrom?: string
-        nrNights?: string
-        included?: any
-        notIncluded?: any
-        earlyBookingPercentage?: string
-        earlyBookingDeadline?: Date
-        startingPrice?: string
-        departureDatesFrom?: Date
-        departureDatesUntil?: Date
-        food?: string
-        transportation?: string
-        periods: [{
-            id?: number
-            from?: Date
-            until?: Date
-            price?: string
-            roomType?: string
-            viewType?: string
-            available?: boolean
-        }]
-    }
+        from?: Date
+        until?: Date
+        price?: string
+        roomType?: string
+        viewType?: string
+        available?: boolean
+    }]
     imageSet: [{
         id?: number
         image?: any
@@ -88,16 +71,8 @@ export class Holiday {
 
     constructor() {
         Object.assign(this, {
-            accommodationAddress: {},
-            hotelInformation: {},
-            descriptions: {},
-            localization: {
-                map: {},
-                pointsOfInterest: [{}]
-            },
-            offerInformation: {
-                periods: [{}]
-            },
+            pointsOfInterest: [{}],
+            periods: [{}],
             imageSet: {},
             rooms: {},
             facilities: {},

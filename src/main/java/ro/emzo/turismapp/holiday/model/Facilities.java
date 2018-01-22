@@ -2,6 +2,7 @@ package ro.emzo.turismapp.holiday.model;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import ro.emzo.turismapp.core.model.BaseModel;
 
 @Entity
@@ -16,6 +17,11 @@ public class Facilities extends BaseModel{
 	
 	@Column(name = "facilities_list")
 	private String facilitiesList;
+
+	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+	@JoinColumn
+	@JsonBackReference
+	private Holiday holiday;
 
 	public String getFacilityCategory() {
 		return facilityCategory;
@@ -39,5 +45,13 @@ public class Facilities extends BaseModel{
 
 	public void setFacilitiesList(String facilitiesList) {
 		this.facilitiesList = facilitiesList;
+	}
+
+	public Holiday getHoliday() {
+		return holiday;
+	}
+
+	public void setHoliday(Holiday holiday) {
+		this.holiday = holiday;
 	}
 }

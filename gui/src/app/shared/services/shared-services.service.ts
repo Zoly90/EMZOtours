@@ -13,7 +13,10 @@ export class SharedServices {
     ) { }
 
     public getAllCountries(): Observable<any> {
-        return this._http.get(`${this.baseUrl}/countries`)
-            .map(res => res);
+        return this._http.get(`${this.baseUrl}/countries`);
+    }
+
+    public getAllCities(): Observable<any> {
+        return this._http.get(`${this.baseUrl}/cities`);
     }
 }

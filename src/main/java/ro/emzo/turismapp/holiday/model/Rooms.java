@@ -2,6 +2,7 @@ package ro.emzo.turismapp.holiday.model;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import ro.emzo.turismapp.core.model.BaseModel;
 
 @Entity
@@ -19,6 +20,11 @@ public class Rooms extends BaseModel{
 	
 	@Column(name = "image")
 	private String image;
+
+	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+	@JoinColumn
+	@JsonBackReference
+	private Holiday holiday;
 
 	public String getRoomType() {
 		return roomType;
@@ -50,5 +56,13 @@ public class Rooms extends BaseModel{
 
 	public void setImage(String image) {
 		this.image = image;
+	}
+
+	public Holiday getHoliday() {
+		return holiday;
+	}
+
+	public void setHoliday(Holiday holiday) {
+		this.holiday = holiday;
 	}
 }

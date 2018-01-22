@@ -28,7 +28,7 @@ public class Period extends BaseModel{
 	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
 	@JoinColumn
 	@JsonBackReference
-	private OfferInformation offerInformation;
+	private Holiday holiday;
 
 	public String getFrom() {
 		return from;
@@ -70,11 +70,11 @@ public class Period extends BaseModel{
 		this.viewType = viewType;
 	}
 
-	public OfferInformation getOfferInformation() {
-		return offerInformation;
+	public Holiday getHoliday() {
+		return holiday;
 	}
 
-	public void setOfferInformation(OfferInformation offerInformation) {
-		this.offerInformation = offerInformation;
+	public void setHoliday(Holiday holiday) {
+		this.holiday = holiday;
 	}
 }

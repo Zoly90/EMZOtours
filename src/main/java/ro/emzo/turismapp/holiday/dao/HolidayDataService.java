@@ -7,7 +7,7 @@ import javax.persistence.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import ro.emzo.turismapp.holiday.model.HolidaySummary;
+import ro.emzo.turismapp.holiday.model.Holiday;
 
 @Service
 public class HolidayDataService {
@@ -18,11 +18,11 @@ public class HolidayDataService {
 	@PersistenceContext
 	private EntityManager entityManager;
 	
-	public List<HolidaySummary> getHolidaysList() {
+	public List<Holiday> getHolidaysList() {
 		return holidaySummaryRepository.findAll();
 	}
 
-	public HolidaySummary getHolidayById(Long id) {
+	public Holiday getHolidayById(Long id) {
 		return holidaySummaryRepository.findOne(id);
 	}
 
@@ -30,9 +30,9 @@ public class HolidayDataService {
 		holidaySummaryRepository.delete(holidayId);
 	}
 
-//	public List<HolidaySummary> getHolidaysListByTypeID(Long holidayTypeId) {
-//		Query query = entityManager.createQuery("select hs from HolidaySummary hs where hs.holidayTypeId = ?1");
+//	public List<Holiday> getHolidaysListByTypeID(Long holidayTypeId) {
+//		Query query = entityManager.createQuery("select hs from Holiday hs where hs.holidayTypeId = ?1");
 //		query.setParameter(1, holidayTypeId);
-//		return new ArrayList<HolidaySummary>(query.getResultList()); 
+//		return new ArrayList<Holiday>(query.getResultList());
 //	}
 }

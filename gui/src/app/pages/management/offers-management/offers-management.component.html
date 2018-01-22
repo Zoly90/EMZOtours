@@ -78,6 +78,7 @@
 				</div>
 			</form>
 		</div>
+		
 		<div class="offers-list-container" fxLayout="column">
 			<mat-list class="offers-list" fxLayout="column" fxFlex>
 				<mat-list-item fxLayout="column" class="table-header">
@@ -120,7 +121,7 @@
 							<h5 md-line class="table-item">{{offer.destination}}</h5>
 						</div>
 						<div fxLayout fxLayoutAlign="space-around center" fxFlex="15%">
-							<h5 md-line class="table-item">{{offer.firstDay | date}} - {{offer.lastDay | date}}</h5>
+							<h5 md-line class="table-item">{{offer.firstDay | date:'MMM dd'}} - {{offer.lastDay | date:'MMM dd, yyyy'}}</h5>
 						</div>
 						<div fxLayout fxLayoutAlign="space-around center" fxFlex="18%">
 							<h5 md-line *ngIf="offer.handlerId" class="table-item">{{offer.handlerName}}</h5>

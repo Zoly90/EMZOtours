@@ -29,17 +29,51 @@ li:hover {
   }
 }
 
+.holidayItem {
+    padding: 10px 10px;
+    margin: 20px 20px;
+    border: 1px solid $container-border-color;
+    box-shadow: $container-border-shadow;
+    cursor: default;
+    
+    &:hover {
+      transform: none;
+    }
+}
+
 img {
   margin: 0 20px 20px 20px;
+}
+
+.btn-calendar-toggle:disabled, .btn-decrease:disabled, .btn-increase:disabled {
+  background-color: #eee;
+}
+
+input {
+  text-align: center;
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
+.fa {
+  color: darkorange;
 }
 
 .mat-card-content {
   display: flow-root;
 }
 
-.homePageContentContainer {
+.home-page-content-container, .home-page-search-container {
   margin: 0 auto;
   width: 70%;
+}
+
+.home-page-search-container {
+  margin-bottom: 20px;
 }
 
 .grow { 
@@ -87,4 +121,31 @@ img {
 
 .image-and-text {
   position: relative;
+}
+
+.dropdown-container {
+    padding: 15px;
+    background: #fff;
+    box-shadow: 0 0 10px 0 #aaa;
+    position: absolute;
+    top: 34px;
+    z-index: 1;
+    color: darkorange;
+    text-decoration: none;
+    font-weight: bold;
+
+    li {
+      padding: 5px 0;
+      margin: 0;
+      text-align: center;
+
+      &:hover {
+        background-color: lightgray;
+        color: orangered;
+      }
+    }
+}
+
+.mat-radio-button {
+    margin: 0 17% !important;
 }

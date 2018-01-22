@@ -4,6 +4,16 @@ mat-card {
 	display: block !important;
 }
 
+mat-checkbox {
+	span {
+		font-weight: normal;
+	}
+}
+
+.filter-category-title {
+	font-weight: bold;
+}
+
 .holidays-management-container {
 	margin: 0 auto;
   width: 70%;
@@ -34,4 +44,8 @@ mat-card {
 .delete-button {
 	background-color: $delete-button-background-color;
 	border-color: $delete-button-border-color;
+}
+
+.no-holidays-message {
+	margin: 0 auto;
 }

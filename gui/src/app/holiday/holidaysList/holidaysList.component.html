@@ -2,13 +2,11 @@
     <mat-card-content fxLayout="column" fxFlex>
 
         <div class="comming-soon-image-container" *ngIf="!holidayList.length">
-            <div class="christmas-comming-soon-image-container" *ngIf="routingBy === 'type' && routingById === 10"
-                fxLayout="column">
+            <div class="christmas-comming-soon-image-container" *ngIf="routingBy === 'type' && routingById === 10" fxLayout="column">
                 <img src="../../../assets/images/holidaysList/christmas-is-coming-soon-1.jpg" alt="">
                 <img src="../../../assets/images/holidaysList/christmas-is-coming-soon-2.jpg" alt="">
             </div>
-            <div class="summer-comming-soon-image-container" *ngIf="routingById !== 10"
-                fxLayout="column">
+            <div class="summer-comming-soon-image-container" *ngIf="routingById !== 10" fxLayout="column">
                 <img src="../../../assets/images/holidaysList/summer-is-coming-soon.jpg" alt="">
             </div>
         </div>
@@ -16,56 +14,10 @@
         <ul>
             <li class="holidayItem" *ngFor="let holiday of holidayList | paginate: paginationConfig; let first = first; let last = last"
                 fxLayout fxFlex>
-                <div *ngIf="holiday.earlyBookingImage">
-                    <img class="earlyBookingImage" src="../../../assets/images/holidaysList/early-booking_optimized.png">
-                </div>
-                <div class="imageSection" fxLayout="column" fxFlex="30%">
-                    <img (click)="goToDetailPage(holiday)" class="mainPreviewImage" [src]="holiday.presentationImage">
-                </div>
-                <div class="infoSection" fxLayout="column" fxFlex="50%">
-                    <h2 (click)="goToDetailPage(holiday, first, last)">{{holiday.hotelInformation.accommodationName}}
-                        <!--<span *ngIf="first != last" [hidden]="test(holiday)"></span>
-                            <img class="stars" *ngFor="let number of holiday.hotelInformation.nrStars" src="../../../assets/images/icons/star-size_s.png">-->
-                    </h2>
-                    <h4>{{holiday.accommodationAddress.country}} <span class="glyphicon glyphicon-arrow-right"></span> {{holiday.accommodationAddress.city}},
-                        {{holiday.accommodationAddress.street}}, nr. {{holiday.accommodationAddress.streetNr}}, {{holiday.accommodationAddress.zip}}</h4>
-                    <div fxLayout fxFlex="30%">
-                        <div class="infoColumn" fxLayout="column" fxFlex="25%">
-                            <span><h4>Transportation</h4></span>
-                            <div *ngIf="holiday.offerInformation.transportation === 'airplane'">
-                                <img src="../../../assets/images/icons/airplane-listView_size_s.png">
-                            </div>
-                            <div *ngIf="holiday.offerInformation.transportation === 'bus'">
-                                <img src="../../../assets/images/icons/bus-listView_size_s.png">
-                            </div>
-                        </div>
-                        <mat-divider class="verticalDivider"></mat-divider>
-                        <div class="infoColumn" fxLayout="column" fxFlex="25%">
-                            <h4>Departue from</h4>
-                            <div><i>{{holiday.offerInformation.departureFrom}} airport</i></div>
-                        </div>
-                        <mat-divider class="verticalDivider"></mat-divider>
-                        <div class="infoColumn" fxLayout="column" fxFlex="25%">
-                            <h4>Early booking</h4>
-                            <div><i>{{holiday.offerInformation.earlyBookingPercentage}}%</i></div>
-                        </div>
-                        <mat-divider class="verticalDivider"></mat-divider>
-                        <div class="infoColumn" fxLayout="column" fxFlex="25%">
-                            <h4>Early booking until</h4>
-                            <div><i>{{holiday.offerInformation.earlyBookingDeadline | date}}</i></div>
-                        </div>
-                    </div>
-                    <p>
-                        <i>Offer: {{holiday.offerInformation.nrNights}} nights, in a magnificent {{holiday.hotelInformation.accommodationType}}, {{holiday.offerInformation.food}}, {{holiday.descriptions.shortDescription}}</i>
-                    </p>
-                </div>
-                <div class="detailsSection" fxLayout="column" fxFlex="20%">
-                    <h4>Starting price</h4>
-                    <h3>{{holiday.offerInformation.startingPrice}}<span class="glyphicon glyphicon-euro"></span>/adult</h3>
-                    <h4>Departures between</h4>
-                    <h4>{{holiday.offerInformation.departureDatesFrom | date}} <span class="glyphicon glyphicon-arrow-right"></span>                        {{holiday.offerInformation.departureDatesUntil | date}}</h4>
-                    <button (click)="goToDetailPage(holiday)" class="btn btn-primary detailsBtn" type="submit">Details</button>
-                </div>
+                <holiday-list-element 
+                    [holidaySummary]="holiday" 
+                    (onHolidayDetail)="goToDetailPage(holiday)">
+                </holiday-list-element>
             </li>
         </ul>
 

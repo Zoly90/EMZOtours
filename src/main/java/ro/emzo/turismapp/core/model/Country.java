@@ -8,7 +8,7 @@ import javax.persistence.Table;
  * Created by E5570_2 on 2018-01-07.
  */
 @Entity
-@Table(name = "contries")
+@Table(name = "countries")
 public class Country extends BaseModel {
 
     @Column(name = "country")

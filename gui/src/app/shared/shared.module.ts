@@ -34,6 +34,8 @@ import { MatCardModule } from '@angular/material/card';
 import { UtilsService } from "../utils/utils.service";
 import { SearchInputComponent } from "./search-input/search-input.component";
 import { SharedServices } from "./services/shared-services.service";
+import { HolidayListElement } from "./holiday-list-element/holiday-list-element.component";
+import { MatListModule } from "@angular/material/list";
 
 /**
  * Do not specify providers for modules that might be imported by a lazy loaded module.
@@ -52,6 +54,7 @@ import { SharedServices } from "./services/shared-services.service";
     FlexLayoutModule,
     MatCheckboxModule,
     MatCardModule,
+    MatListModule
   ],
   declarations: [
     ToolbarComponent,
@@ -64,7 +67,8 @@ import { SharedServices } from "./services/shared-services.service";
     DeleteConfirmationModalComponent,
     ResetPasswordModalComponent,
     DisplayAddressComponent,
-    SearchInputComponent
+    SearchInputComponent,
+    HolidayListElement
   ],
   exports: [
     DateSelecComponent,
@@ -75,7 +79,8 @@ import { SharedServices } from "./services/shared-services.service";
     FormsModule,
     SelectModule,
     DisplayAddressComponent,
-    SearchInputComponent
+    SearchInputComponent,
+    HolidayListElement
   ],
   providers: [
     UserService,

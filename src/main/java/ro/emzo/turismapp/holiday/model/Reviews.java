@@ -4,6 +4,7 @@ import java.util.Date;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import ro.emzo.turismapp.core.model.BaseModel;
 
 @Entity
@@ -27,6 +28,11 @@ public class Reviews extends BaseModel{
 	
 	@Column(name = "name_of_reviewer")
 	private String nameOfReviewer;
+
+	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+	@JoinColumn
+	@JsonBackReference
+	private Holiday holiday;
 
 	public String getTitle() {
 		return title;
@@ -74,5 +80,13 @@ public class Reviews extends BaseModel{
 
 	public void setNameOfReviewer(String nameOfReviewer) {
 		this.nameOfReviewer = nameOfReviewer;
+	}
+
+	public Holiday getHoliday() {
+		return holiday;
+	}
+
+	public void setHoliday(Holiday holiday) {
+		this.holiday = holiday;
 	}
 }

@@ -173,14 +173,14 @@ export class HolidayDetailViewComponent {
     }
 
     changeCoordinates() {
-        this.lat = this.holiday.localization.map.latitude;
-        this.lng = this.holiday.localization.map.longitude;
+        this.lat = this.holiday.latitude;
+        this.lng = this.holiday.longitude;
 
-        this.holiday.localization.map.latitude = this.lat + 0.0001;
-        this.holiday.localization.map.longitude = this.lng + 0.0001;
+        this.holiday.latitude = this.lat + 0.0001;
+        this.holiday.longitude = this.lng + 0.0001;
 
-        this.holiday.localization.map.latitude = this.lat;
-        this.holiday.localization.map.longitude = this.lng;
+        this.holiday.latitude = this.lat;
+        this.holiday.longitude = this.lng;
     }
 
     changeMapVisility() {
@@ -241,7 +241,7 @@ export class HolidayDetailViewComponent {
     }
 
     public disableOrEnableOffer(offer: any) {
-        this.holiday.offerInformation.periods.forEach(item => {
+        this.holiday.periods.forEach(item => {
             if (item.id === offer.id) {
                 item.available = !item.available;
             }
@@ -250,12 +250,12 @@ export class HolidayDetailViewComponent {
 
     public updateOfferIncludedInformation(newList: any) {
         newList = newList.split(',');
-        this.holiday.offerInformation.included = newList;
+        this.holiday.included = newList;
     }
 
     public updateOfferNotIncludedInformation(newList: any) {
         newList = newList.split(',');
-        this.holiday.offerInformation.notIncluded = newList;
+        this.holiday.notIncluded = newList;
     }
 
     public updatePointsOfInterest() {
@@ -263,7 +263,7 @@ export class HolidayDetailViewComponent {
     }
 
     public editPoi(poi: any) {
-        this.holiday.localization.pointsOfInterest.forEach(item => {
+        this.holiday.pointsOfInterest.forEach(item => {
             if (item.id === poi.id && !item.isEditable) {
                 item.isEditable = !item.isEditable;
             }
@@ -274,7 +274,7 @@ export class HolidayDetailViewComponent {
         if (pointOfInterest.value != '' && distance.value != '') {
             this.poi.pointOfInterest = pointOfInterest.value;
             this.poi.distance = distance.value;
-            this.holiday.localization.pointsOfInterest.push(this.poi);
+            this.holiday.pointsOfInterest.push(this.poi);
             this._reset(pointOfInterest, distance)
         }
     }
@@ -282,11 +282,11 @@ export class HolidayDetailViewComponent {
     public removeFromPOIList(poi: any) {
         let indexToDelete;
         if (poi.id) {
-            indexToDelete = this.holiday.localization.pointsOfInterest.findIndex(item => item.id === poi.id);
+            indexToDelete = this.holiday.pointsOfInterest.findIndex(item => item.id === poi.id);
         } else {
-            indexToDelete = this.holiday.localization.pointsOfInterest.findIndex(item => item.pointOfInterest === poi.pointOfInterest);
+            indexToDelete = this.holiday.pointsOfInterest.findIndex(item => item.pointOfInterest === poi.pointOfInterest);
         }
-        this.holiday.localization.pointsOfInterest.splice(indexToDelete, 1);
+        this.holiday.pointsOfInterest.splice(indexToDelete, 1);
     }
 
     private _checkIfLoggedInUserIsAdminOrEmployee() {

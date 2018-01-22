@@ -32,13 +32,46 @@ export class FilterCriteria {
     }
 }
 
+export enum FilterFileds {
+    status,
+    openedStatusFilter,
+    wipStatusFilter,
+    doneStatusFilter,
+    handledByFilter,
+    destinationFilter,
+    transportation,
+    airplaneTransportationFilter,
+    busTransportationFilter,
+    personalTransportationFilter,
+    destinationCountryFilter,
+    destinationCityFilter,
+    holidayTypeFilter,
+    holidaySubcategoryFilter,
+    beginDateFilter,
+    endDateFilter,
+    numberOfPeopleFilter,
+    numberOfDaysFilter
+}
+
 export const FilterFiledsName = new Map<string, string>([
-    ['status', 'status'],
-    ['openedStatusFilter', 'status.open'],
-    ['wipStatusFilter', 'status.wip'],
-    ['doneStatusFilter', 'status.done'],
-    ['handledByFilter', 'userInfo'],
-    ['destinationFilter', 'travelDestination']
+    [String(FilterFileds.status), 'status'],
+    [String(FilterFileds.openedStatusFilter), 'status.open'],
+    [String(FilterFileds.wipStatusFilter), 'status.wip'],
+    [String(FilterFileds.doneStatusFilter), 'status.done'],
+    [String(FilterFileds.handledByFilter), 'userInfo'],
+    [String(FilterFileds.destinationFilter), 'travelDestination'],
+    [String(FilterFileds.transportation), 'transportation'],
+    [String(FilterFileds.airplaneTransportationFilter), 'transportation.airplane'],
+    [String(FilterFileds.busTransportationFilter), 'transportation.bus'],
+    [String(FilterFileds.personalTransportationFilter), 'transportation.personal'],
+    [String(FilterFileds.destinationCountryFilter), 'country'],
+    [String(FilterFileds.destinationCityFilter), 'city'],
+    [String(FilterFileds.holidayTypeFilter), 'holidayTypes'],
+    [String(FilterFileds.holidaySubcategoryFilter), 'holidaySubcategories'],
+    [String(FilterFileds.beginDateFilter), 'departureDatesFrom'],
+    [String(FilterFileds.endDateFilter), 'departureDatesUntil'],
+    [String(FilterFileds.numberOfPeopleFilter), 'nrPeople'],
+    [String(FilterFileds.numberOfDaysFilter), 'nrNights']
 ]);
 
 export class SortCriteria {

@@ -3,6 +3,7 @@ import { Http } from "@angular/http";
 import { Observable } from "rxjs/Observable";
 import { Holiday } from "../../holiday/models/holiday.model";
 import { HttpClient } from "@angular/common/http";
+import { SearchCriteria } from "../../shared/models/search-criteria.model";
 
 @Injectable()
 export class HolidayService {
@@ -13,12 +14,13 @@ export class HolidayService {
         private _http: HttpClient
     ) { }
 
-    public getHolidaysByType(id): Observable<any> {
-        return this._http.get(`${this._baseURL}/holidaysByType/${id}`);
-    }
-
-    public getHolidaysByCategory(id): Observable<any> {
-        return this._http.get(`${this._baseURL}/holidaysBySubcategory/${id}`);
+    public getHolidaysBySearchCriteria(searchCriteria: SearchCriteria, quickFilter?: string): Observable<any>  {
+        return this._http.post(`${this._baseURL}/holiday/search`, searchCriteria, 
+        {
+            params: {
+                'quickFilter': quickFilter ? quickFilter : ''
+            }
+        });
     }
 
     public getAllHolidays(): Observable<any> {

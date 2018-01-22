@@ -7,7 +7,7 @@ import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import ro.emzo.turismapp.core.model.BaseModel;
-import ro.emzo.turismapp.holiday.model.HolidaySummary;
+import ro.emzo.turismapp.holiday.model.Holiday;
 import ro.emzo.turismapp.holiday.model.Period;
 import ro.emzo.turismapp.offer.model.PersonalizedOffer;
 
@@ -53,7 +53,7 @@ public class UserInfo extends BaseModel {
 
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn
-	private HolidaySummary reservedOffer;
+	private Holiday reservedOffer;
 
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn
@@ -143,11 +143,11 @@ public class UserInfo extends BaseModel {
 		this.userIdentity = userIdentity;
 	}
 
-	public HolidaySummary getReservedOffer() {
+	public Holiday getReservedOffer() {
 		return reservedOffer;
 	}
 
-	public void setReservedOffer(HolidaySummary reservedOffer) {
+	public void setReservedOffer(Holiday reservedOffer) {
 		this.reservedOffer = reservedOffer;
 	}
 

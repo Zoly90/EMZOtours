@@ -2,7 +2,7 @@ import { Component } from "@angular/core";
 import { Router } from "@angular/router";
 import { TurismAppConstants } from "../../../utils/constants";
 import * as _ from 'lodash';
-import { SearchCriteria, FilterCriteria, FilterFiledsName } from "../../../shared/models/search-criteria.model";
+import { SearchCriteria, FilterCriteria, FilterFiledsName, FilterFileds } from "../../../shared/models/search-criteria.model";
 import { UtilsService } from "../../../utils/utils.service";
 import { OffersTableDataModel } from "./model/offers-table-data.model";
 import { FormGroup, FormBuilder } from "@angular/forms";
@@ -52,7 +52,7 @@ export class OffersManagementComponent {
 			],
 			wipStatusFilter: [
 				{
-					value: '',
+					value: false,
 					disabled: false
 				}
 			],
@@ -134,25 +134,25 @@ export class OffersManagementComponent {
 	public applySelectedFilters() {
 		this.searchCriteria.filterCriteria = new Array<FilterCriteria>();
 		Object.keys(this.filtersForm.controls).forEach(key => {
-			if (key === 'openedStatusFilter' || key === 'wipStatusFilter' || key === 'doneStatusFilter') {
-				if (key === 'openedStatusFilter' && this.filtersForm.controls[key].value) {
+			if (key === String(FilterFileds[FilterFileds.openedStatusFilter]) || key === String(FilterFileds[FilterFileds.wipStatusFilter]) || key === String(FilterFileds[FilterFileds.doneStatusFilter])) {
+				if (key === String(FilterFileds[FilterFileds.openedStatusFilter]) && this.filtersForm.controls[key].value) {
 					this.searchCriteria.filterCriteria.push(
-						new FilterCriteria(this.filterFiledsName.get('status'), this.filterFiledsName.get(key)));
+						new FilterCriteria(FilterFiledsName.get(String(FilterFileds.status)), FilterFiledsName.get(String(FilterFileds.openedStatusFilter))));
 				}
-				if (key === 'wipStatusFilter' && this.filtersForm.controls[key].value) {
+				if (key === String(FilterFileds[FilterFileds.wipStatusFilter]) && this.filtersForm.controls[key].value) {
 					this.searchCriteria.filterCriteria.push(
-						new FilterCriteria(this.filterFiledsName.get('status'), this.filterFiledsName.get(key)));
+						new FilterCriteria(FilterFiledsName.get(String(FilterFileds.status)), FilterFiledsName.get(String(FilterFileds.wipStatusFilter))));
 				}
-				if (key === 'doneStatusFilter' && this.filtersForm.controls[key].value) {
+				if (key === String(FilterFileds[FilterFileds.doneStatusFilter]) && this.filtersForm.controls[key].value) {
 					this.searchCriteria.filterCriteria.push(
-						new FilterCriteria(this.filterFiledsName.get('status'), this.filterFiledsName.get(key)));
+						new FilterCriteria(FilterFiledsName.get(String(FilterFileds.status)), FilterFiledsName.get(String(FilterFileds.doneStatusFilter))));
 				}
 			}
-			if (key === 'handledByFilter' && this.filtersForm.controls[key].value) {
-				this.searchCriteria.filterCriteria.push(new FilterCriteria(this.filterFiledsName.get(key), this.filtersForm.controls[key].value));
+			if (key === String(FilterFileds[FilterFileds.handledByFilter]) && this.filtersForm.controls[key].value) {
+				this.searchCriteria.filterCriteria.push(new FilterCriteria(FilterFiledsName.get(String(FilterFileds.handledByFilter)), this.filtersForm.controls[key].value));
 			}
-			if (key === 'destinationFilter' && this.filtersForm.controls[key].value) {
-				this.searchCriteria.filterCriteria.push(new FilterCriteria(this.filterFiledsName.get(key), this.filtersForm.controls[key].value));
+			if (key === String(FilterFileds[FilterFileds.destinationFilter]) && this.filtersForm.controls[key].value) {
+				this.searchCriteria.filterCriteria.push(new FilterCriteria(FilterFiledsName.get(String(FilterFileds.destinationFilter)), this.filtersForm.controls[key].value));
 			}
 		});
 		if (this.searchCriteria.filterCriteria.length) {

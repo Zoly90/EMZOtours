@@ -15,11 +15,11 @@ public class PointsOfInterest extends BaseModel{
 	
 	@Column(name = "distance")
 	private String distance;
-	
+
 	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
 	@JoinColumn
 	@JsonBackReference
-	private Localization localization;
+	private Holiday holiday;
 
 	public String getPointOfInterest() {
 		return pointOfInterest;
@@ -37,13 +37,11 @@ public class PointsOfInterest extends BaseModel{
 		this.distance = distance;
 	}
 
-	public Localization getLocalization() {
-		return localization;
+	public Holiday getHoliday() {
+		return holiday;
 	}
 
-	public void setLocalization(Localization localization) {
-		this.localization = localization;
+	public void setHoliday(Holiday holiday) {
+		this.holiday = holiday;
 	}
-	
-	
 }

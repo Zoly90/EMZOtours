@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as Rx from 'rxjs';
 import { Holiday } from "../models/holiday.model";
+import { UtilsService } from "../../utils/utils.service";
 
 
 @Injectable()
@@ -9,12 +10,16 @@ export class HolidayDetailViewService {
     private holiday: Holiday;
     private array: string[];
 
+    constructor(
+        private _utilsService: UtilsService
+    ) { }
+
     public setHoliday(holidayToSet) {
         this.holiday = holidayToSet;
-        this.holiday = this._constructStarsArrays(this.holiday);
+        this.holiday.arrayOfStars = this._utilsService.constructArrayOfStars(this.holiday.nrStars);
 
-        this.holiday.offerInformation.included = this._convertToArrayOfStrings(this.holiday.offerInformation.included);
-        this.holiday.offerInformation.notIncluded = this._convertToArrayOfStrings(this.holiday.offerInformation.notIncluded);
+        this.holiday.included = this.holiday.included ? this._convertToArrayOfStrings(this.holiday.included) : null;
+        this.holiday.notIncluded = this.holiday.notIncluded ? this._convertToArrayOfStrings(this.holiday.notIncluded) : null;
 
         for (let facility of this.holiday.facilities) {
             facility.facilitiesList = this._convertToArrayOfStrings(facility.facilitiesList);
@@ -24,29 +29,12 @@ export class HolidayDetailViewService {
             room.roomFacilities = this._convertToArrayOfStrings(room.roomFacilities);
         }
 
-        if (this.holiday.localization != null) {
-            this.holiday.localization.map.latitude = Number(this.holiday.localization.map.latitude);
-            this.holiday.localization.map.longitude = Number(this.holiday.localization.map.longitude);
+        if (this.holiday != null) {
+            this.holiday.latitude = Number(this.holiday.latitude);
+            this.holiday.longitude = Number(this.holiday.longitude);
         }
 
         return this.holiday;
-    }
-
-    private _constructStarsArrays(holiday: Holiday): Holiday {
-        let nrStars: number;
-
-        for (let review of holiday.reviews) {
-            nrStars = review.rating;
-            review.rating = [];
-            for (let i = 0; i < 5; i++) {
-                if (i == nrStars - 1) {
-                    review.rating[i] = true;
-                } else {
-                    review.rating[i] = false;
-                }
-            }
-        }
-        return holiday;
     }
 
     private _convertToArrayOfStrings(items: any) {

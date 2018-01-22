@@ -1,0 +1,51 @@
+<div *ngIf="holidaySummary.earlyBookingImage">
+	<img class="earlyBookingImage" src="../../../assets/images/holidaySummarysList/early-booking_optimized.png">
+</div>
+<div class="imageSection" fxLayout="column" fxFlex="30%">
+	<img (click)="goToDetailPage()" class="mainPreviewImage" [src]="holidaySummary.presentationImage">
+</div>
+<div class="infoSection" fxLayout="column" fxFlex="50%">
+	<h2 (click)="goToDetailPage()">{{holidaySummary.hotelName}}
+		<img class="stars" *ngFor="let number of holidaySummary.arrayOfStars" src="../../../assets/images/icons/star-size_s.png">
+	</h2>
+	<h4>{{holidaySummary.country}} <span class="glyphicon glyphicon-arrow-right"></span> {{holidaySummary.city}}, {{holidaySummary.street}}, nr. {{holidaySummary.streetNr}},
+		{{holidaySummary.zip}}
+	</h4>
+	<div fxLayout fxFlex="30%">
+		<div class="infoColumn" fxLayout="column" fxFlex="25%">
+			<span><h4>Transportation</h4></span>
+			<div *ngIf="holidaySummary.transportation === 'transportation.airplane'">
+				<img src="../../../assets/images/icons/airplane-listView_size_s.png">
+			</div>
+			<div *ngIf="holidaySummary.transportation === 'transportation.bus'">
+				<img src="../../../assets/images/icons/bus-listView_size_s.png">
+			</div>
+		</div>
+		<mat-divider class="verticalDivider"></mat-divider>
+		<div class="infoColumn" fxLayout="column" fxFlex="25%">
+			<h4>Departue from</h4>
+			<div><i>{{holidaySummary.departureFrom}} airport</i></div>
+		</div>
+		<mat-divider class="verticalDivider"></mat-divider>
+		<div class="infoColumn" fxLayout="column" fxFlex="25%">
+			<h4>Early booking</h4>
+			<div><i>{{holidaySummary.earlyBookingPercentage}}%</i></div>
+		</div>
+		<mat-divider class="verticalDivider"></mat-divider>
+		<div class="infoColumn" fxLayout="column" fxFlex="25%">
+			<h4>Early booking until</h4>
+			<div><i>{{holidaySummary.earlyBookingDeadline | date}}</i></div>
+		</div>
+	</div>
+	<p>
+		<i>Offer: {{holidaySummary.nrNights}} nights, in a magnificent {{holidaySummary.accommodationType}}, {{holidaySummary.food}}, {{holidaySummary.shortDescription}}</i>
+	</p>
+</div>
+<div class="detailsSection" fxLayout="column" fxFlex="20%">
+	<h4>Starting price</h4>
+	<h3>{{holidaySummary.startingPrice}}<span class="glyphicon glyphicon-euro"></span>/adult</h3>
+	<h4>Departures between</h4>
+	<h4>{{holidaySummary.departureDatesFrom | date}} <span class="glyphicon glyphicon-arrow-right"></span> {{holidaySummary.departureDatesUntil
+		| date}}</h4>
+	<button (click)="goToDetailPage()" class="btn btn-primary detailsBtn" type="submit">Details</button>
+</div>

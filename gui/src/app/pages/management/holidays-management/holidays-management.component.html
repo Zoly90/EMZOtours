@@ -1,12 +1,77 @@
 <mat-card fxLayout="column" class="holidays-management-container">
+	<h1>Manage holidays</h1>
 	<mat-card-title fxLayout fxLayoutAlign="space-between center">
-		<h1>Manage holidays</h1>
-		<button (click)="addHoliday()" class="btn btn-info" type="button">Add a new holiday</button>
+		<search-input
+			(onSearch)="searchForHoliday($event)">
+    </search-input>
+		<div>
+			<button (click)="addHoliday()" class="btn btn-info" type="button">
+				Add a new holiday
+			</button>
+			<button *ngIf="!filtersSectionOpened && filtersActive" class="btn btn-default" type="button" (click)="clearAllFilters()"
+					[ngStyle]="{'margin-right': '10px'}">
+				Clear filters
+			</button>
+			<button class="btn btn-info" type="button" (click)="openFiltersSection()">
+				Filters <img class="icon" id="icon" src="../../../../assets/images/icons/filter-icon.png" alt="view1" style=""/>
+			</button>
+		</div>
 	</mat-card-title>
 
 	<mat-card-content fxLayout="column" fxFlex>
-		<div class="holidays-list-container">
-			<mat-list class="holidays-list" fxLayout="column" fxFlex>
+		<div *ngIf="filtersSectionOpened" [ngStyle]="{'height': '200px'}">
+			<form [formGroup]="filtersForm" fxLayout="row" fxFlex novalidate>
+				<div fxLayout="column" fxFlex="20">
+					<h4 class="filter-category-title">...by transportation</h4>
+					<mat-checkbox class="" align="start" formControlName="airplaneTransportationFilter">
+						<span class="container-element checkbox" for="children">Airplane</span>
+					</mat-checkbox>
+					<mat-checkbox class="" align="start" formControlName="busTransportationFilter">
+						<span class="container-element checkbox" for="children">Bus</span>
+					</mat-checkbox>
+					<mat-checkbox class="" align="start" formControlName="personalTransportationFilter">
+						<span class="container-element checkbox" for="children">Personal</span>
+					</mat-checkbox>
+				</div>
+				<div fxLayout="column" class="" fxFlex="20">
+					<div fxLayout="column">
+						<h4 class="filter-category-title">...by destination country</h4>
+						<ng-select
+							[noFilter]="3"
+							[options]="listOfCountries"
+							[allowClear]="true"
+							placeholder="Please select..."
+							notFoundMsg="No results found"
+							formControlName="destinationCountryFilter">
+						</ng-select>
+					</div>
+					<div fxLayout="column">
+						<h4 class="filter-category-title">...by destination city</h4>
+						<ng-select
+							[noFilter]="3"
+							[options]="listOfCities"
+							[allowClear]="true"
+							placeholder="Please select..."
+							notFoundMsg="No results found"
+							formControlName="destinationCityFilter">
+						</ng-select>
+					</div>
+				</div>
+				<div class="filter-buttons-container" fxFlexAlign="end" fxLayoutAlign="end end" fxFlex
+						[ngStyle]="{'margin-bottom': '20px'}">
+					<button *ngIf="filtersActive" class="btn btn-default" type="button" (click)="clearAllFilters()"
+							[ngStyle]="{'margin-right': '10px'}">
+						Clear filters
+					</button>
+					<button class="btn btn-info" type="button" (click)="applySelectedFilters()">
+						Apply filters
+					</button>
+				</div>
+			</form>
+		</div>
+
+		<div class="holidays-list-container" fxLayout="column">
+			<mat-list class="holidays-list" fxLayout="column">
 				<mat-list-item fxLayout="column" class="table-header">
 					<div fxLayout fxFlex>
 						<div fxLayout fxLayoutAlign="space-around center" fxFlex="18%">
@@ -29,37 +94,47 @@
 						</div>
 					</div>
 				</mat-list-item>
-				<mat-list-item fxLayout="column" class="table-items" *ngFor="let holiday of listOfHolidays">
+				<mat-list-item fxLayout="column" class="table-items" *ngFor="let holiday of listOfHolidays | paginate: paginationConfig">
 					<div fxLayout fxFlex>
 						<div fxLayout fxLayoutAlign="space-around center" fxFlex="18%">
-							<h5 md-line class="table-item">{{holiday.hotelInformation.accommodationName}}</h5>
+							<h5 md-line class="table-item">{{holiday.hotelName}}</h5>
 						</div>
 						<div fxLayout fxLayoutAlign="space-around center" fxFlex="16%">
-							<h5 md-line class="table-item">{{holiday.accommodationAddress.country}}</h5>
+							<h5 md-line class="table-item">{{holiday.destinationCountry}}</h5>
 						</div>
 						<div fxLayout fxLayoutAlign="space-around center" fxFlex="16%">
-							<h5 md-line class="table-item">{{holiday.accommodationAddress.city}}</h5>
+							<h5 md-line class="table-item">{{holiday.destinationCity}}</h5>
 						</div>
 						<div fxLayout fxLayoutAlign="space-around center" fxFlex="15%">
-							<h5 md-line class="table-item">{{holiday.offerInformation.departureDatesFrom | date}} - {{holiday.offerInformation.departureDatesUntil | date}}</h5>
+							<h5 md-line class="table-item">{{holiday.startingDate | date:'MMM dd'}} - {{holiday.endingDate | date:'MMM dd, yyyy'}}</h5>
 						</div>
 						<div fxLayout fxLayoutAlign="space-around center" fxFlex="10%">
-							<h5 md-line class="table-item">{{holiday.offerInformation.transportation}}</h5>
+							<h5 md-line class="table-item">{{holiday.transportation}}</h5>
 						</div>
 						<div fxLayout fxLayoutAlign="space-around center" fxFlex="7%">
-							<h5 md-line class="table-item">{{holiday.offerInformation.startingPrice}} <span class="glyphicon glyphicon-euro"></span></h5>
+							<h5 md-line class="table-item">{{holiday.startingPrice}} <span class="glyphicon glyphicon-euro"></span></h5>
 						</div>
 						<div fxLayout fxLayoutAlign="end center" fxFlex class="buttons-container">
-							<button (click)="updateHoliday(holiday)" class="btn btn-primary update-button" type="button">
+							<button (click)="editHoliday(holiday)" class="btn btn-primary update-button" type="button">
 								<i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i>
 							</button>
-							<!--<button (click)="deleteHoliday(holiday)" class="btn btn-warning delete-button" type="button">Delete</button>-->
-							<delete-confirmation-modal [whatToDelete]="'holiday with hotel name'" [toDelete]="holiday.hotelInformation.accommodationName"
-							 (deleteConfirmation)="deleteConfirmed($event, holiday)"></delete-confirmation-modal>
+							<delete-confirmation-modal [whatToDelete]="'holiday with hotel name'" [toDelete]="holiday.hotelName"
+								(deleteConfirmation)="deleteConfirmed($event, holiday)"></delete-confirmation-modal>
 						</div>
 					</div>
 				</mat-list-item>
+
+				<mat-list-item *ngIf="listOfHolidays.length == 0" class="table-items">
+					<div class="no-holidays-message">
+						No holidays were found.
+					</div>
+				</mat-list-item>
 			</mat-list>
+
+			<pagination-controls 
+				*ngIf="paginationConfig.totalItems > 10"
+				(pageChange)="onPageChange($event)">
+			</pagination-controls>
 		</div>
 	</mat-card-content>
 </mat-card>

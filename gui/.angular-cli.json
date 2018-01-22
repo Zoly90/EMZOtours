@@ -21,7 +21,8 @@
       "styles": [
         "styles.scss",
         "../src/app/styles/variables.scss",
-        "../node_modules/css-star-rating/dist/css/star-rating.css"
+        "../node_modules/css-star-rating/dist/css/star-rating.css",
+        "../node_modules/ngx-bootstrap/datepicker/bs-datepicker.css"
       ],
       "scripts": [],
       "environmentSource": "environments/environment.ts",

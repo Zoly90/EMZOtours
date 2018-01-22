@@ -1,12 +1,17 @@
 import { Injectable } from "@angular/core";
 import { AuthorizationService } from "../core/authentication/services/authorization.service";
 import { DateSelectModel } from "../shared/date-slect/model/date-select.model";
+import { HolidayListModel } from "../holiday/models/holiday-list.model";
+import { Router } from "@angular/router";
+import { TurismAppConstants } from "./constants";
+import { Holiday } from "../holiday/models/holiday.model";
 
 @Injectable()
 export class UtilsService {
 
   constructor(
-    private authorizationService: AuthorizationService
+    private _router: Router,
+    private _authorizationService: AuthorizationService
   ) { }
 
   public getEmailRegexPattern() {
@@ -97,8 +102,8 @@ export class UtilsService {
 
   public checkAuthAndGetToken() {
     let token;
-    if (this.authorizationService.isAuthenticated()) {
-      token = this.authorizationService.getDecodedToken();
+    if (this._authorizationService.isAuthenticated()) {
+      token = this._authorizationService.getDecodedToken();
     }
     return token;
   }
@@ -138,5 +143,25 @@ export class UtilsService {
     selectedDate.selectedMonth = date.getMonth();
     selectedDate.selectedDay = date.getDate();
     return selectedDate;
+  }
+
+  public goToDetailPage(holiday: HolidayListModel) {
+    this._router.navigate([TurismAppConstants.HOLIDAY_DETAIL_VIEW_PAGE_PATH + '/' + holiday.hotelName],
+      { queryParams: { id: holiday.id } });
+  }
+
+  public setNumberOfStarsArray(holidayList: Array<HolidayListModel>) {
+    holidayList.forEach((holiday: HolidayListModel) => {
+      holiday.arrayOfStars = this.constructArrayOfStars(Number(holiday.nrStars));
+    });
+    return holidayList;
+  }
+  
+  public constructArrayOfStars(numberOfStars: number): Array<number> {
+    let nrStarsArray: Array<number> = new Array();
+    for (let i = 0; i < numberOfStars; i++) {
+      nrStarsArray.push(i + 1);
+    }
+    return nrStarsArray;
   }
 }

@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ro.emzo.turismapp.core.model.City;
 import ro.emzo.turismapp.core.model.Country;
 import ro.emzo.turismapp.core.service.CoreService;
 
@@ -24,5 +25,10 @@ public class CoreController {
     @GetMapping(value = "/countries")
     public ResponseEntity<List<Country>> getAllCountries() {
         return new ResponseEntity<>(coreService.getAllCountries(), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/cities")
+    public ResponseEntity<List<City>> getAllCities() {
+        return new ResponseEntity<>(coreService.getAllCities(), HttpStatus.OK);
     }
 }

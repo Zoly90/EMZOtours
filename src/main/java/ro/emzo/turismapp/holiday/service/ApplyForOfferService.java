@@ -3,10 +3,8 @@ package ro.emzo.turismapp.holiday.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ro.emzo.turismapp.holiday.dao.HolidayRepository;
-import ro.emzo.turismapp.holiday.dao.OfferInformationRepository;
 import ro.emzo.turismapp.holiday.dao.PeriodRepository;
-import ro.emzo.turismapp.holiday.model.HolidaySummary;
-import ro.emzo.turismapp.holiday.model.OfferInformation;
+import ro.emzo.turismapp.holiday.model.Holiday;
 import ro.emzo.turismapp.holiday.model.Period;
 import ro.emzo.turismapp.holiday.to.ApplyForOfferTO;
 import ro.emzo.turismapp.user.dao.UserDataService;
@@ -28,18 +26,14 @@ public class ApplyForOfferService {
     private PeriodRepository periodRepository;
 
     @Autowired
-    private OfferInformationRepository offerInformationRepository;
-
-    @Autowired
     private UserDataService userDataService;
 
     public void applyForOffer(ApplyForOfferTO applyForOfferTO) {
         UserInfo userInfo = userDataService.getUserInfo(applyForOfferTO.getUserId());
         Period period = periodRepository.findOne(applyForOfferTO.getOfferId());
-        OfferInformation offerInformation = offerInformationRepository.findByPeriods(period);
-        HolidaySummary holidaySummary = holidayRepository.findByOfferInformation(offerInformation);
+        Holiday holiday = holidayRepository.findByPeriods(period);
 
-        userInfo.setReservedOffer(holidaySummary);
+        userInfo.setReservedOffer(holiday);
         userInfo.setReservedOfferPerriod(period);
 
         if (userInfo.getUserCreditCard() == null ||

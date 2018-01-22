@@ -2,13 +2,13 @@
     <mat-card-content fxLayout="column">
         <div fxLayout fxLayoutAlign="space-between center" fxFlex="20%">
             <div fxFlex="50%">
-                <h2>{{holiday.hotelInformation.accommodationName}}
-                    <!--<img class="stars" *ngFor="let number of holiday.hotelInformation.nrStars" src="../../../assets/images/icons/star-size_s.png">-->
+                <h2>{{holiday.accommodationName}}
+                    <img class="stars" *ngFor="let number of holiday.arrayOfStars" src="../../../assets/images/icons/star-size_s.png">
                 </h2>
             </div>
             <div class="address-container" fxFlex="50%">
                 <display-address
-                    [address]="holiday.accommodationAddress"
+                    [address]="holiday"
                     (onClick)="lgModal.show()">
                 </display-address>
                 <div bsModal #lgModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true"
@@ -22,8 +22,8 @@
                             </div>
                             <div class="modal-body">
                                 <span *ngIf="showMap" [hidden]="mapInModal.triggerResize()"></span>
-                                <agm-map #mapInModal [latitude]="holiday.localization.map.latitude" [longitude]="holiday.localization.map.longitude">
-                                    <agm-marker [latitude]="holiday.localization.map.latitude" [longitude]="holiday.localization.map.longitude"></agm-marker>
+                                <agm-map #mapInModal [latitude]="holiday.latitude" [longitude]="holiday.longitude">
+                                    <agm-marker [latitude]="holiday.latitude" [longitude]="holiday.longitude"></agm-marker>
                                 </agm-map>
                             </div>
                         </div>
@@ -76,9 +76,9 @@
                                         <i *ngIf="editHotelDescription" class="fa fa-floppy-o fa-lg" aria-hidden="true"></i>
                                     </button>
                             </div>
-                            <div *ngIf="!editHotelDescription">{{holiday.descriptions.hotel}}</div>
+                            <div *ngIf="!editHotelDescription">{{holiday.hotelDescription}}</div>
                             <textarea #editHotelDescriptionTextarea *ngIf="editHotelDescription" type="text" class="form-control" id="comments" placeholder="Add hotel description"
-                                [(ngModel)]="holiday.descriptions.hotel" name="hotelDescription" (focusout)="focus(editHotelDescriptionTextarea.value)"></textarea>
+                                [(ngModel)]="holiday.hotelDescription" name="hotelDescription" (focusout)="focus(editHotelDescriptionTextarea.value)"></textarea>
                         </div>
                         <div class="region-description-container">
                             <div fxLayout fxLayoutAlign="space-between start">
@@ -89,9 +89,9 @@
                                         <i *ngIf="editRegionDescription" class="fa fa-floppy-o fa-lg" aria-hidden="true"></i>
                                     </button>
                             </div>
-                            <div *ngIf="!editRegionDescription">{{holiday.descriptions.region}}</div>
+                            <div *ngIf="!editRegionDescription">{{holiday.regionDescription}}</div>
                             <textarea *ngIf="editRegionDescription" type="text" class="form-control" id="comments" placeholder="Add region description"
-                                [(ngModel)]="holiday.descriptions.region" name="regionDescription"></textarea>
+                                [(ngModel)]="holiday.regionDescription" name="regionDescription"></textarea>
                         </div>
                     </tab>
                     <tab heading="Hotel facilities & rooms">
@@ -158,8 +158,8 @@
                     <tab heading="Offer information">
                         <div class="offer-list-container">
                             <div fxLayout fxLayoutAlign="space-between center">
-                                <h4><span class="glyphicon glyphicon-menu-right"></span> Departure from {{holiday.offerInformation.departureFrom}}
-                                    airport / {{holiday.offerInformation.nrNights}} nights trip available for the following
+                                <h4><span class="glyphicon glyphicon-menu-right"></span> Departure from {{holiday.departureFrom}}
+                                    airport / {{holiday.nrNights}} nights trip available for the following
                                     periods...
                                 </h4>
                                 <button *ngIf="authorizedToEdit" (click)="updateOfferAndPeriodsInformation()" class="btn update-button" [ngClass]="{'btn-primary': !editOfferAndPeriodsInformation, 'btn-success': editOfferAndPeriodsInformation}"
@@ -188,7 +188,7 @@
                                         </div>
                                     </div>
                                 </mat-list-item>
-                                <mat-list-item class="tableItems" *ngFor="let offer of holiday.offerInformation.periods">
+                                <mat-list-item class="tableItems" *ngFor="let offer of holiday.periods">
                                     <div fxLayout fxFlex>
                                         <div fxLayout="column" fxFlex="13%">
                                             <h5 md-line class="tableItem">{{offer.from | date}}</h5>
@@ -228,22 +228,22 @@
                                     <h4>Included in price</h4>
                                     <ul>
                                         <div *ngIf="!editOfferAndPeriodsInformation">
-                                            <li *ngFor="let info of holiday.offerInformation.included">
+                                            <li *ngFor="let info of holiday.included">
                                                 <span class="glyphicon glyphicon-ok"></span> {{info}}</li>
                                         </div>
                                         <textarea #list *ngIf="editOfferAndPeriodsInformation" type="text" class="form-control" id="comments" placeholder="Add hotel facilities"
-                                            [ngModel]="holiday.offerInformation.included" name="regionDescription" (focusout)="updateOfferIncludedInformation(list.value)"></textarea>
+                                            [ngModel]="holiday.included" name="regionDescription" (focusout)="updateOfferIncludedInformation(list.value)"></textarea>
                                     </ul>
                                 </div>
                                 <div fxLayout="column" fxFlex="50%">
                                     <h4>Not included in price</h4>
                                     <ul>
                                         <div *ngIf="!editOfferAndPeriodsInformation">
-                                            <li *ngFor="let info of holiday.offerInformation.notIncluded">
+                                            <li *ngFor="let info of holiday.notIncluded">
                                                 <span class="glyphicon glyphicon-remove"></span> {{info}}</li>
                                         </div>
                                         <textarea #list *ngIf="editOfferAndPeriodsInformation" type="text" class="form-control" id="comments" placeholder="Add hotel facilities"
-                                            [ngModel]="holiday.offerInformation.notIncluded" name="regionDescription" (focusout)="updateOfferNotIncludedInformation(list.value)"></textarea>
+                                            [ngModel]="holiday.notIncluded" name="regionDescription" (focusout)="updateOfferNotIncludedInformation(list.value)"></textarea>
                                     </ul>
                                 </div>
                             </div>
@@ -252,8 +252,8 @@
                     <tab (select)="mapInTab.triggerResize()" heading="Location & points of interest">
                         <div class="location-container">
                             <h3>Exact location of the hotel</h3>
-                            <agm-map #mapInTab [hidden]="changeCoordinates()" [latitude]="holiday.localization.map.latitude" [longitude]="holiday.localization.map.longitude">
-                                <agm-marker [latitude]="holiday.localization.map.latitude" [longitude]="holiday.localization.map.longitude"></agm-marker>
+                            <agm-map #mapInTab [hidden]="changeCoordinates()" [latitude]="holiday.latitude" [longitude]="holiday.longitude">
+                                <agm-marker [latitude]="holiday.latitude" [longitude]="holiday.longitude"></agm-marker>
                             </agm-map>
                         </div>
 
@@ -267,7 +267,7 @@
                                     </button>
                             </div>
                             <ul>
-                                <li *ngFor="let poi of holiday.localization.pointsOfInterest" (click)="editPoi(poi)">
+                                <li *ngFor="let poi of holiday.pointsOfInterest" (click)="editPoi(poi)">
                                     <div *ngIf="!poi.isEditable">
                                         <span class="glyphicon glyphicon-menu-right"></span> {{poi.pointOfInterest}} ({{poi.distance}}
                                         km)

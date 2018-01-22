@@ -41,7 +41,7 @@ export class ToolbarComponent {
     }
 
     public searchForHoliday(searchKeyWord: string) {
-        console.log('searchKeyWord',searchKeyWord)
+        console.log('searchKeyWord', searchKeyWord)
     }
 }
 

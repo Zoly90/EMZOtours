@@ -1,5 +1,127 @@
-<mat-card class="homePageContentContainer">
-  <mat-card-content fxLayout fxLayoutWrap>
+<mat-card class="home-page-search-container">
+  <mat-card-content fxLayout="column" fxLayoutAlign="space-between center">
+    <form [formGroup]="holidaySearchForm" class="form-container" fxLayout fxLayoutAlign="space-around center" novalidate>
+      <div class="input-group" fxFlex="22">
+        <div fxLayout="column">
+          <div fxLayout #countriesContainer>
+            <input 
+              type="text"
+              class="form-control"
+              placeholder="Destination"
+              formControlName="destinationCountryFilter"
+              (click)="toggleCountriesDropdown()">
+            <div class="input-group-btn">
+              <button class="btn btn-default" type="button" (click)="toggleCountriesDropdown()">
+                <i class="fa fa-lg fa-globe" aria-hidden="true"></i>
+              </button>
+            </div>
+          </div>
+          <div *ngIf="countriesDropdown" #countriesDropdown class="dropdown-container" fxLayout="column"
+              [ngStyle]="{'width': '117%'}">
+            <ul>
+              <li *ngFor="let country of listOfCountries" (click)="setDestinationValueInFormGroup(country.country)">
+                {{country.country}}
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <div class="input-group" fxFlex="20">
+        <input 
+          type="text"
+          class="form-control"
+          placeholder="Check in"
+          formControlName="beginDateFilter"
+          [minDate]="beginMinDate"
+          [maxDate]="beginMaxDate"
+          #bdp="bsDatepicker"
+          bsDatepicker
+          [bsConfig]="bsConfig">
+        <div class="input-group-btn">
+          <button class="btn btn-default" type="button" (click)="bdp.toggle()">
+            <i class="fa fa-calendar" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="input-group" fxFlex="20">
+        <input 
+          type="text"
+          class="form-control"
+          placeholder="Check out"
+          formControlName="endDateFilter"
+          [minDate]="endMinDate"
+          [maxDate]="endMaxDate"
+          #edp="bsDatepicker"
+          bsDatepicker
+          [bsConfig]="bsConfig">
+        <div class="input-group-btn">
+          <button class="btn btn-default btn-calendar-toggle" type="button" [disabled]="!holidaySearchForm.controls['beginDateFilter'].value"
+              (click)="holidaySearchForm.controls['beginDateFilter'].value ? edp.toggle() : return">
+            <i class="fa fa-calendar" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="input-group" fxFlex="14">
+        <div class="input-group-btn">
+          <button class="btn btn-default btn-decrease" type="button" [disabled]="!holidaySearchForm.controls['numberOfPeopleFilter'].value || holidaySearchForm.controls['numberOfPeopleFilter'].value == 0" 
+              (click)="(holidaySearchForm.controls['numberOfPeopleFilter'].value && holidaySearchForm.controls['numberOfPeopleFilter'].value != 0) ? decreaseNumberOfPeople() : return">
+            <i class="fa fa-minus" aria-hidden="true"></i>
+          </button>
+        </div>
+        <input 
+          type="number"
+          align="middle"
+          class="form-control"
+          placeholder="Nr of people"
+          min="0"
+          oninput="validity.valid||(value='');"
+          formControlName="numberOfPeopleFilter">
+        <div class="input-group-btn">
+          <button class="btn btn-default btn-increase" type="button" [disabled]="holidaySearchForm.controls['numberOfPeopleFilter'].value == 30"
+              (click)="increaseNumberOfPeople()">
+            <i class="fa fa-plus" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="input-group" fxFlex="12">
+        <div fxLayout="column">
+          <div fxLayout #nrOfDaysContainer>
+            <input #daysInput
+              fxFlex="75"
+              type="text"
+              class="form-control"
+              placeholder="Nr of nights"
+              formControlName="numberOfDaysFilter"
+              (click)="toggleNumberOfDaysDropdown()">
+            <div class="input-group-btn">
+              <button class="btn btn-default" type="button" (click)="toggleNumberOfDaysDropdown()">
+                <i class="fa fa-calendar-check-o" aria-hidden="true"></i>
+              </button>
+            </div>
+          </div>
+          <div *ngIf="numberOfDaysDropdown" #nrOfDaysDropdown class="dropdown-container" fxLayout="column"
+              [ngStyle]="{'width': '100%'}">
+            <ul>
+              <li *ngFor="let number of numberOfDaysArray" (click)="setNumberOfNightsValueInFormGroup(number)">
+                {{number}} days
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </form>
+    <button class="btn btn-success" type="button" (click)="searchForHolidays()" [ngStyle]="{'margin-top': '20px'}">
+      Apply quick filter
+    </button>
+  </mat-card-content>
+</mat-card>
+
+<mat-card class="home-page-content-container">
+  <mat-card-content *ngIf="!listOfHolidays" fxLayout fxLayoutWrap>
     <div *ngFor="let category of categories; let i = index">
       <div class="image-and-text">
         <h3 [ngClass]="{'odd-column': (i % 2 == 0), 'even-column': (i % 2 != 0)}">{{category.mainCategory}}</h3>
@@ -14,5 +136,19 @@
         </ul>
       </div>
     </div>
+  </mat-card-content>
+
+  <mat-card-content *ngIf="listOfHolidays">
+    <ul>
+      <li class="holidayItem" *ngFor="let holiday of listOfHolidays | paginate: paginationConfig"
+          fxLayout fxFlex>
+        <holiday-list-element
+          [holidaySummary]="holiday"
+          (onHolidayDetail)="goToDetailPage(holiday)">
+        </holiday-list-element>
+      </li>
+    </ul>
+
+    <pagination-controls *ngIf="listOfHolidays.length > 5" (pageChange)="onPageChange($event)"></pagination-controls>
   </mat-card-content>
 </mat-card>
