@@ -34,6 +34,11 @@ export class HolidayDetailViewService {
             this.holiday.longitude = Number(this.holiday.longitude);
         }
 
+        this.holiday.reviews.forEach(review => {
+            review.ratingValues = new Array<boolean>();
+            review = this._setRatingValues(review);
+        });
+
         return this.holiday;
     }
 
@@ -43,5 +48,16 @@ export class HolidayDetailViewService {
         }
         this.array = items.split(',');
         return this.array;
+    }
+
+    private _setRatingValues(review) {
+        for (let i = 0; i < 5; i++) {
+            if (i == review.rating - 1) {
+                review.ratingValues.push(true);
+            } else {
+                review.ratingValues.push(false);
+            }
+        }
+        return review;
     }
 }

@@ -16,6 +16,7 @@ import { AccordionModule } from 'ngx-bootstrap/accordion';
 import { NgxPaginationModule } from "ngx-pagination/dist/ngx-pagination";
 import { ModalModule } from "ngx-bootstrap/modal";
 import { AgmCoreModule } from '@agm/core';
+import { NgxGalleryModule } from 'ngx-gallery';
 
 // components
 import { HolidayDetailViewComponent } from "./holidayDetailView/holidayDetailView.component";
@@ -49,7 +50,8 @@ import { SharedModule } from "../shared/shared.module";
         SharedModule,
         MatCardModule,
         MatListModule,
-        MatTabsModule
+        MatTabsModule,
+        NgxGalleryModule
     ],
     declarations: [
         HolidayDetailViewComponent,

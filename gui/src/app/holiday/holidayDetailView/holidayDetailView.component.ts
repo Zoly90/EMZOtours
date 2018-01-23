@@ -10,6 +10,8 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/modal-options.class';
 import { ApplyForOfferModalComponent } from "./apply-for-offer-modal/apply-for-offer-modal.component";
 import { UtilsService } from "../../utils/utils.service";
+import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryAnimation } from 'ngx-gallery';
+import { NgxGalleryAction } from "ngx-gallery/ngx-gallery-action.model";
 
 @Component({
     selector: 'sd-detail',
@@ -27,42 +29,28 @@ import { UtilsService } from "../../utils/utils.service";
 
 export class HolidayDetailViewComponent {
 
-    backgroundImagePath = "../../../assets/images/background/rsz_background.jpg";
+    private holiday: Holiday;
 
-    holiday: Holiday;
+    private galleryOptions: NgxGalleryOptions[];
+    private galleryImages: Array<NgxGalleryImage> = new Array<NgxGalleryImage>();
+
+    private imageViewModalRef: BsModalRef;
+    private paymentModalRef: BsModalRef;
+
     private token;
     private authorizedToEdit: boolean = false;
     private applyButtonText: string = 'Apply';
-    holidayDetails: any;
-    index: number = 0;
-    subscriptionStateFadeOut: any;
-    subscriptionStateFadeIn: any;
-    imageChanging: any;
-    pauseIcon: boolean = true;
-    playIcon: boolean = false;
 
-    currentImage: any;
-    photoModalWindowOpened: boolean = false;
-    imagePointer: number;
+    private index: number = 0;
+    private currentImage: any;
+    private subscriptionStateFadeOut: any;
+    private subscriptionStateFadeIn: any;
+    private imageChanging: any;
+    private startingStatusOfImageFading: string = 'fadeOut';
+    private pauseIcon: boolean = true;
+    private playIcon: boolean = false;
 
-    lat: number;
-    lng: number;
-
-    includedInOfferList: string[];
-    notIncludedInOfferList: string[];
     showMap = false;
-
-    start = () => {
-        this.index++;
-        this.currentImage = this.holiday.imageSet[this.index];
-        if (this.index == this.holiday.imageSet.length - 1) {
-            this.index = -1;
-        }
-    }
-
-    imageFading: string = 'fadeOut';
-
-    bsModalRef: BsModalRef;
 
     constructor(
         private holidayDetailViewService: HolidayDetailViewService,
@@ -71,52 +59,35 @@ export class HolidayDetailViewComponent {
         private utilsService: UtilsService,
         private activatedRoute: ActivatedRoute
     ) {
-        this.imageChanging = setInterval(this.start, 6000);
-    }
-
-    fading() {
-        this.subscriptionStateFadeIn = Observable.timer(0, 6000).subscribe(t => { this.imageFading = 'fadeIn' });
-        this.subscriptionStateFadeOut = Observable.timer(5000, 6000).subscribe(t => { this.imageFading = 'fadeOut' });
+        this.imageChanging = setInterval(this._start, 6000);
     }
 
     ngOnInit() {
         this.token = this.utilsService.checkAuthAndGetToken();
         if (this._checkIfLoggedInUserIsAdminOrEmployee()) {
-            this.authorizedToEdit = true;
+            this.changeAuthorizedToEditStatus();
         }
 
         this.activatedRoute.params.subscribe(() => {
             this.holiday = this.holidayDetailViewService.setHoliday(this.activatedRoute.snapshot.data['holiday']);
-        })
+            console.log(this.holiday)
+            this.holiday.imageSet.forEach(image => {
+                this.galleryImages.push({
+                    small: image.image,
+                    medium: image.image,
+                    big: image.image
+                });
+            });
+        });
 
-        this.fading();
+        this._fading();
         this.currentImage = this.holiday.imageSet[this.index];
-    }
 
-    clickedPauseIcon() {
-        this.pauseIcon = !this.pauseIcon;
-        this.playIcon = !this.playIcon;
-        this.ngOnDestroy();
-    }
-
-    clickedPlayIcon() {
-        this.playIcon = !this.playIcon;
-        this.pauseIcon = !this.pauseIcon;
-        this.imageChanging = setInterval(this.start, 6000);
-        this.fading();
-    }
-
-    navigate(forward) {
-        this.ngOnDestroy();
-        this.pauseIcon = false;
-        this.playIcon = true;
-        var index = this.holidayDetails.images.indexOf(this.currentImage) + (forward ? 1 : -1);
-        if (index >= 0 && index < this.holidayDetails.images.length) {
-            this.currentImage = this.holidayDetails.images[index];
-        }
-        if (index == this.holidayDetails.images.length) {
-            this.currentImage = this.holidayDetails.images[0];
-        }
+        this.galleryOptions = [
+            { image: false, thumbnails: false, width: '0px', height: '0px' },
+            { breakpoint: 500, width: '300px', height: '300px', thumbnailsColumns: 3 },
+            { breakpoint: 300, width: '100%', height: '200px', thumbnailsColumns: 2 },
+        ];
     }
 
     ngOnDestroy() {
@@ -125,10 +96,44 @@ export class HolidayDetailViewComponent {
         this.subscriptionStateFadeOut.unsubscribe();
     }
 
-    setSelectedImageAsCurrent(newSelectedImage) {
+    public clickedPauseIcon() {
+        this._updatePlayAndPauseIcons();
         this.ngOnDestroy();
-        this.clickedPauseIcon();
+    }
+
+    public clickedPlayIcon() {
+        this._updatePlayAndPauseIcons();
+        this.imageChanging = setInterval(this._start, 6000);
+        this._fading();
+    }
+
+    private _updatePlayAndPauseIcons() {
+        this.playIcon = !this.playIcon;
+        this.pauseIcon = !this.pauseIcon;
+    }
+
+    public clickedNavigationIcon(forward) {
+        this.ngOnDestroy();
+        if (!this.playIcon) {
+            this._updatePlayAndPauseIcons();
+        }
+        let index = this.holiday.imageSet.indexOf(this.currentImage) + (forward ? 1 : -1);
+        if (index >= 0 && index < this.holiday.imageSet.length) {
+            this.currentImage = this.holiday.imageSet[index];
+        }
+        if (index == this.holiday.imageSet.length) {
+            this.currentImage = this.holiday.imageSet[0];
+        }
+        this.index = index;
+    }
+
+    public setSelectedImageAsCurrent(newSelectedImage) {
+        this.ngOnDestroy();
         this.currentImage = newSelectedImage;
+        this.index = this.holiday.imageSet.indexOf(this.currentImage);
+        if (!this.playIcon) {
+            this._updatePlayAndPauseIcons();
+        }
     }
 
     applyForOffer(offer) {
@@ -136,57 +141,36 @@ export class HolidayDetailViewComponent {
             if (this.token == null) {
                 this.token = this.utilsService.checkAuthAndGetToken();
             }
-            this.bsModalRef = this.modalService.show(ApplyForOfferModalComponent);
-            this.bsModalRef.content.modalTitle = 'Please enter or verify your credit card data';
-            this.bsModalRef.content.offerId = offer.id;
-            this.bsModalRef.content.userId = this.token.userID;
+            this.paymentModalRef = this.modalService.show(ApplyForOfferModalComponent);
+            this.paymentModalRef.content.modalTitle = 'Please enter or verify your credit card data';
+            this.paymentModalRef.content.offerId = offer.id;
+            this.paymentModalRef.content.userId = this.token.userID;
         } else {
-            this.bsModalRef = this.modalService.show(ApplyForOfferModalComponent, { class: 'modal-sm' });
+            this.paymentModalRef = this.modalService.show(ApplyForOfferModalComponent, { class: 'modal-sm' });
         }
-    }
-
-    openImageModal() {
-        var imageModalPointer;
-        for (var i = 0; i < this.holidayDetails.images.length; i++) {
-            if (this.currentImage === this.holidayDetails.images[i]) {
-                imageModalPointer = i;
-                break;
-            }
-        }
-        this.photoModalWindowOpened = true;
-        this.imagePointer = imageModalPointer;
-    }
-
-    cancelImageModal() {
-        this.photoModalWindowOpened = false;
-    }
-
-    setRatingValues(review) {
-        for (let i = 0; i < 5; i++) {
-            if (i == review.rating.value - 1) {
-                review.rating.ratingValues[i] = true;
-            } else {
-                review.rating.ratingValues[i] = false;
-            }
-        }
-        review.rating.areSet = true;
-    }
-
-    changeCoordinates() {
-        this.lat = this.holiday.latitude;
-        this.lng = this.holiday.longitude;
-
-        this.holiday.latitude = this.lat + 0.0001;
-        this.holiday.longitude = this.lng + 0.0001;
-
-        this.holiday.latitude = this.lat;
-        this.holiday.longitude = this.lng;
     }
 
     changeMapVisility() {
         console.log('before', this.showMap);
         this.showMap = !this.showMap;
         console.log('after', this.showMap);
+    }
+
+    public changeAuthorizedToEditStatus() {
+        this.authorizedToEdit = !this.authorizedToEdit;
+    }
+
+    private _fading() {
+        this.subscriptionStateFadeIn = Observable.timer(0, 6000).subscribe(t => { this.startingStatusOfImageFading = 'fadeIn' });
+        this.subscriptionStateFadeOut = Observable.timer(5000, 6000).subscribe(t => { this.startingStatusOfImageFading = 'fadeOut' });
+    }
+
+    private _start = () => {
+        this.index++;
+        this.currentImage = this.holiday.imageSet[this.index];
+        if (this.index == this.holiday.imageSet.length - 1) {
+            this.index = -1;
+        }
     }
 
     private editHotelDescription: boolean = false;

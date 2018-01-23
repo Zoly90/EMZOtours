@@ -62,7 +62,8 @@ export class Holiday {
     reviews: [{
         id?: number
         title?: string
-        rating?: any
+        rating?: number
+        ratingValues?: Array<boolean>
         text?: string
         dateOfReview?: Date
         dateOfTravel?: Date

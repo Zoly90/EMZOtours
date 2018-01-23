@@ -40,6 +40,7 @@
     "ng2-pagination": "^2.0.1",
     "ng2-ui": "^0.14.1",
     "ngx-bootstrap": "1.9.3",
+    "ngx-gallery": "^4.2.3",
     "ngx-pagination": "3.0.0",
     "rxjs": "5.5.2",
     "typescript-collections": "1.2.3",

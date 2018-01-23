@@ -34,7 +34,7 @@
         <div fxLayout class="mainImagesContainer" fxLayoutWrap>
             <div class="singleImageContainer" fxLayout="column" fxFlex="75%">
                 <div class="crop">
-                    <img [@visibilityChanged]="imageFading" [src]="currentImage.image">
+                    <img [@visibilityChanged]="startingStatusOfImageFading" [src]="currentImage.image">
                 </div>
             </div>
             <div class="multipleImagesContainer" fxLayout="column" fxFlex="25%">
@@ -48,15 +48,13 @@
             </div>
             <div class="footerMainImagesContainer" fxLayout fxFlex>
                 <div fxLayout="column" fxFlex="85%">
-                    <span class="glyphicon glyphicon-fullscreen" (click)="openImageModal()"></span>
-                    <div *ngIf="photoModalWindowOpened">
-                        <!--<ImageModal [modalImages]="holiday.imageSet" [imagePointer]="imagePointer" (cancelEvent)="cancelImageModal()"></ImageModal>-->
-                    </div>
+                    <span class="glyphicon glyphicon-fullscreen" (click)="galleryPreview.openPreview(index)"></span>
+                    <ngx-gallery #galleryPreview [options]="galleryOptions" [images]="galleryImages"></ngx-gallery>
                 </div>
                 <div fxLayout="column" fxFlex="15%">
                     <div fxLayout fxFlex>
-                        <span class="glyphicon glyphicon-circle-arrow-left" (click)="navigate(false)"></span>
-                        <span class="glyphicon glyphicon-circle-arrow-right" (click)="navigate(true)"></span>
+                        <span class="glyphicon glyphicon-circle-arrow-left" (click)="clickedNavigationIcon(false)"></span>
+                        <span class="glyphicon glyphicon-circle-arrow-right" (click)="clickedNavigationIcon(true)"></span>
                         <i *ngIf="playIcon" class="fa fa-play-circle" (click)="clickedPlayIcon()" aria-hidden="true"></i>
                         <i *ngIf="pauseIcon" class="fa fa-pause-circle" (click)="clickedPauseIcon()" aria-hidden="true"></i>
                     </div>
@@ -259,7 +257,7 @@
                     <mat-tab label="Location & points of interest">
                         <div class="location-container">
                             <h3>Exact location of the hotel</h3>
-                            <agm-map #mapInTab [hidden]="changeCoordinates()" [latitude]="holiday.latitude" [longitude]="holiday.longitude">
+                            <agm-map #mapInTab [latitude]="holiday.latitude" [longitude]="holiday.longitude">
                                 <agm-marker [latitude]="holiday.latitude" [longitude]="holiday.longitude"></agm-marker>
                             </agm-map>
                         </div>
@@ -301,7 +299,7 @@
                                 <accordion-group class="accordion" #group *ngFor="let review of holiday.reviews">
                                     <div class="reviewTitle" accordion-heading>
                                         {{review.title}}
-                                        <div class="rating mdeium star-icon direction-ltr color-ok" [ngClass]="{'value-1': review.rating[0], 'value-2': review.rating[1], 'value-3': review.rating[2], 'value-4': review.rating[3], 'value-5': review.rating[4]}">
+                                        <div class="rating mdeium star-icon direction-ltr color-ok" [ngClass]="{'value-1': review.ratingValues[0], 'value-2': review.ratingValues[1], 'value-3': review.ratingValues[2], 'value-4': review.ratingValues[3], 'value-5': review.ratingValues[4]}">
                                             <div class="star-container">
                                                 <div class="star">
                                                     <i class="star-empty"></i>

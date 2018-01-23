@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -8,6 +8,8 @@ import { Router } from "@angular/router";
 import { UtilsService } from "./utils/utils.service";
 import { CategoriesAndTypesService } from "./core/services/categories-types.service";
 import { Types } from "./core/models/types.model";
+import { TurismAppConstants } from "./utils/constants";
+import { HolidayDetailViewComponent } from "./holiday/holidayDetailView/holidayDetailView.component";
 
 @Component({
   selector: 'app-root',
@@ -15,6 +17,8 @@ import { Types } from "./core/models/types.model";
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
+
+  @ViewChild(HolidayDetailViewComponent) holidayDetailViewComponent: HolidayDetailViewComponent;
 
   public backgroundImagePath = "../../assets/images/background/rsz_background.jpg";
 
@@ -34,11 +38,9 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.token = this.utilsService.checkAuthAndGetToken();
-    if (this.token != null) {
+    if (this.token) {
       this.role = this.token.role;
       this.userLogedIn = true;
-    } else {
-      this.router.navigate(['/']);
     }
   }
 
@@ -47,6 +49,8 @@ export class AppComponent implements OnInit {
       this.userLogedIn = true;
       this.token = this.utilsService.checkAuthAndGetToken();
       this.role = this.token.role;
+      // console.log(this.holidayDetailViewComponent)
+      // this.holidayDetailViewComponent.changeAuthorizedToEditStatus();
     }
   }
 
@@ -54,6 +58,11 @@ export class AppComponent implements OnInit {
     this.userLogedIn = false;
     this.token = null;
     this.role = '';
-    this.router.navigate(['/']);
+    // console.log(this.holidayDetailViewComponent)
+    // this.holidayDetailViewComponent.changeAuthorizedToEditStatus();
+    if (this.router.url.includes(TurismAppConstants.HOLIDAYS_MANAGEMENT_PAGE_PATH) || this.router.url.includes(TurismAppConstants.PERSONALIZED_OFFERS_MANAGEMENT_PAGE_PATH) ||
+        this.router.url.includes(TurismAppConstants.USER_MANAGEMENT_PAGE_PATH)) {
+      this.router.navigate(['/']);
+    }
   }
 }
