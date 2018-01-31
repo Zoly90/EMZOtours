@@ -6,7 +6,7 @@
                     <img class="stars" *ngFor="let number of holiday.arrayOfStars" src="../../../assets/images/icons/star-size_s.png">
                 </h2>
             </div>
-            <div class="address-container" fxFlex="50%">
+            <div class="address-container" fxFlex="50%" fxLayout="column">
                 <display-address
                     [address]="holiday"
                     (onClick)="lgModal.show()">
@@ -29,6 +29,8 @@
                         </div>
                     </div>
                 </div>
+
+                <sharing-icons></sharing-icons>
             </div>
         </div>
         <div fxLayout class="mainImagesContainer" fxLayoutWrap>
@@ -49,6 +51,7 @@
             <div class="footerMainImagesContainer" fxLayout fxFlex>
                 <div fxLayout="column" fxFlex="85%">
                     <span class="glyphicon glyphicon-fullscreen" (click)="galleryPreview.openPreview(index)"></span>
+                    {{index}}
                     <ngx-gallery #galleryPreview [options]="galleryOptions" [images]="galleryImages"></ngx-gallery>
                 </div>
                 <div fxLayout="column" fxFlex="15%">

@@ -1,0 +1,19 @@
+.sharing-icons-container {
+	padding: 10px 0;
+}
+
+.sharing-icon {
+	margin: 0 4px;
+
+	&:hover {
+		cursor: pointer;
+	}
+
+	&.last {
+		margin-right: 0;
+	}
+
+	&.first {
+		margin-left: 0;
+	}
+}

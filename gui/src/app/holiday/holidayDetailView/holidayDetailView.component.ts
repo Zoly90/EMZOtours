@@ -70,7 +70,6 @@ export class HolidayDetailViewComponent {
 
         this.activatedRoute.params.subscribe(() => {
             this.holiday = this.holidayDetailViewService.setHoliday(this.activatedRoute.snapshot.data['holiday']);
-            console.log(this.holiday)
             this.holiday.imageSet.forEach(image => {
                 this.galleryImages.push({
                     small: image.image,
@@ -81,7 +80,7 @@ export class HolidayDetailViewComponent {
         });
 
         this._fading();
-        this.currentImage = this.holiday.imageSet[this.index];
+        this._setCurrentImage(this.index);
 
         this.galleryOptions = [
             { image: false, thumbnails: false, width: '0px', height: '0px' },
@@ -119,10 +118,10 @@ export class HolidayDetailViewComponent {
         }
         let index = this.holiday.imageSet.indexOf(this.currentImage) + (forward ? 1 : -1);
         if (index >= 0 && index < this.holiday.imageSet.length) {
-            this.currentImage = this.holiday.imageSet[index];
+            this._setCurrentImage(index);
         }
         if (index == this.holiday.imageSet.length) {
-            this.currentImage = this.holiday.imageSet[0];
+            this._setCurrentImage(0);
         }
         this.index = index;
     }
@@ -160,6 +159,10 @@ export class HolidayDetailViewComponent {
         this.authorizedToEdit = !this.authorizedToEdit;
     }
 
+    private _setCurrentImage(index) {
+        this.currentImage = this.holiday.imageSet[index];
+    }
+
     private _fading() {
         this.subscriptionStateFadeIn = Observable.timer(0, 6000).subscribe(t => { this.startingStatusOfImageFading = 'fadeIn' });
         this.subscriptionStateFadeOut = Observable.timer(5000, 6000).subscribe(t => { this.startingStatusOfImageFading = 'fadeOut' });
@@ -167,7 +170,7 @@ export class HolidayDetailViewComponent {
 
     private _start = () => {
         this.index++;
-        this.currentImage = this.holiday.imageSet[this.index];
+        this._setCurrentImage(this.index);
         if (this.index == this.holiday.imageSet.length - 1) {
             this.index = -1;
         }

@@ -36,6 +36,7 @@ import { SearchInputComponent } from "./search-input/search-input.component";
 import { SharedServices } from "./services/shared-services.service";
 import { HolidayListElement } from "./holiday-list-element/holiday-list-element.component";
 import { MatListModule } from "@angular/material/list";
+import { SharingIconsComponent } from "./sharing-icons/sharing-icons.component";
 
 /**
  * Do not specify providers for modules that might be imported by a lazy loaded module.
@@ -68,7 +69,8 @@ import { MatListModule } from "@angular/material/list";
     ResetPasswordModalComponent,
     DisplayAddressComponent,
     SearchInputComponent,
-    HolidayListElement
+    HolidayListElement,
+    SharingIconsComponent
   ],
   exports: [
     DateSelecComponent,
@@ -80,7 +82,8 @@ import { MatListModule } from "@angular/material/list";
     SelectModule,
     DisplayAddressComponent,
     SearchInputComponent,
-    HolidayListElement
+    HolidayListElement,
+    SharingIconsComponent
   ],
   providers: [
     UserService,

@@ -8,6 +8,7 @@
 	<h2 (click)="goToDetailPage()">{{holidaySummary.hotelName}}
 		<img class="stars" *ngFor="let number of holidaySummary.arrayOfStars" src="../../../assets/images/icons/star-size_s.png">
 	</h2>
+	
 	<h4>{{holidaySummary.country}} <span class="glyphicon glyphicon-arrow-right"></span> {{holidaySummary.city}}, {{holidaySummary.street}}, nr. {{holidaySummary.streetNr}},
 		{{holidaySummary.zip}}
 	</h4>
@@ -41,11 +42,15 @@
 		<i>Offer: {{holidaySummary.nrNights}} nights, in a magnificent {{holidaySummary.accommodationType}}, {{holidaySummary.food}}, {{holidaySummary.shortDescription}}</i>
 	</p>
 </div>
-<div class="detailsSection" fxLayout="column" fxFlex="20%">
-	<h4>Starting price</h4>
-	<h3>{{holidaySummary.startingPrice}}<span class="glyphicon glyphicon-euro"></span>/adult</h3>
-	<h4>Departures between</h4>
-	<h4>{{holidaySummary.departureDatesFrom | date}} <span class="glyphicon glyphicon-arrow-right"></span> {{holidaySummary.departureDatesUntil
-		| date}}</h4>
-	<button (click)="goToDetailPage()" class="btn btn-primary detailsBtn" type="submit">Details</button>
+<div class="details-container" fxLayout="column">
+	<sharing-icons></sharing-icons>
+
+	<div class="detailsSection" fxLayout="column">
+		<h4>Starting price</h4>
+		<h3>{{holidaySummary.startingPrice}}<span class="glyphicon glyphicon-euro"></span>/adult</h3>
+		<h4>Departures between</h4>
+		<h5>{{holidaySummary.departureDatesFrom | date}} <span class="glyphicon glyphicon-arrow-right"></span> {{holidaySummary.departureDatesUntil
+			| date}}</h5>
+		<button (click)="goToDetailPage()" class="btn btn-primary detailsBtn" type="submit">Details</button>
+	</div>
 </div>
