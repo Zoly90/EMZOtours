@@ -12,6 +12,7 @@ import { ApplyForOfferModalComponent } from "./apply-for-offer-modal/apply-for-o
 import { UtilsService } from "../../utils/utils.service";
 import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryAnimation } from 'ngx-gallery';
 import { NgxGalleryAction } from "ngx-gallery/ngx-gallery-action.model";
+import { DomSanitizer, SafeResourceUrl } from "@angular/platform-browser";
 
 @Component({
     selector: 'sd-detail',
@@ -57,7 +58,8 @@ export class HolidayDetailViewComponent {
         private authorizationService: AuthorizationService,
         private modalService: BsModalService,
         private utilsService: UtilsService,
-        private activatedRoute: ActivatedRoute
+        private activatedRoute: ActivatedRoute,
+        public domSanitizer: DomSanitizer
     ) {
         this.imageChanging = setInterval(this._start, 6000);
     }
@@ -87,6 +89,16 @@ export class HolidayDetailViewComponent {
             { breakpoint: 500, width: '300px', height: '300px', thumbnailsColumns: 3 },
             { breakpoint: 300, width: '100%', height: '200px', thumbnailsColumns: 2 },
         ];
+    }
+
+    urlCache = new Map<string, SafeResourceUrl>();
+    public getIframeYouTubeUrl(videoId: string): SafeResourceUrl {
+        let url = this.urlCache.get(videoId);
+        if (!url) {
+            url = this.domSanitizer.bypassSecurityTrustResourceUrl(TurismAppConstants.YOU_TUBE_URL_FIRST_PART + videoId);
+            this.urlCache.set(videoId, url);
+        }
+        return url;
     }
 
     ngOnDestroy() {

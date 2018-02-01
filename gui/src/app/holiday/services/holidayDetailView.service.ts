@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import * as Rx from 'rxjs';
 import { Holiday } from "../models/holiday.model";
 import { UtilsService } from "../../utils/utils.service";
-
+import { TurismAppConstants } from "../../utils/constants";
 
 @Injectable()
 export class HolidayDetailViewService {
@@ -17,6 +17,9 @@ export class HolidayDetailViewService {
     public setHoliday(holidayToSet) {
         this.holiday = holidayToSet;
         this.holiday.arrayOfStars = this._utilsService.constructArrayOfStars(this.holiday.nrStars);
+
+        this.holiday.hotelDescriptionYouTubeLinkId = this._modifyTouTubeLinks(this.holiday.hotelDescriptionYouTubeLink);
+        this.holiday.regionDescriptionYouTubeLinkId = this._modifyTouTubeLinks(this.holiday.regionDescriptionYouTubeLink);
 
         this.holiday.included = this.holiday.included ? this._convertToArrayOfStrings(this.holiday.included) : null;
         this.holiday.notIncluded = this.holiday.notIncluded ? this._convertToArrayOfStrings(this.holiday.notIncluded) : null;
@@ -59,5 +62,15 @@ export class HolidayDetailViewService {
             }
         }
         return review;
+    }
+
+    private _modifyTouTubeLinks(link: string) {
+        let index = link.indexOf('=');
+        if (index) {
+            link = link.substr(index + 1, 11);
+        } else {
+            link = link.substr(link.indexOf('?') + 1, 11);
+        }
+        return link;
     }
 }

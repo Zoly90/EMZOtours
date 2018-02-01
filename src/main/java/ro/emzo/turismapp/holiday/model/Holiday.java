@@ -44,8 +44,14 @@ public class Holiday extends BaseModel{
 	@Column(name = "hotel_description")
 	private String hotelDescription;
 
+	@Column(name = "hotel_description_you_tube_link")
+	private String hotelDescriptionYouTubeLink;
+
 	@Column(name = "region_description")
 	private String regionDescription;
+
+	@Column(name = "region_description_you_tube_link")
+	private String regionDescriptionYouTubeLink;
 
 	@Column(name = "short_description")
 	private String shortDescription;
@@ -387,5 +393,21 @@ public class Holiday extends BaseModel{
 
 	public void setPeriods(Collection<Period> periods) {
 		this.periods = periods;
+	}
+
+	public String getHotelDescriptionYouTubeLink() {
+		return hotelDescriptionYouTubeLink;
+	}
+
+	public void setHotelDescriptionYouTubeLink(String hotelDescriptionYouTubeLink) {
+		this.hotelDescriptionYouTubeLink = hotelDescriptionYouTubeLink;
+	}
+
+	public String getRegionDescriptionYouTubeLink() {
+		return regionDescriptionYouTubeLink;
+	}
+
+	public void setRegionDescriptionYouTubeLink(String regionDescriptionYouTubeLink) {
+		this.regionDescriptionYouTubeLink = regionDescriptionYouTubeLink;
 	}
 }

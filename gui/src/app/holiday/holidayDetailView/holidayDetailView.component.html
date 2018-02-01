@@ -51,7 +51,6 @@
             <div class="footerMainImagesContainer" fxLayout fxFlex>
                 <div fxLayout="column" fxFlex="85%">
                     <span class="glyphicon glyphicon-fullscreen" (click)="galleryPreview.openPreview(index)"></span>
-                    {{index}}
                     <ngx-gallery #galleryPreview [options]="galleryOptions" [images]="galleryImages"></ngx-gallery>
                 </div>
                 <div fxLayout="column" fxFlex="15%">
@@ -64,6 +63,7 @@
                 </div>
             </div>
         </div>
+
         <div fxLayout fxFlex="60%">
             <div fxLayout="column" fxFlex="75%">
 
@@ -82,7 +82,7 @@
                             <textarea #editHotelDescriptionTextarea *ngIf="editHotelDescription" type="text" class="form-control" id="comments" placeholder="Add hotel description"
                                 [(ngModel)]="holiday.hotelDescription" name="hotelDescription" (focusout)="focus(editHotelDescriptionTextarea.value)"></textarea>
                             <iframe width="400" height="300"
-                                src="https://www.youtube.com/embed/ef9Upudr8Dk" allowfullscreen>
+                                [src]="getIframeYouTubeUrl(holiday.hotelDescriptionYouTubeLinkId)" frameborder="0" allowfullscreen>
                             </iframe>
                         </div>
                         <div class="region-description-container" fxLayout="column" fxLayout="column">
@@ -98,7 +98,7 @@
                             <textarea *ngIf="editRegionDescription" type="text" class="form-control" id="comments" placeholder="Add region description"
                                 [(ngModel)]="holiday.regionDescription" name="regionDescription"></textarea>
                             <iframe width="400" height="300"
-                                src="https://www.youtube.com/embed/DL3PiqdyYJ8" allowfullscreen>
+                                [src]="getIframeYouTubeUrl(holiday.regionDescriptionYouTubeLinkId)" frameborder="0" allowfullscreen>
                             </iframe>
                         </div>
                     </mat-tab>

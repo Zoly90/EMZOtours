@@ -80,4 +80,8 @@ export class TurismAppConstants {
 	public static BIRTHDATE = 'birthdate';
 	public static ID_CARD_EXPIRATION_DATE = 'id-card-expiration-date';
 	public static APPLY_FOR_OFFER = 'applyForOffer';
+
+	// partail YouTube links
+	public static YOU_TUBE_URL_FIRST_PART = 'https://www.youtube.com/embed/';
+	public static YOU_TUBE_URL_SECOND_PART = '?enablejsapi=1';
 }

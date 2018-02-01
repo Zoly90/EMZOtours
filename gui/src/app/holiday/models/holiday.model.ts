@@ -11,7 +11,11 @@ export class Holiday {
     arrayOfStars?: Array<number>
     accommodationType?: string
     hotelDescription?: string
+    hotelDescriptionYouTubeLink?: string
+    hotelDescriptionYouTubeLinkId?: string
     regionDescription?: string
+    regionDescriptionYouTubeLink?: string
+    regionDescriptionYouTubeLinkId?: string
     shortDescription?: string
     latitude?: number
     longitude?: number
