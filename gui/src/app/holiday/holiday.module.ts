@@ -25,7 +25,7 @@ import { ApplyForOfferModalComponent } from "./holidayDetailView/apply-for-offer
 import { SignUpModalComponent } from "../shared/toolbar/signUpModal/signupModal.component";
 
 // services
-import { HolidayDetailViewService } from "./services/holidayDetailView.service";
+import { HolidayUtilsService } from "./services/holidayDetailView.service";
 import { ApplyForOfferService } from "./services/apply-for-offer.service";
 import { HolidayListResolver } from "./services/holidayList-resolver";
 import { HolidayDetailViewResolver } from "./services/holiday-detail-view.resolver";
@@ -63,7 +63,7 @@ import { SharedModule } from "../shared/shared.module";
         HolidaysListComponent
     ],
     providers: [
-        HolidayDetailViewService,
+        HolidayUtilsService,
         ApplyForOfferService,
         HolidayListResolver,
         HolidayDetailViewResolver

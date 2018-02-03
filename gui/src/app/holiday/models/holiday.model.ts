@@ -29,9 +29,12 @@ export class Holiday {
     nrNights?: string
     included?: any
     notIncluded?: any
-    earlyBookingPercentage?: string
-    earlyBookingDeadline?: Date
-    startingPrice?: string
+	earlyBookingPercentage: string | number
+	earlyBookingDeadline: Date
+	lastMinutePercentage?: string | number
+	lastMinuteBeginningDate?: Date
+    startingPrice: string | number
+    updatedStartingPrice: number
     departureDatesFrom?: Date
     departureDatesUntil?: Date
     food?: string
@@ -40,7 +43,8 @@ export class Holiday {
         id?: number
         from?: Date
         until?: Date
-        price?: string
+        price?: string | number
+        updatedPrice?: string | number
         roomType?: string
         viewType?: string
         available?: boolean

@@ -2,7 +2,7 @@ import { Component, Input, OnInit, OnChanges, trigger, state, animate, transitio
 import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 import * as _ from 'lodash';
-import { HolidayDetailViewService } from "../services/holidayDetailView.service";
+import { HolidayUtilsService } from "../services/holidayDetailView.service";
 import { Holiday } from "../models/holiday.model";
 import { AuthorizationService } from "../../core/authentication/services/authorization.service";
 import { TurismAppConstants } from "../../utils/constants";
@@ -18,7 +18,7 @@ import { DomSanitizer, SafeResourceUrl } from "@angular/platform-browser";
     selector: 'sd-detail',
     templateUrl: './holidayDetailView.component.html',
     styleUrls: ['./holidayDetailView.component.scss'],
-    providers: [HolidayDetailViewService],
+    providers: [HolidayUtilsService],
     animations: [
         trigger('visibilityChanged', [
             state('fadeIn', style({ opacity: 1 })),
@@ -51,10 +51,15 @@ export class HolidayDetailViewComponent {
     private pauseIcon: boolean = true;
     private playIcon: boolean = false;
 
+    private urlCache = new Map<string, SafeResourceUrl>();
+
+    private earlyBookingImageVisible: boolean;
+    private lastMinuteImageVisible: boolean;
+
     showMap = false;
 
     constructor(
-        private holidayDetailViewService: HolidayDetailViewService,
+        private _holidayUtilsService: HolidayUtilsService,
         private authorizationService: AuthorizationService,
         private modalService: BsModalService,
         private utilsService: UtilsService,
@@ -71,7 +76,12 @@ export class HolidayDetailViewComponent {
         }
 
         this.activatedRoute.params.subscribe(() => {
-            this.holiday = this.holidayDetailViewService.setHoliday(this.activatedRoute.snapshot.data['holiday']);
+            this.holiday = this._holidayUtilsService.setHoliday(this.activatedRoute.snapshot.data['holiday']);
+            this.holiday.lastMinuteBeginningDate = new Date(this.holiday.lastMinuteBeginningDate);
+
+            this._checkEarlyBookingImageVisibility(this.holiday.earlyBookingDeadline);
+            this._checkLastMinuteImageVisibility(this.holiday.lastMinuteBeginningDate);
+
             this.holiday.imageSet.forEach(image => {
                 this.galleryImages.push({
                     small: image.image,
@@ -91,7 +101,12 @@ export class HolidayDetailViewComponent {
         ];
     }
 
-    urlCache = new Map<string, SafeResourceUrl>();
+    ngOnDestroy() {
+        clearInterval(this.imageChanging);
+        this.subscriptionStateFadeIn.unsubscribe();
+        this.subscriptionStateFadeOut.unsubscribe();
+    }
+
     public getIframeYouTubeUrl(videoId: string): SafeResourceUrl {
         let url = this.urlCache.get(videoId);
         if (!url) {
@@ -99,12 +114,6 @@ export class HolidayDetailViewComponent {
             this.urlCache.set(videoId, url);
         }
         return url;
-    }
-
-    ngOnDestroy() {
-        clearInterval(this.imageChanging);
-        this.subscriptionStateFadeIn.unsubscribe();
-        this.subscriptionStateFadeOut.unsubscribe();
     }
 
     public clickedPauseIcon() {
@@ -185,6 +194,20 @@ export class HolidayDetailViewComponent {
         this._setCurrentImage(this.index);
         if (this.index == this.holiday.imageSet.length - 1) {
             this.index = -1;
+        }
+    }
+
+    private _checkEarlyBookingImageVisibility(earlyBookingDeadline: Date) {
+        this.earlyBookingImageVisible = this._holidayUtilsService.checkEarlyBookingImageVisibility(earlyBookingDeadline);
+        if (this.earlyBookingImageVisible) {
+            this._holidayUtilsService.setUpdatedPrice(this.holiday, this.earlyBookingImageVisible, null);
+        }
+    }
+
+    private _checkLastMinuteImageVisibility(lastMinuteBeginningDate: Date) {
+        this.lastMinuteImageVisible = this._holidayUtilsService.checkLastMinuteImageVisibility(lastMinuteBeginningDate);
+        if (this.lastMinuteImageVisible) {
+            this._holidayUtilsService.setUpdatedPrice(this.holiday, null, this.lastMinuteImageVisible);
         }
     }
 

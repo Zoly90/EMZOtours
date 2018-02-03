@@ -4,8 +4,10 @@ export class HolidayListModel {
 	nrStars: string
 	arrayOfStars: Array<any>
 	presentationImage: string
+	earlyBookingPercentage: string | number
 	earlyBookingDeadline: Date
-	earlyBookingPercentage: string
+	lastMinutePercentage?: string | number
+	lastMinuteBeginningDate?: Date
 	country: string
 	city: string
 	street: string
@@ -17,7 +19,8 @@ export class HolidayListModel {
 	accommodationType: string
 	food: string
 	shortDescription: string
-	startingPrice: string
+	startingPrice: string | number
+	updatedStartingPrice: number
 	departureDatesFrom: Date
 	departureDatesUntil: Date
 }

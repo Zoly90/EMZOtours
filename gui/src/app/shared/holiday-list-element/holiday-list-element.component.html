@@ -1,5 +1,6 @@
-<div *ngIf="holidaySummary.earlyBookingImage">
-	<img class="earlyBookingImage" src="../../../assets/images/holidaySummarysList/early-booking_optimized.png">
+<div class="promotion-image-container" (click)="goToDetailPage()">
+	<img class="early-booking-img" *ngIf="earlyBookingImageVisible" src="../../../assets/images/holidaysList/early-booking.png">
+	<img class="last-minute-img" *ngIf="lastMinuteImageVisible" src="../../../assets/images/holidaysList/last-minute.png">
 </div>
 <div class="imageSection" fxLayout="column" fxFlex="30%">
 	<img (click)="goToDetailPage()" class="mainPreviewImage" [src]="holidaySummary.presentationImage">
@@ -28,14 +29,20 @@
 			<div><i>{{holidaySummary.departureFrom}} airport</i></div>
 		</div>
 		<mat-divider class="verticalDivider"></mat-divider>
-		<div class="infoColumn" fxLayout="column" fxFlex="25%">
+		<div *ngIf="!lastMinuteImageVisible" class="infoColumn" fxLayout="column" fxFlex="25%">
 			<h4>Early booking</h4>
-			<div><i>{{holidaySummary.earlyBookingPercentage}}%</i></div>
+			<div *ngIf="earlyBookingImageVisible"><i>{{holidaySummary.earlyBookingPercentage}}%</i></div>
+			<div *ngIf="!earlyBookingImageVisible"><i> - </i></div>
+		</div>
+		<div *ngIf="lastMinuteImageVisible" class="infoColumn" fxLayout="column" fxFlex="25%">
+			<h4>Last minute</h4>
+			<div><i>{{holidaySummary.lastMinutePercentage}}%</i></div>
 		</div>
 		<mat-divider class="verticalDivider"></mat-divider>
 		<div class="infoColumn" fxLayout="column" fxFlex="25%">
 			<h4>Early booking until</h4>
-			<div><i>{{holidaySummary.earlyBookingDeadline | date}}</i></div>
+			<div *ngIf="earlyBookingImageVisible"><i>{{holidaySummary.earlyBookingDeadline | date}}</i></div>
+			<div *ngIf="!earlyBookingImageVisible"><i> - </i></div>
 		</div>
 	</div>
 	<p>
@@ -43,11 +50,18 @@
 	</p>
 </div>
 <div class="details-container" fxLayout="column">
-	<sharing-icons></sharing-icons>
+	<sharing-icons [usedFor]="'list'"></sharing-icons>
 
-	<div class="detailsSection" fxLayout="column">
+	<div class="details-section" fxLayout="column">
 		<h4>Starting price</h4>
-		<h3>{{holidaySummary.startingPrice}}<span class="glyphicon glyphicon-euro"></span>/adult</h3>
+		<span *ngIf="earlyBookingImageVisible || lastMinuteImageVisible">
+			<h4 class="cross-over-value">{{holidaySummary.startingPrice}}<span class="glyphicon glyphicon-euro"></span>/adult</h4>
+			<span class="cross-over"></span>
+			<h3>{{holidaySummary.updatedStartingPrice}}<span class="glyphicon glyphicon-euro"></span>/adult</h3>
+		</span>
+		<span *ngIf="!earlyBookingImageVisible && !lastMinuteImageVisible">
+			<h3>{{holidaySummary.startingPrice}}<span class="glyphicon glyphicon-euro"></span>/adult</h3>
+		</span>
 		<h4>Departures between</h4>
 		<h5>{{holidaySummary.departureDatesFrom | date}} <span class="glyphicon glyphicon-arrow-right"></span> {{holidaySummary.departureDatesUntil
 			| date}}</h5>

@@ -1,12 +1,16 @@
 <mat-card class="holidayDetailViewContainer">
     <mat-card-content fxLayout="column">
         <div fxLayout fxLayoutAlign="space-between center" fxFlex="20%">
-            <div fxFlex="50%">
+            <div fxLayout fxFlex="50%">
+                <div class="promotion-image-container" (click)="goToDetailPage()" fxFlex="23%">
+                    <img class="early-booking-img" *ngIf="earlyBookingImageVisible" src="../../../assets/images/holidaysList/early-booking.png">
+                    <img class="last-minute-img" *ngIf="lastMinuteImageVisible" src="../../../assets/images/holidaysList/last-minute.png">
+                </div>
                 <h2>{{holiday.accommodationName}}
                     <img class="stars" *ngFor="let number of holiday.arrayOfStars" src="../../../assets/images/icons/star-size_s.png">
                 </h2>
             </div>
-            <div class="address-container" fxFlex="50%" fxLayout="column">
+            <div class="address-container" fxFlex="50%" fxLayout="column" fxLayoutAlign="start end">
                 <display-address
                     [address]="holiday"
                     (onClick)="lgModal.show()">
@@ -186,7 +190,7 @@
                                             <h4 md-line>Until</h4>
                                         </div>
                                         <div fxLayout="column" fxFlex="18%">
-                                            <h4 md-line>Price</h4>
+                                            <h4 md-line>Price/Updated price</h4>
                                         </div>
                                         <div fxLayout="column" fxFlex="17%">
                                             <h4 md-line>Room type</h4>
@@ -204,8 +208,12 @@
                                         <div fxLayout="column" fxFlex="13%">
                                             <h5 md-line class="tableItem">{{offer.until | date}}</h5>
                                         </div>
-                                        <div fxLayout="column" fxFlex="18%">
-                                            <h5 md-line class="tableItem">{{offer.price}}<span class="glyphicon glyphicon-euro"></span>/trip/adult</h5>
+                                        <div fxLayout fxLayoutAlign="center center" fxFlex="18%" [ngStyle]="{'position': 'relative'}">
+                                            <div md-line class="tableItem" fxLayout="column">
+                                                <h5 class="price">{{offer.price}}</h5>
+                                                <span class="cross-over"></span>
+                                                <h5 class="price updated">{{offer.updatedPrice}}</h5>
+                                            </div><span class="glyphicon glyphicon-euro" [ngStyle]="{'margin-left': '5px'}">/trip/adult</span>
                                         </div>
                                         <div fxLayout="column" fxFlex="17%">
                                             <h5 md-line class="tableItem">{{offer.roomType}}</h5>

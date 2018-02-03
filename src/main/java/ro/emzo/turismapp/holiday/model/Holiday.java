@@ -80,6 +80,12 @@ public class Holiday extends BaseModel{
 	@Column(name = "early_booking_deadline")
 	private Date earlyBookingDeadline;
 
+	@Column(name = "last_minute_percentage")
+	private String lastMinutePercentage;
+
+	@Column(name = "last_minute_beginning_date")
+	private Date lastMinuteBeginningDate;
+
 	@Column(name = "starting_price")
 	private String startingPrice;
 
@@ -101,7 +107,7 @@ public class Holiday extends BaseModel{
 	@JoinColumn
 	@JsonBackReference
 	private HolidayTypes holidayTypes;
-	
+
 	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
 	@JoinColumn
 	@JsonBackReference
@@ -337,6 +343,22 @@ public class Holiday extends BaseModel{
 
 	public void setEarlyBookingDeadline(Date earlyBookingDeadline) {
 		this.earlyBookingDeadline = earlyBookingDeadline;
+	}
+
+	public String getLastMinutePercentage() {
+		return lastMinutePercentage;
+	}
+
+	public void setLastMinutePercentage(String lastMinutePercentage) {
+		this.lastMinutePercentage = lastMinutePercentage;
+	}
+
+	public Date getLastMinuteBeginningDate() {
+		return lastMinuteBeginningDate;
+	}
+
+	public void setLastMinuteBeginningDate(Date lastMinuteBeginningDate) {
+		this.lastMinuteBeginningDate = lastMinuteBeginningDate;
 	}
 
 	public String getStartingPrice() {

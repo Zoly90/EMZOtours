@@ -2,11 +2,11 @@
     <mat-card-content fxLayout="column" fxFlex>
 
         <div class="comming-soon-image-container" *ngIf="!holidayList.length">
-            <div class="christmas-comming-soon-image-container" *ngIf="routingBy === 'type' && routingById === 10" fxLayout="column">
-                <img src="../../../assets/images/holidaysList/christmas-is-coming-soon-1.jpg" alt="">
-                <img src="../../../assets/images/holidaysList/christmas-is-coming-soon-2.jpg" alt="">
+            <div class="christmas-comming-soon-image-container" *ngIf="routingByType" fxLayout="column" fxLayoutAlign="start center">
+                <img *ngIf="routingById == 10" src="../../../assets/images/holidaysList/christmas-is-coming-soon.jpg" alt="">
+                <img *ngIf="routingById == 11" src="../../../assets/images/holidaysList/new-year-is-coming-soon.jpg" alt="">
             </div>
-            <div class="summer-comming-soon-image-container" *ngIf="routingById !== 10" fxLayout="column">
+            <div class="summer-comming-soon-image-container" *ngIf="routingById != 10 && routingById != 11" fxLayout="column">
                 <img src="../../../assets/images/holidaysList/summer-is-coming-soon.jpg" alt="">
             </div>
         </div>

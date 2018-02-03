@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
 import { HolidayService } from "../../../holiday/services/holiday.service";
 import { Holiday } from "../../../holiday/models/holiday.model";
-import { HolidayDetailViewService } from "../../../holiday/services/holidayDetailView.service";
+import { HolidayUtilsService } from "../../../holiday/services/holidayDetailView.service";
 import { Router } from "@angular/router";
 import * as _ from 'lodash'
 import { TurismAppConstants } from "../../../utils/constants";
@@ -42,7 +42,7 @@ export class HolidaysManagementComponent {
 		private _router: Router,
 		private _holidayService: HolidayService,
 		private _holidaysManagementService: HolidaysManagementService,
-		private _holidayDetailViewService: HolidayDetailViewService,
+		private _holidayUtilsService: HolidayUtilsService,
 		private _authorizationService: AuthorizationService,
 		private _sharedServices: SharedServices,
 	) {
@@ -192,7 +192,7 @@ export class HolidaysManagementComponent {
 	}
 
 	private _goToDetailPage(holiday: HolidaysManagementTableDataModel) {
-		this._holidayDetailViewService.setHoliday(holiday);
+		this._holidayUtilsService.setHoliday(holiday);
 		this._router.navigate(['holiday/' + holiday.hotelName], { queryParams: { id: holiday.id } });
 	}
 }

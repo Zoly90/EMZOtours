@@ -22,6 +22,10 @@ public class HolidayListDataTO {
 
     private String earlyBookingPercentage;
 
+    private Date lastMinuteBeginningDate;
+
+    private String lastMinutePercentage;
+
     private String country;
 
     private String city;
@@ -51,15 +55,18 @@ public class HolidayListDataTO {
     private Date departureDatesUntil;
 
     public HolidayListDataTO(Long id, String hotelName, String nrStars, String presentationImage, Date earlyBookingDeadline,
-                 String earlyBookingPercentage, String country, String city, String street, String streetNr, String zip,
-                 Transportation transportation, String departureFrom, String nrNights, String accommodationType, FoodBoard food,
-                 String shortDescription, String startingPrice, Date departureDatesFrom, Date departureDatesUntil) {
+                 String earlyBookingPercentage, Date lastMinuteBeginningDate, String lastMinutePercentage, String country,
+                 String city, String street, String streetNr, String zip, Transportation transportation, String departureFrom,
+                 String nrNights, String accommodationType, FoodBoard food, String shortDescription, String startingPrice,
+                 Date departureDatesFrom, Date departureDatesUntil) {
         this.id = id;
         this.hotelName = hotelName;
         this.nrStars = nrStars;
         this.presentationImage = presentationImage;
         this.earlyBookingDeadline = earlyBookingDeadline;
         this.earlyBookingPercentage = earlyBookingPercentage;
+        this.lastMinuteBeginningDate = lastMinuteBeginningDate;
+        this.lastMinutePercentage = lastMinutePercentage;
         this.country = country;
         this.city = city;
         this.street = street;
@@ -122,6 +129,22 @@ public class HolidayListDataTO {
 
     public void setEarlyBookingPercentage(String earlyBookingPercentage) {
         this.earlyBookingPercentage = earlyBookingPercentage;
+    }
+
+    public Date getLastMinuteBeginningDate() {
+        return lastMinuteBeginningDate;
+    }
+
+    public void setLastMinuteBeginningDate(Date lastMinuteBeginningDate) {
+        this.lastMinuteBeginningDate = lastMinuteBeginningDate;
+    }
+
+    public String getLastMinutePercentage() {
+        return lastMinutePercentage;
+    }
+
+    public void setLastMinutePercentage(String lastMinutePercentage) {
+        this.lastMinutePercentage = lastMinutePercentage;
     }
 
     public String getCountry() {

@@ -37,10 +37,25 @@ p {
   cursor: pointer;
 }
 
-.earlyBookingImage {
-  position: absolute;
-  margin-left: -3.5px;
-  margin-top: -2.6px;
+.promotion-image-container {
+  cursor: pointer;
+
+  img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 120px;
+  }
+
+  .early-booking-img {
+    top: 15px;
+    transform: rotate(-10deg);
+  }
+
+  .last-minute-img {
+    margin-left: -5.5px;
+    margin-top: -4px;
+  }
 }
 
 .stars {
@@ -65,17 +80,22 @@ p {
   padding: 10px;
 }
 
-.detailsSection {
+.details-section {
   background-color: #F2D7A5;
   text-align: center;
-}
+  position: relative;
 
-.detailsSection>h4, h5 {
-  font-weight: bold;
-}
+  .cross-over-value {
+    margin: 0
+  }
 
-.detailsSection>h3 {
-  margin-top: 0;
+  h4, h5 {
+    font-weight: bold;
+  }
+
+  h3, h5 {
+    margin-top: 0;
+  }
 }
 
 .detailsBtn {
@@ -98,4 +118,13 @@ p {
       max-width: 900px;
     }
   }
+}
+
+.cross-over {
+  border: 1px solid orangered;
+  width: 55%;
+  position: absolute;
+  top: 47px;
+  left: 50px;
+  transform: rotate(-4deg);
 }

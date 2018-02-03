@@ -3,9 +3,10 @@ import * as Rx from 'rxjs';
 import { Holiday } from "../models/holiday.model";
 import { UtilsService } from "../../utils/utils.service";
 import { TurismAppConstants } from "../../utils/constants";
+import { HolidayListModel } from "../models/holiday-list.model";
 
 @Injectable()
-export class HolidayDetailViewService {
+export class HolidayUtilsService {
 
     private holiday: Holiday;
     private array: string[];
@@ -64,13 +65,64 @@ export class HolidayDetailViewService {
         return review;
     }
 
-    private _modifyTouTubeLinks(link: string) {
-        let index = link.indexOf('=');
-        if (index) {
-            link = link.substr(index + 1, 11);
+    private _modifyTouTubeLinks(url: string) {
+        let index = url.indexOf('=');
+        let url_id;
+        if (index >= 0) {
+            url_id = url.substr(index + 1, 11);
         } else {
-            link = link.substr(link.indexOf('?') + 1, 11);
+            url_id = url.substr(url.indexOf('?') + 1, 11);
         }
-        return link;
+        return url_id;
+    }
+
+    public checkEarlyBookingImageVisibility(earlyBookingDeadline: Date) {
+		const currentDate = new Date();
+        let visible;
+		if (currentDate <= earlyBookingDeadline) {
+			visible = true;
+		} else {
+			visible = false;
+		}
+        return visible;
+	}
+
+	public checkLastMinuteImageVisibility(lastMinuteBeginningDate: Date) {
+		const currentDate = new Date();
+        let visible;
+		if ((lastMinuteBeginningDate.getMonth() == currentDate.getMonth() + 1 || lastMinuteBeginningDate.getMonth() == currentDate.getMonth()) 
+				&& ((lastMinuteBeginningDate.getDate() + currentDate.getDate()) / 2 < 30)) {
+			visible = true;
+		} else {
+			visible = false;
+		}
+        return visible;
+	}
+
+	public setUpdatedPrice(holiday: any, earlyBookingImageVisible?: boolean, lastMinuteImageVisible?: boolean) {
+		if (earlyBookingImageVisible) {
+            if (holiday.periods) {
+                holiday = this._calculateUpdatedPrices(holiday, Number(holiday.earlyBookingPercentage));
+            } else {
+                holiday.updatedStartingPrice = Number(holiday.startingPrice) - (Number(holiday.startingPrice) * Number(holiday.earlyBookingPercentage) / 100);
+            }
+		}
+
+		if (lastMinuteImageVisible) {
+            if (holiday.periods) {
+                holiday = this._calculateUpdatedPrices(holiday, Number(holiday.lastMinutePercentage));
+            } else {
+			    holiday.updatedStartingPrice = Number(holiday.startingPrice) - (Number(holiday.startingPrice) * Number(holiday.lastMinutePercentage) / 100);
+            }
+		}
+
+        return holiday;
+	}
+
+    private _calculateUpdatedPrices(holiday: Holiday, percentage: number) {
+        holiday.periods.forEach(period => {
+            period.updatedPrice = Number(period.price) - (Number(period.price) * percentage / 100);
+        });
+        return holiday;
     }
 }

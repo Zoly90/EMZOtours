@@ -9,6 +9,10 @@ ul {
   padding: 0;
 }
 
+li {
+  position: relative;
+}
+
 pagination-controls {
     margin: 0 auto;
     font-size: 18px;
@@ -24,4 +28,10 @@ pagination-controls {
     margin: 20px 20px;
     border: 1px solid $container-border-color;
     box-shadow: $container-border-shadow;
+}
+
+.summer-comming-soon-image-container {
+  img {
+    width: 100%;
+  }
 }

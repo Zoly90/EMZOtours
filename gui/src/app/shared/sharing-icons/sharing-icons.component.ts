@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, Input, SimpleChanges } from "@angular/core";
 
 @Component({
 	selector: 'sharing-icons',
@@ -8,5 +8,6 @@ import { Component } from "@angular/core";
 
 export class SharingIconsComponent {
 
+	@Input() usedFor: string;
 
 }

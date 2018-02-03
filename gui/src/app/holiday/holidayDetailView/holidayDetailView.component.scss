@@ -382,4 +382,37 @@ agm-map {
 
 .address-container {
     flex: none !important;
+
+    button:focus {
+        outline: none;
+    }
+}
+
+.promotion-image-container {
+  img {
+    width: 120px;
+  }
+
+  .early-booking-img {
+    transform: rotate(-10deg);
+  }
+}
+
+.price {
+    margin: 0;
+    font-size: 12px;
+
+    &.updated {
+        font-size: 15px;
+    }
+}
+
+.cross-over {
+    border: 1px solid orangered;
+    position: absolute;
+    width: 22%;
+    border-bottom: 0;
+    top: 7px;
+    left: 20px;
+    transform: rotate(-8deg);
 }

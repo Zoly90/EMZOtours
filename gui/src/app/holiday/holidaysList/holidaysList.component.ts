@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 
 import { HolidayService } from "../services/holiday.service";
 
@@ -26,7 +26,7 @@ export class HolidaysListComponent {
         totalItems: 0
     }
 
-    private routingBy: string;
+    private routingByType: boolean;
     private routingById: number;
 
     constructor(
@@ -37,11 +37,18 @@ export class HolidaysListComponent {
     ) { }
 
     ngOnInit() {
-        this._activatedRoute.params.subscribe(() => {
+        this._activatedRoute.params.subscribe((params: Params) => {
             this.paginatedData = this._activatedRoute.snapshot.data['holidays'];
             this.holidayList = this.paginatedData.data;
             this.holidayList = this._utilsService.setNumberOfStarsArray(this.holidayList);
             this.paginationConfig.totalItems = this.paginatedData.itemsTotal;
+        });
+        
+        this._activatedRoute.queryParams.subscribe(queryParam => {
+            if (queryParam['type']) {
+                this.routingByType = true;
+            }
+            this.routingById = queryParam['id'];
         });
     }
 

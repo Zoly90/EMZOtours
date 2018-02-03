@@ -36,6 +36,7 @@ public class HolidayService {
 		List<HolidayListDataTO> data = holidayList.stream()
 				.map(holiday -> new HolidayListDataTO(holiday.getId(), holiday.getAccommodationName(), holiday.getNrStars(),
 						holiday.getPresentationImage(), holiday.getEarlyBookingDeadline(), holiday.getEarlyBookingPercentage(),
+						holiday.getLastMinuteBeginningDate(), holiday.getLastMinutePercentage(),
 						holiday.getCountry(), holiday.getCity(), holiday.getStreet(), holiday.getStreetNr(), holiday.getZip(),
 						holiday.getTransportation(), holiday.getDepartureFrom(), holiday.getNrNights(), holiday.getAccommodationType(),
 						holiday.getFoodBoard(), holiday.getShortDescription(), holiday.getStartingPrice(), holiday.getDepartureDatesFrom(),
@@ -54,6 +55,7 @@ public class HolidayService {
 		List<HolidayListDataTO> data = holidayList.stream()
 				.map(holiday -> new HolidayListDataTO(holiday.getId(), holiday.getAccommodationName(), holiday.getNrStars(),
 						holiday.getPresentationImage(), holiday.getEarlyBookingDeadline(), holiday.getEarlyBookingPercentage(),
+						holiday.getLastMinuteBeginningDate(), holiday.getLastMinutePercentage(),
 						holiday.getCountry(), holiday.getCity(), holiday.getStreet(), holiday.getStreetNr(), holiday.getZip(),
 						holiday.getTransportation(), holiday.getDepartureFrom(), holiday.getNrNights(), holiday.getAccommodationType(),
 						holiday.getFoodBoard(), holiday.getShortDescription(), holiday.getStartingPrice(), holiday.getDepartureDatesFrom(),
