@@ -20,14 +20,14 @@ import ro.emzo.turismapp.holiday.to.HolidayManagementTableDataTO;
 public class HolidayController {
 	
 	@Autowired
-	HolidayService holidaySummaryService;
+	HolidayService holidayService;
 
 	@PostMapping("/holiday/management/search")
 	@ResponseBody
 	public ResponseEntity<PagedList<HolidayManagementTableDataTO>> getAllHolidaysForManagementBySearchCriteria(
 			@RequestBody SearchCriteria searchCriteria
 	) {
-		PagedList<HolidayManagementTableDataTO> list = holidaySummaryService.getAllHolidaysForManagementBySearchCriteria(searchCriteria);
+		PagedList<HolidayManagementTableDataTO> list = holidayService.getAllHolidaysForManagementBySearchCriteria(searchCriteria);
 		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
 
@@ -39,21 +39,21 @@ public class HolidayController {
 	) {
 		PagedList<HolidayListDataTO> list;
 		if (StringUtils.isEmpty(quickFilter)) {
-			list = holidaySummaryService.getAllHolidaysBySearchCriteria(searchCriteria);
+			list = holidayService.getAllHolidaysBySearchCriteria(searchCriteria);
 		} else {
-			list = holidaySummaryService.getAllHolidaysBySearchCriteriaForQuickFilter(searchCriteria);
+			list = holidayService.getAllHolidaysBySearchCriteriaForQuickFilter(searchCriteria);
 		}
 		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
 
 	@GetMapping("/holiday/{holidayId}")
 	public ResponseEntity<Holiday> getHolidayById(@PathVariable("holidayId") Long holidayId) {
-		return new ResponseEntity<>(holidaySummaryService.getHolidayById(holidayId), HttpStatus.OK);
+		return new ResponseEntity<>(holidayService.getHolidayById(holidayId), HttpStatus.OK);
 	}
 
 	@DeleteMapping("/holiday/{holidayId}")
 	public ResponseEntity<Void> deleteHoliday(@PathVariable("holidayId") Long holidayId) {
-		holidaySummaryService.deleteHoliday(holidayId);
+		holidayService.deleteHoliday(holidayId);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 }

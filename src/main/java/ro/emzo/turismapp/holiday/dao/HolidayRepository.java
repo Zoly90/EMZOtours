@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import ro.emzo.turismapp.holiday.model.Holiday;
 import ro.emzo.turismapp.holiday.model.HolidaySubcategories;
 import ro.emzo.turismapp.holiday.model.HolidayTypes;
-import ro.emzo.turismapp.holiday.model.Period;
+import ro.emzo.turismapp.holiday.model.Periods;
 
 import java.util.List;
 @Repository
@@ -16,5 +16,5 @@ public interface HolidayRepository extends JpaRepository<Holiday, Long>, CustomH
 
     List<Holiday> findByHolidaySubcategories(HolidaySubcategories holidaySubcategories);
 
-    Holiday findByPeriods(Period period);
+    Holiday findByPeriods(Periods periods);
 }

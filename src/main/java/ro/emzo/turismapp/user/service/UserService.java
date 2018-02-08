@@ -2,6 +2,7 @@ package ro.emzo.turismapp.user.service;
 
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -13,8 +14,15 @@ import org.springframework.stereotype.Service;
 
 import org.springframework.util.StringUtils;
 import ro.emzo.turismapp.core.model.SearchCriteria;
+import ro.emzo.turismapp.holiday.dao.HolidayRepository;
+import ro.emzo.turismapp.holiday.dao.PeriodRepository;
+import ro.emzo.turismapp.holiday.dao.ReviewRepository;
+import ro.emzo.turismapp.holiday.model.Holiday;
+import ro.emzo.turismapp.holiday.model.Periods;
+import ro.emzo.turismapp.holiday.model.Reviews;
 import ro.emzo.turismapp.holiday.service.ApplyForOfferService;
 import ro.emzo.turismapp.user.auth.UserValidator;
+import ro.emzo.turismapp.user.dao.HolidayReservationRepository;
 import ro.emzo.turismapp.user.dao.UserDataService;
 import ro.emzo.turismapp.user.dao.UserRepository;
 import ro.emzo.turismapp.user.exceptions.UserException;
@@ -34,6 +42,9 @@ public class UserService {
     private UserRepository userRepository;
 
     @Autowired
+    private PeriodRepository periodRepository;
+
+    @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
@@ -44,6 +55,15 @@ public class UserService {
 
     @Autowired
     private ApplyForOfferService applyForOfferService;
+
+    @Autowired
+    private HolidayRepository holidayRepository;
+
+    @Autowired
+    private HolidayReservationRepository holidayReservationRepository;
+
+    @Autowired
+    private ReviewRepository reviewRepository;
 
     public String getUserLoggingIn(UserLoginTO userLoginTO) {
         String result = null;
@@ -229,6 +249,54 @@ public class UserService {
         return staffList;
     }
 
+    public List<UserHolidayListTO> getHolidaysOfLoggedInUser(Long userId) {
+        List<UserHolidayListTO> result = new ArrayList<>();
+        UserInfo user = userRepository.findOne(userId);
+        for (HolidayReservation reservation : user.getHolidayReservations()) {
+            Periods period = periodRepository.findOne(reservation.getPeriodId());
+            Holiday holiday = period.getHoliday();
+            result.add(new UserHolidayListTO(holiday.getId(), holiday.getAccommodationName(),
+                    holiday.getPresentationImage(), holiday.getNrStars(), holiday.getCountry(),
+                    holiday.getCity(), holiday.getStreet(), holiday.getStreetNr(), holiday.getZip(),
+                    holiday.getTransportation(), holiday.getDepartureFrom(), reservation.getBookingPrice(),
+                    period.getPrice(), period.getStartingDate(), period.getEndingDate(), holiday.getNrNights(),
+                    holiday.getAccommodationType(), holiday.getFoodBoard(), holiday.getShortDescription(),
+                    reservation.getParticipated()));
+        }
+        return result;
+    }
+
+    public List<Reviews> saveHolidayReview(Long userInfoId, Long holidayId, HolidayReview holidayReview) throws UserDoesNotExistInTheDatabase {
+        UserInfo userEntity = userRepository.findOne(userInfoId);
+        if (userEntity == null) {
+            throw new UserDoesNotExistInTheDatabase();
+        }
+
+        Reviews review = new Reviews();
+        review.setDateOfReview(new Date());
+        review.setNameOfReviewer(userEntity.getFirstName() + " " + userEntity.getLastName().substring(0,1) + ".");
+        review.setRating(holidayReview.getRating());
+        review.setTitle(holidayReview.getTitle());
+        review.setText(holidayReview.getText());
+
+        Holiday holiday = holidayRepository.findOne(holidayId);
+        final HolidayReservation[] holidayReservation = new HolidayReservation[1];
+        holiday.getPeriods().forEach(period -> {
+            holidayReservation[0] = holidayReservationRepository.findByPeriodId(period.getId());
+            if (holidayReservation[0] != null) {
+                review.setDateOfTravel(period.getStartingDate());
+            }
+        });
+
+        review.setHoliday(holiday);
+        reviewRepository.save(review);
+
+        holiday = holidayRepository.findOne(holidayId);
+        List<Reviews> reviewsList = new ArrayList<>(holiday.getReviews());
+
+        return reviewsList;
+    }
+
     public UserCreditCardTO getUserCreditCardData(Long userInfoId) {
         UserCreditCardTO result;
         UserInfo userInfo = userDataService.getUserInfo(userInfoId);
@@ -317,7 +385,7 @@ public class UserService {
 
     private UserAddressTO fromUserAddressToUserAddressTO(UserAddress userAddress) {
         UserAddressTO userAddressTO = null;
-        if(userAddress != null) {
+        if (userAddress != null) {
             userAddressTO = new UserAddressTO();
             userAddressTO.setId(userAddress.getId());
             userAddressTO.setCountry(userAddress.getCountry());
@@ -397,6 +465,6 @@ public class UserService {
 
     private String concatFirstNameWithLastName(String firstName, String lastName) {
         return ((firstName != null || firstName != "") ? firstName : "")
-                    + ((lastName != null || lastName != "") ? " " + lastName : "");
+                + ((lastName != null || lastName != "") ? " " + lastName : "");
     }
 }

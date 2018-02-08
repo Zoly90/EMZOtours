@@ -5,6 +5,7 @@ import { Observable } from "rxjs/Observable";
 import { HttpClient } from "@angular/common/http";
 import { UserRegistrationModel } from "../toolbar/signUpModal/model/registration-model";
 import { SearchCriteria } from "../models/search-criteria.model";
+import { SubmitReview } from "../../holiday/models/holiday.model";
 
 @Injectable()
 export class UserService {
@@ -35,6 +36,18 @@ export class UserService {
                 'passwordChanged': passwordChanged ? passwordChanged : ''
             }
         });
+    }
+
+    public getHolidaysOfLoggedInUser(userId: number) {
+        return this._http.get(`${this.baseUrl}/${userId}/holidays`);
+    }
+
+    public saveReview(review: SubmitReview, userId: number, holidayId: number): Observable<any> {
+        return this._http.post(`${this.baseUrl}/${userId}/${holidayId}/submit-review`, review);
+    }
+
+    public getHolidaysWishlistOfLoggedInUser(userId: number) {
+        return this._http.get(`${this.baseUrl}/${userId}/holidays-wishlist`)
     }
 
     public getUser(id: number): Observable<any> {

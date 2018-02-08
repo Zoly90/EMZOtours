@@ -2,8 +2,10 @@ package ro.emzo.turismapp.user.dao;
 
 import org.springframework.stereotype.Repository;
 import ro.emzo.turismapp.core.model.SearchCriteria;
+import ro.emzo.turismapp.holiday.model.Holiday;
 import ro.emzo.turismapp.user.model.UserInfo;
 import ro.emzo.turismapp.user.model.UserLogin;
+import ro.emzo.turismapp.user.to.UserHolidayListTO;
 
 import java.util.List;
 

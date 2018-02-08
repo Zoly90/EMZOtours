@@ -75,6 +75,7 @@ export class TurismAppConstants {
 	public static ABOUT_PAGE_PATH = 'about';
 	public static HOLIDAY_DETAIL_VIEW_PAGE_PATH = 'holiday';
 	public static HOLIDAY_LIST_VIEW_PAGE_PATH = 'holidays-list';
+	public static LOGGED_IN_USER_HOLIDAYS_LIST_VIEW_PAGE_PATH = 'my-holidays-list'
 
 	// date select component action types
 	public static BIRTHDATE = 'birthdate';
@@ -84,4 +85,8 @@ export class TurismAppConstants {
 	// partail YouTube links
 	public static YOU_TUBE_URL_FIRST_PART = 'https://www.youtube.com/embed/';
 	public static YOU_TUBE_URL_SECOND_PART = '?enablejsapi=1';
+
+	// query parameter names
+	public static HIDE_OFFERS_TAB = 'hide_offers_tab';
+	public static PARTICIPATED = 'participated';
 }

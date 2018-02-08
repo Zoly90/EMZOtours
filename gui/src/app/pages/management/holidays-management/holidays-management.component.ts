@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
 import { HolidayService } from "../../../holiday/services/holiday.service";
 import { Holiday } from "../../../holiday/models/holiday.model";
-import { HolidayUtilsService } from "../../../holiday/services/holidayDetailView.service";
+import { HolidayUtilsService } from "../../../holiday/services/holiday-utils.service";
 import { Router } from "@angular/router";
 import * as _ from 'lodash'
 import { TurismAppConstants } from "../../../utils/constants";

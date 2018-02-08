@@ -1,0 +1,51 @@
+p {
+	margin: 20px 0;
+}
+
+.verticalDivider {
+	border-top-width: 0;
+	border-right-width: 1px;
+	border-right-style: solid;
+	border-color: grey;
+	height: 110%;
+}
+
+.personal-info {
+	padding: 0 10px
+}
+
+.price {
+	margin-left: 5px;
+}
+
+.price-container {
+	margin: 0 auto;
+
+	&.original {
+		position: relative;
+	}
+
+	&.booking {
+		margin-top: 5px;
+	}
+}
+
+.cross-over {
+		width: 14%;
+    border-bottom: 0;
+    top: 9px;
+    left: 139px;
+}
+
+.price {
+    font-size: 14px;
+
+    &.updated {
+        font-size: 16px;
+    }
+}
+
+.details-btn {
+	margin-bottom: 0;
+	width: auto;
+}

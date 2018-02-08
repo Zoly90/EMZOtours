@@ -1,11 +1,11 @@
 package ro.emzo.turismapp.holiday.dao;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import ro.emzo.turismapp.holiday.model.Period;
+import ro.emzo.turismapp.holiday.model.Periods;
 
 /**
  * Created by E5570_2 on 2017-09-25.
  */
 
-public interface PeriodRepository extends JpaRepository<Period, Long> {
+public interface PeriodRepository extends JpaRepository<Periods, Long> {
 }

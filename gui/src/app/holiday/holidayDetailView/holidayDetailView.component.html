@@ -71,7 +71,7 @@
         <div fxLayout fxFlex="60%">
             <div fxLayout="column" fxFlex="75%">
 
-                <mat-tab-group class="customize" (focusChange)="mapInTab.triggerResize()">
+                <mat-tab-group class="customize" [selectedIndex]="selectedTabIndex" (focusChange)="mapInTab.triggerResize()">
                     <mat-tab label="Hotel & region description" position="-1">
                         <div class="hotel-description-container" fxLayout="column">
                             <div fxLayout fxLayoutAlign="space-between start">
@@ -167,6 +167,7 @@
                             </div>
                         </div>
                     </mat-tab>
+                    <div *ngIf="!hideOffersTab">
                     <mat-tab label="Offer information">
                         <div class="offer-list-container">
                             <div fxLayout fxLayoutAlign="space-between center">
@@ -203,17 +204,17 @@
                                 <mat-list-item class="tableItems" *ngFor="let offer of holiday.periods">
                                     <div fxLayout fxFlex>
                                         <div fxLayout="column" fxFlex="13%">
-                                            <h5 md-line class="tableItem">{{offer.from | date}}</h5>
+                                            <h5 md-line class="tableItem">{{offer.startingDate | date}}</h5>
                                         </div>
                                         <div fxLayout="column" fxFlex="13%">
-                                            <h5 md-line class="tableItem">{{offer.until | date}}</h5>
+                                            <h5 md-line class="tableItem">{{offer.endingDate | date}}</h5>
                                         </div>
                                         <div fxLayout fxLayoutAlign="center center" fxFlex="18%" [ngStyle]="{'position': 'relative'}">
                                             <div md-line class="tableItem" fxLayout="column">
                                                 <h5 class="price">{{offer.price}}</h5>
                                                 <span class="cross-over"></span>
                                                 <h5 class="price updated">{{offer.updatedPrice}}</h5>
-                                            </div><span class="glyphicon glyphicon-euro" [ngStyle]="{'margin-left': '5px'}">/trip/adult</span>
+                                            </div><span class="glyphicon glyphicon-euro" [ngStyle]="{'margin-left': '5px'}"></span>/trip/adult
                                         </div>
                                         <div fxLayout="column" fxFlex="17%">
                                             <h5 md-line class="tableItem">{{offer.roomType}}</h5>
@@ -229,9 +230,11 @@
                                                     <i *ngIf="!offer.available" class="fa fa-ban fa-lg" aria-hidden="true"></i>
                                                     <i *ngIf="offer.available" class="fa fa-external-link fa-lg" aria-hidden="true"></i>
                                                 </button>
-                                            <button (click)="applyForOffer(offer)" class="btn btn-success" [ngClass]="{'apply-offer-button': !editOfferAndPeriodsInformation}"
+                                            <button *ngIf="offer.nrOfRoomsLeft != 0" (click)="applyForOffer(offer)" class="btn btn-success" [ngClass]="{'apply-offer-button': !editOfferAndPeriodsInformation}"
                                                 type="submit" [disabled]="editOfferAndPeriodsInformation || offer.available">
                                                     <i class="fa fa-check-circle-o fa-lg" aria-hidden="true"></i> {{applyButtonText}}</button>
+
+                                            <img *ngIf="offer.nrOfRoomsLeft == 0" class="soldout-image" src="../../../assets/images/holidayDetailView/soldout-png.png">
                                         </div>
                                     </div>
                                 </mat-list-item>
@@ -265,6 +268,7 @@
                             </div>
                         </div>
                     </mat-tab>
+                    </div>
                     <mat-tab label="Location & points of interest">
                         <div class="location-container">
                             <h3>Exact location of the hotel</h3>
@@ -305,7 +309,57 @@
                         </div>
                     </mat-tab>
                     <mat-tab label="Reviews">
+
                         <div class="accordion-container">
+                            <div *ngIf="this.selectedTabIndex == 3 && !reviewSubmitted" class="review-container">
+                                <form [formGroup]="reviewForm" fxLayout="column" (ngSubmit)="submitReview(reviewForm.value)">
+                                    <div class="form-group star-rating" fxLayout="column">
+                                        <fieldset class="rating">
+                                            <input #starRating5 type="radio" id="star5" name="rating" value="5" (click)="setFormControl(starRating5.value)"/>
+                                            <label class = "full" for="star5" title="Awesome - 5 stars"></label>
+
+                                            <input #starRating4 type="radio" id="star4" name="rating" value="4" (click)="setFormControl(starRating4.value)"/>
+                                            <label class = "full" for="star4" title="Pretty good - 4 stars"></label>
+                                            
+                                            <input #starRating3 type="radio" id="star3" name="rating" value="3" (click)="setFormControl(starRating3.value)"/>
+                                            <label class = "full" for="star3" title="Meh - 3 stars"></label>
+
+                                            <input #starRating2 type="radio" id="star2" name="rating" value="2" (click)="setFormControl(starRating2.value)"/>
+                                            <label class = "full" for="star2" title="Kinda bad - 2 stars"></label>
+
+                                            <input #starRating1 type="radio" id="star1" name="rating" value="1" (click)="setFormControl(starRating1.value)"/>
+                                            <label class = "full" for="star1" title="Sucks big time - 1 star"></label>
+                                        </fieldset>
+                                        <div fxFlex class="feedback-wrapper rating-feedback-wrapper" *ngIf="noRating">
+                                            <small class="feedback">
+                                                Please give a rating.
+                                            </small>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group" fxLayout="column">
+                                        <label for="reviewTitle" class="form-label">Review title *</label>
+                                        <div class="input-container" fxFlex="30">
+                                            <input type="text" class="form-control" id="reviewTitle" formControlName="reviewTitle">
+                                        </div>
+                                        <div fxFlex class="feedback-wrapper" *ngIf="reviewForm.controls['reviewTitle'].errors && (reviewForm.controls['reviewTitle'].dirty || reviewForm.controls['reviewTitle'].touched)">
+                                            <small [hidden]="!reviewForm.controls['reviewTitle'].errors.required" class="feedback">
+                                                Review title is required.
+                                            </small>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group" fxLayout="column">
+                                        <label for="reviewText" class="form-label">Review</label>
+                                        <div class="input-container" fxFlex="30">
+                                            <textarea class="form-control" id="reviewText" formControlName="reviewText"></textarea>
+                                        </div>
+                                    </div>
+
+                                    <button type="submit" class="btn btn-success btn-review" [disabled]="reviewForm.invalid || noRating">Submit review</button>
+                                </form>
+                            </div>
+
                             <accordion>
                                 <accordion-group class="accordion" #group *ngFor="let review of holiday.reviews">
                                     <div class="reviewTitle" accordion-heading>

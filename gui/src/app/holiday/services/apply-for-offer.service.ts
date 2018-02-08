@@ -13,7 +13,10 @@ export class ApplyForOfferService {
 	) { }
 
 	public applyForOffer(applyForOffer: ApplyForOffer) {
-		return this._http.post(`${this.baseURL}/apply-for-offer/${applyForOffer.offerId}/${applyForOffer.userId}`, applyForOffer);
+		return this._http.post(`${this.baseURL}/apply-for-offer/${applyForOffer.offerId}/${applyForOffer.userId}`, applyForOffer,
+			{
+				responseType: 'text'
+			});
 	}
 
 	public getExistingDataForLoggedInUser(userID: number) {

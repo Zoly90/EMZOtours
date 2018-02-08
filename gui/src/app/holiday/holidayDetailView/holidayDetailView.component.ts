@@ -2,8 +2,8 @@ import { Component, Input, OnInit, OnChanges, trigger, state, animate, transitio
 import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 import * as _ from 'lodash';
-import { HolidayUtilsService } from "../services/holidayDetailView.service";
-import { Holiday } from "../models/holiday.model";
+import { HolidayUtilsService } from "../services/holiday-utils.service";
+import { Holiday, SubmitReview, Review } from "../models/holiday.model";
 import { AuthorizationService } from "../../core/authentication/services/authorization.service";
 import { TurismAppConstants } from "../../utils/constants";
 import { BsModalService } from 'ngx-bootstrap/modal';
@@ -13,6 +13,8 @@ import { UtilsService } from "../../utils/utils.service";
 import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryAnimation } from 'ngx-gallery';
 import { NgxGalleryAction } from "ngx-gallery/ngx-gallery-action.model";
 import { DomSanitizer, SafeResourceUrl } from "@angular/platform-browser";
+import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+import { UserService } from "../../shared/services/user.service";
 
 @Component({
     selector: 'sd-detail',
@@ -55,6 +57,12 @@ export class HolidayDetailViewComponent {
 
     private earlyBookingImageVisible: boolean;
     private lastMinuteImageVisible: boolean;
+    private hideOffersTab: boolean;
+    private selectedTabIndex: number = 0;
+
+    public reviewForm: FormGroup;
+    public noRating: boolean = false;
+    public reviewSubmitted: boolean = false;
 
     showMap = false;
 
@@ -64,9 +72,35 @@ export class HolidayDetailViewComponent {
         private modalService: BsModalService,
         private utilsService: UtilsService,
         private activatedRoute: ActivatedRoute,
-        public domSanitizer: DomSanitizer
+        private formBuilder: FormBuilder,
+        public domSanitizer: DomSanitizer,
+        private _userService: UserService
     ) {
         this.imageChanging = setInterval(this._start, 6000);
+
+        this.reviewForm = this.formBuilder.group({
+            rating: [
+                {
+                    value: 0,
+                    disabled: false
+                }
+            ],
+            reviewTitle: [
+                {
+                    value: '',
+                    disabled: false
+                },
+                Validators.compose([
+                    Validators.required
+                ])
+            ],
+            reviewText: [
+                {
+                    value: '',
+                    disabled: false
+                }
+            ]
+        });
     }
 
     ngOnInit() {
@@ -99,12 +133,52 @@ export class HolidayDetailViewComponent {
             { breakpoint: 500, width: '300px', height: '300px', thumbnailsColumns: 3 },
             { breakpoint: 300, width: '100%', height: '200px', thumbnailsColumns: 2 },
         ];
+
+        this.activatedRoute.queryParams.subscribe(queryParam => {
+            if (queryParam[TurismAppConstants.HIDE_OFFERS_TAB]) {
+                this.hideOffersTab = true;
+                if (queryParam[TurismAppConstants.PARTICIPATED]) {
+                    this.selectedTabIndex = 3;
+                }
+            } else {
+                this.hideOffersTab = false;
+            }
+        });
     }
 
     ngOnDestroy() {
         clearInterval(this.imageChanging);
         this.subscriptionStateFadeIn.unsubscribe();
         this.subscriptionStateFadeOut.unsubscribe();
+    }
+
+    public setFormControl(value) {
+        this.reviewForm.controls['rating'].setValue(value);
+        this.noRating = false;
+    }
+
+    public submitReview(formValues) {
+        if (this.reviewForm.controls['rating'].value) {
+            console.log('write review')
+            const submitReview: SubmitReview = new SubmitReview();
+            submitReview.rating = this.reviewForm.controls['rating'].value;
+            submitReview.title = formValues.reviewTitle;
+            submitReview.text = formValues.reviewText;
+            this.noRating = false;
+            this._userService.saveReview(submitReview, this.token.userID, this.holiday.id).subscribe(
+                (reviewsList: Array<Review>) => {
+                    reviewsList.forEach(review => {
+                        review.ratingValues = new Array<boolean>();
+                        review = this._holidayUtilsService.setRatingValues(review);
+                    });
+                    console.log(reviewsList)
+                    this.holiday.reviews = reviewsList;
+                    this.reviewSubmitted = true;
+                }
+            );
+        } else {
+            this.noRating = true;
+        }
     }
 
     public getIframeYouTubeUrl(videoId: string): SafeResourceUrl {

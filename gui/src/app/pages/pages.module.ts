@@ -14,7 +14,7 @@ import { ContactComponent } from "./contact/contact.component";
 import { HomeComponent } from "./home/home.component";
 import { PersonalizedOfferService } from "./pages-services/personalized-offer.service";
 import { HolidaysManagementComponent } from "./management/holidays-management/holidays-management.component";
-import { HolidayUtilsService } from "../holiday/services/holidayDetailView.service";
+import { HolidayUtilsService } from "../holiday/services/holiday-utils.service";
 import { UserManagementComponent } from "./management/user-management/user-management.component";
 import { SharedModule } from "../shared/shared.module";
 import { OffersManagementComponent } from "./management/offers-management/offers-management.component";

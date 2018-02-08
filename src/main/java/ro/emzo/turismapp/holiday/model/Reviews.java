@@ -15,7 +15,7 @@ public class Reviews extends BaseModel{
 	private String title;
 	
 	@Column(name = "rating")
-	private Long rating;
+	private Integer rating;
 	
 	@Column(name = "text")
 	private String text;
@@ -42,11 +42,11 @@ public class Reviews extends BaseModel{
 		this.title = title;
 	}
 
-	public Long getRating() {
+	public Integer getRating() {
 		return rating;
 	}
 
-	public void setRating(Long rating) {
+	public void setRating(Integer rating) {
 		this.rating = rating;
 	}
 

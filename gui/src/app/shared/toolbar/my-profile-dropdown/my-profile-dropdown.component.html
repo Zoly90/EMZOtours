@@ -3,11 +3,9 @@
         <span class="glyphicon glyphicon-user"></span> My profile</button>
     <div *dropdownMenu class="dropdown-menu" role="menu" (click)="$event.stopPropagation()">
         <ul>
-            <button (click)="navigateToAppliedHolidays(user)" class="btn btn-transparent btn-info" type="button">Holidays applied for</button>
-            <button (click)="navigateToHolidaysWishlist(user)" class="btn btn-transparent btn-info" type="button">Holidays wishlist</button>
-            <button class="btn btn-transparent btn-info" (click)="openSignUpModal('edit-my-profile')">
-                Personal information
-            </button>
+            <button (click)="navigateToAppliedHolidays()" class="btn btn-transparent btn-info" type="button">My holidays</button>
+            <button (click)="navigateToHolidaysWishlist()" class="btn btn-transparent btn-info" type="button">Holidays wishlist</button>
+            <button class="btn btn-transparent btn-info" (click)="openSignUpModal()">Personal information</button>
         </ul>
     </div>
 </div>

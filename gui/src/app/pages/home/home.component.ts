@@ -15,6 +15,7 @@ import { PagedList } from "../../shared/models/paged-list.model";
 import { HolidayService } from "../../holiday/services/holiday.service";
 import { HolidayListModel } from "../../holiday/models/holiday-list.model";
 import { UtilsService } from "../../utils/utils.service";
+import { HolidayUtilsService } from "../../holiday/services/holiday-utils.service";
 
 /**
  * This class represents the lazy loaded HomeComponent.
@@ -76,7 +77,8 @@ export class HomeComponent {
     private _renderer: Renderer2,
     private _sharedServices: SharedServices,
     private _holidayService: HolidayService,
-    private _utilsService: UtilsService
+    private _utilsService: UtilsService,
+    private _holidayUtilsService: HolidayUtilsService
   ) {
     this.holidaySearchForm = this._formBuilder.group({
       destinationCountryFilter: [
@@ -216,7 +218,7 @@ export class HomeComponent {
   private _getHolidaysBySearchCriteria() {
     this._holidayService.getHolidaysBySearchCriteria(this.searchCriteria, 'quickFilter').subscribe((paginatedData: PagedList<HolidayListModel>) => {
       this.listOfHolidays = paginatedData.data;
-      this.listOfHolidays = this._utilsService.setNumberOfStarsArray(this.listOfHolidays);
+      this.listOfHolidays = this._holidayUtilsService.setNumberOfStarsArray(this.listOfHolidays);
       this.paginationConfig.totalItems = paginatedData.itemsTotal;
     })
   }
@@ -266,6 +268,6 @@ export class HomeComponent {
   }
 
   public goToDetailPage(holiday: HolidayListModel) {
-    this._utilsService.goToDetailPage(holiday);
+    this._holidayUtilsService.goToDetailPage(holiday);
   }
 }

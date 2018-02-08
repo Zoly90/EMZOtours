@@ -12,6 +12,7 @@ import { UserManagementComponent } from "./pages/management/user-management/user
 import { OffersManagementComponent } from "./pages/management/offers-management/offers-management.component";
 import { HolidayDetailViewResolver } from "./holiday/services/holiday-detail-view.resolver";
 import { HolidayListResolver } from "./holiday/services/holidayList-resolver";
+import { UserHolidaysList } from "./user/user-holidays-list/user-holidays-list.component";
 
 const routes: Routes = [
   {
@@ -51,6 +52,10 @@ const routes: Routes = [
     resolve: {
       holidays: HolidayListResolver
     }
+  },
+  {
+    path: TurismAppConstants.LOGGED_IN_USER_HOLIDAYS_LIST_VIEW_PAGE_PATH,
+    component: UserHolidaysList
   },
   { 
     path: TurismAppConstants.HOME_PAGE_PATH,

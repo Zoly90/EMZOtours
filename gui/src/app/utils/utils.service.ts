@@ -144,24 +144,4 @@ export class UtilsService {
     selectedDate.selectedDay = date.getDate();
     return selectedDate;
   }
-
-  public goToDetailPage(holiday: HolidayListModel) {
-    this._router.navigate([TurismAppConstants.HOLIDAY_DETAIL_VIEW_PAGE_PATH + '/' + holiday.hotelName],
-      { queryParams: { id: holiday.id } });
-  }
-
-  public setNumberOfStarsArray(holidayList: Array<HolidayListModel>) {
-    holidayList.forEach((holiday: HolidayListModel) => {
-      holiday.arrayOfStars = this.constructArrayOfStars(Number(holiday.nrStars));
-    });
-    return holidayList;
-  }
-  
-  public constructArrayOfStars(numberOfStars: number): Array<number> {
-    let nrStarsArray: Array<number> = new Array();
-    for (let i = 0; i < numberOfStars; i++) {
-      nrStarsArray.push(i + 1);
-    }
-    return nrStarsArray;
-  }
 }

@@ -9,25 +9,29 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import ro.emzo.turismapp.core.model.SearchCriteria;
+import ro.emzo.turismapp.holiday.model.Reviews;
 import ro.emzo.turismapp.user.auth.SecurityService;
 import ro.emzo.turismapp.user.auth.UserValidator;
 import ro.emzo.turismapp.user.exceptions.UserException;
 import ro.emzo.turismapp.user.exceptions.UserDoesNotExistInTheDatabase;
+import ro.emzo.turismapp.user.model.HolidayReview;
 import ro.emzo.turismapp.user.service.UserService;
 import ro.emzo.turismapp.user.to.*;
+
+import javax.xml.ws.Response;
 
 @RestController
 @RequestMapping("/api/turism-app/user")
 public class UserController {
-	
-	@Autowired
-	private UserService userService;
 
-	@Autowired
-	private SecurityService securityService;
+    @Autowired
+    private UserService userService;
 
-	@Autowired
-	private UserValidator userValidator;
+    @Autowired
+    private SecurityService securityService;
+
+    @Autowired
+    private UserValidator userValidator;
 
 //	@GetMapping("registration")
 //	public String registration(Model model) {
@@ -65,60 +69,81 @@ public class UserController {
 //	public String welcome(Model model) {
 //		return "welcome";
 //	}
-	
-	@GetMapping("/{userInfoId}")
-	public ResponseEntity<AddOrUpdateUserTO> getUser(
-			@PathVariable("userInfoId") Long userInfoId
-	) {
-		AddOrUpdateUserTO user = userService.getUserForUpdate(userInfoId);
-		return new ResponseEntity<>(user, HttpStatus.OK);
-	}
-	
-	@PostMapping(value="/search", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
-	public ResponseEntity<List<UserTableDataTO>> getAllUsers(
-			@RequestBody SearchCriteria searchCriteria
-	) {
-		List<UserTableDataTO> userTableData = userService.getAllUsers(searchCriteria);
-		return new ResponseEntity<>(userTableData, HttpStatus.OK);
-	}
-	
-	@PostMapping(value="/registration", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+
+    @GetMapping("/{userInfoId}")
+    public ResponseEntity<AddOrUpdateUserTO> getUser(
+            @PathVariable("userInfoId") Long userInfoId
+    ) {
+        AddOrUpdateUserTO user = userService.getUserForUpdate(userInfoId);
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/search", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<List<UserTableDataTO>> getAllUsers(
+            @RequestBody SearchCriteria searchCriteria
+    ) {
+        List<UserTableDataTO> userTableData = userService.getAllUsers(searchCriteria);
+        return new ResponseEntity<>(userTableData, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/registration", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<?> registration(
-    		@RequestBody UserRegistrationTO newUser
-	) throws UserException {
-		userService.registerUser(newUser);
+            @RequestBody UserRegistrationTO newUser
+    ) throws UserException {
+        userService.registerUser(newUser);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
-	public ResponseEntity<AddOrUpdateUserTO> createOrUpdateUser(
-			@RequestBody AddOrUpdateUserTO user,
-			@RequestParam("passwordChanged") String passwordChanged
-	) throws UserException, UserDoesNotExistInTheDatabase {
-		user = userService.createOrUpdateUser(user, passwordChanged);
-		return new ResponseEntity<>(user, HttpStatus.OK);
-	}
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<AddOrUpdateUserTO> createOrUpdateUser(
+            @RequestBody AddOrUpdateUserTO user,
+            @RequestParam("passwordChanged") String passwordChanged
+    ) throws UserException, UserDoesNotExistInTheDatabase {
+        user = userService.createOrUpdateUser(user, passwordChanged);
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
 
-	@DeleteMapping("/{userId}")
-	public ResponseEntity<Void> deleteUser(
-			@PathVariable("userId") Long userId
-	) {
-		userService.deleteUser(userId);
-		return new ResponseEntity<>(HttpStatus.OK);
-	}
+    @DeleteMapping("/{userId}")
+    public ResponseEntity<Void> deleteUser(
+            @PathVariable("userId") Long userId
+    ) {
+        userService.deleteUser(userId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
-	@GetMapping("/{userInfoId}/credit-card-data")
-	public ResponseEntity<UserCreditCardTO> getUserCreditCardData(
-			@PathVariable("userInfoId") Long userInfoId
-	) {
-		return new ResponseEntity<>(userService.getUserCreditCardData(userInfoId), HttpStatus.OK);
-	}
+    @GetMapping("/{userInfoId}/credit-card-data")
+    public ResponseEntity<UserCreditCardTO> getUserCreditCardData(
+            @PathVariable("userInfoId") Long userInfoId
+    ) {
+        return new ResponseEntity<>(userService.getUserCreditCardData(userInfoId), HttpStatus.OK);
+    }
 
-	@GetMapping("/all-employees")
-	public ResponseEntity<List<EmployeeTO>> getAllStaff() {
-		return new ResponseEntity<>(userService.getAllStaff(), HttpStatus.OK);
-	}
+    @GetMapping("/all-employees")
+    public ResponseEntity<List<EmployeeTO>> getAllStaff() {
+        return new ResponseEntity<>(userService.getAllStaff(), HttpStatus.OK);
+    }
+
+    @GetMapping("/{userInfoId}/holidays")
+    public ResponseEntity<List<UserHolidayListTO>> getHolidaysOfLoggedInUser(
+            @PathVariable("userInfoId") Long userInfoId
+    ) {
+        return new ResponseEntity<>(userService.getHolidaysOfLoggedInUser(userInfoId), HttpStatus.OK);
+    }
+
+    @PostMapping("/{userInfoId}/{holidayId}/submit-review")
+    public ResponseEntity<List<Reviews>> saveReview(
+            @PathVariable("userInfoId") Long userInfoId,
+            @PathVariable("holidayId") Long holidayId,
+            @RequestBody HolidayReview holidayReview
+    ) throws UserDoesNotExistInTheDatabase {
+        return new ResponseEntity<>(userService.saveHolidayReview(userInfoId, holidayId, holidayReview), HttpStatus.OK);
+    }
+
+//	@GetMapping("/{userInfoId}/holidays-wishlist")
+//	public ResponseEntity<List<UserHolidayListTO>> getHolidaysWishlistOfLoggedInUser() {
+//		return new ResponseEntity<>(userService.getAllStaff(), HttpStatus.OK);
+//	}
 }

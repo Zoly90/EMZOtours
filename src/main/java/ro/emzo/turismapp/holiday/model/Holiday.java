@@ -119,7 +119,7 @@ public class Holiday extends BaseModel{
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "holiday_id")
-	private Collection<Period> periods = new ArrayList<>();
+	private Collection<Periods> periods = new ArrayList<>();
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "holiday_id")
@@ -409,11 +409,11 @@ public class Holiday extends BaseModel{
 		this.pointsOfInterest = pointsOfInterest;
 	}
 
-	public Collection<Period> getPeriods() {
+	public Collection<Periods> getPeriods() {
 		return periods;
 	}
 
-	public void setPeriods(Collection<Period> periods) {
+	public void setPeriods(Collection<Periods> periods) {
 		this.periods = periods;
 	}
 

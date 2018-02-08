@@ -1,0 +1,74 @@
+<mat-card class="holidaysListContainer">
+	<mat-card-content fxLayout="column" fxFlex>
+
+		<ul>
+			<li class="holidayItem" *ngFor="let holidaySummary of holidayList; let first = first; let last = last"
+					fxLayout fxFlex>
+				<div class="imageSection" fxLayout="column" fxFlex="30%">
+					<img (click)="goToDetailPage(holidaySummary.id)" class="mainPreviewImage" [src]="holidaySummary.presentationImage">
+				</div>
+				<div class="infoSection" fxLayout="column" fxFlex="50%">
+					<h2 (click)="goToDetailPage(holidaySummary.id)">{{holidaySummary.hotelName}}
+						<img class="stars" *ngFor="let number of holidaySummary.arrayOfStars" src="../../../assets/images/icons/star-size_s.png">
+					</h2>
+
+					<h4>{{holidaySummary.country}} <span class="glyphicon glyphicon-arrow-right"></span> {{holidaySummary.city}}, {{holidaySummary.street}},
+						nr. {{holidaySummary.streetNr}}, {{holidaySummary.zip}}
+					</h4>
+					<div fxLayout fxFlex="30%">
+						<!--<div class="infoColumn" fxLayout="column" fxFlex="25%">
+							<span><h4>Transportation</h4></span>
+							<div *ngIf="holidaySummary.transportation === 'transportation.airplane'">
+								<img src="../../../assets/images/icons/airplane-listView_size_s.png">
+							</div>
+							<div *ngIf="holidaySummary.transportation === 'transportation.bus'">
+								<img src="../../../assets/images/icons/bus-listView_size_s.png">
+							</div>
+						</div>
+						<mat-divider class="verticalDivider"></mat-divider>-->
+						<div class="infoColumn personal-info" fxLayout="column" fxFlex="25%">
+							<h4>Departue from</h4>
+							<div><i>{{holidaySummary.departureFrom}} airport</i></div>
+							<div *ngIf="holidaySummary.transportation === 'transportation.airplane'">
+								<img src="../../../assets/images/icons/airplane-listView_size_s.png">
+							</div>
+							<div *ngIf="holidaySummary.transportation === 'transportation.bus'">
+								<img src="../../../assets/images/icons/bus-listView_size_s.png">
+							</div>
+						</div>
+						<mat-divider class="verticalDivider"></mat-divider>
+						<div class="infoColumn personal-info" fxLayout="column" fxFlex="45%">
+							<h4>Price</h4>
+							<div fxLayout class="price-container original">
+								Original booking price: <i><span class="price">{{holidaySummary.originalPrice}}</span></i>
+								<span class="cross-over"></span>
+								<span class="glyphicon glyphicon-euro" [ngStyle]="{'margin-left': '5px'}"></span>/trip/adult
+							</div>
+							<div fxLayout class="price-container booking">
+								Your booking price: <i><span class="price updated">{{holidaySummary.bookingPrice}}</span></i>
+								<span class="glyphicon glyphicon-euro" [ngStyle]="{'margin-left': '5px'}"></span>/trip/adult
+							</div>
+						</div>
+						<mat-divider class="verticalDivider"></mat-divider>
+						<div class="infoColumn personal-info" fxLayout="column" fxFlex="30%">
+							<h4>Period</h4>
+							<div><i>{{holidaySummary.startDate | date:'MMM d'}} <span class="glyphicon glyphicon-arrow-right"></span> {{holidaySummary.endDate | date}}</i></div>
+						</div>
+					</div>
+					<p>
+						<i>Offer: {{holidaySummary.nrNights}} nights, in a magnificent {{holidaySummary.accommodationType}}, {{holidaySummary.food}}, {{holidaySummary.shortDescription}}</i>
+					</p>
+				</div>
+				<div class="details-container" fxLayout="column" fxFlex="20">
+					<div class="details-section" fxLayout="row" fxLayoutAlign="center center">
+						<button (click)="goToDetailPage(holidaySummary)" class="btn btn-primary details-btn" type="submit">
+							<span *ngIf="!holidaySummary.participated">View booking</span>
+							<span *ngIf="holidaySummary.participated">Write a review</span>
+						</button>
+					</div>
+				</div>
+			</li>
+		</ul>
+
+	</mat-card-content>
+</mat-card>

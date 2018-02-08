@@ -74,9 +74,7 @@ export class ApplyForOfferModalComponent {
     this.userService.getUserCreditCardData(this.userId)
       .subscribe(res => {
         this.userCreditCard = res;
-        console.log(this.userCreditCard)
         this.creditCardExpirationDate = this.userCreditCard.creditCardExpirationDate;
-        console.log(this.creditCardExpirationDate)
         this._initFormWithExistingUserData();
       })
   }

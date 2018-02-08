@@ -1,20 +1,8 @@
 @import '../../styles/variables.scss';
 
-h2 {
-  cursor: pointer;
-}
-
 h3 {
     font-weight: bold;
     font-size: 26px;
-}
-
-h4 {
-  font-size: 17px;
-}
-
-p {
-  margin-top: 10px;
 }
 
 .priceInfo {
@@ -22,19 +10,6 @@ p {
     position: absolute;
     margin: 0;
     padding: 10px;
-}
-
-.verticalDivider {
-  border-top-width: 0;
-  border-right-width: 1px;
-  border-right-style: solid;
-  border-color: grey;
-  height: 100%;
-}
-
-.mainPreviewImage {
-  width: 98%;
-  cursor: pointer;
 }
 
 .promotion-image-container {
@@ -56,55 +31,6 @@ p {
     margin-left: -5.5px;
     margin-top: -4px;
   }
-}
-
-.stars {
-  vertical-align: top;
-}
-
-.infoColumn {
-  text-align: center;
-}
-
-.infoColumn>span>h4 {
-  margin-bottom: 0;
-}
-
-.infoColumn>img {
-  width: 50px;
-  align-self: center;
-  margin-top: -10px;
-}
-
-.details-container {
-  padding: 10px;
-}
-
-.details-section {
-  background-color: #F2D7A5;
-  text-align: center;
-  position: relative;
-
-  .cross-over-value {
-    margin: 0
-  }
-
-  h4, h5 {
-    font-weight: bold;
-  }
-
-  h3, h5 {
-    margin-top: 0;
-  }
-}
-
-.detailsBtn {
-  width: 120px;
-  height: 50px;
-  align-self: center;
-  font-size: 20px;
-  font-weight: bold;
-  margin-bottom: 10px;
 }
 
 .comming-soon-image-container {

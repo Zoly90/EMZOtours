@@ -4,30 +4,9 @@
   display: block;
 }
 
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  position: relative;
-}
-
 pagination-controls {
     margin: 0 auto;
     font-size: 18px;
-}
-
-.holidaysListContainer {
-  margin: 0 auto;
-  width: 70%;
-}
-
-.holidayItem {
-    padding: 10px 10px;
-    margin: 20px 20px;
-    border: 1px solid $container-border-color;
-    box-shadow: $container-border-shadow;
 }
 
 .summer-comming-soon-image-container {

@@ -11,6 +11,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { HttpModule } from '@angular/http';
 import { CoreModule } from "./core/core.module";
+import { UserModule } from "./user/user.module";
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { CoreModule } from "./core/core.module";
     AppRoutingModule,
     PagesModule,
     HolidayModule,
+    UserModule,
     CoreModule,
     SharedModule.forRoot(),
     NgxPaginationModule,

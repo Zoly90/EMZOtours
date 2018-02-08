@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ro.emzo.turismapp.holiday.service.ApplyForOfferService;
 import ro.emzo.turismapp.holiday.to.ApplyForOfferTO;
+import ro.emzo.turismapp.user.exceptions.UserDoesNotExistInTheDatabase;
 import ro.emzo.turismapp.user.to.UserCreditCardTO;
 
 /**
@@ -20,7 +21,7 @@ public class ApplyForOfferController {
     @Autowired
     private ApplyForOfferService applyForOfferService;
 
-    @GetMapping("/{userId}")
+    @GetMapping("/{userId}/credit-card-data")
     public ResponseEntity<UserCreditCardTO> getUsersCreditCardData(
             @PathVariable("userId") Long userId
     ) {
@@ -32,7 +33,7 @@ public class ApplyForOfferController {
             @PathVariable("offerPeriodId") Long offerPeriodId,
             @PathVariable("userId") Long userId,
             @RequestBody ApplyForOfferTO applyForOfferTO
-    ) {
+    ) throws UserDoesNotExistInTheDatabase {
         applyForOfferService.applyForOffer(applyForOfferTO);
         return new ResponseEntity<>(HttpStatus.OK);
     }

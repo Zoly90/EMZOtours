@@ -1,7 +1,7 @@
 import { Component, Input, EventEmitter, Output, SimpleChanges } from "@angular/core";
 import { PagedList } from "../../shared/models/paged-list.model";
 import { HolidayListModel } from "../../holiday/models/holiday-list.model";
-import { HolidayUtilsService } from "../../holiday/services/holidayDetailView.service";
+import { HolidayUtilsService } from "../../holiday/services/holiday-utils.service";
 
 @Component({
 	selector: 'holiday-list-element',

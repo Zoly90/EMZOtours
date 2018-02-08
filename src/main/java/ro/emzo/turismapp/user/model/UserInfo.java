@@ -7,8 +7,7 @@ import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import ro.emzo.turismapp.core.model.BaseModel;
-import ro.emzo.turismapp.holiday.model.Holiday;
-import ro.emzo.turismapp.holiday.model.Period;
+import ro.emzo.turismapp.holiday.model.Periods;
 import ro.emzo.turismapp.offer.model.PersonalizedOffer;
 
 @Entity
@@ -35,29 +34,25 @@ public class UserInfo extends BaseModel {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date birthday;
 
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn
 	private UserAddress userAddress;
 	
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn
 	private UserLogin userLogin;
 
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn
 	private UserCreditCard userCreditCard;
 
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn
 	private UserIdentity userIdentity;
 
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinColumn
-	private Holiday reservedOffer;
-
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinColumn
-	private Period reservedOfferPerriod;
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "userInfo")
+	@JsonBackReference
+	private Collection<HolidayReservation> holidayReservations;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "userInfo")
 	@JsonBackReference
@@ -143,20 +138,12 @@ public class UserInfo extends BaseModel {
 		this.userIdentity = userIdentity;
 	}
 
-	public Holiday getReservedOffer() {
-		return reservedOffer;
+	public Collection<HolidayReservation> getHolidayReservations() {
+		return holidayReservations;
 	}
 
-	public void setReservedOffer(Holiday reservedOffer) {
-		this.reservedOffer = reservedOffer;
-	}
-
-	public Period getReservedOfferPerriod() {
-		return reservedOfferPerriod;
-	}
-
-	public void setReservedOfferPerriod(Period reservedOfferPerriod) {
-		this.reservedOfferPerriod = reservedOfferPerriod;
+	public void setHolidayReservations(Collection<HolidayReservation> holidayReservations) {
+		this.holidayReservations = holidayReservations;
 	}
 
 	public Collection<PersonalizedOffer> getPersonalizedOffers() {

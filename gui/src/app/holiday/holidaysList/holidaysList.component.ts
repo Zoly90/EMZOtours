@@ -1,12 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Router, ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 
 import { HolidayService } from "../services/holiday.service";
 
 import { HolidayListModel } from "../models/holiday-list.model";
 import { TurismAppConstants } from "../../utils/constants";
 import { PagedList } from "../../shared/models/paged-list.model";
-import { UtilsService } from "../../utils/utils.service";
+import { HolidayUtilsService } from "../services/holiday-utils.service";
 
 @Component({
     selector: 'sd-list',
@@ -30,17 +30,16 @@ export class HolidaysListComponent {
     private routingById: number;
 
     constructor(
-        private _router: Router,
-        private _utilsService: UtilsService,
         private _holidayService: HolidayService,
-        private _activatedRoute: ActivatedRoute
+        private _activatedRoute: ActivatedRoute,
+        private _holidayUtilsService: HolidayUtilsService
     ) { }
 
     ngOnInit() {
         this._activatedRoute.params.subscribe((params: Params) => {
             this.paginatedData = this._activatedRoute.snapshot.data['holidays'];
             this.holidayList = this.paginatedData.data;
-            this.holidayList = this._utilsService.setNumberOfStarsArray(this.holidayList);
+            this.holidayList = this._holidayUtilsService.setNumberOfStarsArray(this.holidayList);
             this.paginationConfig.totalItems = this.paginatedData.itemsTotal;
         });
         
@@ -57,6 +56,6 @@ export class HolidaysListComponent {
     }
 
     public goToDetailPage(holiday: HolidayListModel) {
-        this._utilsService.goToDetailPage(holiday);
+        this._holidayUtilsService.goToDetailPage(holiday);
     }
 }
