@@ -21,8 +21,10 @@ import ro.emzo.turismapp.holiday.model.Holiday;
 import ro.emzo.turismapp.holiday.model.Periods;
 import ro.emzo.turismapp.holiday.model.Reviews;
 import ro.emzo.turismapp.holiday.service.ApplyForOfferService;
+import ro.emzo.turismapp.holiday.to.HolidayListDataTO;
 import ro.emzo.turismapp.user.auth.UserValidator;
 import ro.emzo.turismapp.user.dao.HolidayReservationRepository;
+import ro.emzo.turismapp.user.dao.HolidayWishListRepository;
 import ro.emzo.turismapp.user.dao.UserDataService;
 import ro.emzo.turismapp.user.dao.UserRepository;
 import ro.emzo.turismapp.user.exceptions.UserException;
@@ -64,6 +66,9 @@ public class UserService {
 
     @Autowired
     private ReviewRepository reviewRepository;
+
+    @Autowired
+    private HolidayWishListRepository holidayWishListRepository;
 
     public String getUserLoggingIn(UserLoginTO userLoginTO) {
         String result = null;
@@ -295,6 +300,46 @@ public class UserService {
         List<Reviews> reviewsList = new ArrayList<>(holiday.getReviews());
 
         return reviewsList;
+    }
+
+    public List<HolidayListDataTO> getHolidayWishListForLoggedInUser(Long userId) {
+        List<HolidayListDataTO> result = new ArrayList<>();
+        UserInfo user = userRepository.findOne(userId);
+        for (FavoriteHoliday favorite : user.getHolidayWishList()) {
+            Holiday holiday = favorite.getHoliday();
+            result.add(new HolidayListDataTO(holiday.getId(), holiday.getAccommodationName(), holiday.getNrStars(),
+                    holiday.getPresentationImage(), holiday.getEarlyBookingDeadline(), holiday.getEarlyBookingPercentage(),
+                    holiday.getLastMinuteBeginningDate(), holiday.getLastMinutePercentage(),
+                    holiday.getCountry(), holiday.getCity(), holiday.getStreet(), holiday.getStreetNr(), holiday.getZip(),
+                    holiday.getTransportation(), holiday.getDepartureFrom(), holiday.getNrNights(), holiday.getAccommodationType(),
+                    holiday.getFoodBoard(), holiday.getShortDescription(), holiday.getStartingPrice(), holiday.getDepartureDatesFrom(),
+                    holiday.getDepartureDatesUntil(), true));
+        }
+        return result;
+    }
+
+    public void updateHolidayWishListForLoggedInUser(Long userId, Long holidayId) throws UserDoesNotExistInTheDatabase {
+        UserInfo user = userRepository.findOne(userId);
+        if (user == null) {
+            throw new UserDoesNotExistInTheDatabase();
+        }
+
+        Boolean favoriteHolidayUpdated = false;
+        for (FavoriteHoliday favoriteHoliday : user.getHolidayWishList()) {
+            Holiday holiday = favoriteHoliday.getHoliday();
+            if (holiday.getId() == holidayId) {
+                holidayWishListRepository.delete(favoriteHoliday.getId());
+                favoriteHolidayUpdated = true;
+            }
+        }
+
+        if (!favoriteHolidayUpdated) {
+            FavoriteHoliday favoriteHoliday = new FavoriteHoliday();
+            favoriteHoliday.setUserInfo(user);
+            Holiday holiday = holidayRepository.findOne(holidayId);
+            favoriteHoliday.setHoliday(holiday);
+            holidayWishListRepository.save(favoriteHoliday);
+        }
     }
 
     public UserCreditCardTO getUserCreditCardData(Long userInfoId) {

@@ -54,11 +54,12 @@ public class HolidayRepositoryImpl implements CustomHolidayRepository {
                 Predicate p = null;
                 if (StringUtils.isEmpty(searchCriteria.getSearchKeyword())) {
                     if (!StringUtils.isEmpty(filterCriteria.getField())) {
-                        if (filterCriteria.getField().equals("holidayTypes")) {
-                            HolidayTypes holidayTypes = holidayTypesRepository.findOne(new Long(filterCriteria.getValue()));
-                            p = builder.equal(
-                                    holidayRoot.get(filterCriteria.getField()), holidayTypes);
-                        }
+//                        if (filterCriteria.getField().equals("holidayTypes")) {
+//                            HolidayTypes holidayTypes = holidayTypesRepository.findOne(new Long(filterCriteria.getValue()));
+//                            Join<Holiday, HolidayTypes> join = holidayRoot.join(Holiday_.holidayTypes);
+//                            p = builder.equal(
+//                                    join.get("holidayTypes"), holidayTypes);
+//                        }
                         if (filterCriteria.getField().equals("holidaySubcategories")) {
                             HolidaySubcategories holidaySubcategories = holidaySubcategoriesRepository.findOne(new Long(filterCriteria.getValue()));
                             p = builder.equal(
@@ -121,11 +122,11 @@ public class HolidayRepositoryImpl implements CustomHolidayRepository {
             for (FilterCriteria filterCriteria : listOfFilterCriteria) {
                 Predicate p = null;
                 if (!StringUtils.isEmpty(filterCriteria.getField())) {
-                    if (filterCriteria.getField().equals("holidayTypes")) {
-                        HolidayTypes holidayTypes = holidayTypesRepository.findOne(new Long(filterCriteria.getValue()));
-                        p = builder.equal(
-                                holidayRoot.get(filterCriteria.getField()), holidayTypes);
-                    }
+//                    if (filterCriteria.getField().equals("holidayTypes")) {
+//                        HolidayTypes holidayTypes = holidayTypesRepository.findOne(new Long(filterCriteria.getValue()));
+//                        p = builder.equal(
+//                                holidayRoot.get(filterCriteria.getField()), holidayTypes);
+//                    }
                     if (filterCriteria.getField().equals("holidaySubcategories")) {
                         HolidaySubcategories holidaySubcategories = holidaySubcategoriesRepository.findOne(new Long(filterCriteria.getValue()));
                         p = builder.equal(

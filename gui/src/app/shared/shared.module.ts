@@ -3,6 +3,7 @@ import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { TranslateModule } from "@ngx-translate/core";
 
 // 3rd party
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
@@ -41,7 +42,6 @@ import { SharingIconsComponent } from "./sharing-icons/sharing-icons.component";
 /**
  * Do not specify providers for modules that might be imported by a lazy loaded module.
  */
-
 @NgModule({
   imports: [
     CommonModule,
@@ -55,7 +55,8 @@ import { SharingIconsComponent } from "./sharing-icons/sharing-icons.component";
     FlexLayoutModule,
     MatCheckboxModule,
     MatCardModule,
-    MatListModule
+    MatListModule,
+    TranslateModule
   ],
   declarations: [
     ToolbarComponent,

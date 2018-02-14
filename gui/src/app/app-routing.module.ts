@@ -54,8 +54,12 @@ const routes: Routes = [
     }
   },
   {
-    path: TurismAppConstants.LOGGED_IN_USER_HOLIDAYS_LIST_VIEW_PAGE_PATH,
+    path: TurismAppConstants.LOGGED_IN_USER_HOLIDAY_LIST_VIEW_PAGE_PATH,
     component: UserHolidaysList
+  },
+  {
+    path: TurismAppConstants.LOGGED_IN_USER_HOLIDAY_WISH_LIST_VIEW_PAGE_PATH,
+    component: HolidaysListComponent
   },
   { 
     path: TurismAppConstants.HOME_PAGE_PATH,

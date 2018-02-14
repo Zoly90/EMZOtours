@@ -34,6 +34,7 @@ import { PersonalizedOfferManagementService } from "./management/offers-manageme
 import { NgxPaginationModule } from "ngx-pagination/dist/ngx-pagination";
 import { HolidaysManagementService } from "./management/holidays-management/service/holidays-management.service";
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { TranslateModule } from "@ngx-translate/core";
 
 @NgModule({
     imports: [
@@ -56,7 +57,8 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
         BrowserAnimationsModule,
         RouterModule,
         NgxPaginationModule,
-        BsDatepickerModule.forRoot()
+        BsDatepickerModule.forRoot(),
+        TranslateModule
     ],
     declarations: [
         PersonalizedOfferComponent,

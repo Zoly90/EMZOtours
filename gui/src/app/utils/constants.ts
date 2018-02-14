@@ -75,7 +75,8 @@ export class TurismAppConstants {
 	public static ABOUT_PAGE_PATH = 'about';
 	public static HOLIDAY_DETAIL_VIEW_PAGE_PATH = 'holiday';
 	public static HOLIDAY_LIST_VIEW_PAGE_PATH = 'holidays-list';
-	public static LOGGED_IN_USER_HOLIDAYS_LIST_VIEW_PAGE_PATH = 'my-holidays-list'
+	public static LOGGED_IN_USER_HOLIDAY_LIST_VIEW_PAGE_PATH = 'my-holiday-list'
+	public static LOGGED_IN_USER_HOLIDAY_WISH_LIST_VIEW_PAGE_PATH = 'my-holiday-wish-list'
 
 	// date select component action types
 	public static BIRTHDATE = 'birthdate';

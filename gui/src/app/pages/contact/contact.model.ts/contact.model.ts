@@ -9,15 +9,11 @@ export class ContactInformation {
 	fax?: string | number
 	address?: UserAddress
 	workingHours?: any
-	map: {
-		id?: number
-		latitude?: number
-  	longitude?: number
-	} 
+	latitude?: number
+	longitude?: number
 
 	constructor(contactData?: any, dataIds?: any) {
 		this.address = new UserAddress();
-		this.map = {};
 
 		if (contactData) {
 			let newWorkingHours: string = '';
@@ -30,9 +26,8 @@ export class ContactInformation {
 			this.inquiriesTelephoneNr = contactData.inquiriesTelephoneNr;
 			this.fax = contactData.fax;
 			this.workingHours = newWorkingHours;
-			this.map.id = dataIds.mapId;
-			this.map.latitude = contactData.latitude;
-			this.map.longitude = contactData.longitude;
+			this.latitude = contactData.latitude;
+			this.longitude = contactData.longitude;
 			this.address.id = dataIds.addressId;
 			this.address.city = contactData.city;
 			this.address.street = contactData.street;

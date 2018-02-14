@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import ro.emzo.turismapp.core.model.SearchCriteria;
 import ro.emzo.turismapp.holiday.model.Reviews;
+import ro.emzo.turismapp.holiday.to.HolidayListDataTO;
 import ro.emzo.turismapp.user.auth.SecurityService;
 import ro.emzo.turismapp.user.auth.UserValidator;
 import ro.emzo.turismapp.user.exceptions.UserException;
@@ -142,8 +143,19 @@ public class UserController {
         return new ResponseEntity<>(userService.saveHolidayReview(userInfoId, holidayId, holidayReview), HttpStatus.OK);
     }
 
-//	@GetMapping("/{userInfoId}/holidays-wishlist")
-//	public ResponseEntity<List<UserHolidayListTO>> getHolidaysWishlistOfLoggedInUser() {
-//		return new ResponseEntity<>(userService.getAllStaff(), HttpStatus.OK);
-//	}
+	@GetMapping("/{userInfoId}/holiday-wish-list")
+	public ResponseEntity<List<HolidayListDataTO>> getHolidayWishlistOfLoggedInUser(
+            @PathVariable("userInfoId") Long userInfoId
+    ) {
+		return new ResponseEntity<>(userService.getHolidayWishListForLoggedInUser(userInfoId), HttpStatus.OK);
+	}
+
+    @PostMapping("/{userInfoId}/{holidayId}/save-as-favorite")
+    public ResponseEntity<Void> updateHolidayWishlistForLoggedInUser(
+            @PathVariable("userInfoId") Long userInfoId,
+            @PathVariable("holidayId") Long holidayId
+    ) throws UserDoesNotExistInTheDatabase {
+        userService.updateHolidayWishListForLoggedInUser(userInfoId, holidayId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

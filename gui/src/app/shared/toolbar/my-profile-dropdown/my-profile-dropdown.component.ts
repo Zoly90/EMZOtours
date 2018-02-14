@@ -21,11 +21,11 @@ export class MyProfileDropdownComponent {
   ) { }
 
   public navigateToAppliedHolidays() {
-    this._router.navigate([TurismAppConstants.LOGGED_IN_USER_HOLIDAYS_LIST_VIEW_PAGE_PATH]);
+    this._router.navigate([TurismAppConstants.LOGGED_IN_USER_HOLIDAY_LIST_VIEW_PAGE_PATH]);
   }
 
   public navigateToHolidaysWishlist() {
-    return
+    this._router.navigate([TurismAppConstants.LOGGED_IN_USER_HOLIDAY_WISH_LIST_VIEW_PAGE_PATH]);
   }
 
   public openSignUpModal() {

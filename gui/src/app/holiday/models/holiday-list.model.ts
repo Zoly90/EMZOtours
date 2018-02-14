@@ -23,4 +23,5 @@ export class HolidayListModel {
 	updatedStartingPrice: number
 	departureDatesFrom: Date
 	departureDatesUntil: Date
+	favorited: boolean
 }

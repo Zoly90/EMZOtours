@@ -3,11 +3,13 @@ package ro.emzo.turismapp.holiday.model;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Set;
 
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import ro.emzo.turismapp.core.model.BaseModel;
 
 @Entity
@@ -103,10 +105,11 @@ public class Holiday extends BaseModel{
 	@Column(name = "transportation")
 	private Transportation transportation;
 	
-	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-	@JoinColumn
-	@JsonBackReference
-	private HolidayTypes holidayTypes;
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn(name = "holiday_types_id")
+//	@JoinTable(name = "holiday_by_types", joinColumns = @JoinColumn(name = "holiday_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "holiday_type_id", referencedColumnName = "id"))
+//	@JsonIgnore
+	private Set<HolidayTypes> holidayTypes;
 
 	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
 	@JoinColumn
@@ -153,11 +156,11 @@ public class Holiday extends BaseModel{
 		this.holidaySubcategories = holidaySubcategories;
 	}
 
-	public HolidayTypes getHolidayTypes() {
+	public Set<HolidayTypes> getHolidayTypes() {
 		return holidayTypes;
 	}
 
-	public void setHolidayTypes(HolidayTypes holidayTypes) {
+	public void setHolidayTypes(Set<HolidayTypes> holidayTypes) {
 		this.holidayTypes = holidayTypes;
 	}
 

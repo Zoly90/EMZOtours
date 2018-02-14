@@ -10,6 +10,7 @@ import { CategoriesAndTypesService } from "./core/services/categories-types.serv
 import { Types } from "./core/models/types.model";
 import { TurismAppConstants } from "./utils/constants";
 import { HolidayDetailViewComponent } from "./holiday/holidayDetailView/holidayDetailView.component";
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: 'app-root',
@@ -31,9 +32,16 @@ export class AppComponent implements OnInit {
     private authorizationService: AuthorizationService,
     private utilsService: UtilsService,
     private router: Router,
-    private categoriesAndTypesService: CategoriesAndTypesService
+    private categoriesAndTypesService: CategoriesAndTypesService,
+    private translate: TranslateService
   ) {
     this.categoriesAndTypesService.setCategoriesAndTypes();
+
+    // this language will be used as a fallback when a translation isn't found in the current language
+    translate.setDefaultLang('en');
+
+    // the lang to use, if the lang isn't available, it will use the current loader to get them
+    translate.use('en');
   }
 
   ngOnInit() {
@@ -61,7 +69,7 @@ export class AppComponent implements OnInit {
     // console.log(this.holidayDetailViewComponent)
     // this.holidayDetailViewComponent.changeAuthorizedToEditStatus();
     if (this.router.url.includes(TurismAppConstants.HOLIDAYS_MANAGEMENT_PAGE_PATH) || this.router.url.includes(TurismAppConstants.PERSONALIZED_OFFERS_MANAGEMENT_PAGE_PATH) ||
-        this.router.url.includes(TurismAppConstants.USER_MANAGEMENT_PAGE_PATH)) {
+      this.router.url.includes(TurismAppConstants.USER_MANAGEMENT_PAGE_PATH)) {
       this.router.navigate(['/']);
     }
   }

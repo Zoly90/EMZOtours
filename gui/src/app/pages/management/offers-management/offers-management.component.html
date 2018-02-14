@@ -19,7 +19,7 @@
 		<div *ngIf="filtersSectionOpened" [ngStyle]="{'height': '200px'}">
 			<form [formGroup]="filtersForm" fxLayout="row" fxFlex novalidate>
 				<div fxLayout="column" fxFlex="20">
-					<h4 class="filter-category-title">Status of the offer</h4>
+					<h4 class="filter-category-title">...by offer status</h4>
 					<mat-checkbox class="" align="start" formControlName="openedStatusFilter">
 						<span class="container-element checkbox" for="children">Open</span>
 					</mat-checkbox>
@@ -44,7 +44,7 @@
 				</div>-->
 				<div fxLayout="column" class="" fxFlex="20">
 					<div fxLayout="column">
-						<h4 class="filter-category-title">Handled by</h4>
+						<h4 class="filter-category-title">...handled by</h4>
 						<ng-select
 							[noFilter]="3"
 							[options]="listOfEmployees"
@@ -55,7 +55,7 @@
 						</ng-select>
 					</div>
 					<div fxLayout="column">
-						<h4 class="filter-category-title">Destination</h4>
+						<h4 class="filter-category-title">...by destination</h4>
 						<ng-select
 							[noFilter]="3"
 							[options]="listOfCountries"
@@ -78,7 +78,7 @@
 				</div>
 			</form>
 		</div>
-		
+
 		<div class="offers-list-container" fxLayout="column">
 			<mat-list class="offers-list" fxLayout="column" fxFlex>
 				<mat-list-item fxLayout="column" class="table-header">
@@ -105,10 +105,10 @@
 					<div fxLayout fxFlex>
 						<div fxLayout fxLayoutAlign="start center" fxFlex="6%">
 							<div class="offer-status" 
-									[ngClass]="{'status-open': offer.handlingStatus === filterFiledsName.get('openedStatusFilter'), 
-									'status-wip': offer.handlingStatus === filterFiledsName.get('wipStatusFilter'), 
-									'status-done': offer.handlingStatus === filterFiledsName.get('doneStatusFilter')}">
-								{{offer.handlingStatus}}
+									[ngClass]="{'status-open': offer.handlingStatus === 'status.open', 
+									'status-wip': offer.handlingStatus === 'status.wip', 
+									'status-done': offer.handlingStatus === 'status.done'}">
+								{{offer.handlingStatus | translate}}
 							</div>
 						</div>
 						<div fxLayout fxLayoutAlign="space-around center" fxFlex="5%">

@@ -45,8 +45,8 @@
             <!--<div class="map-information-container" fxLayout="column" fxFlex="50%">
             </div>-->
         </div>
-        <agm-map [latitude]="contactInformation.map.latitude" [longitude]="contactInformation.map.longitude" [zoom]="17" fxFlex>
-            <agm-marker [latitude]="contactInformation.map.latitude" [longitude]="contactInformation.map.longitude"></agm-marker>
+        <agm-map [latitude]="contactInformation.latitude" [longitude]="contactInformation.longitude" [zoom]="17" fxFlex>
+            <agm-marker [latitude]="contactInformation.latitude" [longitude]="contactInformation.longitude"></agm-marker>
         </agm-map>
     </mat-card-content>
 </mat-card>

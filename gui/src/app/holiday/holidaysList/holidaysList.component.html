@@ -1,7 +1,7 @@
 <mat-card class="holidaysListContainer">
     <mat-card-content fxLayout="column" fxFlex>
 
-        <div class="comming-soon-image-container" *ngIf="!holidayList.length">
+        <div class="comming-soon-image-container" *ngIf="holidayList && !holidayList.length">
             <div class="christmas-comming-soon-image-container" *ngIf="routingByType" fxLayout="column" fxLayoutAlign="start center">
                 <img *ngIf="routingById == 10" src="../../../assets/images/holidaysList/christmas-is-coming-soon.jpg" alt="">
                 <img *ngIf="routingById == 11" src="../../../assets/images/holidaysList/new-year-is-coming-soon.jpg" alt="">
@@ -11,17 +11,18 @@
             </div>
         </div>
 
-        <ul>
+        <ul fxLayout="column">
             <li class="holidayItem" *ngFor="let holiday of holidayList | paginate: paginationConfig; let first = first; let last = last"
                 fxLayout fxFlex>
                 <holiday-list-element 
                     [holidaySummary]="holiday" 
+                    [userId]="token ? token.userID : null"
                     (onHolidayDetail)="goToDetailPage(holiday)">
                 </holiday-list-element>
             </li>
         </ul>
 
-        <pagination-controls *ngIf="holidayList.length > 5" (pageChange)="onPageChange($event)"></pagination-controls>
+        <pagination-controls *ngIf="holidayList && holidayList.length > 5" (pageChange)="onPageChange($event)"></pagination-controls>
 
     </mat-card-content>
 </mat-card>

@@ -56,6 +56,10 @@ public class UserInfo extends BaseModel {
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "userInfo")
 	@JsonBackReference
+	private Collection<FavoriteHoliday> holidayWishList;
+
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "userInfo")
+	@JsonBackReference
 	private Collection<PersonalizedOffer> personalizedOffers;
 
 	public Title getTitle() {
@@ -144,6 +148,14 @@ public class UserInfo extends BaseModel {
 
 	public void setHolidayReservations(Collection<HolidayReservation> holidayReservations) {
 		this.holidayReservations = holidayReservations;
+	}
+
+	public Collection<FavoriteHoliday> getHolidayWishList() {
+		return holidayWishList;
+	}
+
+	public void setHolidayWishList(Collection<FavoriteHoliday> holidayWishList) {
+		this.holidayWishList = holidayWishList;
 	}
 
 	public Collection<PersonalizedOffer> getPersonalizedOffers() {

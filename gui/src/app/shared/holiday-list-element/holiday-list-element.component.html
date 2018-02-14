@@ -46,7 +46,7 @@
 		</div>
 	</div>
 	<p>
-		<i>Offer: {{holidaySummary.nrNights}} nights, in a magnificent {{holidaySummary.accommodationType}}, {{holidaySummary.food}}, {{holidaySummary.shortDescription}}</i>
+		<i>Offer: {{holidaySummary.nrNights}} nights, in a magnificent {{holidaySummary.accommodationType}}, {{holidaySummary.food | translate}}, {{holidaySummary.shortDescription}}</i>
 	</p>
 </div>
 <div class="details-container" fxLayout="column">
@@ -54,6 +54,10 @@
 
 	<div class="details-section" fxLayout="column">
 		<h4>Starting price</h4>
+		<div *ngIf="userId">
+			<i *ngIf="!holidaySummary.favorited" class="fa fa-heart-o fa-2x" aria-hidden="true" (click)="udateHolidaysWishlist()"></i>
+			<i *ngIf="holidaySummary.favorited" class="fa fa-heart fa-2x" aria-hidden="true" (click)="udateHolidaysWishlist()"></i>
+		</div>
 		<span *ngIf="earlyBookingImageVisible || lastMinuteImageVisible">
 			<h4 class="cross-over-value">{{holidaySummary.startingPrice}}<span class="glyphicon glyphicon-euro"></span>/adult</h4>
 			<span class="cross-over"></span>

@@ -41,10 +41,13 @@ nav {
     }
 
     .fa {
-      // width: 24px;
       font-size: 18px;
       padding: 3px;
       color: #4A4E4F;
+
+      &.fa-book {
+        font-size: 1.6em;
+      }
     }
   }
 }

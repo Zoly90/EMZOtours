@@ -54,11 +54,13 @@ public class HolidayListDataTO {
 
     private Date departureDatesUntil;
 
+    private Boolean favorited;
+
     public HolidayListDataTO(Long id, String hotelName, String nrStars, String presentationImage, Date earlyBookingDeadline,
                  String earlyBookingPercentage, Date lastMinuteBeginningDate, String lastMinutePercentage, String country,
                  String city, String street, String streetNr, String zip, Transportation transportation, String departureFrom,
                  String nrNights, String accommodationType, FoodBoard food, String shortDescription, String startingPrice,
-                 Date departureDatesFrom, Date departureDatesUntil) {
+                 Date departureDatesFrom, Date departureDatesUntil, Boolean favorited) {
         this.id = id;
         this.hotelName = hotelName;
         this.nrStars = nrStars;
@@ -81,6 +83,7 @@ public class HolidayListDataTO {
         this.startingPrice = startingPrice;
         this.departureDatesFrom = departureDatesFrom;
         this.departureDatesUntil = departureDatesUntil;
+        this.favorited = favorited;
     }
 
     public Long getId() {
@@ -257,5 +260,13 @@ public class HolidayListDataTO {
 
     public void setDepartureDatesUntil(Date departureDatesUntil) {
         this.departureDatesUntil = departureDatesUntil;
+    }
+
+    public Boolean getFavorited() {
+        return favorited;
+    }
+
+    public void setFavorited(Boolean favorited) {
+        this.favorited = favorited;
     }
 }

@@ -9,9 +9,18 @@ import { HolidayService } from "./holiday/services/holiday.service";
 import { HolidayModule } from "./holiday/holiday.module";
 import { NgxPaginationModule } from 'ngx-pagination';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpModule } from '@angular/http';
 import { CoreModule } from "./core/core.module";
 import { UserModule } from "./user/user.module";
+import { Http } from "@angular/http";
+
+
+// AoT requires an exported function for factories
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
 
 @NgModule({
   declarations: [
@@ -27,10 +36,17 @@ import { UserModule } from "./user/user.module";
     SharedModule.forRoot(),
     NgxPaginationModule,
     HttpClientModule,
-    HttpModule
+    HttpModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    })
   ],
   providers: [
-    HolidayService, 
+    HolidayService,
     HttpClientModule
   ],
   bootstrap: [AppComponent]

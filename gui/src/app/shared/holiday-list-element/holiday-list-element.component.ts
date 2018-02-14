@@ -2,6 +2,7 @@ import { Component, Input, EventEmitter, Output, SimpleChanges } from "@angular/
 import { PagedList } from "../../shared/models/paged-list.model";
 import { HolidayListModel } from "../../holiday/models/holiday-list.model";
 import { HolidayUtilsService } from "../../holiday/services/holiday-utils.service";
+import { UserService } from "../services/user.service";
 
 @Component({
 	selector: 'holiday-list-element',
@@ -11,6 +12,7 @@ import { HolidayUtilsService } from "../../holiday/services/holiday-utils.servic
 export class HolidayListElement {
 
 	@Input() holidaySummary: HolidayListModel;
+	@Input() userId: number;
 
 	@Output() onHolidayDetail: EventEmitter<any> = new EventEmitter<any>();
 
@@ -18,7 +20,8 @@ export class HolidayListElement {
 	private lastMinuteImageVisible: boolean;
 
 	constructor(
-		private _holidayUtilsService: HolidayUtilsService
+		private _holidayUtilsService: HolidayUtilsService,
+		private _userService: UserService
 	) { }
 
 	ngOnInit() { }
@@ -34,6 +37,11 @@ export class HolidayListElement {
 
 	public goToDetailPage() {
 		this.onHolidayDetail.emit();
+	}
+
+	public udateHolidaysWishlist() {
+		this.holidaySummary.favorited = !this.holidaySummary.favorited;
+		this._userService.saveHolidayToWishlist(this.userId, this.holidaySummary.id).subscribe();
 	}
 
 	private _checkEarlyBookingImageVisibility(earlyBookingDeadline: Date) {

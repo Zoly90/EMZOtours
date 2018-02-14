@@ -204,7 +204,6 @@ export class UpdateContactInformationModal {
 	private _getDataIds() {
 		const ids = {
 			contactId: this.contactInformation.id,
-			mapId: this.contactInformation.map.id,
 			addressId: this.contactInformation.address.id
 		}
 		return ids;
@@ -219,8 +218,8 @@ export class UpdateContactInformationModal {
 		this.contactInformationForm.controls.weekdays.setValue(this.contactInformation.workingHours[0]);
 		this.contactInformationForm.controls.saturday.setValue(this.contactInformation.workingHours[1]);
 		this.contactInformationForm.controls.sunday.setValue(this.contactInformation.workingHours[2]);
-		this.contactInformationForm.controls.latitude.setValue(this.contactInformation.map.latitude);
-		this.contactInformationForm.controls.longitude.setValue(this.contactInformation.map.longitude);
+		this.contactInformationForm.controls.latitude.setValue(this.contactInformation.latitude);
+		this.contactInformationForm.controls.longitude.setValue(this.contactInformation.longitude);
 		this.contactInformationForm.controls.city.setValue(this.contactInformation.address.city);
 		this.contactInformationForm.controls.street.setValue(this.contactInformation.address.street);
 		this.contactInformationForm.controls.streetNr.setValue(this.contactInformation.address.streetNr);

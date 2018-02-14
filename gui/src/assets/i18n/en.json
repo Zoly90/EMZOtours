@@ -1,0 +1,8 @@
+{
+	"status.done": "DONE",
+	"status.open": "OPEN",
+	"status.wip": "WIP",
+	"boardType.breakfast": "breakfast included",
+	"boardType.halfBoard": "halfBoard included (breakfast and dinner)",
+	"boardType.fullBoard": "fullBoard included (breakfast, lunch and dinner)"
+}

@@ -41,8 +41,8 @@ export class ContactComponent {
       .subscribe(res => {
         this.contactInformation = res;
         this.contactInformation.workingHours = this.contactInformation.workingHours.split(',');
-        this.contactInformation.map.latitude = Number(this.contactInformation.map.latitude)
-        this.contactInformation.map.longitude = Number(this.contactInformation.map.longitude)
+        this.contactInformation.latitude = Number(this.contactInformation.latitude)
+        this.contactInformation.longitude = Number(this.contactInformation.longitude)
       });
   }
 }

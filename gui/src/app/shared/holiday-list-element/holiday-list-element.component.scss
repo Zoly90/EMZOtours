@@ -54,3 +54,22 @@ h3 {
   left: 50px;
   transform: rotate(-4deg);
 }
+
+.fa-heart, .fa-heart-o {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  cursor: pointer;
+}
+
+.fa-heart {
+  color: #DF3F14;
+}
+
+.fa-heart-o {
+  color: #E06E4F;
+
+  &:hover {
+    color: #DF3F14;
+  }
+}

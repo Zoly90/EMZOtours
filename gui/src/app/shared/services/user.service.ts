@@ -46,8 +46,15 @@ export class UserService {
         return this._http.post(`${this.baseUrl}/${userId}/${holidayId}/submit-review`, review);
     }
 
-    public getHolidaysWishlistOfLoggedInUser(userId: number) {
-        return this._http.get(`${this.baseUrl}/${userId}/holidays-wishlist`)
+    public getHolidayWishlistOfLoggedInUser(userId: number) {
+        return this._http.get(`${this.baseUrl}/${userId}/holiday-wish-list`)
+    }
+
+    public saveHolidayToWishlist(userId: number, holidayId: number) {
+        return this._http.post(`${this.baseUrl}/${userId}/${holidayId}/save-as-favorite`,
+        {
+            responseType: 'text'
+        });
     }
 
     public getUser(id: number): Observable<any> {
