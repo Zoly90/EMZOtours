@@ -5,3 +5,9 @@
 <div class="imageBackground" [ngStyle]="{'background-image':'url(' + backgroundImagePath + ')'}">
 	<router-outlet></router-outlet>
 </div>
+
+<footer></footer>
+
+<button *ngIf="goToTopButtonShown" class="btn btn-go-to-top" id="goToTop" (click)="goToTopFunction()">
+	<i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i>
+</button>

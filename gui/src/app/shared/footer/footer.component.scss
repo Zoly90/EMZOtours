@@ -1,0 +1,37 @@
+:host {
+	min-height: 100px;
+}
+
+.footer-container {
+	background-color: #FAF9F3;
+
+	span {
+    margin-top: 15px;
+	}
+}
+
+.partner-logos-container {
+	width: 1200px;
+	margin: 5px 0 10px;
+
+	.logo-container {
+		padding: 5px;
+	}
+}
+
+.footer-divider {
+	width: 500px;
+	border: 1px solid #FFE28F;
+}
+
+.copyright {
+	margin: 5px 0;
+
+	span {
+		margin: 0 auto;
+
+		&.site-url {
+			font-size: 16px;
+		}
+	}
+}

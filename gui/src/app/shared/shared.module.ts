@@ -38,6 +38,7 @@ import { SharedServices } from "./services/shared-services.service";
 import { HolidayListElement } from "./holiday-list-element/holiday-list-element.component";
 import { MatListModule } from "@angular/material/list";
 import { SharingIconsComponent } from "./sharing-icons/sharing-icons.component";
+import { FooterComponent } from "./footer/footer.component";
 
 /**
  * Do not specify providers for modules that might be imported by a lazy loaded module.
@@ -71,7 +72,8 @@ import { SharingIconsComponent } from "./sharing-icons/sharing-icons.component";
     DisplayAddressComponent,
     SearchInputComponent,
     HolidayListElement,
-    SharingIconsComponent
+    SharingIconsComponent,
+    FooterComponent
   ],
   exports: [
     DateSelecComponent,
@@ -84,7 +86,8 @@ import { SharingIconsComponent } from "./sharing-icons/sharing-icons.component";
     DisplayAddressComponent,
     SearchInputComponent,
     HolidayListElement,
-    SharingIconsComponent
+    SharingIconsComponent,
+    FooterComponent
   ],
   providers: [
     UserService,
